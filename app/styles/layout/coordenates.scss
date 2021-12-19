@@ -1,0 +1,45 @@
+/*estilos de el visualizador de coordenadas */
+.coordenates{
+    position: absolute;
+    border-radius: 4px;
+    bottom: 8px;
+    right: 480px;
+    background: $white; 
+    font-size: small;
+    color: $gray4;
+    @include flex;
+}
+.coordenates__panel{
+    border-right: 1px solid $gray3;
+    line-height: 1.1;
+    padding: 2px 5px 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    @include box-sizing;
+    @include flex;
+    &:last-of-type{
+        border-right: none;
+    }
+}
+.coordenates__name{
+    font-weight: 600;
+    margin: 5px;
+    font-size: 0.8em;
+}
+.coordenates__value{
+    margin: 5px 0;
+    font-size: 0.8em;
+}
+//Estilos modo oscuro
+html[data-theme="dark"]{  
+    .coordenates{
+        background:$blackTransparency;
+        color: $gray1;
+    }
+    .coordenates__panel{
+        border-right: 1px solid $gray11;
+    }
+    .coordenates__top{
+        border-bottom: 1px solid $gray11;
+    }
+}

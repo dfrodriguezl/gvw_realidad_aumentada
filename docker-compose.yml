@@ -1,0 +1,27 @@
+version: "2"
+
+networks:
+    db-net:
+      external:
+        name: db-net
+
+services:
+
+  #db:
+   # container_name: "psql"
+    #image: kartoza/postgis
+    #ports:
+    #  - "49155:5432"
+    #environment:
+    #  POSTGRES_USER: docker
+    #  POSTGRES_PASS: docker
+    #volumes:
+     # - pg_data:/var/lib/postgresql
+
+  web:
+    container_name: "visor-coberturas-containner"
+    build: .
+    ports:
+        - "3005:3000"
+    networks:
+        - db-net

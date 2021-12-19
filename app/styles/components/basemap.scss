@@ -1,0 +1,132 @@
+.basemap__list{
+    list-style: none;
+    display: none;
+    padding: 0 10px;
+    margin: 0;
+    @include flex;
+}
+
+.basemap__list__item{
+    width: 30%;
+    margin: 8px;
+
+    input[type=radio]{
+        height: 0;
+        width: 0;
+        display: none;
+    }
+    input[type=radio]:checked + label > div{
+        background: $sixColor;
+        border:1px solid $sixColor;
+        .basemap__name{
+            color: $gray1;
+        }
+    }
+}
+
+.basemap__btn{
+    background: $white;
+    border-radius: 4px;
+    border:1px solid $gray7;
+    padding: 3px;
+    margin: 0;
+    cursor: pointer;
+    @include transition(all ease-in-out 0.2s);
+    &:hover{
+        background: $sixColor;
+        border-radius: 6px;
+       .basemap__name{
+            color: $gray1;
+        }
+       .basemap__img{
+            @include transform(scale(1.05));
+        }
+    }
+    &:focus{
+        outline: $gray1 auto 0px;
+        border: 0px solid $gray1;
+    }
+    
+}
+
+.basemap__img{
+    @include transition(all ease-in-out 0.2s);
+}
+
+.basemap__name{
+    margin: 8px 0;
+    font-weight: 700;
+    color: $gray11;
+    font-size: 0.75em;
+    text-align: center;
+}
+
+// .toolBar__container__panel__functionBox__BaseMapList__item__btn__imageBox{
+//     width: 100%;
+//     overflow: hidden;
+// }
+
+
+// .toolBar__container__panel__functionBox__BaseMapList__slideTrans{
+//     display: none;
+//     width: 100%;
+//     margin: 5px 0;
+// }
+// .toolBar__container__panel__functionBox__BaseMapList__slideTrans__scrollBar{
+//     width: 80%;
+//     cursor: pointer;
+//     height: 3px;
+//     background: $gray5;
+//     margin: 8px 2px;
+//     position: relative;
+// }
+// .toolBar__container__panel__functionBox__BaseMapList__slideTrans__scrollBtn{
+//     width: 6px;
+//     padding: 0;
+//     height: 15px;
+//     background: $fifthColor;
+//     border-radius: 4px;
+//     border: none;
+//     position: absolute;
+//     top: -5px;
+//     left: 0;
+//     &:hover{
+//         background: $fourthColor;
+//         height: 18px;
+//         top: -8px;
+//         @include transition(all ease-in-out 0.2s);
+//     }
+//     &:focus{
+//         outline: $gray7 auto 0px;
+//         border: 0px solid $gray7;
+//     }
+// }
+// .toolBar__container__panel__functionBox__BaseMapList__slideTrans__textValue{
+//     font-size: 0.65em;
+//     font-weight: 900;
+//     margin: 0 3px;
+//     color: $gray4;
+//     text-transform: uppercase;
+// }
+
+html[data-theme="dark"]{
+    .basemap__list__item{
+        &.--active{
+            .basemap__btn{
+                background: $sevenColor;
+            }
+        }
+    }
+    .basemap__btn{
+        background: $blackboard4;
+        border:1px solid $gray11;
+        &:hover{
+            background: $blackboardMagenta;
+            border:1px solid $blackboardMagenta;
+        }
+    }
+    .basemap__name{
+        color: $gray1;
+        font-weight: 400;
+    }
+}

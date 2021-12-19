@@ -1,0 +1,74 @@
+html {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+}
+body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  background: $white;
+  font-size: 1em;
+  font-family: "Roboto", sans-serif;
+  scrollbar-base-color: $gray1;
+  scrollbar-face-color: $principalColor;
+  scrollbar-3dlight-color: $gray1;
+  scrollbar-highlight-color: $gray1;
+  scrollbar-track-color: $gray1;
+  scrollbar-arrow-color: $gray2;
+  scrollbar-shadow-color: $gray1;
+  
+}
+
+html[data-theme="dark"]{
+  background: $blackboard;
+  .Geovisor__content {
+    border-top: 0px solid $gray4;
+  }
+}
+
+html[data-theme="grayscale"] {
+  @include filter(grayscale(100%) contrast(1));
+}
+
+.loader {
+  z-index: 100000;
+}
+img {
+  width: 100%;
+  height: auto;
+  &.hidden {
+    height: 0px;
+  }
+}
+.Geovisor__content {
+  position: relative;
+  overflow: hidden;
+  border-top: 1px solid $gray12;
+  height: calc(100vh - 100px);
+}
+
+::-webkit-scrollbar {
+  width: 7px;
+  height: 5px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+::-webkit-scrollbar-thumb {
+  background: $gray8;
+  border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: $gray6;
+}
+
+
+@media screen and (max-width: $sizePhone) {
+  .Geovisor__content {
+    overflow: initial;
+  }
+}

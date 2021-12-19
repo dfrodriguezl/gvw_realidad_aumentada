@@ -1,0 +1,177 @@
+.accessibility {
+    width:200px;
+    @include flex;
+    @include justify-content(flex-end);
+
+}
+.accesibility__icon {
+    color: $gray6;
+    padding: 0px 5px;
+    cursor: pointer;
+    @include transition(all ease-in-out 0.2s);
+}
+.accessibility__pannel-container {
+    position: relative;
+    @include flex;
+}
+.accessibility__pannel {
+    width: 300px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s ease, transform 0.4s ease, visibility 0.4s;
+}
+.accessibility__pannel.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+}
+.accessibility__list {
+    width: 100%;
+    list-style: none;
+    padding: 0px;
+    margin: auto;
+    border-radius: 6px;
+    @include flex;
+    @include justify-content(flex-end);
+    @include transition(all ease-in-out 0.2s);
+}
+
+.accessibility__list__item {
+    cursor: pointer;
+    width: 24px;
+    padding:5px 4px;
+    margin: 2px 4px;
+    background: $white;
+    border-radius: 100%;
+    line-height: 0;
+    color: $gray6;
+    font-size: 1em;
+    border: 1px solid $gray5;
+    text-align: center;
+    @include box-shadow(1px 1px 3px $gray13);
+    @include transition(all ease-in-out 0.2s);
+    &:hover {
+        border: 1px solid $sevenColor;
+        background: $principalColor;
+        color: $gray1;
+        @include box-shadow(1px 1px 3px $fifthColor);
+        .accessibility__list__item__icon {
+            color: $gray1;
+        }
+    }
+}
+.accessibility__list__item__icon {
+    color: $gray6;
+    font-size: 1.3em;
+    line-height: 0;
+    @include transition(all ease-in-out 0.2s);
+}
+.accessibility__icon{
+    list-style: none;
+    padding: 0px 6px;
+    @include transition(all ease-in-out 0.2s);
+}
+.accessibility__icon__item{
+    cursor: pointer;
+    width: 24px;
+    padding: 4px 3px;
+    margin: 3px 2px;
+    background: $white;
+    border-radius: 100%;
+    line-height: 0;
+    color: $gray6;
+    font-size: 1em;
+    border: 1px solid $gray5;
+    text-align: center;
+    @include box-shadow(1px 1px 3px $gray13);
+    @include transition(all ease-in-out 0.2s);
+    &:hover {
+        border: 1px solid $sevenColor;
+        background: $principalColor;
+        color: $gray1;
+        @include box-shadow(1px 1px 3px $fifthColor);
+        .accessibility__list__item__icon {
+            color: $gray1;
+        }
+        &.--close {
+            @include box-shadow(none);
+            .accessibility__close__line {
+                background: $white;
+            }
+        }
+    }
+    &.--close {
+        border: 1px solid $white;
+        .accessibility__close__line {
+            @include box-shadow(none);
+        }
+    }
+
+}
+@media screen and (max-width: $sizeTabletLandScape) {
+    .accessibility {
+        @include justify-content(flex-end);
+        @include calc(width, "100%");
+        &.--visible {
+            @include calc(width, "100%");
+        }
+    }
+    .accessibility__icon {
+        display: initial;
+        position: absolute;
+        top: 4px;
+        right: 3px;
+    }
+    .accessibility__pannel {
+        display: none;
+        width: 100%;
+        &.active{
+            display: initial;
+        }
+    }
+    .accessibility__list {
+        padding: 0;
+        @include justify-content(center);
+    }
+    .accessibility__list__item {
+        margin: 3px 5px;
+    }
+}
+@media screen and (max-width: $sizePhone) {
+    .accessibility {
+        @include order(5);
+    }
+    .accesibility__icon {
+        top: 5px;
+        right: 10px;
+    }
+}
+//Estilos modo oscuro
+html[data-theme="dark"] {
+    .accessibility {
+        background: $blackTransparency;
+    }
+    .accessibility__list__item {
+        background: $blackboard2;
+        color: $gray1;
+        border: 1px solid $gray11;
+        @include box-shadow(none);
+        &:hover {
+            border: 1px solid $sevenColor;
+            background: $blackboardMagenta;
+            color: $white;
+            @include box-shadow(none);
+            .accessibility__list__item__icon {
+                color: $white;
+            }
+        }
+    }
+    .accesibility__icon,
+    .accessibility__list__item__icon {
+        color: $gray1;
+    }
+    .accessibility__icon__item{
+        background: $blackboard2;
+        color: $gray1;
+    }
+}

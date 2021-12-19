@@ -1,0 +1,484 @@
+//----Estilos para los filtros de las tematicas ---//
+.--filtros {
+    &.--visibleGroupPrincipal {
+        .search {
+            display: none;
+        }
+        .toolbar__secondPanelContent {
+            @include flex;
+            flex-direction: column;
+        }
+        .filter__thematic {
+            display: none;
+        }
+        .filter__thematicGroup__more {
+            width: 100%;
+            @include order(1);
+            @include flex;
+        }
+        .filter__thematicGroup__moreIcon {
+            margin: 8px 11px;
+        }
+        .filter__thematicGroup__moreLine {
+            width: 8px;
+            height: 3px;
+            border-radius: 2px;
+            &:nth-child(1) {
+                left: 11px;
+                top: 15px;
+                @include transform(rotate(45deg));
+            }
+            &:nth-child(2) {
+                left: 11px;
+                top: 11px;
+                @include transform(rotate(-45deg));
+            }
+            &:nth-child(3) {
+                left: 11px;
+                top: 11px;
+                @include transform(rotate(-45deg));
+            }
+            &:nth-child(4) {
+                left: 11px;
+                top: 11px;
+                @include transform(rotate(-45deg));
+            }
+        }
+        .filter__thematicGroup__moreText {
+            margin: 15px 0;
+            &.--seemore {
+                display: none;
+            }
+            &.--back {
+                display: inherit;
+            }
+        }
+        .filter__thematicGroup__list {
+            width: 100%;
+            max-height: 50vh;
+            overflow-y: scroll;
+            @include order(2);
+            &::-webkit-scrollbar {
+                width: 8px;
+                height: 5px;
+            }
+            &::-webkit-scrollbar-track {
+                background: $gray1;
+            }
+            &::-webkit-scrollbar-thumb {
+                background: $fifthColor;
+                border-radius: 4px;
+            }
+            &::-webkit-scrollbar-thumb:hover {
+                background: $sixColor;
+            }
+        }
+        .filter__thematicGroup__item,
+        .filter__thematicGroup__item__link {
+            @include flex;
+            @include calc(width, "100% - 10px");
+        }
+        .filter__thematicGroup__dos {
+            @include flex;
+            @include calc(width, "100% - 10px");
+        }
+        .filter__thematicGroup__icon {
+            margin: 5px;
+        }
+        .filter__thematicGroup__name {
+            text-align: left;
+            margin: 16px 5px;
+        }
+    }
+}
+//* Estilos de grupos  para filtros *//
+.filter__thematicGroup {
+    @include flex;
+    @include flex-wrap(wrap);
+}
+.filter__thematicGroup__list {
+    list-style: none;
+    margin: 5px 0;
+    padding: 0;
+    // width: 80%;
+    @include flex;
+    @include flex-wrap(wrap);
+    @include justify-content(flex-start);
+}
+.filter__thematicGroup__dos {
+    cursor: pointer;
+    margin: 5px;
+    display: none;
+    @include calc(width, "50% - 10px");
+    &:hover {
+        opacity: 0.7;
+    }
+    &.--active {
+        background: $gray1;
+        border-radius: 10px;
+        .filter__thematicGroup__name {
+            color: $gray6;
+        }
+    }
+    &:nth-child(1),
+    &:nth-child(2),
+    &:nth-child(3),
+    &:nth-child(4) {
+        display: initial;
+    }
+    &.--disable {
+        cursor: none;
+        pointer-events: none;
+        opacity: 0.5;
+    }
+}
+.filter__thematicGroup__item {
+    cursor: pointer;
+    margin: 3px;
+    display: none;
+    // @include calc(width, "50% - 115px");
+    &:hover {
+        opacity: 0.7;
+    }
+    &.--active {
+        background: $gray1;
+        border-radius: 10px;
+        .filter__thematicGroup__name {
+            color: $gray6;
+        }
+    }
+    &:nth-child(1),
+    &:nth-child(2),
+    &:nth-child(3),
+    &:nth-child(4) {
+        display: initial;
+    }
+    &.--disable {
+        cursor: none;
+        pointer-events: none;
+        opacity: 0.5;
+    }
+    .filter__thematicGroup__item__link {
+        text-decoration: none;
+        margin: 0;
+    }
+}
+
+.filter__thematicGroup__icon {
+    font-size: 1.6em;
+    border-radius: 100%;
+    padding: 5px 0;
+    margin: 5px auto;
+    text-align: center;
+    width: 35px;
+    height: 25px;
+    border: 1px solid $gray3;
+    @include transition(all ease-in-out 0.2s);
+}
+.filter__thematicGroup__name {
+    font-size: 0.9em;
+    padding: 3px 8px;
+    margin: 8px auto;
+    color: $gray6;
+    text-align: center;
+    @include transition(all ease-in-out 0.2s);
+}
+//ver más estilos de tema
+.filter__thematicGroup__more {
+    width: 100%;
+    padding: 9px;
+    cursor: pointer;
+    &.--invisible {
+        display: none;
+    }
+}
+.filter__thematicGroup__moreIcon {
+    width: 30px;
+    height: 30px;
+    background: $gray6;
+    border-radius: 100%;
+    margin: 8px auto;
+    position: relative;
+    border: 1px solid $gray1;
+    @include transition(all ease-in-out 0.2s);
+    &:hover {
+        background: $fifthColor;
+        border: 1px solid $principalColor;
+        .filter__thematicGroup__moreLine {
+            @include transform(rotateY(180deg));
+        }
+    }
+    &.--invisible {
+        display: none;
+    }
+}
+.filter__thematicGroup__moreLine {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    border-radius: 100%;
+    background: $white;
+    top: 14px;
+    left: 7px;
+    @include transition(all ease-in-out 0.2s);
+    &:nth-child(2) {
+        left: 13px;
+        @include transition(all ease-in-out 0.5s);
+    }
+    &:nth-child(3) {
+        left: 19px;
+        @include transition(all ease-in-out 0.4s);
+    }
+}
+.filter__thematicGroup__moreText {
+    font-size: 0.9em;
+    text-align: center;
+    margin: 13px 0;
+    &.--back {
+        display: none;
+    }
+}
+//Estilos sub grupo
+.filter__thematic {
+    margin: 8px 0;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    @include calc(max-height,'44vh');
+    &::-webkit-scrollbar {
+        width: 8px;
+        height: 5px;
+    }
+    &::-webkit-scrollbar-track {
+        background: $gray1;
+    }
+    &::-webkit-scrollbar-thumb {
+        background: $fourthColor;
+        border-radius: 6px;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+        background: $gray6;
+    }
+}
+.filter__thematic__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.filter__thematic__item {
+    background: $gray1;
+    cursor: pointer;
+    position: relative;
+    list-style: none;
+    &.--collapse {
+        .filter__thematic__name {
+            color: $black;
+        }
+        .filter__thematicVariable__list {
+            display: none;
+        }
+    }
+    &:before {
+        position: absolute;
+        content: "";
+        right: 18px;
+        top: 20px;
+        z-index: 3;
+        width: 12px;
+        height: 2px;
+        background: $gray6;
+        border-radius: 5px;
+        @include transition(all ease-in-out 0.2s);
+    }
+    &:after {
+        position: absolute;
+        content: "";
+        right: 18px;
+        top: 20px;
+        z-index: 3;
+        width: 12px;
+        height: 2px;
+        background: $gray6;
+        border-radius: 5px;
+        @include transition(all ease-in-out 0.2s);
+        @include transform(rotate(90deg));
+    }
+    &:hover {
+        background: $gray13;
+        .filter__thematic__name {
+            opacity: 0.5;
+        }
+        &:before {
+            background: $sevenColor;
+        }
+        &:after {
+            background: $sevenColor;
+            @include transform(rotate(0deg));
+        }
+    }
+}
+.filter__thematic__name {
+    padding: 5px 15px 15px 15px;
+    margin: 0;
+    font-size: 0.9em;
+    color: $gray4;
+    @include transition(all ease-in-out 0.2s);
+}
+.filter__thematic__nameGroup {
+    margin: 0;
+    padding: 15px 15px 0 15px;
+    font-size: 0.9em;
+    color: $gray6;
+    font-weight: 900;
+    @include transition(all ease-in-out 0.2s);
+}
+
+//Estilos de variables
+.filter__thematicVariable__list {
+    background: $white;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.filter__thematicVariable__item {
+    cursor: pointer;
+    padding: 8px 8px 8px 32px;
+    border-bottom: 1px solid $gray7;
+    list-style: none;
+    @include flex;
+    @include flex-wrap(wrap);
+    @include transition(all ease-in-out 0.2s);
+    &:last-of-type {
+        border-bottom: none;
+    }
+    &:hover {
+        background: $gray13;
+        .filter__thematicVariable__radio {
+            color: $principalColor;
+            &:after {
+                background: $principalColor;
+            }
+        }
+        .filter__thematicVariable__icon {
+            background: $sixColor;
+            color: $white;
+        }
+    }
+    &.--active {
+        background: $principalColor;
+        .filter__thematicVariable__radio {
+            color: $white;
+            &:after {
+                background: $white;
+            }
+        }
+        .filter__thematicVariable__value {
+            color: $gray1;
+        }
+        .filter__thematicVariable__icon {
+            // background: $white;
+            color: $white;
+        }
+    }
+}
+.filter__thematicVariable__radio {
+    width: 20px;
+    margin: 3px 0 0;
+    font-size: 1.2em;
+    color: $gray6;
+    position: relative;
+    @include transition(all ease-in-out 0.2s);
+    &:after {
+        content: "";
+        position: absolute;
+        top: 7px;
+        left: 7px;
+        width: 5px;
+        height: 5px;
+        background: $white;
+        border-radius: 100%;
+        @include transition(all ease-in-out 0.2s);
+    }
+}
+.filter__thematicVariable__value {
+    margin: 6px 5px 2px;
+    font-size: 0.9em;
+    color: $gray4;
+    @include calc(width, "100% - 60px");
+    @include transition(all ease-in-out 0.2s);
+}
+.filter__thematicVariable__subgroup {
+    margin: 5px 0;
+    font-weight: 100;
+    font-size: 0.75em;
+    color: $gray6;
+    @include transition(all ease-in-out 0.2s);
+}
+.filter__thematicVariable__icon {
+    width: 20px;
+    height: 20px;
+    padding: 5px;
+    text-align: center;
+    font-size: 1.2em;
+    color: $white;
+    border-radius: 100%;
+    @include transition(all ease-in-out 0.2s);
+}
+
+@media screen and (max-width: $sizeMediumScreen) {
+    .filter__thematic__list {
+        // max-height: 208px;
+        @include calc(max-height, "100% - 480px");
+    }
+}
+
+//Estilos modo oscuro
+html[data-theme="dark"] {
+    .filter__thematicGroup__item,
+    .filter__thematicGroup__item__link {
+        &.--active {
+            background: $magentaTransparency2;
+        }
+        .filter__thematicGroup__name {
+            color: $gray13;
+        }
+    }
+    .filter__thematic__item {
+        background: $blackboard4;
+        border-bottom: 1px solid $gray11;
+        &:hover {
+            background: $blackboard4;
+        }
+        &.--active {
+            background: $magentaTransparency;
+        }
+    }
+    .filter__thematic__icon,
+    .filter__thematicGroup__icon {
+        @include filter(saturate(2.5));
+    }
+    .filter__thematic__nameGroup,
+    .filter__thematic__name {
+        color: $gray13;
+        background: $blackboard5;
+    }
+    .filter__thematicVariable__radio {
+        color: $blackboardMagenta;
+        &:after {
+            background: transparent;
+        }
+    }
+    .filter__thematicVariable__value {
+        color: $white;
+    }
+    .filter__thematicGroup__moreText {
+        color: $gray1;
+    }
+    .filter__thematicVariable__list {
+        background: $blackboard5;
+    }
+    .filter__thematicVariable__item {
+        &:hover {
+            background: $blackboard3;
+        }
+    }
+}

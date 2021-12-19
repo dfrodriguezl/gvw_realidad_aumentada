@@ -1,0 +1,218 @@
+.upload__list{
+    list-style: none;
+    margin:10px 0 0 0;
+    padding: 0;
+    border-bottom: 1px solid $gray3;
+    @include flex;
+    @include justify-content(center);
+}
+#upload__form{
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    opacity: 0;
+    z-index: 3;
+}
+.upload__item{
+    cursor: pointer;
+    border: 1px solid $gray7;
+    border-bottom:none;
+    margin: 0 5px;
+    padding: 8px 5px;
+    text-align: center;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    width: 90px;
+    background: $white;
+    @include transition(all ease-in-out 0.2s);
+    &:hover{
+        background: $fourthColor;
+        border: 1px solid $fifthColor;
+        border-bottom:none;
+        .upload__item__name{
+            color: $gray1;
+        }
+    }
+    &.--active{
+        background: $fifthColor;
+        border: 1px solid $fifthColor;
+         border-bottom:none;
+        .upload__item__name{
+            color: $gray1;
+        }
+    }
+}
+.upload__item__name{
+    font-size: 0.7em;
+    margin: 0;
+    color: $gray6;
+    @include transition(all ease-in-out 0.2s);
+}
+.upload__panel{
+    position: relative;
+    display: none;
+    margin: 5px 10px;
+    &.--active{
+        display: inherit;
+    }
+}
+
+.btnContainer{
+    margin: 15px 10px;
+    
+}
+
+.btnContainer__btn{
+    width: 100%;
+    background: $white;
+    border: 1px solid $gray3;
+    border-radius: 8px;
+    padding: 8px 5px;
+    @include transition(all ease-in-out 0.2s);
+    @include flex;
+    @include justify-content(center);
+    &:hover{
+        background: $fifthColor;
+        border: 1px solid $fifthColor;
+        .btnContainer__icon,
+        .btnContainer__name{
+            color: $gray1;
+        }
+    }
+}
+.btnContainer__icon{
+    font-size: 1.2em;
+    color:$gray6;
+    @include transition(all ease-in-out 0.2s);
+}
+.btnContainer__name{
+    margin: 3px 5px;
+    font-size: 0.8em;
+    color:$gray6;
+    @include transition(all ease-in-out 0.2s);
+}
+
+.inputBox{
+    position: relative;
+    padding: 5px 0;
+    margin: 10px auto;
+    border:1px solid $gray7;
+    border-radius: 8px;
+    @include calc(width,'100% - 20px');
+    @include flex;
+    @include flex-wrap(wrap);
+    @include justify-content(center);
+    &:hover{
+        border:1px solid $gray9;
+        .inputBox__input{          
+          border-right: none;
+            &:focus{
+              outline: none;
+            }
+        }  
+    }
+    &:focus{
+        border:1px solid $gray8;
+        .inputBox__input{
+            
+            border-right: none;
+            &:focus{
+                outline: none;
+            }
+        }
+    }
+    &.--invisible{
+        display: none;
+    }
+}
+.inputBox__name{
+    margin: 0 8px;
+    font-size: 0.8em;
+    width: 100%;
+    font-weight: 500;
+    color: $gray4;
+}
+.inputBox__input{
+    background: $white;
+    height: 25px;
+    padding: 0 10px;
+    color: $gray6;
+    font-size:0.75em;
+    border: none;
+    @include calc(width,'100%');
+    &:focus{
+        outline: none;
+    }
+    &::placeholder{
+        color: $gray4; 
+    }
+}
+
+//Estilos modo oscuro
+html[data-theme="dark"]{
+    .upload__list{
+        border-bottom: 1px solid $gray11;
+    }
+    .upload__item{
+        background: $blackboard;
+        border: 1px solid $fourthColor;
+        border-bottom: none;
+        &.--active{
+            background: $magentaTransparency;
+            border: 1px solid $fifthColor;
+            border-bottom: none; 
+        }
+        &:hover{
+            background: $blackboardMagenta;
+            border: 1px solid $blackboardMagenta;
+            border-bottom: none; 
+            .upload__item__name{
+                color: $white;
+            }
+        }
+    }
+    .upload__item__name{
+        color: $gray1;
+    }
+    .btnContainer__btn{
+        background: $blackboard;
+        border: 1px solid $fourthColor;
+        &:hover{
+            background: $magentaTransparency;
+            border: 1px solid $blackboardMagenta;
+            .btnContainer__icon{
+                color: $white;
+            }
+            .btnContainer__name{
+                color: $white;
+            }
+        }
+    }
+    .btnContainer__icon{
+        color: $gray1;
+    }
+    .btnContainer__name{
+        color: $gray1;
+    }
+    .inputBox{
+        border:1px solid $gray11;
+        &:hover{
+            border:1px solid $gray6;
+        }
+        &:focus{
+            border:1px solid $magentaTransparency2;
+        }
+    }
+    .inputBox__name{
+        color: $gray13;
+    }
+    .inputBox__input{
+        background: $blackboard;        
+        &::placeholder{
+            color: $gray1;
+        }
+    }
+}

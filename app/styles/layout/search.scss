@@ -1,0 +1,118 @@
+.search{
+    padding:0 5px;
+    margin: 0 8px;
+    position: relative;
+    border: 1px solid $gray3;
+    border-radius: 5px;  
+}
+.search__btn{
+    position: absolute;
+    top: 2px;
+    left: 0;
+    background: transparent;
+    border: none;
+    font-size: 1.7em;
+    margin:0;
+    line-height: 0;
+    color: $gray6;    
+    @include transition(all ease-in-out 0.2s);
+}
+.search__input {
+    height: 33px;
+    padding:0 5px 0 35px;
+    background: $white;      
+    font-size: 0.9em;
+    border:none;
+    @include calc(width,'100% - 50px');
+    @include flex;
+    @include flex-wrap(wrap);
+    @include transition(all ease-in-out 0.2s);
+    &:focus{
+        outline:none;
+        border:none;
+    }
+}
+.search__errorMessage{
+    display: none;
+    font-size: 0.75em;
+    color: $principalColor;
+    margin: 5px 0;
+    &.--active{
+        display: inherit;
+    }
+}
+.search__list{
+    overflow-y: scroll;
+    overflow-x: hidden;
+    max-height: 350px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    z-index: 5000;
+    background: $white;
+    &.--invisible{
+        display: none;
+    }
+}
+.search__list__item{
+    cursor: pointer;
+    padding: 5px 10px;
+    border-bottom: 1px solid $gray3;
+    @include transition(all ease-in-out 0.2s);
+    &.--highlight{
+        background: $fourthColor;
+        .search__list__item__text{
+            color:$gray1;
+        }
+        .search__list__item__type{
+            color:$gray13;
+        }
+    }
+    &:hover{
+        background: $gray5;
+        .search__list__item__text{
+            color:$gray11;
+        }
+        .search__list__item__type{
+            color:$gray4;
+        }
+    }
+}
+.search__list__item__text{
+    font-size: 0.8em;
+    margin:0;
+    line-height: 1.5em;
+    color:$gray4;
+    @include transition(all ease-in-out 0.2s);
+}
+.search__list__item__code{
+    font-weight: 600;
+}
+.search__list__item__type{
+    font-weight: 600;
+    color:$gray6;
+}
+//Estilos modo oscuro
+html[data-theme="dark"]{
+    .search{
+        border: 1px solid $gray7;
+        background: $blackboard3;
+    }
+    .search__input{
+        background: transparent;
+        color: $white;
+        &::placeholder{
+            color: $gray5;
+        }
+    }
+    .search__btn{
+        color:$principalColor;
+    }
+    .search__errorMessage{
+        color: $blackboardMagenta;
+    }
+}
