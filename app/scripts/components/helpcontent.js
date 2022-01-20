@@ -52,7 +52,7 @@ const HelpContent = () => {
                 {/* LOS PANELS - TRAEN EL CONTENIDO DE CADA TAB SEGUN SU ORDEN */}
                 <Panel>
                     <div className="help__content">
-                        <img width="100" height="100" loading="lazy" className="help__content__item" rel="noreferrer" src="/descargas/ayudas/ayuda-licencias-construcción.webp" alt="Instrucciones de uso para geovisores del Geoportal DANE" target="_blank" />
+                        <img width="100" height="100" loading="lazy" className="help__content__item" rel="noreferrer" src="https://nowsoft.app/geoportal/descargas/ayudas/ayuda-geovisor-licencias-construccion.webp" alt="Instrucciones de uso para geovisores del Geoportal DANE" target="_blank" />
                     </div>
                 </Panel>
 
