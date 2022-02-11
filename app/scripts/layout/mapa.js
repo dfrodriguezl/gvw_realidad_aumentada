@@ -61,7 +61,8 @@ const Mapa = () => {
     );
   };
 
-  localStorage.setItem("theme", "light")
+  localStorage.setItem("theme", "light");
+  localStorage.setItem("visualization", "symbols");
 
   closer.onclick = function () {
     overlay.setPosition(undefined);
@@ -130,11 +131,16 @@ const Mapa = () => {
     var newZoom = variables.map.getView().getZoom();
     zoomActual = variables.map.getView().getZoom();
 
+    // variables.loadDeptoCentroids();
+
     if (variables.currentZoom != newZoom) {
       variables.deptoSelectedFilter = undefined;
     }
 
     if (newZoom < 7) {
+      // addClusterDepto();
+      // variables.loadDeptoCentroids();
+      // variables.loadDeptoCentroids();
       if (variables.deptoSelected == undefined) {
         // variables.changeTheme("MPIO", null, null, "n");
         variables.changeTheme("DPTO", 0, "ND", "y");
@@ -142,6 +148,7 @@ const Mapa = () => {
     }
 
     if (newZoom >= 7 && newZoom <= 11) {
+      variables.loadMpioCentroids();
       variables.changeStyleDepto();
       if (variables.deptoSelected == undefined) {
         variables.changeTheme("MPIO", null, null, "y");
@@ -278,7 +285,7 @@ const Mapa = () => {
       return;
     }
 
-    // console.log(feature)
+    console.log("FEATURE", feature.values_)
 
     // console.log(feature);
 
@@ -304,7 +311,7 @@ const Mapa = () => {
       const tipoVariable = variables.tematica["CATEGORIAS"][variables.varVariable][0]["TIPO_VARIABLE"];
 
       const dataPopup = variables.dataArrayDatos[variables.varVariable.substring(0, 5)][ARR[dataField][1]][variables.periodoSeleccionado.value][feature.properties_[ARR[dataField][0]]]
-
+      let unidadesAbsolutas = variables.varVariable.includes("284") ? "m2" : variables.varVariable.includes("292") ? "licencias" : "unidades";
       let HTML = "";
       HTML = '<p class="popup__list"><span class="popup__title">' + dataSubgrupo + '</span></p>';
       HTML += '<p class="popup__list"><span class="popup__subtitle">' + dataCategorias + '</span> ' + '</p>';
@@ -313,9 +320,9 @@ const Mapa = () => {
         HTML += '<p class="popup__list"><span class="popup__thirdtitle">Porcentaje de unidades:</span> No data</p>';
       } else {
         if (tipoVariable === "VC") {
-          HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[variables.alias2]).toFixed(2).replace(".", ",") + '</span><span class="popup__valueItem"> m2' + ' (' + parseFloat(dataPopup[variables.alias]).toFixed(2).replace(".", ",") + ' ' + dataUnidades + ')' + '</span></p>';
+          HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[variables.alias2]).toFixed(2).replace(".", ",") + '</span><span class="popup__valueItem"> ' + unidadesAbsolutas + ' (' + parseFloat(dataPopup[variables.alias]).toFixed(2).replace(".", ",") + ' ' + dataUnidades + ')' + '</span></p>';
         } else {
-          HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[variables.alias]).toFixed(2).replace(".", ",") + '</span><span class="popup__valueItem"> m2' + '</span></p>';
+          HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[variables.alias]).toFixed(2).replace(".", ",") + '</span><span class="popup__valueItem"> ' + unidadesAbsolutas + '</span></p>';
         }
       }
 
@@ -430,6 +437,67 @@ const Mapa = () => {
             )
           }
           else {
+
+            const featureLayer = feature.values_.features[0];
+            const departamentosFilter = (departamentos).filter(result => result.cod_dane === featureLayer["values_"].cod_dane);
+            const dataSubgrupo = variables.tematica["CATEGORIAS"][variables.varVariable][0]["SUBGRUPO"];
+            const dataUnidades = variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"];
+            const dataCategorias = variables.tematica["CATEGORIAS"][variables.varVariable][0]["CATEGORIA"];
+            const tipoVariable = variables.tematica["CATEGORIAS"][variables.varVariable][0]["TIPO_VARIABLE"];
+            const dataPopup = variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"][variables.periodoSeleccionado.value][featureLayer["values_"].cod_dane];
+
+            let unidadesAbsolutas = variables.varVariable.includes("284") ? "m2" : variables.varVariable.includes("292") ? "licencias" : "unidades";
+            let HTML = "";
+            HTML = '<p class="popup__list"><span class="popup__title">' + dataSubgrupo + '</span></p>';
+            HTML += '<p class="popup__list"><span class="popup__subtitle">' + dataCategorias + '</span> ' + '</p>';
+
+            if (dataPopup == undefined) {
+              HTML += '<p class="popup__list"><span class="popup__thirdtitle">Porcentaje de unidades:</span> No data</p>';
+            } else {
+              if (tipoVariable === "VC") {
+                HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[variables.alias2]).toFixed(2).replace(".", ",") + '</span><span class="popup__valueItem">' + unidadesAbsolutas + ' (' + parseFloat(dataPopup[variables.alias]).toFixed(2).replace(".", ",") + ' ' + dataUnidades + ')' + '</span></p>';
+              } else {
+                HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[variables.alias]).toFixed(2).replace(".", ",") + '</span><span class="popup__valueItem"> ' + unidadesAbsolutas + '</span></p>';
+              }
+            }
+
+            HTML += '<hr>' + '</hr>';
+
+            HTML += '<p class="popup__list"><span class="popup__thirdtitle"> Departamento:</span> ' + departamentosFilter[0].name + '</p>';
+
+            // if (municipiosFilter.length != 0) {
+            //   HTML += '<p class="popup__list"><span class="popup__thirdtitle"> Municipio:</span> ' + municipiosFilter[0].name + '</p>';
+            // }
+            HTML += '<p class="popup__list"><span class="popup__thirdtitle"> Cod. DANE:</span> ' + departamentosFilter[0].cod_dane + '</p>';
+
+            content.innerHTML = HTML;
+            variables.map.addOverlay(popup);
+            popup.setPosition(annoCoord);
+
+            let depto = departamentosFilter[0].cod_dane;
+            // variables.filterGeo("DPTO", depto);
+            variables.deptoSelected = depto;
+            variables.deptoSelectedFilter = depto;
+            variables.deptoVariable = depto;
+            // bboxExtent(departamentosFilter[0].bextent)
+            if (variables.changeDepto != null) {
+              variables.changeDepto("Departamento de " + departamentosFilter[0].name)
+            }
+
+            // variables.changeDonuChartData("MPIO", departamentosFilter[0].cod_dane)
+            // variables.changePieChartData("MPIO", departamentosFilter[0].cod_dane)
+            // variables.changeBarChartData("MPIO", departamentosFilter[0].cod_dane)
+            if (variables.changeDonuChartData != null) {
+              variables.changeDonuChartData("DPTO", departamentosFilter[0].cod_dane)
+            }
+
+            if (variables.changePieChartData != null) {
+              variables.changePieChartData("DPTO", departamentosFilter[0].cod_dane)
+            }
+
+            if (variables.changeBarChartData != null) {
+              variables.changeBarChartData("DPTO", departamentosFilter[0].cod_dane)
+            }
             if (banderin === 0) {
               banderin = 1;
               // let plotdos = Object.values(feature.values_.features[0]["values_"]).map(function (objDos, indexDos, arrDos) {
@@ -453,9 +521,9 @@ const Mapa = () => {
           }
         }, [])
 
-        ReactDOM.render(plot, content);
-        variables.map.addOverlay(popup);
-        popup.setPosition(annoCoord);
+        // ReactDOM.render(plot, content);
+        // variables.map.addOverlay(popup);
+        // popup.setPosition(annoCoord);
       }
     }
   });
@@ -481,59 +549,6 @@ const Mapa = () => {
       } else {
         idMap.style.cursor = '';
       }
-      // if (feature == undefined) {
-      //   variables.map.removeOverlay(popup);
-      //   return;
-      // }
-
-      // if (feature.values_ == undefined) {
-      //   let dataField = feature.properties_.layer;
-      //   let ARR = {
-      //     "mgn_2020_dpto_politico": ["id", "DPTO"],
-      //     "mgn_2020_mpio_politico": ["id", "MPIO"],
-      //     // "MGN_2018_URB_MANZANA":["cod_dane", "MNZN"]
-      //   }
-
-      //   let dataPopup = []
-      //   let dataSubgrupo = variables.tematica["CATEGORIAS"][variables.varVariable][0]["SUBGRUPO"];
-      //   let dataUnidades = variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"];
-      //   let dataCategorias = variables.tematica["CATEGORIAS"][variables.varVariable][0]["CATEGORIA"];
-      //   let tipoVariable = variables.tematica["CATEGORIAS"][variables.varVariable][0]["TIPO_VARIABLE"];
-
-      //   const departamentosFilter = (departamentos).filter(result => (result.cod_dane == (feature.properties_[ARR[dataField][0]]).substring(0, 2)))
-
-      //   dataPopup = variables.dataArrayDatos[variables.varVariable.substring(0, 5)][ARR[dataField][1]][feature.properties_[ARR[dataField][0]]]
-      //   const municipiosFilter = (municipios).filter(result => (result.cod_dane == (feature.properties_[ARR[dataField][0]]).substring(0, 5)))
-
-      //   // console.log(feature.properties_)
-      //   // console.log(departamentosFilter)
-      //   // console.log(municipiosFilter)
-
-      //   let HTML = "";
-      //   HTML = '<p class="popup__list"><span class="popup__title">' + dataSubgrupo + '</span></p>';
-      //   HTML += '<p class="popup__list"><span class="popup__subtitle">' + dataCategorias + '</span> ' + '</p>';
-
-      //   HTML += '<p class="popup__list"><span class="popup__title"> Departamento:</span> ' + departamentosFilter[0].name + '</p>';
-
-      //   if (municipiosFilter.length != 0) {
-      //     HTML += '<p class="popup__list"><span class="popup__title"> Municipio:</span> ' + municipiosFilter[0].name + '</p>';
-      //   }
-      //   HTML += '<p class="popup__list"><span class="popup__title"> Cod. DANE:</span> ' + feature.properties_[ARR[dataField][0]] + '</p>';
-      //   if (dataPopup == undefined) {
-      //     HTML += '<p class="popup__list"><span class="popup__title">Porcentaje de unidades:</span> No data</p>';
-      //   } else {
-      //     if (tipoVariable === "VC") {
-      //       HTML += '<p class="popup__list"><span class="popup__title">Porcentaje de unidades:</span> ' + parseFloat(dataPopup[variables.alias]).toFixed(2).replace(".", ",") + ' ' + dataUnidades + '</p>';
-      //       HTML += '<p class="popup__list"><span class="popup__title">Cantidad de unidades:</span> ' + parseFloat(dataPopup[variables.alias2]).toLocaleString("de-De").replace(",", ".") + '</p>';
-      //     } else {
-      //       HTML += '<p class="popup__list"><span class="popup__title">Valor:</span> ' + parseFloat(dataPopup[variables.alias]).toLocaleString("de-De") + '</p>';
-      //     }
-      //   }
-
-      //   content.innerHTML = HTML;
-      //   variables.map.addOverlay(popup);
-      //   popup.setPosition(e.coordinate);
-      // }
     } else {
       let idMap = document.getElementById(variables.map.getTarget());
       idMap.style.cursor = '';
@@ -551,6 +566,10 @@ const Mapa = () => {
   loadLayers2();
   // Add clusters
   addCluster();
+  addClusterDepto();
+  variables.loadDeptoCentroids();
+  addClusterMpio();
+  variables.loadMpioCentroids();
   return (
     <div className="coordenates">
       <div id="coordenates__panel"></div>
@@ -718,11 +737,11 @@ variables.changeMap = function (nivel, dpto, table) {
 
 
   if (nivel == "DPTO") {
+    let valor2Array = [];
     var integrado = Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value]).map(function (a, b) {
       let valor, valor2
 
       if (a["G"] === variables.periodoSeleccionado.value) {
-
         if (a[variables.alias].includes(",")) {
           valor = parseFloat(a[variables.alias]).toFixed(2).toLocaleString("de-De").replace(",", ".")
         } else {
@@ -736,7 +755,13 @@ variables.changeMap = function (nivel, dpto, table) {
           } else {
             valor2 = parseFloat(a[variables.alias2])
           }
+
+          if (!isNaN(valor2)) {
+            valor2Array.push(valor2);
+          }
+
         }
+
 
 
 
@@ -751,7 +776,10 @@ variables.changeMap = function (nivel, dpto, table) {
 
     }, []);
 
-    // console.log(integrado)
+    const max = Math.max(...integrado);
+    const min = Math.min(...integrado);
+    const max2 = Math.max(...valor2Array);
+    // console.log("INTEGRADO", integrado);
 
     let list = integrado.filter((x, i, a) => a.indexOf(x) == i)
     // console.log(integrado)
@@ -878,6 +906,20 @@ variables.changeMap = function (nivel, dpto, table) {
       layer.setStyle(function (feature) {
         var layer = feature.get("id");
         return changeSymbologi(layer, nivel, feature)
+      })
+
+      localStorage.getItem("visualization") === "symbols" ? layer.setVisible(false) : layer.setVisible(true);
+
+      // if(layer.getVisible()){
+      //   layer.setVisible(false);
+      // }
+
+      
+
+      variables.unidadesDepto.setStyle(function (feature) {
+        const id = feature.values_.features[0].values_.cod_dane;
+        return changeSymbologiCluster(id, nivel, min, max, max2);
+        // return changeSymbologi(layer, nivel, feature)
       })
     }
 
@@ -1058,6 +1100,12 @@ variables.changeMap = function (nivel, dpto, table) {
           var layer = feature.get("id");
           return changeSymbologi(layer, nivel, feature)
         })
+
+        variables.unidadesMpio.setStyle(function (feature) {
+          const id = feature.values_.features[0].values_.cod_dane;
+          return changeSymbologiCluster(id, nivel, 0, 0);
+          // return changeSymbologi(layer, nivel, feature)
+        })
       }
     }
     // console.log(layer)
@@ -1219,6 +1267,8 @@ variables.changeMap = function (nivel, dpto, table) {
       return changeSymbologi(field, nivel, feature, layer)
 
     })
+
+
     // console.log(layer)
   } else if (nivel == "MNZN") {
 
@@ -1342,10 +1392,68 @@ function changeSymbologi(cluster, nivel, feature, layer) {
       }
     }
 
+    // console.log("CLUSTER", cluster)
+
+    // if (nivel === "DPTO") {
+    //   let prevStyle = variables.unidadesDepto.getStyle();
+    //   console.log("PREV STYLE", prevStyle);
+    //   variables.unidadesDepto.setStyle(function (feature) {
+    //     const id = feature.values_.features[0].values_.cod_dane;
+    //     console.log("ID", id);
+    //     // console.log("CLUSTER", cluster);
+    //     // console.log("COD_DANE", feature.get("cod_dane"));
+    //     let styleCircle;
+    //     if (id === cluster) {
+    //       console.log("VALOR CAMPO", 10 + 40 * (valorCampo[variables.alias] - 5));
+    //       styleCircle = new Style({
+    //         image: new CircleStyle({
+    //           radius: 50,
+    //           fill: new Fill({
+    //             color: color
+    //           }),
+    //           stroke: new Stroke({
+    //             color: "#FFFFFF",
+    //             width: 1
+    //           })
+    //         })
+    //       })
+
+    //       // return styleCircle;
+    //     } else {
+    //       styleCircle = prevStyle;
+    //     }
+
+    //     return styleCircle;
+
+    //     // else{
+    //     //   let styleCircle = new Style({
+    //     //     image: new CircleStyle({
+    //     //       radius: 50,
+    //     //       fill: new Fill({
+    //     //         color: "#000000"
+    //     //       }),
+    //     //       stroke: new Stroke({
+    //     //         color: "#FFFFFF",
+    //     //         width: 1
+    //     //       })
+    //     //     })
+    //     //   })
+
+    //     //   return styleCircle;
+    //     // }
+
+
+    //   })
+    // }
+
     // console.log("VALOR CAMPO", valorCampo["G"])
     // color = updateRangeSimbology(valorCampo, nivel, color);
 
   }
+
+
+
+
 
   // color = updateRangeSimbology(valorCampo, nivel, color);
 
@@ -1366,7 +1474,62 @@ function changeSymbologi(cluster, nivel, feature, layer) {
     stroke: stroke,
     fill: fill
   });
+
+
+
   // console.log(styleLyr);
+  return styleLyr
+}
+
+function changeSymbologiCluster(cluster, nivel, min, max, max2) {
+  let color = "#FFFFFF80";
+  let valorCampo = "";
+  let radioValor = 0;
+
+  if (variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][cluster.substring(0, 2)] !== undefined && nivel === "MNZN") {
+    const valorCampo = variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][cluster.substring(0, 2)][cluster];
+    color = updateRangeSimbology(valorCampo, nivel, color);
+  } else {
+    // console.log("VALOR CAMPO", variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][cluster])
+    const valorCampo = variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value][cluster];
+    if (valorCampo !== undefined) {
+      if (valorCampo["G"] === variables.periodoSeleccionado.value) {
+        color = updateRangeSimbology(valorCampo, nivel, color);
+        let valor = valorCampo[variables.alias2] ? valorCampo[variables.alias2] : valorCampo[variables.alias];
+        let maxValor = valorCampo[variables.alias2] ? max2 : max;
+        radioValor = (valor.replace(",", ".") * 50) / maxValor;
+      }
+    }
+
+  }
+
+
+
+
+
+  // color = updateRangeSimbology(valorCampo, nivel, color);
+
+  let strokeColor = '#adaba3'
+
+  // let layerName = feature.properties_.layer;
+  // // console.log(layerName)
+  // layerName == 'mgn_2020_dpto_politico' ? strokeColor = '#FFFFFF' : layerName == 'MGN_2018_URB_MANZANA' ? strokeColor = '#FFFFFF00' : strokeColor = '#adaba3'
+  let fill = new Fill({
+    color: color.endsWith("80") ? color : color + "80"
+  });
+  let stroke = new Stroke({
+    color: strokeColor,
+    width: 1
+  })
+  let styleLyr = new Style({
+    image: new CircleStyle({
+      radius: radioValor,
+      stroke: stroke,
+      fill: fill
+    })
+
+  });
+
   return styleLyr
 }
 
@@ -1527,6 +1690,14 @@ const getCountUE = (municipio) => {
 
 const getDataCentroids = (depto) => {
   return servidorQuery(variables.urlCentroids + depto)
+}
+
+const getDataCentroidsGeneral = (capa) => {
+  const idCapa = {
+    "mgn2021_dpto": "dpto_ccdgo",
+    "mgn2021_mpio": "mpio_cdpmp"
+  }
+  return servidorQuery(variables.urlCentroidsGeneral + "capa=" + capa + "&id=" + idCapa[capa])
 }
 
 const crearJson = (res, mpio) => {
@@ -1725,6 +1896,183 @@ const addCluster = () => {
 
 }
 
+const addClusterDepto = () => {
+  var styleCache = {};
+  var gpsIcon1 = new Icon({
+    anchor: [0.5, 12],
+    anchorXUnits: 'fraction',
+    anchorYUnits: 'pixels',
+    src: gps_cyan
+  });
+
+  variables.unidadesDepto = new VectorLayer({
+    title: 'Centroides licencias',
+    maxZoom: 7,
+    minZoom: 1,
+    source: new Cluster({
+      distance: variables.distanceCluster,
+      source: new VectorSource({
+        features: []
+      }),
+    }),
+    style: function (feature) {
+
+      var size = feature.get('features').length;
+      var style;
+      if (size == 1) {
+        style = new Style({
+          image: new CircleStyle({
+            radius: 10,
+            fill: new Fill({
+              color: '#2FC2DF'
+            })
+          })
+        });
+
+      } else {
+
+        style = new Style({
+          image: new CircleStyle({
+            radius: 17,
+            stroke: new Stroke({
+              color: '#2FC2DF',
+            }),
+            fill: new Fill({
+              color: '#2FC2DF',
+            }),
+          }),
+          text: new Text({
+            text: size.toString(),
+            font: 'bold',
+            fill: new Fill({
+              color: '#FFFFFF',
+            }),
+          }),
+        });
+
+      }
+      styleCache[size] = style;
+      //}
+      return style;
+    },
+  });
+
+  variables.map.addLayer(variables.unidadesDepto);
+
+  variables.layers["centroides_depto"] = {
+
+    tipo: "cluster",  // Tipos vt: Vector Tile, wms, wfs
+    id: "centroides_depto",
+    url: "",
+    title: "Centroides licencias",
+    visible: true,
+    checked: true,
+    minZoom: 7,
+    maxZoom: 11,
+    style: {
+      stroke: {
+        color: '#931127',
+        width: 1
+      }
+    },
+    ol: null
+  }
+
+  let jsonObj = {}
+  jsonObj["centroides_depto"] = variables.unidadesDepto;
+
+  variables.layersInMap.push(jsonObj)
+
+}
+
+const addClusterMpio = () => {
+  var styleCache = {};
+  var gpsIcon1 = new Icon({
+    anchor: [0.5, 12],
+    anchorXUnits: 'fraction',
+    anchorYUnits: 'pixels',
+    src: gps_cyan
+  });
+
+  variables.unidadesMpio = new VectorLayer({
+    title: 'Centroides licencias mpios',
+    maxZoom: 11,
+    minZoom: 7,
+    source: new Cluster({
+      distance: variables.distanceCluster,
+      source: new VectorSource({
+        features: []
+      }),
+    }),
+    style: function (feature) {
+
+      var size = feature.get('features').length;
+      var style;
+      if (size == 1) {
+        style = new Style({
+          image: new CircleStyle({
+            radius: 10,
+            fill: new Fill({
+              color: '#2FC2DF'
+            })
+          })
+        });
+
+      } else {
+
+        style = new Style({
+          image: new CircleStyle({
+            radius: 17,
+            stroke: new Stroke({
+              color: '#2FC2DF',
+            }),
+            fill: new Fill({
+              color: '#2FC2DF',
+            }),
+          }),
+          text: new Text({
+            text: size.toString(),
+            font: 'bold',
+            fill: new Fill({
+              color: '#FFFFFF',
+            }),
+          }),
+        });
+
+      }
+      styleCache[size] = style;
+      //}
+      return style;
+    },
+  });
+
+  variables.map.addLayer(variables.unidadesMpio);
+
+  variables.layers["centroides_mpio"] = {
+
+    tipo: "cluster",  // Tipos vt: Vector Tile, wms, wfs
+    id: "centroides_mpio",
+    url: "",
+    title: "Centroides licencias mpios",
+    visible: true,
+    minZoom: 9,
+    maxZoom: 13,
+    style: {
+      stroke: {
+        color: '#931127',
+        width: 1
+      }
+    },
+    ol: null
+  }
+
+  let jsonObj = {}
+  jsonObj["centroides_mpio"] = variables.unidadesMpio;
+
+  variables.layersInMap.push(jsonObj)
+
+}
+
 variables.loadUE = (mpio) => {
 
   getCountUE(mpio).then((count) => {
@@ -1788,6 +2136,42 @@ variables.loadMzCentroids = (depto) => {
   })
 }
 
+variables.loadDeptoCentroids = () => {
+
+  getDataCentroidsGeneral("mgn2021_dpto").then((centroids) => {
+    const resultado = centroids.data[0].geojson;
+    // console.log(JSON.parse(resultado));
+
+    let vectorSourceCluster = new VectorSource({
+      features: new GeoJSON({ featureProjection: 'EPSG:3857' }).readFeatures(JSON.parse(resultado))
+    });
+
+    variables.unidadesDepto.setSource(new Cluster({
+      distance: variables.distanceCluster,
+      source: vectorSourceCluster
+    }))
+
+  })
+}
+
+variables.loadMpioCentroids = () => {
+
+  getDataCentroidsGeneral("mgn2021_mpio").then((centroids) => {
+    const resultado = centroids.data[0].geojson;
+    // console.log(JSON.parse(resultado));
+
+    let vectorSourceCluster = new VectorSource({
+      features: new GeoJSON({ featureProjection: 'EPSG:3857' }).readFeatures(JSON.parse(resultado))
+    });
+
+    variables.unidadesMpio.setSource(new Cluster({
+      distance: variables.distanceCluster,
+      source: vectorSourceCluster
+    }))
+
+  })
+}
+
 variables.changeStyleDepto = () => {
   let layer = variables.capas['deptos_vt'];
   const style = new Style({
@@ -1814,6 +2198,10 @@ variables.changeStyleMpio = () => {
 
   layer.setStyle(style);
   layer.setZIndex(1);
+}
+
+variables.changeVisualization = (tipo) => {
+  
 }
 
 

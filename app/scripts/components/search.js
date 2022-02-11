@@ -100,7 +100,9 @@ const Search = ({ filterSearch, placeholder }) => {
             if (variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel] !== undefined) {
                 
                 if (Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value]).length > 0) {
+                    // variables.loadDeptoCentroids();
                     variables.changeMap(nivel, dpto, table);
+                    
 
                     if (nivel == "DPTO") {
                         // console.log("VAR ANTERIOR", variables.variableAnterior);
@@ -164,6 +166,7 @@ const Search = ({ filterSearch, placeholder }) => {
                             variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value] = response.data.resultado
                             variables.queryText[variables.varVariable.substring(0, 5)] = response.data.consulta
                             // console.log(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel])
+                            // variables.loadDeptoCentroids();
                             variables.changeMap(nivel, dpto, table);
                             // console.log(nivel)
                             if (variables.deptoSelected == undefined && variables.deptoVariable != undefined) {

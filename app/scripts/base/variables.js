@@ -17,6 +17,7 @@ export const variables = {
     urlUE: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/censo_economico/unidades2_segment.php?min=y&codigo_municipio=", 
     urlCount: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/censo_economico/unidades2_segment.php?count=y&codigo_municipio=", 
     urlCentroids: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/licencias-construccion/centroides_elic.php?depto=", 
+    urlCentroidsGeneral: "https://nowsoft.app/geoportal/laboratorio/serviciosjson/licencias-construccion/centroides.php?", 
     key: "pk.eyJ1IjoiYXBwbW92aWxkYW5lIiwiYSI6ImNrbzY4b2tiajFxN2cyb3F3YnR1NDF6eWkifQ.mVlSJXQZVl4CNmQpZ1pXNA",
     baseMaps: {
         'Gris': 'https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/256/{z}/{x}/{y}?access_token=',
@@ -33,6 +34,7 @@ export const variables = {
             url: "https://nowsoft.app/vector-tiles/maps/geoportal_dane/mgn_2020_dpto_politico/{z}/{x}/{y}.pbf",
             title: 'Departamentos',
             visible: true,
+            checked: false,
             minZoom: 3,
             maxZoom: 21,
             style: {
@@ -313,7 +315,7 @@ export const variables = {
         "LG": "Longitud",
     },
     unidadesCluster: null,
-    distanceCluster: 40,
+    distanceCluster: 0,
     loadUE: null,
     changeBaseMap: null,
     activeChart: null,
@@ -328,6 +330,11 @@ export const variables = {
     unidadesMz: null,
     periodoSeleccionado: {value: '2021-08', label: '2021-08'},
     updatePeriodo: null,
-    updatePeriodoHeader: null
+    updatePeriodoHeader: null,
+    loadDeptoCentroids: null,
+    loadMpioCentroids: null,
+    unidadesDepto: null,
+    unidadesMpio: null,
+    changeVisualization: null
 }
 export const urlDeploy = 'http://localhost:3000/'
