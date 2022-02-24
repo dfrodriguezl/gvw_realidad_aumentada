@@ -27,22 +27,36 @@ const TipoVisualizacion = () => {
     localStorage.setItem("visualization", "choropleth");
     let layer = variables.capas['deptos_vt'];
     layer.setVisible(true);
+    let layer_2 = variables.capas['mpios_vt'];
+    layer_2.setVisible(true);
     variables.layers["departamentos"]["visible"] = true;
     variables.layers["departamentos"]["checked"] = true;
+    variables.layers["municipios"]["visible"] = true;
+    variables.layers["municipios"]["checked"] = true;
     variables.unidadesDepto.setVisible(false);
     variables.layers["centroides_depto"]["visible"] = false;
     variables.layers["centroides_depto"]["checked"] = false;
+    variables.unidadesMpio.setVisible(false);
+    variables.layers["centroides_mpio"]["visible"] = false;
+    variables.layers["centroides_mpio"]["checked"] = false;
   }
 
   const change2Symbols = () => {
     localStorage.setItem("visualization", "symbols");
     let layer = variables.capas['deptos_vt'];
     layer.setVisible(false);
+    let layer_2 = variables.capas['mpios_vt'];
+    layer_2.setVisible(false);
     variables.layers["departamentos"]["visible"] = false;
     variables.layers["departamentos"]["checked"] = false;
+    variables.layers["municipios"]["visible"] = false;
+    variables.layers["municipios"]["checked"] = false;
     variables.unidadesDepto.setVisible(true);
     variables.layers["centroides_depto"]["visible"] = true;
     variables.layers["centroides_depto"]["checked"] = true;
+    variables.unidadesMpio.setVisible(true);
+    variables.layers["centroides_mpio"]["visible"] = true;
+    variables.layers["centroides_mpio"]["checked"] = true;
   }
 
   return (

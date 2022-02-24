@@ -30,6 +30,17 @@
     margin: 5px 0;
     font-size: 0.8em;
 }
+
+#switch_visualization{
+    position: absolute;
+    border-radius: 4px;
+    top: 8px;
+    right: 600px;
+    background: $white; 
+    font-size: small;
+    color: $gray4;
+    @include flex;
+}
 //Estilos modo oscuro
 html[data-theme="dark"]{  
     .coordenates{

@@ -4,7 +4,7 @@
 
 import 'ol/ol.css';
 import { Map, View } from 'ol';
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import ReactDOM from 'react-dom';
 import Overlay from 'ol/Overlay';
 import TileLayer from 'ol/layer/Tile';
@@ -33,6 +33,7 @@ import { servidorQuery } from '../base/request'
 import gps_cyan from '../../img/gps-cyan.png'
 import StreetView from 'ol-street-view';
 import 'ol-street-view/dist/css/ol-street-view.min.css';
+import TipoVisualizacion from '../components/tipoVisualizacion';
 
 var container = document.getElementById('popup');
 var content = document.getElementById('popup-content');
@@ -40,6 +41,9 @@ var closer = document.getElementById('popup-closer');
 let zoomActual;
 
 var resolutions = [];
+let max;
+let min;
+let max2;
 
 const Mapa = () => {
 
@@ -439,12 +443,14 @@ const Mapa = () => {
           else {
 
             const featureLayer = feature.values_.features[0];
-            const departamentosFilter = (departamentos).filter(result => result.cod_dane === featureLayer["values_"].cod_dane);
+            const departamentosFilter = (departamentos).filter(result => result.cod_dane === featureLayer["values_"].cod_dane.substring(0,2));
+            const municipiosFilter = (municipios).filter(result => result.cod_dane === featureLayer["values_"].cod_dane);
             const dataSubgrupo = variables.tematica["CATEGORIAS"][variables.varVariable][0]["SUBGRUPO"];
             const dataUnidades = variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"];
             const dataCategorias = variables.tematica["CATEGORIAS"][variables.varVariable][0]["CATEGORIA"];
             const tipoVariable = variables.tematica["CATEGORIAS"][variables.varVariable][0]["TIPO_VARIABLE"];
-            const dataPopup = variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"][variables.periodoSeleccionado.value][featureLayer["values_"].cod_dane];
+            const dataPopup = variables.dataArrayDatos[variables.varVariable.substring(0, 5)][featureLayer["values_"].cod_dane.length === 2 ? "DPTO" : "MPIO"][variables.periodoSeleccionado.value][featureLayer["values_"].cod_dane];
+            console.log("FEATURE", feature);
 
             let unidadesAbsolutas = variables.varVariable.includes("284") ? "m2" : variables.varVariable.includes("292") ? "licencias" : "unidades";
             let HTML = "";
@@ -463,12 +469,20 @@ const Mapa = () => {
 
             HTML += '<hr>' + '</hr>';
 
+            // HTML += '<p class="popup__list"><span class="popup__thirdtitle"> Departamento:</span> ' + departamentosFilter[0].name + '</p>';
+
+            // if (departamentosFilter.length != 0) {
+            //   HTML += '<p class="popup__list"><span class="popup__thirdtitle"> Cod. DANE:</span> ' + departamentosFilter[0].cod_dane + '</p>';
+            // }
+            
             HTML += '<p class="popup__list"><span class="popup__thirdtitle"> Departamento:</span> ' + departamentosFilter[0].name + '</p>';
 
-            // if (municipiosFilter.length != 0) {
-            //   HTML += '<p class="popup__list"><span class="popup__thirdtitle"> Municipio:</span> ' + municipiosFilter[0].name + '</p>';
-            // }
-            HTML += '<p class="popup__list"><span class="popup__thirdtitle"> Cod. DANE:</span> ' + departamentosFilter[0].cod_dane + '</p>';
+            if (municipiosFilter.length != 0) {
+              HTML += '<p class="popup__list"><span class="popup__thirdtitle"> Municipio:</span> ' + municipiosFilter[0].name + '</p>';
+            }
+
+            HTML += '<p class="popup__list"><span class="popup__thirdtitle"> Cod. DANE:</span> ' + featureLayer["values_"].cod_dane + '</p>';
+            
 
             content.innerHTML = HTML;
             variables.map.addOverlay(popup);
@@ -571,9 +585,17 @@ const Mapa = () => {
   addClusterMpio();
   variables.loadMpioCentroids();
   return (
-    <div className="coordenates">
-      <div id="coordenates__panel"></div>
-    </div>
+    <Fragment>
+      <div id="switch_visualization"><TipoVisualizacion /></div>
+      <div className="coordenates">
+        <div id="coordenates__panel"></div>
+
+        {/* <TipoVisualizacion /> */}
+
+      </div>
+    </Fragment>
+
+
   )
 }
 var buttons = document.querySelectorAll(".toggle-button");
@@ -776,9 +798,9 @@ variables.changeMap = function (nivel, dpto, table) {
 
     }, []);
 
-    const max = Math.max(...integrado);
-    const min = Math.min(...integrado);
-    const max2 = Math.max(...valor2Array);
+    max = Math.max(...integrado);
+    min = Math.min(...integrado);
+    max2 = Math.max(...valor2Array);
     // console.log("INTEGRADO", integrado);
 
     let list = integrado.filter((x, i, a) => a.indexOf(x) == i)
@@ -914,7 +936,7 @@ variables.changeMap = function (nivel, dpto, table) {
       //   layer.setVisible(false);
       // }
 
-      
+
 
       variables.unidadesDepto.setStyle(function (feature) {
         const id = feature.values_.features[0].values_.cod_dane;
@@ -925,15 +947,97 @@ variables.changeMap = function (nivel, dpto, table) {
 
   }
   else if (nivel == "MPIO") {
-
+    let valor2Array = [];
     var integrado = Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value]).map(function (a, b) {
-      let valor = parseFloat(a[variables.alias]).toFixed(2)
-      if (valor != undefined && !isNaN(valor)) {
-        return valor;
-      } else {
-        return 0
+      let valor, valor2
+
+      if (a["G"] === variables.periodoSeleccionado.value) {
+        // console.log("A MPIO", a);
+        if (a[variables.alias].includes(",")) {
+
+          // if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined && a[nivel].substring(0,2) === variables.deptoSelectedFilter) {
+          valor = parseFloat(a[variables.alias]).toFixed(2).toLocaleString("de-De").replace(",", ".")
+          // }
+          // else{
+          //   valor = parseFloat(a[variables.alias]).toFixed(2).toLocaleString("de-De").replace(",", ".")
+          // }
+        } else {
+          // if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined && a[nivel].substring(0,2) === variables.deptoSelectedFilter) {
+          valor = parseFloat(a[variables.alias]).toFixed(2)
+          // }
+          // else {
+          //   valor = parseFloat(a[variables.alias]).toFixed(2)
+          // }
+
+        }
+
+
+        if (a[variables.alias2] != undefined) {
+          if (a[variables.alias2].includes(",")) {
+            // if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined && a[nivel].substring(0,2) === variables.deptoSelectedFilter) {
+            valor2 = parseFloat(a[variables.alias2]).toFixed(2).toLocaleString("de-De").replace(",", ".")
+            // }
+
+          } else {
+            // if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined && a[nivel].substring(0,2) === variables.deptoSelectedFilter) {
+            valor2 = parseFloat(a[variables.alias2])
+            // }
+
+          }
+
+          if (!isNaN(valor2)) {
+            if (variables.deptoSelectedFilter != undefined) {
+              if (a[nivel].substring(0, 2) === variables.deptoSelectedFilter) {
+                valor2Array.push(valor2);
+              }
+            }else{
+              valor2Array.push(valor2);
+            }
+            
+          }
+
+        }
+
+
+
+
+        if (valor != undefined && !isNaN(valor)) {
+          if (variables.deptoSelectedFilter != undefined) {
+            if (a[nivel].substring(0, 2) === variables.deptoSelectedFilter) {
+              return valor
+            } else {
+              return 0;
+            }
+          } else {
+            return valor
+          }
+
+        } else if (valor2 != undefined && !isNaN(valor2)) {
+          if (variables.deptoSelectedFilter != undefined) {
+            if (a[nivel].substring(0, 2) === variables.deptoSelectedFilter) {
+              return valor2
+            } else {
+              return 0;
+            }
+          } else {
+            return valor2
+          }
+
+        } else {
+          return 0
+        }
       }
     }, []);
+
+    console.log("INTEGRADO MPIO", integrado);
+
+    max = Math.max(...integrado);
+    min = Math.min(...integrado);
+    max2 = Math.max(...valor2Array);
+    console.log("MAX", max);
+    console.log("MIN", min);
+    console.log("MAX2ARRAY", valor2Array);
+    console.log("MAX2", max2);
 
     let list = integrado.filter((x, i, a) => a.indexOf(x) == i)
     let dataUnidades = variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"];
@@ -1103,11 +1207,15 @@ variables.changeMap = function (nivel, dpto, table) {
 
         variables.unidadesMpio.setStyle(function (feature) {
           const id = feature.values_.features[0].values_.cod_dane;
-          return changeSymbologiCluster(id, nivel, 0, 0);
+          return changeSymbologiCluster(id, nivel, min, max, max2);
           // return changeSymbologi(layer, nivel, feature)
         })
+
       }
     }
+
+    localStorage.getItem("visualization") === "symbols" ? layer.setVisible(false) : layer.setVisible(true);
+    
     // console.log(layer)
   } else if (nivel == "SECC") {
 
@@ -1503,6 +1611,14 @@ function changeSymbologiCluster(cluster, nivel, min, max, max2) {
 
   }
 
+  if (nivel === "MPIO") {
+    if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined) {
+      if (cluster.substring(0, 2) !== variables.deptoSelectedFilter) {
+        radioValor = 0;
+      }
+    }
+  }
+
 
 
 
@@ -1552,6 +1668,11 @@ variables.filterGeo = (nivel, value) => {
     layer_2.setStyle(function (feature) {
       var field = feature.get("id");
       return changeSymbologyGeo(field, "MPIO", feature, layer, value, prevStyle_2)
+    })
+    variables.unidadesMpio.setStyle(function (feature) {
+      const id = feature.values_.features[0].values_.cod_dane;
+      return changeSymbologiCluster(id, "MPIO", min, max, max2);
+      // return changeSymbologi(layer, nivel, feature)
     })
     variables.changeStyleDepto();
 
@@ -2201,7 +2322,7 @@ variables.changeStyleMpio = () => {
 }
 
 variables.changeVisualization = (tipo) => {
-  
+
 }
 
 

@@ -71,7 +71,7 @@ export const variables = {
             url: "https://nowsoft.app/vector-tiles/maps/geoportal_dane/mgn_2020_mpio_politico/{z}/{x}/{y}.pbf",
             title: 'Municipios',
             visible: true,
-            checked: true,
+            checked: false,
             minZoom: 7,
             maxZoom: 11,
             style: {
