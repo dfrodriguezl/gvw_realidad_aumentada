@@ -581,7 +581,7 @@ const Mapa = () => {
   fillResolutions();
   loadLayers2();
   // Add clusters
-  addCluster();
+  // addCluster();
   addClusterDepto();
   variables.loadDeptoCentroids();
   addClusterMpio();
@@ -2029,7 +2029,7 @@ const addClusterDepto = () => {
   });
 
   variables.unidadesDepto = new VectorLayer({
-    title: 'Centroides licencias',
+    title: 'Centroides departamentos',
     maxZoom: 7,
     minZoom: 1,
     source: new Cluster({
@@ -2087,7 +2087,7 @@ const addClusterDepto = () => {
     tipo: "cluster",  // Tipos vt: Vector Tile, wms, wfs
     id: "centroides_depto",
     url: "",
-    title: "Centroides licencias",
+    title: "Centroides departamentos",
     visible: true,
     checked: true,
     minZoom: 7,
@@ -2118,7 +2118,7 @@ const addClusterMpio = () => {
   });
 
   variables.unidadesMpio = new VectorLayer({
-    title: 'Centroides licencias mpios',
+    title: 'Centroides municipios',
     maxZoom: 11,
     minZoom: 7,
     source: new Cluster({
@@ -2176,7 +2176,7 @@ const addClusterMpio = () => {
     tipo: "cluster",  // Tipos vt: Vector Tile, wms, wfs
     id: "centroides_mpio",
     url: "",
-    title: "Centroides licencias mpios",
+    title: "Centroides municipios",
     visible: true,
     minZoom: 9,
     maxZoom: 13,

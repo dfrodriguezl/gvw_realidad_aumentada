@@ -83,22 +83,22 @@ export const variables = {
             },
             ol: null
         },
-        secciones: {
-            tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
-            id: "secc_vt",
-            url: "https://geoportal.dane.gov.co/vector-tiles/mgn_2018/secu_ccnct/mgn_2018_urb_seccion/{z}/{x}/{y}.pbf",
-            title: 'secciones',
-            visible: true,
-            minZoom: 11,
-            maxZoom: 21,
-            style: {
-                stroke: {
-                    color: '#c086f0',
-                    width: 2
-                }
-            },
-            ol: null
-        },
+        // secciones: {
+        //     tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
+        //     id: "secc_vt",
+        //     url: "https://geoportal.dane.gov.co/vector-tiles/mgn_2018/secu_ccnct/mgn_2018_urb_seccion/{z}/{x}/{y}.pbf",
+        //     title: 'secciones',
+        //     visible: true,
+        //     minZoom: 11,
+        //     maxZoom: 21,
+        //     style: {
+        //         stroke: {
+        //             color: '#c086f0',
+        //             width: 2
+        //         }
+        //     },
+        //     ol: null
+        // },
         // manzanas: {
         //     tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
         //     id: "mzn_vt",
