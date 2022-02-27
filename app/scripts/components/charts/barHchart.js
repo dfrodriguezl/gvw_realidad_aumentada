@@ -33,14 +33,14 @@ const BarHData = () => {
 
         }, {});
         const reducer = (accumulator, curr) => accumulator + curr;
-        dataFirst = parseFloat(integrado.reduce(reducer)).toFixed(2).replace(".", ",")
+        dataFirst = parseFloat(integrado.reduce(reducer)).toLocaleString('es')
       } else if (nivel === "DPTO") {
         const dataNivel = Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value]).filter((v) => {
           return v.ND === dpto;
         }, [])
 
         valor = parseFloat(dataNivel[0][variables.alias])
-        dataFirst = valor.toFixed(2).replace(".", ",");
+        dataFirst = valor.toLocaleString('es');
 
       } else if (nivel === "MPIO") {
         const dataNivel = Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value]).filter((v) => {
@@ -49,7 +49,7 @@ const BarHData = () => {
         // console.log(dataNivel[0])
         if (dataNivel[0] != undefined) {
           valor = parseFloat(dataNivel[0][variables.alias])
-          dataFirst = valor.toFixed(2).replace(".", ",");
+          dataFirst = valor.toLocaleString('es');
         }
 
       } else if (nivel === "SECC") {
@@ -57,7 +57,7 @@ const BarHData = () => {
           return v.NSC === dpto;
         }, [])
         valor = parseFloat(dataNivel[0][variables.alias])
-        dataFirst = valor.toFixed(2).replace(".", ",");
+        dataFirst = valor.toLocaleString('es');
       }
 
 
