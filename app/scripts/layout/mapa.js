@@ -315,7 +315,7 @@ const Mapa = () => {
       const tipoVariable = variables.tematica["CATEGORIAS"][variables.varVariable][0]["TIPO_VARIABLE"];
 
       const dataPopup = variables.dataArrayDatos[variables.varVariable.substring(0, 5)][ARR[dataField][1]][variables.periodoSeleccionado.value][feature.properties_[ARR[dataField][0]]]
-      let unidadesAbsolutas = variables.varVariable.includes("284") ? "m2" : variables.varVariable.includes("292") ? "licencias" : "unidades";
+      let unidadesAbsolutas = variables.varVariable.includes("284") ? "m<sup>2</sup>" : variables.varVariable.includes("292") ? "licencias" : "unidades";
       let HTML = "";
       HTML = '<p class="popup__list"><span class="popup__title">' + dataSubgrupo + '</span></p>';
       HTML += '<p class="popup__list"><span class="popup__subtitle">' + dataCategorias + '</span> ' + '</p>';
@@ -324,9 +324,10 @@ const Mapa = () => {
         HTML += '<p class="popup__list"><span class="popup__thirdtitle">Porcentaje de unidades:</span> No data</p>';
       } else {
         if (tipoVariable === "VC") {
-          HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[variables.alias2]).toFixed(2).replace(".", ",") + '</span><span class="popup__valueItem"> ' + unidadesAbsolutas + ' (' + parseFloat(dataPopup[variables.alias]).toFixed(2).replace(".", ",") + ' ' + dataUnidades + ')' + '</span></p>';
+          HTML += '<p class="popup__list">' + 'Participación porcentual (' + parseFloat(dataPopup[variables.alias]).toFixed(2).replace(".", ",") + ' ' + dataUnidades + ')' + '</p>'
+          HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[variables.alias2]).toLocaleString('es') + '</span><span class="popup__valueItem"> ' + unidadesAbsolutas + '</span></p>';
         } else {
-          HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[variables.alias]).toFixed(2).replace(".", ",") + '</span><span class="popup__valueItem"> ' + unidadesAbsolutas + '</span></p>';
+          HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[variables.alias]).toLocaleString('es') + '</span><span class="popup__valueItem"> ' + unidadesAbsolutas + '</span></p>';
         }
       }
 
@@ -443,16 +444,16 @@ const Mapa = () => {
           else {
 
             const featureLayer = feature.values_.features[0];
-            const departamentosFilter = (departamentos).filter(result => result.cod_dane === featureLayer["values_"].cod_dane.substring(0,2));
+            const departamentosFilter = (departamentos).filter(result => result.cod_dane === featureLayer["values_"].cod_dane.substring(0, 2));
             const municipiosFilter = (municipios).filter(result => result.cod_dane === featureLayer["values_"].cod_dane);
             const dataSubgrupo = variables.tematica["CATEGORIAS"][variables.varVariable][0]["SUBGRUPO"];
             const dataUnidades = variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"];
             const dataCategorias = variables.tematica["CATEGORIAS"][variables.varVariable][0]["CATEGORIA"];
             const tipoVariable = variables.tematica["CATEGORIAS"][variables.varVariable][0]["TIPO_VARIABLE"];
             const dataPopup = variables.dataArrayDatos[variables.varVariable.substring(0, 5)][featureLayer["values_"].cod_dane.length === 2 ? "DPTO" : "MPIO"][variables.periodoSeleccionado.value][featureLayer["values_"].cod_dane];
-            console.log("FEATURE", feature);
+            // console.log("FEATURE", feature);
 
-            let unidadesAbsolutas = variables.varVariable.includes("284") ? "m2" : variables.varVariable.includes("292") ? "licencias" : "unidades";
+            let unidadesAbsolutas = variables.varVariable.includes("284") ? "m<sup>2</sup>" : variables.varVariable.includes("292") ? "licencias" : "unidades";
             let HTML = "";
             HTML = '<p class="popup__list"><span class="popup__title">' + dataSubgrupo + '</span></p>';
             HTML += '<p class="popup__list"><span class="popup__subtitle">' + dataCategorias + '</span> ' + '</p>';
@@ -461,9 +462,10 @@ const Mapa = () => {
               HTML += '<p class="popup__list"><span class="popup__thirdtitle">Porcentaje de unidades:</span> No data</p>';
             } else {
               if (tipoVariable === "VC") {
-                HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[variables.alias2]).toFixed(2).replace(".", ",") + '</span><span class="popup__valueItem">' + unidadesAbsolutas + ' (' + parseFloat(dataPopup[variables.alias]).toFixed(2).replace(".", ",") + ' ' + dataUnidades + ')' + '</span></p>';
+                HTML += '<p class="popup__list"><span class="popup__thirdtitle">' + 'Participación porcentual (' + parseFloat(dataPopup[variables.alias]).toFixed(2).replace(".", ",") + ' ' + dataUnidades + ')' + '</span></p>'
+                HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[variables.alias2]).toLocaleString('es') + '</span><span class="popup__valueItem">' + unidadesAbsolutas + '</span></p>';
               } else {
-                HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[variables.alias]).toFixed(2).replace(".", ",") + '</span><span class="popup__valueItem"> ' + unidadesAbsolutas + '</span></p>';
+                HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[variables.alias]).toLocaleString('es') + '</span><span class="popup__valueItem"> ' + unidadesAbsolutas + '</span></p>';
               }
             }
 
@@ -474,7 +476,7 @@ const Mapa = () => {
             // if (departamentosFilter.length != 0) {
             //   HTML += '<p class="popup__list"><span class="popup__thirdtitle"> Cod. DANE:</span> ' + departamentosFilter[0].cod_dane + '</p>';
             // }
-            
+
             HTML += '<p class="popup__list"><span class="popup__thirdtitle"> Departamento:</span> ' + departamentosFilter[0].name + '</p>';
 
             if (municipiosFilter.length != 0) {
@@ -482,7 +484,7 @@ const Mapa = () => {
             }
 
             HTML += '<p class="popup__list"><span class="popup__thirdtitle"> Cod. DANE:</span> ' + featureLayer["values_"].cod_dane + '</p>';
-            
+
 
             content.innerHTML = HTML;
             variables.map.addOverlay(popup);
@@ -990,10 +992,10 @@ variables.changeMap = function (nivel, dpto, table) {
               if (a[nivel].substring(0, 2) === variables.deptoSelectedFilter) {
                 valor2Array.push(valor2);
               }
-            }else{
+            } else {
               valor2Array.push(valor2);
             }
-            
+
           }
 
         }
@@ -1215,7 +1217,7 @@ variables.changeMap = function (nivel, dpto, table) {
     }
 
     localStorage.getItem("visualization") === "symbols" ? layer.setVisible(false) : layer.setVisible(true);
-    
+
     // console.log(layer)
   } else if (nivel == "SECC") {
 
