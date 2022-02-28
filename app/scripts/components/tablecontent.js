@@ -47,11 +47,14 @@ const TableContent = () => {
     }} 
   ]
 
-  
+  const estandarizarCantidades = (data) => {
+    console.log("ESTANDARIZAR", data);
+    return data;
+  }
 
   variables.updateData = (dataTable,cols) => { 
     setCol(cols)
-    setData(dataTable)
+    setData(estandarizarCantidades(dataTable))
   }
 
   return (

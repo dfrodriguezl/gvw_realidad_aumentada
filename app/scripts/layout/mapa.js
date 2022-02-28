@@ -853,7 +853,7 @@ variables.changeMap = function (nivel, dpto, table) {
         { title: "Departamento", field: "depto", width: "150" },
         { title: "Valor", field: "valor", hozAlign: "right", width: "300" },
         {
-          title: "Distribución (Cantidad)", field: "valor", hozAlign: "left", formatter: "progress", formatterParams: {
+          title: "Distribución (Cantidad)", field: "valorGraf", hozAlign: "left", formatter: "progress", formatterParams: {
             color: variables.coloresLeyend[variables.varVariable][nivel][2][0]
           }
         }
@@ -876,8 +876,8 @@ variables.changeMap = function (nivel, dpto, table) {
       labelsData.push(depto[0].name.length > 18 ? [depto[0].name.substring(0, 17), depto[0].name.substring(18, depto[0].name.length)] : depto[0].name)
       // console.log(valor)
       data.push(valor);
-
-      dataTable.push({ depto: depto[0].name, codigo: depto[0].cod_dane, valor: valor, valor2: valor2 });
+      
+      dataTable.push({ depto: depto[0].name, codigo: depto[0].cod_dane, valor: valor, valor2: valor2, valorGraf: (parseFloat(valor)*100)/max });
 
       let shouldSkip = false;
       (variables.coloresLeyend[variables.varVariable][nivel]).forEach((value) => {
