@@ -88,11 +88,11 @@
     @include calc(max-width,'380px');
 }
 
-.tabulator-col-title{
-    color: $gray11;
-    text-decoration: none;
-    // width: 150px;
-}
+// .tabulator-col-title{
+//     color: $gray11;
+//     text-decoration: none;
+//     // width: 150px;
+// }
 
 .tabulator-col-sorter{
     color: $gray6;
@@ -102,12 +102,12 @@
     top: 0;
     bottom: 0;
     right: 4px;
-    .tabulator-arrow{
-        width: 0;
-        height: 0;
-        border-left: 6px solid transparent;
+    // .tabulator-arrow{
+    //     width: 0;
+    //     height: 0;
+    //     border-left: 6px solid transparent;
 
-    }
+    // }
 }
 
 .tabulator-tableHolder{
@@ -209,4 +209,10 @@ html[data-theme="dark"]{
         padding: 5px 6px 5px 6px;
         border-radius: 4px;
     }
+}
+
+
+.tabulator-header-filter{
+    padding-left: 10px;
+    padding-top: 10px;
 }

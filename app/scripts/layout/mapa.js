@@ -96,7 +96,7 @@ const Mapa = () => {
       new TileLayer({
         source: new XYZ({
           url: variables.baseMaps[variables.baseMapCheck] + key,
-          crossOrigin: "Anonymous"
+          crossOrigin: "Anonymous",
         })
       })],
   });
@@ -121,7 +121,8 @@ const Mapa = () => {
     view: new View({
       center: transform([-74.1083125, 4.663437], 'EPSG:4326', 'EPSG:3857'),
       zoom: 6,
-      multiWorld: true,
+      multiWorld: false,
+      minZoom: 6
     })
   });
 
@@ -837,10 +838,10 @@ variables.changeMap = function (nivel, dpto, table) {
 
     if (tipoVariable === "VC") {
       colsTable = [
-        { title: "Código", field: "codigo", hozAlign: "right", width: "150" },
-        { title: "Departamento", field: "depto", width: "150" },
-        { title: "Cantidad de licencias", field: "valor2", hozAlign: "right", width: "300" },
-        { title: "Porcentaje de licencias (%)", field: "valor", hozAlign: "right", width: "400" },
+        { title: "Código", field: "codigo", hozAlign: "right", width: "150", headerSort: true, headerFilter:true, headerFilterPlaceholder:"Código..." },
+        { title: "Departamento", field: "depto", width: "150", headerFilter:true, headerSort: true, headerFilterPlaceholder:"Departamento..."  },
+        { title: "Cantidad de licencias", field: "valor2", hozAlign: "right", width: "300", headerFilter:true, headerSort: true, headerFilterPlaceholder:"Cantidad..."   },
+        { title: "Porcentaje de licencias (%)", field: "valor", hozAlign: "right", width: "400", headerFilter:true, headerSort: true, headerFilterPlaceholder:"Porcentaje..."  },
         {
           title: "Distribución (%)", field: "valor", hozAlign: "left", formatter: "progress", formatterParams: {
             color: variables.coloresLeyend[variables.varVariable][nivel][2][0]
@@ -849,9 +850,9 @@ variables.changeMap = function (nivel, dpto, table) {
       ]
     } else {
       colsTable = [
-        { title: "Código", field: "codigo", hozAlign: "right", width: "150" },
-        { title: "Departamento", field: "depto", width: "150" },
-        { title: "Valor", field: "valor", hozAlign: "right", width: "300" },
+        { title: "Código", field: "codigo", hozAlign: "right", width: "150", headerFilter:true, headerSort: true, headerFilterPlaceholder:"Código..." },
+        { title: "Departamento", field: "depto", width: "150", headerFilter:true, headerSort: true, headerFilterPlaceholder:"Departamento..."  },
+        { title: "Valor", field: "valor", hozAlign: "right", width: "300", headerFilter:true, headerSort: true, headerFilterPlaceholder:"Cantidad..."  },
         {
           title: "Distribución (Cantidad)", field: "valorGraf", hozAlign: "left", formatter: "progress", formatterParams: {
             color: variables.coloresLeyend[variables.varVariable][nivel][2][0]
@@ -865,10 +866,10 @@ variables.changeMap = function (nivel, dpto, table) {
       let valor2 = parseFloat(a[variables.alias2]).toLocaleString("de-De").replace(",", ".")
 
       if (a[variables.alias].includes(",")) {
-        valor = parseFloat(a[variables.alias]).toFixed(2).replace(".", ",")
+        valor = parseFloat(a[variables.alias].replace(".", ",")).toFixed(2)
         valor2 = parseFloat(a[variables.alias2].replace(",", "."))
       } else {
-        valor = parseFloat(a[variables.alias]).toFixed(2).replace(".", ",")
+        valor = parseFloat(a[variables.alias].replace(".", ",")).toFixed(2)
         valor2 = parseFloat(a[variables.alias2])
       }
 
@@ -876,8 +877,8 @@ variables.changeMap = function (nivel, dpto, table) {
       labelsData.push(depto[0].name.length > 18 ? [depto[0].name.substring(0, 17), depto[0].name.substring(18, depto[0].name.length)] : depto[0].name)
       // console.log(valor)
       data.push(valor);
-      
-      dataTable.push({ depto: depto[0].name, codigo: depto[0].cod_dane, valor: valor, valor2: valor2, valorGraf: (parseFloat(valor)*100)/max });
+
+      dataTable.push({ depto: depto[0].name, codigo: depto[0].cod_dane, valor: valor, valor2: valor2, valorGraf: (parseFloat(valor) * 100) / max });
 
       let shouldSkip = false;
       (variables.coloresLeyend[variables.varVariable][nivel]).forEach((value) => {
@@ -1031,15 +1032,15 @@ variables.changeMap = function (nivel, dpto, table) {
       }
     }, []);
 
-    console.log("INTEGRADO MPIO", integrado);
+    // console.log("INTEGRADO MPIO", integrado);
 
     max = Math.max(...integrado);
     min = Math.min(...integrado);
     max2 = Math.max(...valor2Array);
-    console.log("MAX", max);
-    console.log("MIN", min);
-    console.log("MAX2ARRAY", valor2Array);
-    console.log("MAX2", max2);
+    // console.log("MAX", max);
+    // console.log("MIN", min);
+    // console.log("MAX2ARRAY", valor2Array);
+    // console.log("MAX2", max2);
 
     let list = integrado.filter((x, i, a) => a.indexOf(x) == i)
     let dataUnidades = variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"];
@@ -1087,11 +1088,11 @@ variables.changeMap = function (nivel, dpto, table) {
     let colsTable = []
     if (tipoVariable === "VC") {
       colsTable = [
-        { title: "Departamento", field: "depto", width: "150" },
-        { title: "Cód. Municipio", field: "codigo", width: 150 },
-        { title: "Municipio", field: "mpio", width: "200" },
-        { title: "Cantidad de licencias", field: "valor2", width: "300" },
-        { title: "Porcentaje de licencias (%)", field: "valor", width: "300" },
+        { title: "Departamento", field: "depto", width: "150", headerFilter:true, headerFilterPlaceholder:"Departamento..." },
+        { title: "Cód. Municipio", field: "codigo", width: 150, headerFilter:true, headerFilterPlaceholder:"Código..." },
+        { title: "Municipio", field: "mpio", width: "200", headerFilter:true, headerFilterPlaceholder:"Municipio..." },
+        { title: "Cantidad de licencias", field: "valor2", width: "300", headerFilter:true, headerFilterPlaceholder:"Cantidad..." },
+        { title: "Porcentaje de licencias (%)", field: "valor", width: "300", headerFilter:true, headerFilterPlaceholder:"Porcentaje..." },
         {
           title: "Distribución (%)", field: "valor", hozAlign: "left", formatter: "progress", formatterParams: {
             color: variables.coloresLeyend[variables.varVariable][nivel][2][0]
@@ -1100,10 +1101,10 @@ variables.changeMap = function (nivel, dpto, table) {
       ]
     } else {
       colsTable = [
-        { title: "Departamento", field: "depto", width: "150" },
-        { title: "Cód. Municipio", field: "codigo", width: 150 },
-        { title: "Municipio", field: "mpio", width: "200" },
-        { title: "Valor", field: "valor2", width: "300" },
+        { title: "Departamento", field: "depto", width: "150", headerFilter:true, headerFilterPlaceholder:"Departamento..." },
+        { title: "Cód. Municipio", field: "codigo", width: 150, headerFilter:true, headerFilterPlaceholder:"Código..." },
+        { title: "Municipio", field: "mpio", width: "200", headerFilter:true, headerFilterPlaceholder:"Municipio..." },
+        { title: "Valor", field: "valor2", width: "300", headerFilter:true, headerFilterPlaceholder:"Cantidad..." },
         {
           title: "Distribución (Cantidad)", field: "valor2", hozAlign: "left", formatter: "progress", formatterParams: {
             color: variables.coloresLeyend[variables.varVariable][nivel][2][0]
