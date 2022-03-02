@@ -277,31 +277,71 @@
             display: none;
         }
     }
-    &:before {
-        position: absolute;
-        content: "";
-        right: 18px;
-        top: 20px;
-        z-index: 3;
-        width: 12px;
-        height: 2px;
-        background: $gray6;
-        border-radius: 5px;
-        @include transition(all ease-in-out 0.2s);
-    }
-    &:after {
-        position: absolute;
-        content: "";
-        right: 18px;
-        top: 20px;
-        z-index: 3;
-        width: 12px;
-        height: 2px;
-        background: $gray6;
-        border-radius: 5px;
-        @include transition(all ease-in-out 0.2s);
-        @include transform(rotate(90deg));
-    }
+    // &:before {
+    //     position: absolute;
+    //     content: "";
+    //     right: 18px;
+    //     top: 20px;
+    //     z-index: 3;
+    //     width: 12px;
+    //     height: 2px;
+    //     background: $gray6;
+    //     border-radius: 5px;
+    //     @include transition(all ease-in-out 0.2s);
+    // }
+    // &:after {
+    //     position: absolute;
+    //     content: "";
+    //     right: 18px;
+    //     top: 20px;
+    //     z-index: 3;
+    //     width: 12px;
+    //     height: 2px;
+    //     background: $gray6;
+    //     border-radius: 5px;
+    //     @include transition(all ease-in-out 0.2s);
+    //     @include transform(rotate(90deg));
+    // }
+    // &:before {
+    //     position: absolute;
+    //     content: "\2796";
+    //     right: 18px;
+    //     top: 20px;
+    //     z-index: 3;
+    //     width: 12px;
+    //     height: 2px;
+    //     background: $gray6;
+    //     border-radius: 5px;
+    //     @include transition(all ease-in-out 0.2s);
+    //     // @include transform(rotate(90deg));
+    // }
+    // &:after {
+    //     position: absolute;
+    //     // content: "\2796";
+    //     content: '';
+    //     right: 18px;
+    //     top: 20px;
+    //     z-index: 3;
+    //     width: 12px;
+    //     height: 2px;
+    //     background: $gray6;
+    //     border-radius: 5px;
+    //     @include transition(all ease-in-out 0.2s);
+    //     // @include transform(rotate(90deg));
+
+    // }
+    // .--collapsible:after {
+    //     content: "\2212";
+    //     right: 18px;
+    //     top: 20px;
+    //     z-index: 3;
+    //     width: 12px;
+    //     height: 2px;
+    //     background: $gray6;
+    //     border-radius: 5px;
+    //     @include transition(all ease-in-out 0.2s);
+    //     @include transform(rotate(90deg));
+    //   }
     &:hover {
         background: $gray13;
         .filter__thematic__name {
@@ -309,10 +349,11 @@
         }
         &:before {
             background: $sevenColor;
+            @include transform(rotate(0deg));
         }
         &:after {
             background: $sevenColor;
-            @include transform(rotate(0deg));
+            // @include transform(rotate(0deg));
         }
     }
 }

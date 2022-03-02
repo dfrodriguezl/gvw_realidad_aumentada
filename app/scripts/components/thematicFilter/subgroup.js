@@ -1,5 +1,7 @@
 // ACORDION SUBGRUPO - CONFIGURACION Y MAQUETA DE ACORDION PARA QUE MUESTRE LAS SUBGRUPO DEL GRUPO DESDE BASE DE DATOS
 import React, { useState } from "react";
+import RemoveIcon from '@material-ui/icons/Remove';
+import AddIcon from '@material-ui/icons/Add';
 
 
 const Accordion = (tematica) => {
@@ -16,15 +18,21 @@ const Accordion = (tematica) => {
       className={`filter__thematic__item ${item[0].COD_SUBGRUPO} ${ariaExpanded}`}
       key={item[0].COD_SUBGRUPO}
       id={item[0].COD_SUBGRUPO}
-      onClick={(e) => { 
-        if(e.currentTarget.classList.length < 3){
+      onClick={(e) => {
+        if (e.currentTarget.classList.length < 3) {
           setActiveIndex(item[0].COD_SUBGRUPO);
-        }else{
+        } else {
           setActiveIndex("");
         }
       }}
     >
-      <p className="filter__thematic__nameGroup">  {tematicaDos.GRUPOS[(item[0].COD_SUBGRUPO).substring(0, 3)][0].GRUPO} </p>
+      <p className="filter__thematic__nameGroup">  {tematicaDos.GRUPOS[(item[0].COD_SUBGRUPO).substring(0, 3)][0].GRUPO}
+        <span style={{ float: 'right' }}>
+          {activeIndex !== item[0].COD_SUBGRUPO ?
+            <RemoveIcon fontSize="small" /> :
+            <AddIcon fontSize="small" />}
+        </span>
+      </p>
       <h3 className="filter__thematic__name"> {item[0].SUBGRUPO}</h3>
       <ul
         key={item[0].COD_SUBGRUPO} id={item[0].COD_SUBGRUPO}
@@ -32,6 +40,7 @@ const Accordion = (tematica) => {
       >
         {liTemas}
       </ul>
+
     </li>
   );
 };
