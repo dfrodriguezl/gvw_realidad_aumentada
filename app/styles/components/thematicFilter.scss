@@ -481,4 +481,7 @@ html[data-theme="dark"] {
             background: $blackboard3;
         }
     }
+    .filter__thematic__item.--collapse .filter__thematic__name {
+        color: $gray13;
+    }
 }
