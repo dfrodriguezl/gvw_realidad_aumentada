@@ -1,6 +1,7 @@
 // Componente para activar o desactivar el modo oscuro
 
 import React, {useState, useEffect} from 'react';
+import { variables } from '../base/variables';
 
 const Custom = () => {
   const [checked, setChecked] = useState(localStorage.getItem("theme") === "light" ? true : false);
@@ -8,6 +9,7 @@ const Custom = () => {
     document
     .getElementsByTagName("HTML")[0]
     .setAttribute("data-theme", localStorage.getItem("theme"));
+    variables.updateCharTheme();
   },[]);
 
   const toggleThemeChange = () => {;
@@ -17,12 +19,14 @@ const Custom = () => {
         .getElementsByTagName("HTML")[0]
         .setAttribute("data-theme", localStorage.getItem("theme"));
       setChecked(true);
+      variables.updateCharTheme();
     } else {
       localStorage.setItem("theme", "dark");
       document
         .getElementsByTagName("HTML")[0]
         .setAttribute("data-theme", localStorage.getItem("theme"));
       setChecked(false);
+      variables.updateCharTheme();
     }
   }
 

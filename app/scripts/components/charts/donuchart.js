@@ -11,6 +11,11 @@ const DonutChart = () => {
   const [data, setData] = useState(variables.state);
   const [subgrupo, setSubgrupo] = useState("");
   const [total, setTotal] = useState("");
+  const [dark, setDark] = useState(localStorage.getItem("theme") === "light" ? true : false);
+
+  variables.updateCharTheme = () => {
+    setDark(localStorage.getItem("theme") === "light" ? true : false)
+  }
 
   variables.changeDonuChartData = function (nivel, dpto) {
     setSubgrupo(variables.tematica["SUBGRUPOS"][variables.varVariable.substring(0, 5)][0]["SUBGRUPO"])
@@ -82,6 +87,7 @@ const DonutChart = () => {
   useEffect(() => {
     // console.log("DPTO CHART")
     variables.changeDonuChartData('DPTO', '97');
+    variables.updateCharTheme();
   }, [])
 
 
@@ -101,7 +107,7 @@ const DonutChart = () => {
             fullWidth: true,
             labels: {
               // boxWidth: 20,
-              fontColor: 'black',
+              fontColor: dark ? 'black' : 'white',
               fontSize: 14
             }
           }

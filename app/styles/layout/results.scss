@@ -419,4 +419,12 @@ html[data-theme="dark"] {
             background: $sixColor;
         }
     }
+    .charts__subtitle,
+    .charts__item,
+    .results__panel__source__name,
+    .results__source__link
+    {
+        color: $gray13;
+    }
+    
 }

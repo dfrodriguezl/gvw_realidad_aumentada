@@ -9,8 +9,15 @@ const PieChart = () => {
 
   // console.log(variables.state)
   const [data, setData] = useState(variables.state);
+  const [subgrupo, setSubgrupo] = useState("");
+  const [dark, setDark] = useState(localStorage.getItem("theme") === "light" ? true : false);
+
+  variables.updateCharTheme = () => {
+    setDark(localStorage.getItem("theme") === "light" ? true : false)
+  }
 
   variables.changePieChartData = function (nivel, dpto) {
+    setSubgrupo(variables.tematica["SUBGRUPOS"][variables.varVariable.substring(0, 5)][0]["SUBGRUPO"])
     Object.keys(variables.tematica["CATEGORIAS"]).filter(o => o.substring(0, 5) == variables.varVariable.substring(0, 5)).map(function (a, b) {
       labelsData.push(variables.tematica["CATEGORIAS"][a][0]["CATEGORIA"]);
       colors.push('rgb' + variables.tematica["CATEGORIAS"][a][0]["COLOR"]);
@@ -70,6 +77,7 @@ const PieChart = () => {
 
   useEffect(() => {
     variables.changePieChartData('DPTO', '97');
+    variables.updateCharTheme();
     // variables.changePieChartData('MPIO');
   }, [])
 
@@ -77,6 +85,7 @@ const PieChart = () => {
 
   return (
     <div className="charts">
+      <h2 className="charts__subtitle" id="title">{subgrupo}</h2>
       <Pie
         data={data}
         width={180}
@@ -87,7 +96,7 @@ const PieChart = () => {
             fullWidth: true,
             labels: {
               boxWidth: 20,
-              fontColor: 'black',
+              fontColor: dark ? 'black' : 'white',
               fontSize: 14
             }
           }

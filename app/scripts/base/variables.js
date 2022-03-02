@@ -335,6 +335,7 @@ export const variables = {
     loadMpioCentroids: null,
     unidadesDepto: null,
     unidadesMpio: null,
-    changeVisualization: null
+    changeVisualization: null,
+    updateCharTheme: null
 }
 export const urlDeploy = 'http://localhost:3000/'
