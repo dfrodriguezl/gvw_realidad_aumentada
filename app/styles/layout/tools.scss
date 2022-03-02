@@ -24,6 +24,13 @@
     font-weight: 400;
 }
 
+.tools__text_big{
+    font-size: 1.1em;
+    margin: 16px;
+    color: $gray4;
+    font-weight: 400;
+}
+
 .tools__list{
     margin: 0;
     padding: 0;
@@ -279,6 +286,7 @@
 // Inicio Estilos NavBar - DarkMode
 
 html[data-theme="dark"]{
+    .tools__text_big,
     .tools__text, 
     .tools__iconName{
         color: $gray12;
@@ -307,5 +315,8 @@ html[data-theme="dark"]{
                 color: $gray12;
             }
         }
+    }
+    .tools__panel{
+        background:  $blackboard;
     }
 }

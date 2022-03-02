@@ -5,6 +5,7 @@ import { variables } from '../base/variables';
 
 const TipoVisualizacion = () => {
   const [checked, setChecked] = useState(localStorage.getItem("visualization") === "symbols" ? false : true);
+
   useEffect(() => {
     if (!checked) {
       change2Symbols();
@@ -62,9 +63,9 @@ const TipoVisualizacion = () => {
   return (
     <div className="tools__panel">
       <div className="custom__panel">
-        <p className="tools__text">Tipo de mapa a visualizar</p>
+        <p className="tools__text_big">Tipo de mapa a visualizar</p>
         <div className="custom">
-          <p className="custom__text"> Simbolos proporcionales </p>
+          <p className="custom__text_big"> Símbolos proporcionales </p>
           <label className="custom__content">
             <input
               className="custom__input"
@@ -74,7 +75,7 @@ const TipoVisualizacion = () => {
             />
             <span className="custom__slider" />
           </label>
-          <p className="custom__text"> Coropletas </p>
+          <p className="custom__text_big"> Coropletas </p>
         </div>
       </div>
     </div>

@@ -8,6 +8,14 @@
     color: $gray6;
     font-size: 0.8em;
 }
+
+.custom__text_big{
+    margin: 4px 0;
+    font-weight: 500;
+    color: $gray6;
+    font-size: 1em;
+}
+
 .custom__content{
     position: relative;
     display: inline-block;
@@ -53,7 +61,9 @@
 
 //Estilos modo oscuro
 html[data-theme="dark"]{
+    .custom__text_big,
     .custom__text{
         color: $gray1;
     }
+    
 }

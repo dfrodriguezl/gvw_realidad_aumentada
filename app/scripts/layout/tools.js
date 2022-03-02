@@ -6,7 +6,7 @@ import Capas from '../components/capas';
 import Custom from '../components/custom';
 import Upload from "../components/upload";
 import Table from './table';
-import TipoVisualizacion from '../components/tipoVisualizacion';
+// import TipoVisualizacion from '../components/tipoVisualizacion';
 
 const cn = (...args) => args.filter(Boolean).join(' ')
 
@@ -64,7 +64,8 @@ const TabsComponent = () => {
       </Panel>
       <Panel>
         <Custom />
-        <TipoVisualizacion />
+        {/* Swithc para cambiar mapa simbolos o coropletas */}
+        {/* <TipoVisualizacion /> */}
       </Panel>
       <Panel><Upload /></Panel>
     </Tabs>
