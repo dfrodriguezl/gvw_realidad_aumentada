@@ -39,6 +39,7 @@ var container = document.getElementById('popup');
 var content = document.getElementById('popup-content');
 var closer = document.getElementById('popup-closer');
 let zoomActual;
+let unidadesAbsolutas;
 
 var resolutions = [];
 let max;
@@ -316,7 +317,7 @@ const Mapa = () => {
       const tipoVariable = variables.tematica["CATEGORIAS"][variables.varVariable][0]["TIPO_VARIABLE"];
 
       const dataPopup = variables.dataArrayDatos[variables.varVariable.substring(0, 5)][ARR[dataField][1]][variables.periodoSeleccionado.value][feature.properties_[ARR[dataField][0]]]
-      let unidadesAbsolutas = variables.varVariable.includes("284") ? "m<sup>2</sup>" : variables.varVariable.includes("292") ? "licencias" : "unidades";
+      unidadesAbsolutas = variables.varVariable.includes("284") ? "m<sup>2</sup>" : variables.varVariable.includes("292") ? "licencias" : "unidades";
       let HTML = "";
       HTML = '<p class="popup__list"><span class="popup__title">' + dataSubgrupo + '</span></p>';
       HTML += '<p class="popup__list"><span class="popup__subtitle">' + dataCategorias + '</span> ' + '</p>';
@@ -723,7 +724,7 @@ function addLayerWms(url, layer) {
 
 //VARIABLES PARA PINTAR MAPA
 variables.changeMap = function (nivel, dpto, table) {
-
+  unidadesAbsolutas = variables.varVariable.includes("284") ? "m<sup>2</sup>" : variables.varVariable.includes("292") ? "licencias" : "unidades";
   let campos1 = ((variables.queryText[variables.varVariable.substring(0, 5)]).replace('SELECT', '')).split("FROM")
   let campos = campos1[0].split(",")
   let tipoVariable = variables.tematica["CATEGORIAS"][variables.varVariable][0]["TIPO_VARIABLE"];
@@ -840,8 +841,8 @@ variables.changeMap = function (nivel, dpto, table) {
       colsTable = [
         { title: "Código", field: "codigo", hozAlign: "right", width: "150", headerSort: true, headerFilter:true, headerFilterPlaceholder:"Código..." },
         { title: "Departamento", field: "depto", width: "150", headerFilter:true, headerSort: true, headerFilterPlaceholder:"Departamento..."  },
-        { title: "Cantidad de licencias", field: "valor2", hozAlign: "right", width: "300", headerFilter:true, headerSort: true, headerFilterPlaceholder:"Cantidad..."   },
-        { title: "Porcentaje de licencias (%)", field: "valor", hozAlign: "right", width: "400", headerFilter:true, headerSort: true, headerFilterPlaceholder:"Porcentaje..."  },
+        { title: "Cantidad (" + unidadesAbsolutas + ")", field: "valor2", hozAlign: "right", width: "300", headerFilter:true, headerSort: true, headerFilterPlaceholder:"Cantidad..."   },
+        { title: "Porcentaje (%)", field: "valor", hozAlign: "right", width: "400", headerFilter:true, headerSort: true, headerFilterPlaceholder:"Porcentaje..."  },
         {
           title: "Distribución (%)", field: "valor", hozAlign: "left", formatter: "progress", formatterParams: {
             color: variables.coloresLeyend[variables.varVariable][nivel][2][0]
@@ -852,7 +853,7 @@ variables.changeMap = function (nivel, dpto, table) {
       colsTable = [
         { title: "Código", field: "codigo", hozAlign: "right", width: "150", headerFilter:true, headerSort: true, headerFilterPlaceholder:"Código..." },
         { title: "Departamento", field: "depto", width: "150", headerFilter:true, headerSort: true, headerFilterPlaceholder:"Departamento..."  },
-        { title: "Valor", field: "valor", hozAlign: "right", width: "300", headerFilter:true, headerSort: true, headerFilterPlaceholder:"Cantidad..."  },
+        { title: "Valor (" + unidadesAbsolutas + ")", field: "valor", hozAlign: "right", width: "300", headerFilter:true, headerSort: true, headerFilterPlaceholder:"Cantidad..."  },
         {
           title: "Distribución (Cantidad)", field: "valorGraf", hozAlign: "left", formatter: "progress", formatterParams: {
             color: variables.coloresLeyend[variables.varVariable][nivel][2][0]
