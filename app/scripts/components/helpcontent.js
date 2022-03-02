@@ -61,11 +61,16 @@ const HelpContent = () => {
                         <p className="help__content__text" itemProp="description">
                             Geovisor  para la consulta y visualización de la información correspondiente a los resultados de
                             la operación estadística de licencias de construcción para agregados geográficos departamento, municipio
-                            y manzana censal 
+                            y manzana censal
                             <br />
-                            <a href="https://www.dane.gov.co/files/investigaciones/fichas/construccion/Ficha-ELIC-FME-001-V5.pdf" target="_blank">Ver ficha metodológica</a>
+                            <a href="https://www.dane.gov.co/files/investigaciones/fichas/construccion/Ficha-ELIC-FME-001-V5.pdf" target="_blank" className="help__listPanelLink">
+                                <div className="help__panelItem__icon1">
+                                    <span className="DANE__Geovisor__icon__List"></span>
+                                </div>
+                                <p className="help__panelItem__text">Ver ficha metodológica,</p><p className="help__panelItem__textBold">aquí.</p>
+                            </a>
                         </p>
-                        
+
                     </div>
                 </Panel>
 
