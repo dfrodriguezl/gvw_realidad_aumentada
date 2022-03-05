@@ -40,6 +40,9 @@ const TipoVisualizacion = () => {
     variables.unidadesMpio.setVisible(false);
     variables.layers["centroides_mpio"]["visible"] = false;
     variables.layers["centroides_mpio"]["checked"] = false;
+    if(variables.hideProportionalSymbols !== null){
+      variables.hideProportionalSymbols(true);
+    }
   }
 
   const change2Symbols = () => {
@@ -58,6 +61,9 @@ const TipoVisualizacion = () => {
     variables.unidadesMpio.setVisible(true);
     variables.layers["centroides_mpio"]["visible"] = true;
     variables.layers["centroides_mpio"]["checked"] = true;
+    if(variables.hideProportionalSymbols !== null){
+      variables.hideProportionalSymbols(false);
+    }
   }
 
   return (

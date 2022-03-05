@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useLayoutEffect } from "react";
+import React, { useState, useEffect, useContext, useLayoutEffect, Fragment } from "react";
 import { variables } from '../base/variables';
 import ProportionalSymbol from "./proportionalSymbol";
 
@@ -9,6 +9,7 @@ const Leyenda = () => {
   const [categoria, setCategoria] = useState("");
   const [unidad, setUnidad] = useState("");
   const [transparency, setTransparency] = useState(variables.tansparency);
+  const [propSymbol, setPropSymbol] = useState(false);
 
   // console.log(legend)
   // console.log(variables.tematica)
@@ -46,27 +47,41 @@ const Leyenda = () => {
     setTransparency(transparencia)
   }
 
+  variables.hideProportionalSymbols = (hide) => {
+    if (hide) {
+      setPropSymbol(true);
+    } else {
+      setPropSymbol(false);
+    }
+  }
+
   return (
     <div className="legend">
       {/* <h2 className="result__top__title result__tema"  id="title"> {tema} - {subtema} - {categoria}</h2> */}
-      <h2 className="legend__slider__text"  id="title">{categoria}</h2>
+      <h2 className="legend__slider__text" id="title">{categoria}</h2>
       <h3 className="legend__value">({unidad})</h3>
       <ul className="legend__panel__list">
         {leyenda}
       </ul>
-        {/* <h5>Los colores más oscuros en la leyenda corresponden a los rangos más altos </h5> */}
+      {/* <h5>Los colores más oscuros en la leyenda corresponden a los rangos más altos </h5> */}
       <div className="legend__slider">
         <p className="legend__slider__text" >Nivel de transparencia (Mapa)</p>
         <div className="legend__slider__content">
           <p className="legend__slider__num" >0%</p>
-            <label className="legend__scrollMain" htmlFor="scroll">
-              <input id="scroll"  type="range" className="legend__scroll" min="1" max="10" step="1" defaultValue={transparency} onChange={changeSlider}></input>
-            </label>
+          <label className="legend__scrollMain" htmlFor="scroll">
+            <input id="scroll" type="range" className="legend__scroll" min="1" max="10" step="1" defaultValue={transparency} onChange={changeSlider}></input>
+          </label>
           <p className="legend__slider__num" >100%</p>
         </div>
       </div>
-      <h2 className="legend__slider__text"  id="title">Símbolos</h2>
-      <ProportionalSymbol />
+
+      {!propSymbol ?
+        <Fragment>
+          <h2 className="legend__slider__text" id="title">Símbolos</h2>
+          <ProportionalSymbol />
+        </Fragment>
+        : null}
+
     </div>
   );
 }

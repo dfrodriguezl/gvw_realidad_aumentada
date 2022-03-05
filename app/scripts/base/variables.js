@@ -338,6 +338,7 @@ export const variables = {
     changeVisualization: null,
     updateCharTheme: null,
     updateLegendProportional: null,
-    max: null
+    max: null,
+    hideProportionalSymbols: null
 }
 export const urlDeploy = 'http://localhost:3000/'

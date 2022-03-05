@@ -1464,7 +1464,7 @@ variables.changeMap = function (nivel, dpto, table) {
 
   }
 
-  if(variables.updateLegendProportional !== null){
+  if(variables.updateLegendProportional !== null && localStorage.getItem("visualization") === "symbols"){
     variables.updateLegendProportional();
   }
   
