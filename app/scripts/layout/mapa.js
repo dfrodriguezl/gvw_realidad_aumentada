@@ -802,10 +802,10 @@ variables.changeMap = function (nivel, dpto, table) {
 
     }, []);
 
-    max = Math.max(...integrado);
+    max = Math.max(...integrado); 
     min = Math.min(...integrado);
     max2 = Math.max(...valor2Array);
-    // console.log("INTEGRADO", integrado);
+    variables.max = valor2Array.length === 0 ? max : max2;
 
     let list = integrado.filter((x, i, a) => a.indexOf(x) == i)
     // console.log(integrado)
@@ -1038,6 +1038,7 @@ variables.changeMap = function (nivel, dpto, table) {
     max = Math.max(...integrado);
     min = Math.min(...integrado);
     max2 = Math.max(...valor2Array);
+    variables.max = valor2Array.length === 0 ? max : max2;
     // console.log("MAX", max);
     // console.log("MIN", min);
     // console.log("MAX2ARRAY", valor2Array);
@@ -1462,6 +1463,11 @@ variables.changeMap = function (nivel, dpto, table) {
     // })
 
   }
+
+  if(variables.updateLegendProportional !== null){
+    variables.updateLegendProportional();
+  }
+  
   // variables.changeLoader(true);
 }
 

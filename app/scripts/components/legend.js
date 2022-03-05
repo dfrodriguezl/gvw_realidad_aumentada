@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext, useLayoutEffect } from "react";
 import { variables } from '../base/variables';
+import ProportionalSymbol from "./proportionalSymbol";
 
 const Leyenda = () => {
   // const [tema, setTema] = React.useState("Educación");
@@ -64,6 +65,8 @@ const Leyenda = () => {
           <p className="legend__slider__num" >100%</p>
         </div>
       </div>
+      <h2 className="legend__slider__text"  id="title">Símbolos</h2>
+      <ProportionalSymbol />
     </div>
   );
 }

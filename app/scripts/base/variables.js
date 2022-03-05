@@ -336,6 +336,8 @@ export const variables = {
     unidadesDepto: null,
     unidadesMpio: null,
     changeVisualization: null,
-    updateCharTheme: null
+    updateCharTheme: null,
+    updateLegendProportional: null,
+    max: null
 }
 export const urlDeploy = 'http://localhost:3000/'
