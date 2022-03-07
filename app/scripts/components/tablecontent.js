@@ -57,7 +57,6 @@ const TableContent = () => {
   }
 
   const downloadData = () => {
-    console.log("TABLE REF", tableRef.current.table);
     tableRef.current.table.download("csv","data.csv");
   }
 
