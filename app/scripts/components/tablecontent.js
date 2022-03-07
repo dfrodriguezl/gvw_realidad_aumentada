@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {variables} from '../base/variables';
 // import 'react-tabulator/lib/css/tabulator.min.css'; // theme
 import {ReactTabulator} from 'react-tabulator';
+import ExportTable from "./exportTable";
 
 
 const TableContent = () => {
   const [responsive, setResponsive] = useState("vertical");
   const [data, setData] = useState([])
   const [col, setCol] = useState([])
+  const tableRef = useRef();
   
   const options = {
     movableRows: true,
@@ -34,7 +36,9 @@ const TableContent = () => {
           // jumpToPage: 'Ir a la página:',
         },
       }
-    }
+    },
+    downloadDataFormatter: (data) => data,
+    downloadReady: (fileContents, blob) => blob
   }
 
   const columns = [
@@ -52,13 +56,20 @@ const TableContent = () => {
     setData(dataTable)
   }
 
+  const downloadData = () => {
+    console.log("TABLE REF", tableRef.current.table);
+    tableRef.current.table.download("csv","data.csv");
+  }
+
   return (
     <React.Fragment> 
       <div className="tableBox__top">
         <h3 className="tableBox__tableName">Tabla de datos - {variables.tematica["CATEGORIAS"][variables.varVariable][0]["CATEGORIA"]}</h3>
+        <ExportTable exportar={downloadData}/>
         {/* <div className="tableBox__close"></div> */}
       </div>
       <ReactTabulator
+          ref={tableRef}
           columns={col}
           data={data}
           options={options}
