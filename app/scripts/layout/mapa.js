@@ -326,7 +326,7 @@ const Mapa = () => {
         HTML += '<p class="popup__list"><span class="popup__thirdtitle">Porcentaje de unidades:</span> No data</p>';
       } else {
         if (tipoVariable === "VC") {
-          HTML += '<p class="popup__list">' + 'Participación porcentual (' + parseFloat(dataPopup[variables.alias]).toFixed(2).replace(".", ",") + ' ' + dataUnidades + ')' + '</p>'
+          HTML += '<p class="popup__list">' + 'Participación porcentual (' + parseFloat(dataPopup[variables.alias].replace(",", ".")).toFixed(1) + ' ' + dataUnidades + ')' + '</p>'
           HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[variables.alias2]).toLocaleString('es') + '</span><span class="popup__valueItem"> ' + unidadesAbsolutas + '</span></p>';
         } else {
           HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[variables.alias]).toLocaleString('es') + '</span><span class="popup__valueItem"> ' + unidadesAbsolutas + '</span></p>';
@@ -464,7 +464,9 @@ const Mapa = () => {
               HTML += '<p class="popup__list"><span class="popup__thirdtitle">Porcentaje de unidades:</span> No data</p>';
             } else {
               if (tipoVariable === "VC") {
-                HTML += '<p class="popup__list"><span class="popup__thirdtitle">' + 'Participación porcentual (' + parseFloat(dataPopup[variables.alias]).toFixed(2).replace(".", ",") + ' ' + dataUnidades + ')' + '</span></p>'
+                // console.log("ALIAS", variables.alias);
+                // console.log("ALIAS 2", variables.alias2);
+                HTML += '<p class="popup__list"><span class="popup__thirdtitle">' + 'Participación porcentual (' + parseFloat(dataPopup[variables.alias].replace(",", ".")).toFixed(1) + ' ' + dataUnidades + ')' + '</span></p>'
                 HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[variables.alias2]).toLocaleString('es') + '</span><span class="popup__valueItem">' + unidadesAbsolutas + '</span></p>';
               } else {
                 HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[variables.alias]).toLocaleString('es') + '</span><span class="popup__valueItem"> ' + unidadesAbsolutas + '</span></p>';
@@ -731,9 +733,13 @@ variables.changeMap = function (nivel, dpto, table) {
 
   for (let index = 0; index < campos.length; index++) {
     if (tipoVariable === "VC") {
+      // console.log("CAMPOS", campos);
+      // console.log("TABLA 2", variables.tematica["CATEGORIAS"][variables.varVariable][0]["CAMPO_TABLA2"]);
+      // console.log("TABLA 1", variables.tematica["CATEGORIAS"][variables.varVariable][0]["CAMPO_TABLA"]);
       if (campos[index].indexOf(variables.tematica["CATEGORIAS"][variables.varVariable][0]["CAMPO_TABLA2"]) != "-1") {
         let arrField = (campos[index]).split(" ")
         arrField = cleanArray(arrField)
+        
         if ((variables.tematica["CATEGORIAS"][variables.varVariable][0]["CAMPO_TABLA2"]).trim() == arrField[0].trim()) {
           variables.alias = (arrField[arrField.length - 1]).trim() // definir el tipo de variable que se debe previsualizar
           variables.valorTotal = variables.alias.replace('PP', 'V')
@@ -742,6 +748,7 @@ variables.changeMap = function (nivel, dpto, table) {
       else if (campos[index].indexOf(variables.tematica["CATEGORIAS"][variables.varVariable][0]["CAMPO_TABLA"]) != "-1") {
         let arrField = (campos[index]).split(" ")
         arrField = cleanArray(arrField)
+        console.log("ARR FIELD 2", arrField);
         if ((variables.tematica["CATEGORIAS"][variables.varVariable][0]["CAMPO_TABLA"]).trim() == arrField[0].trim()) {
           variables.alias2 = (arrField[arrField.length - 1]).trim() //definir el tipo de variable que se debe previsualizar
           variables.valorTotal = variables.alias2.replace('V', 'PP')
@@ -766,7 +773,7 @@ variables.changeMap = function (nivel, dpto, table) {
     let valor2Array = [];
     var integrado = Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value]).map(function (a, b) {
       let valor, valor2
-
+      
       if (a["G"] === variables.periodoSeleccionado.value) {
         if (a[variables.alias].includes(",")) {
           valor = parseFloat(a[variables.alias]).toFixed(2).toLocaleString("de-De").replace(",", ".")
@@ -817,13 +824,16 @@ variables.changeMap = function (nivel, dpto, table) {
     if (serie.getClassJenks(5) != undefined) {
       // console.log("RANGES", serie.ranges)
       for (let index = 0; index < (serie.ranges).length; index++) {
+        
         const searchRegExp = /\./g;
         let rango = serie.ranges[(serie.ranges).length - (index + 1)].replace(".", ",") + " (" + dataUnidades + ")"
-
+        // console.log("RANGO", rango)
+        // rango = parseFloat(rango).toFixed(1).toLocaleString('es');
         if (index == 0) {
           rango = rango.split("-")
           rango = " > " + rango[0].trim() + " (" + dataUnidades + ")"
         }
+        console.log("RANGO", parseFloat(rango));
 
         // variables.coloresLeyend[variables.varVariable]["MPIO"][index][2] = rango;
         variables.coloresLeyend[variables.varVariable]["DPTO"][index][2] = rango;
@@ -1615,7 +1625,7 @@ function changeSymbologiCluster(cluster, nivel, min, max, max2) {
         color = updateRangeSimbology(valorCampo, nivel, color);
         let valor = valorCampo[variables.alias2] ? valorCampo[variables.alias2] : valorCampo[variables.alias];
         let maxValor = valorCampo[variables.alias2] ? max2 : max;
-        radioValor = (valor.replace(",", ".") * 50) / maxValor;
+        radioValor = (valor.replace(",", ".") * 60) / maxValor;
       }
     }
 
@@ -1641,7 +1651,7 @@ function changeSymbologiCluster(cluster, nivel, min, max, max2) {
   // // console.log(layerName)
   // layerName == 'mgn_2020_dpto_politico' ? strokeColor = '#FFFFFF' : layerName == 'MGN_2018_URB_MANZANA' ? strokeColor = '#FFFFFF00' : strokeColor = '#adaba3'
   let fill = new Fill({
-    color: color.endsWith("80") ? color : color + "80"
+    color: color.endsWith("80") ? color : color + "E6"
   });
   let stroke = new Stroke({
     color: strokeColor,

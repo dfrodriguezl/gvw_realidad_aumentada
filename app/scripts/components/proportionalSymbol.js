@@ -9,7 +9,7 @@ const ProportionalSymbol = () => {
 
   
 
-  const intlNumberFormat = new Intl.NumberFormat('fr-FR');
+  const intlNumberFormat = new Intl.NumberFormat('es-ES');
 
   useEffect(() => {
     generateLegend();
@@ -21,8 +21,7 @@ const ProportionalSymbol = () => {
     const fillCircle = new Fill({
       color: 'rgb' + variables.tematica["CATEGORIAS"][variables.varVariable][0]['COLOR']
     });
-    // console.log("CATEGORIA", variables.tematica["CATEGORIAS"][variables.varVariable][0]['COLOR'])
-    // console.log("COLORES", variables.tematica["CATEGORIAS"][categoria][0]['COLOR']);
+
     const canvas = document.getElementById('canvas');
     let vectorContext = toContext(canvas.getContext('2d'), {
       size: [300, 200]
@@ -32,13 +31,13 @@ const ProportionalSymbol = () => {
       .slice(0)
       .reverse()
       .forEach(val => {
-        console.log("VAL", val);
         if (val !== min) {
-          const radius = (val * 50) / max;
+          const radius = (val * 60) / max;
           const text = new Text({
-            offsetX: 60,
+            offsetX: 50,
             offsetY: -radius,
-            text: `${intlNumberFormat.format(val.toFixed(0))}`
+            text: `${intlNumberFormat.format(val.toFixed(0))}`,
+            font: '12px Calibri,sans-serif'
           });
           const newStyle = new Style({
             image: new Circle({

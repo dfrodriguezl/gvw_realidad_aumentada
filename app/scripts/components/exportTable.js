@@ -11,7 +11,7 @@ const ExportTable = (props) => {
         <div className="btnContainer__icon">
           <span className="DANE__Geovisor__icon__download"></span>
         </div>
-        <p className="btnContainer__name">Exportar</p>
+        <p className="btnContainer__name">Exportar .CSV</p>
       </button>
     </div>
   )

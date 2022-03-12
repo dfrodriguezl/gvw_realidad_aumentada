@@ -3,11 +3,13 @@ import Select from 'react-select'
 import { variables } from '../base/variables';
 
 const periodos = [
-    { value: '2021-08', label: '2021-08' },
-    { value: '2020-08', label: '2020-08' },
-    { value: '2019-08', label: '2019-08' },
-    { value: '2018-08', label: '2018-08' },
-    { value: '2017-08', label: '2017-08' },
+    { value: '2021-12', label: '2021-12' },
+    { value: '2020-12', label: '2020-12' },
+    { value: '2019-12', label: '2019-12' },
+    { value: '2018-12', label: '2018-12' },
+    { value: '2017-12', label: '2017-12' },
+    { value: '2016-12', label: '2016-12' },
+    { value: '2015-12', label: '2015-12' },
 ]
 
 const Periodo = () => {

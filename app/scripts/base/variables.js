@@ -7,10 +7,10 @@ export const variables = {
     place: ' Todos los departamentos ',
     year: ' 2021 ',
     map: null,
-    //urlTemas: 'https://geoportal.dane.gov.co/laboratorio/serviciosjson/visores/temas.php',
+    // urlTemas: 'https://geoportal.dane.gov.co/laboratorio/serviciosjson/visores/temas.php',
     urlTemas: 'https://nowsoft.app/geoportal/laboratorio/serviciosjson/visores/temas_upper.php', //enlace/servicio  que trae el servicio de las tematicas por visor
-    //urlVariables: 'https://geoportal.dane.gov.co/laboratorio/serviciosjson/visores/variables8.php',//enlace/servicio  que trae los datos de la variable seleccionada
-    urlVariables: 'https://nowsoft.app/geoportal/laboratorio/serviciosjson/visores/variables8_upper.php',
+    urlVariables: 'https://geoportal.dane.gov.co/laboratorio/serviciosjson/visores/variables8.php',//enlace/servicio  que trae los datos de la variable seleccionada
+    // urlVariables: 'https://nowsoft.app/geoportal/laboratorio/serviciosjson/visores/variables8_upper.php',
     codVisor: "41", //Ponga el codigo que corresponde a SU VISOR
     varVariable: "28401001", //Ponga el codigo de la CATEGORIA que corresponda a su visor
     series: [0, 0, 0, 0, 0],
@@ -25,7 +25,7 @@ export const variables = {
         'OSM': 'https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/256/{z}/{x}/{y}?access_token=',
         'Satelital': 'https://api.mapbox.com/styles/v1/mapbox/satellite-v9/tiles/256/{z}/{x}/{y}?access_token=',
     },
-    baseMapCheck: "Gris",  // Ponga el MAPA BASE que quiere por defecto
+    baseMapCheck: "Noche",  // Ponga el MAPA BASE que quiere por defecto
     layers: {
         departamentos: {
             tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
@@ -328,7 +328,7 @@ export const variables = {
     changeStyleMpio: null,
     loadMzCentroids: null,
     unidadesMz: null,
-    periodoSeleccionado: {value: '2021-08', label: '2021-08'},
+    periodoSeleccionado: {value: '2021-12', label: '2021-12'},
     updatePeriodo: null,
     updatePeriodoHeader: null,
     loadDeptoCentroids: null,

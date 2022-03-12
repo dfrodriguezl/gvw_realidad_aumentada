@@ -42,7 +42,7 @@
 }
 
 .results__main.active {
-    background: $white;
+    background: #FFFFFFB3;
     @include transition(all ease-in-out 0.2s);
     .results__container {
         opacity: 1;

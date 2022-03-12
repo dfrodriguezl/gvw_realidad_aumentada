@@ -16,6 +16,7 @@ const Leyenda = () => {
 
   const leyenda = (legend)
     .map((item, index) => {
+      console.log("ITEM 2", item);
       return (
         <li className="legend__panel__list__item" key={index}>
           <canvas className="legend__panel__list__item__square" style={{ background: item[0] }}></canvas>
