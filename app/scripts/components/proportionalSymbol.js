@@ -18,9 +18,10 @@ const ProportionalSymbol = () => {
   const generateLegend = () => {
     const min = 0;
     const max = variables.max !== null ? variables.max : 500;
-    const fillCircle = new Fill({
+
+    const fillCircle = variables.tematica["CATEGORIAS"][variables.varVariable] ? new Fill({
       color: 'rgb' + variables.tematica["CATEGORIAS"][variables.varVariable][0]['COLOR']
-    });
+    }) : null;
 
     const canvas = document.getElementById('canvas');
     let vectorContext = toContext(canvas.getContext('2d'), {
