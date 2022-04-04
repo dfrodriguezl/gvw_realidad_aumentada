@@ -57,7 +57,7 @@ const Periodo = () => {
         <div className="tools__panel">
             <p className="tools__text">Realice la selección de período que desea ver en el mapa</p>
             <div className="selectBox">
-                <p className="selectBox__name">Periodo:</p>
+                <p className="selectBox__name">Periodo (Año corrido al mes de):*</p>
                 <Select
                     styles={{
                         navBar: provided => ({ zIndex: 9999 })
@@ -70,8 +70,9 @@ const Periodo = () => {
                     options={periodosList}
                     getOptionValue={(option) => option.value}
                     getOptionLabel={(option) => option.label}
-                />
+                /> 
             </div>
+            <p className="help__content__text" itemProp="description">*El año corrido corresponde a la sumatoria de los meses del año desde enero hasta el mes de referencia.</p>
         </div>
     )
 }

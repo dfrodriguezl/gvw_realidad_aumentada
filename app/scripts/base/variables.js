@@ -7,8 +7,8 @@ export const variables = {
     place: ' Todos los departamentos ',
     year: ' 2021 ',
     map: null,
-    // urlTemas: 'https://geoportal.dane.gov.co/laboratorio/serviciosjson/visores/temas.php',
-    urlTemas: 'https://nowsoft.app/geoportal/laboratorio/serviciosjson/visores/temas_upper.php', //enlace/servicio  que trae el servicio de las tematicas por visor
+    urlTemas: 'https://geoportal.dane.gov.co/laboratorio/serviciosjson/visores/temas.php',
+    // urlTemas: 'https://nowsoft.app/geoportal/laboratorio/serviciosjson/visores/temas_upper.php', //enlace/servicio  que trae el servicio de las tematicas por visor
     urlVariables: 'https://geoportal.dane.gov.co/laboratorio/serviciosjson/visores/variables8.php',//enlace/servicio  que trae los datos de la variable seleccionada
     // urlVariables: 'https://nowsoft.app/geoportal/laboratorio/serviciosjson/visores/variables8_upper.php',
     codVisor: "41", //Ponga el codigo que corresponde a SU VISOR
