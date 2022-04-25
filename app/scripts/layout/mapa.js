@@ -822,20 +822,16 @@ variables.changeMap = function (nivel, dpto, table) {
     let dataUnidades = variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"];
 
     if (serie.getClassJenks(5) != undefined) {
-      // console.log("RANGES", serie.ranges)
+      
       for (let index = 0; index < (serie.ranges).length; index++) {
-        
-        const searchRegExp = /\./g;
-        let rango = serie.ranges[(serie.ranges).length - (index + 1)].replace(".", ",") + " (" + dataUnidades + ")"
-        // console.log("RANGO", rango)
-        // rango = parseFloat(rango).toFixed(1).toLocaleString('es');
+        let rangeSplit = serie.ranges[(serie.ranges).length - (index + 1)].split(" - ");
+        let newRange = parseFloat(rangeSplit[0]).toLocaleString("de","DE") + " - " + parseFloat(rangeSplit[1]).toLocaleString("de","DE");
+        let rango = newRange + " (" + dataUnidades + ")";
         if (index == 0) {
           rango = rango.split("-")
           rango = " > " + rango[0].trim() + " (" + dataUnidades + ")"
         }
-        console.log("RANGO", parseFloat(rango));
 
-        // variables.coloresLeyend[variables.varVariable]["MPIO"][index][2] = rango;
         variables.coloresLeyend[variables.varVariable]["DPTO"][index][2] = rango;
       }
     }
@@ -970,7 +966,7 @@ variables.changeMap = function (nivel, dpto, table) {
         if (a[variables.alias].includes(",")) {
 
           // if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined && a[nivel].substring(0,2) === variables.deptoSelectedFilter) {
-          valor = parseFloat(a[variables.alias]).toFixed(2).toLocaleString("de-De").replace(",", ".")
+          valor = parseFloat(a[variables.alias].replace(",", ".")).toFixed(2).toLocaleString("de-De")
           // }
           // else{
           //   valor = parseFloat(a[variables.alias]).toFixed(2).toLocaleString("de-De").replace(",", ".")
@@ -987,6 +983,7 @@ variables.changeMap = function (nivel, dpto, table) {
 
 
         if (a[variables.alias2] != undefined) {
+          
           if (a[variables.alias2].includes(",")) {
             // if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined && a[nivel].substring(0,2) === variables.deptoSelectedFilter) {
             valor2 = parseFloat(a[variables.alias2]).toFixed(2).toLocaleString("de-De").replace(",", ".")
@@ -1063,15 +1060,17 @@ variables.changeMap = function (nivel, dpto, table) {
     if (serie.getClassJenks(5) != undefined) {
       for (let index = 0; index < (serie.ranges).length; index++) {
         const searchRegExp = /\./g;
-        let rango = serie.ranges[(serie.ranges).length - (index + 1)].replace(searchRegExp, ",") + " (" + dataUnidades + ")"
+        let rangeSplit = serie.ranges[(serie.ranges).length - (index + 1)].split(" - ");
+        console.log("RANGO 1", rangeSplit)
+        let newRange = parseFloat(rangeSplit[0]).toLocaleString("de","DE") + " - " + parseFloat(rangeSplit[1]).toLocaleString("de","DE");
+        let rango = newRange + " (" + dataUnidades + ")";
+        console.log("RANGO", rango)
+        // let rango = serie.ranges[(serie.ranges).length - (index + 1)].replace(searchRegExp, ",") + " (" + dataUnidades + ")"
         if (index == 0) {
           rango = rango.split("-")
           rango = " > " + rango[0].trim() + " (" + dataUnidades + ")"
         }
-        // console.log(rango)
-        // console.log(variables.coloresLeyend[variables.varVariable]["MPIO"][index][2])
-        // console.log(rango, "Rango")
-        // variables.coloresLeyend[variables.varVariable]["DPTO"][index][2] = rango;
+        
         if (table == "y") {
           variables.coloresLeyend[variables.varVariable]["MPIO"][index][2] = rango;
         }
@@ -1079,16 +1078,9 @@ variables.changeMap = function (nivel, dpto, table) {
       }
     }
 
-    // console.log(variables.coloresLeyend)
-
     let layer = variables.capas['mpios_vt'];
-
     let extent = variables.map.getView().calculateExtent();
-    // let features = layer.getSource().forEachFeatureInExtent(extent, function(feature){
-    //   console.log(Feature);
-    // });
     let f = layer.getSource().getFeaturesInExtent(extent);
-    // console.log(f)
 
 
 
@@ -1488,13 +1480,13 @@ const updateRangeSimbology = (valorCampo, nivel, colorInput) => {
       let element = obj[2];
       element = String(element).split('-');
       if (element.length == 1) {
-        if (parseFloat(valorCampo[variables.alias].replace(",", ".")).toFixed(2)
-          >= parseFloat(element[0].replace(">", "").replace(",", ".").replace("%", "").trim())) {
+        if (parseFloat(valorCampo[variables.alias]).toFixed(2)
+          >= parseFloat(element[0].replace(">", "").replaceAll('.', '').replace("%", "").trim())) {
           color = obj[0];
         }
       } else {
-        if (parseFloat(valorCampo[variables.alias].replace(",", ".")).toFixed(2) >= parseFloat(element[0].replace(",", ".").replace("%", ""))
-          && parseFloat(valorCampo[variables.alias].replace(",", ".")).toFixed(2) <= parseFloat(element[1].replace(",", ".").replace("%", ""))) {
+        if (parseFloat(valorCampo[variables.alias]).toFixed(2) >= parseFloat(element[0].replaceAll('.', '').replace("%", ""))
+          && parseFloat(valorCampo[variables.alias]).toFixed(2) <= parseFloat(element[1].replaceAll('.', '').replace("%", ""))) {
           color = obj[0];
         }
       }
