@@ -226,7 +226,7 @@ const Filter = (props) => {
                     />
                 </div>
 
-                <div className="selectBox">
+                {/* <div className="selectBox">
                     <p className="selectBox__name">Clase:</p>
                     <Select
                         // styles={{
@@ -240,9 +240,9 @@ const Filter = (props) => {
                         getOptionValue={(option) => option.value}
                         // isClearable={true}
                     />
-                </div>
+                </div> */}
 
-                {
+                {/* {
                     selectedOption3 == 2?
                     <div className="selectBox">
                         <p className="selectBox__name">Centro poblado:</p>
@@ -259,7 +259,7 @@ const Filter = (props) => {
                             // isClearable={true}
                         />
                     </div>:null
-                }
+                } */}
 
                 
 
