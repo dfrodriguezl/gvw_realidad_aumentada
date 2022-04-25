@@ -35,7 +35,7 @@ const ProportionalSymbol = () => {
         if (val !== min) {
           const radius = (val * 60) / max;
           const text = new Text({
-            offsetX: 50,
+            offsetX: 80,
             offsetY: -radius,
             text: `${intlNumberFormat.format(val.toFixed(0))}`,
             font: '12px Calibri,sans-serif'
