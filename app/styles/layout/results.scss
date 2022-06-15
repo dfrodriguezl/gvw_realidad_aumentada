@@ -1,0 +1,430 @@
+.--resultClose {
+    .result {
+        width: auto;
+    }
+    .result__icon {
+        display: inherit;
+    }
+    .result__close,
+    .result__top,
+    .result__container {
+        display: none;
+    }
+}
+.result {
+    width: 20%;
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: $white;
+    z-index: 10;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    @include flex;
+    @include transition(all ease-in-out 0.2s);
+    * {
+        box-sizing: border-box;
+    }
+}
+
+.results__main {
+    width: 100%;
+    z-index: 1;
+    position: absolute;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    // @include transition(all ease-in-out 0.2s);
+    .results__container {
+        opacity: 0;
+        left: -500px;
+        visibility: hidden;
+    }
+}
+
+.results__main.active {
+    background: #FFFFFFB3;
+    @include transition(all ease-in-out 0.2s);
+    .results__container {
+        opacity: 1;
+        left: 0;
+        visibility: visible;
+    }
+    .results__collapseBtn{
+        left: -20px;
+    }
+}
+
+.results__title {
+    font-weight: 500;
+    font-size: 0.9em;
+    cursor: pointer;
+    position: relative;
+    padding: 8px 16px;
+    margin: 3px 3px 4px 8px;
+    border: solid 1px $gray2;
+    border-radius: 8px;
+    align-items: center;
+    @include flex;
+    @include justify-content(space-between);
+    @include transition(all ease-in-out 0.2s);
+
+    &:focus {
+        outline: none;
+    }
+
+    &:hover {
+        background: $gray13;
+        color: $gray4;
+        border: solid 1px $fifthColor;
+        &:before {
+            background: $sevenColor;
+            @include transform(rotate(0deg));
+        }
+    }
+
+    &.open {
+        &::before {
+            content: "";
+            @include transform(rotate(0deg));
+        }
+    }
+
+    &::before {
+        position: absolute;
+        content: "";
+        right: 11px;
+        top: 17px;
+        z-index: 3;
+        width: 12px;
+        height: 2px;
+        background: $sevenColor;
+        border-radius: 5px;
+        @include transition(all ease-in-out 0.2s);
+        @include transform(rotate(90deg));
+    }
+
+    &::after {
+        position: absolute;
+        content: "";
+        right: 11px;
+        top: 17px;
+        z-index: 3;
+        width: 12px;
+        height: 2px;
+        background: $sevenColor;
+        border-radius: 5px;
+        @include transition(all ease-in-out 0.2s);
+        @include transform(rotate(0deg));
+    }
+}
+
+.results__panel {
+    overflow: hidden;
+    @include transition(all ease-in-out 0.2s);
+    height: auto;
+    max-height: 100%;
+    &.collapsed {
+        max-height: 0;
+        @include transition(all ease-in-out 0.2s);
+    }
+}
+.results__container {
+    padding: 5px;
+    width: 100%;
+    overflow-y: scroll;
+    @include calc(max-height, "85vh");
+    @include transition(all ease-in-out 0.2s);
+    &::-webkit-scrollbar {
+        width: 8px;
+        height: 5px;
+    }
+    &::-webkit-scrollbar-track {
+        background: $gray1;
+    }
+    &::-webkit-scrollbar-thumb {
+        background: $fifthColor;
+        border-radius: 4px;
+    }
+    &::-webkit-scrollbar-thumb:hover {
+        background: $sixColor;
+    }
+    &.--invisible {
+        display: none;
+    }
+}
+
+.results__content {
+    padding: 8px;
+}
+
+.results__top {
+    padding: 5px 10px;
+}
+.results__top__title {
+    font-size: 1em;
+    margin: 5px 20px;
+    font-weight: 600;
+    color: $gray4;
+    text-align: center;
+}
+.results__top__subtitle {
+    font-size: 0.9em;
+    font-weight: 600;
+    color: $gray6;
+    margin: 5px 0;
+    text-align: center;
+}
+.results__top__thirdtitle {
+    font-size: 0.9em;
+    font-weight: 400;
+    color: $gray6;
+    margin: 5px 0;
+    text-align: center;
+}
+.results__top__fourthtitle {
+    font-size: 0.8em;
+    font-weight: 400;
+    color: $gray6;
+    margin: 5px 0;
+    text-align: center;
+}
+.results__top__fifthtitle {
+    font-size: 0.8em;
+    font-weight: 400;
+    color: $gray6;
+    margin: 5px 0;
+    text-align: center;
+}
+
+//Prueba de estilos - tabs charts
+.results__btnTabs {
+    list-style: none;
+    padding: 0;
+    margin: 0 8px;
+    @include flex;
+    @include flex-wrap(wrap);
+}
+.results__btn {
+    border: 1px solid $gray2;
+    border-radius: 16px;
+    min-width: 80px;
+    text-align: center;
+    cursor: pointer;
+    margin: 0 2px;
+    @include transition(all ease-in-out 0.2s);
+    &:hover {
+        background: $fifthColor;
+        border: 1px solid $secondaryColor;
+        .results__btnTabsName {
+            color: $gray1;
+        }
+    }
+    &.--active {
+        background: $secondaryColor;
+        .results__btnTabsName {
+            color: $gray1;
+        }
+    }
+}
+.results__btnTabsName {
+    margin: 0;
+    padding: 5px;
+    font-size: 0.95em;
+    color: $gray4;
+}
+
+.charts {
+    margin: 8px;
+}
+.charts__subtitle {
+    font-size: 0.9em;
+    font-weight: 600;
+    color: $gray6;
+    text-align: center;
+}
+.charts__thirdtitle {
+    margin: 2px;
+    font-size: 0.9em;
+    font-weight: 500;
+    text-align: center;
+}
+.charts__item {
+    font-size: 1.2em;
+    font-weight: 600;
+    color: $gray11;
+    text-align: center;
+}
+
+.results__collapseBtn {
+    position: absolute;
+    cursor: pointer;
+    top: 5px;
+    right: 0px;
+    width: 20px;
+    height: 40px;
+    background: $principalColor;
+    border-bottom-left-radius: 4px;
+    border-top-left-radius: 4px;
+    @include transition(all ease-in-out 0.2s);
+    &:hover {
+        background: $fifthColor;
+        .results__collapseBtn__triangle {
+            margin: 14px 8px;
+        }
+    }
+}
+.results__collapseBtn__triangle {
+    width: 0;
+    height: 0;
+    margin: 14px 6px;
+    border-style: solid;
+    border-width: 5px 0 5px 8px;
+    border-color: transparent transparent transparent $white;
+    @include transition(all ease-in-out 0.2s);
+}
+.results__source__link {
+    color: $gray6;
+    font-weight: 500;
+    @include transition(all ease-in-out 0.2s);
+    &:hover {
+        color: $principalColor;
+    }
+}
+
+.results__panel__source {
+    margin: 8px;
+}
+
+.results__panel__source__name {
+    margin: 0;
+    padding: 8px;
+    font-size: 0.9em;
+}
+
+@media screen and (max-width: $sizeMediumScreen) {
+    .result {
+        max-height: 612px;
+    }
+}
+
+@media screen and (max-width: $sizeTabletLandScape) {
+    .result {
+        width: $resultWidthMobile;
+        position: initial;
+        // top: initial;
+        right: initial;
+    }
+    .results__container {
+        padding: 10px;
+        overflow-y: hidden;
+        @include flex;
+        @include flex-wrap(wrap);
+    }
+    .results__close {
+        display: none;
+    }
+    .result__top {
+        width: 100%;
+        padding: 0 10px 20px 10px;
+        @include flex;
+        @include flex-wrap(wrap);
+        @include justify-content(center);
+    }
+    .results__layers,
+    .results__top__title,
+    .results__top__subtitle {
+        width: 100%;
+    }
+    .results__top__thirdtitle,
+    .results__top__fourthtitle,
+    .results__top__fifthtitle {
+        margin: 5px;
+    }
+}
+
+@media screen and (max-width: $sizePhone) {
+    .result {
+        width: $resultWidthMobile;
+        position: initial;
+        // top: initial;
+        right: initial;
+    }
+    .results__top {
+        width: 100%;
+        @include justify-content(flex-start);
+    }
+    .resultss__item {
+        width: 100%;
+    }
+}
+
+//Estilos Panel resultados . Dark Mode
+
+html[data-theme="dark"] {
+    .result {
+        background: $blackboard;
+    }
+    .results__close {
+        &:hover {
+            .results__close__icon {
+                background: $blackboardMagenta;
+                border: 1px solid $principalColor;
+            }
+            .results__close__icon__line {
+                background: $white;
+            }
+            .results__close__name {
+                color: $gray13;
+            }
+        }
+    }
+    .results__close__icon {
+        background: $blackboard3;
+    }
+    .results__close__name {
+        color: $gray7;
+    }
+    .results__close__icon__line {
+        background: $principalColor;
+    }
+    .results__top__title,
+    .results__title {
+        color: $gray7;
+        &:hover {
+            background: $blackboard3;
+        }
+    }
+
+    .results__top__subtitle {
+        color: $gray12;
+    }
+    .results__top__thirdtitle {
+        color: $gray13;
+    }
+    .results__top__fourthtitle {
+        color: $gray13;
+    }
+    .results__top__fifthtitle {
+        color: $gray13;
+    }
+    .results__container {
+        background: $blackboard;
+        &::-webkit-scrollbar-track {
+            background: $blackboard4;
+        }
+        &::-webkit-scrollbar-thumb {
+            background: $fourthColor;
+        }
+        &::-webkit-scrollbar-thumb:hover {
+            background: $sixColor;
+        }
+    }
+    .charts__subtitle,
+    .charts__item,
+    .results__panel__source__name,
+    .results__source__link
+    {
+        color: $gray13;
+    }
+    
+}

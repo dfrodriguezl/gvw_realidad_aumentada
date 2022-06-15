@@ -1,0 +1,37 @@
+@charset "UTF-8";
+
+/*============================================================================
+  Geovisor - OpenLayers | Contenido geovisor
+==============================================================================*/
+
+/*================ BASE ================*/
+@import "./base/mixins.scss";
+@import "./base/variables.scss";
+@import "./base/general.scss";
+@import "./base/normalize.scss";
+
+/*================ LAYOUT ================*/
+@import "./layout/header.scss";
+@import "./layout/navbar.scss";
+@import "./layout/tools.scss";
+@import "./layout/search.scss";
+@import "./layout/select2.scss";
+@import "./layout/map.scss";
+@import "./layout/coordenates.scss";
+@import "./layout/results.scss";
+@import "./layout/popup.scss";
+@import "./layout/slider.scss";
+
+
+/*================ COMPONENTS ================*/
+@import "./components/thematicFilter.scss";
+@import "./components/basemap.scss";
+@import "./components/capas.scss";
+@import "./components/help.scss";
+@import "./components/measure.scss";
+@import "./components/upload.scss";
+@import "./components/accesibility.scss";
+@import "./components/custom.scss";
+@import "./components/legend.scss";
+@import "./components/table.scss";
+

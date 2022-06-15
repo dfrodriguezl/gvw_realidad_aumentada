@@ -1,0 +1,17 @@
+.street-view-control {
+	text-fill-color: #eef;
+	-webkit-text-fill-color: #eef;
+	-moz-text-fill-color: #eef;
+	-o-text-fill-color: #eef;
+	-ms-text-fill-color: #eef;
+	text-stroke: 0.28px #46466d;
+	-webkit-text-stroke: 0.28px #46466d;
+	-moz-text-stroke: 0.28px #46466d;
+	-o-text-stroke: 0.28px #46466d;
+	-ms-text-stroke: 0.28px #46466d;
+	font-weight: 700;
+}
+.cursor-def{
+	cursor: default !important;
+}
+

@@ -1,0 +1,69 @@
+.custom{
+    margin: 10px 15px 20px;
+    @include flex;
+}
+.custom__text{
+    margin: 4px 0;
+    font-weight: 500;
+    color: $gray6;
+    font-size: 0.8em;
+}
+
+.custom__text_big{
+    margin: 4px 0;
+    font-weight: 500;
+    color: $gray6;
+    font-size: 1em;
+}
+
+.custom__content{
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 25px;
+    margin: 0 8px;
+}
+.custom__input{
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.custom__slider{
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 20px;
+    background-color: $gray3;
+    @include transition(all ease-in-out 0.4s);
+    &:before{
+        position: absolute;
+        content: "";
+        height: 15px;
+        width: 15px;
+        left: 4px;
+        bottom: 5px;
+        border-radius: 100%;
+        background-color: $white;
+        @include transition(all ease-in-out 0.4s);
+    }
+}
+
+.custom__input:checked + .custom__slider {
+    background-color: $principalColor;
+    &:before{
+        @include transform(translateX(18px));
+    }
+}
+
+//Estilos modo oscuro
+html[data-theme="dark"]{
+    .custom__text_big,
+    .custom__text{
+        color: $gray1;
+    }
+    
+}

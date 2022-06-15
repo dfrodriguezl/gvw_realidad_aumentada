@@ -1,0 +1,25 @@
+
+.slider {
+    margin: 8px;
+    -webkit-appearance: none;
+    width: 90%;
+    height: 3px;
+    border-radius: 5px;  
+    background: $gray5;
+    outline: none;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+    align-self: center;
+  }
+  
+  .slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 6px;
+    height: 15px;
+    border-radius: 4px; 
+    background: $fifthColor;
+    cursor: pointer;
+  }
+  
+  

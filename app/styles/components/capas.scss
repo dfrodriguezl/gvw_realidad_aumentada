@@ -1,0 +1,167 @@
+// ESTILOS DE PANEL CAPAS DE REFERENCIA 
+
+.layers{
+	margin: 0;
+	overflow-y: scroll;
+	overflow-x: hidden;
+	max-height: 350px;
+	&::-webkit-scrollbar{
+        width: 8px;
+        height: 5px;
+    }
+    &::-webkit-scrollbar-track{
+        background: $gray1; 
+    }
+    &::-webkit-scrollbar-thumb{
+        background: $fourthColor;
+        border-radius: 6px;
+    }
+    &::-webkit-scrollbar-thumb:hover{
+        background: $gray6 
+    }
+}
+.layers__container{
+    list-style: none;
+    padding: 0;
+    margin: 16px;
+    input[type="checkbox"]{
+        position: relative;
+        cursor: pointer;
+        margin: 1px 4px;
+    }
+    input[type=checkbox]:before {
+        content: "";
+        display: block;
+        position: absolute;
+        width: 12px;
+        height: 12px;
+        border: 2px solid $gray6;
+        border-radius: 4px;
+        background-color: $white;
+    }
+    input[type=checkbox]:checked:after {
+        content: "";
+        display: block;
+        width: 2px;
+        height: 6px;
+        border: solid $gray6;
+        border-width: 0 2px 2px 0;
+        position: absolute;
+        top: 3px;
+        left: 6px;
+        @include transform(rotate(45deg));
+    }
+}
+
+.layers__list__item{
+    margin: 10px 0;
+    position: relative;
+	cursor: pointer;
+    @include transition(all ease-in-out 0.2s);
+    &:hover{
+		.layers__list__item__check{
+			opacity: 0.7;
+		}		
+	}
+	&.--invisible{
+		display: none;
+	}
+    &.--visible{
+		@include flex;
+		@include flex-wrap(wrap);
+		.layers__checkBox{
+			background: $gray6;
+		}
+		.layers__slider{
+            @include flex;
+			@include flex-wrap(wrap);
+        }
+	}	
+}
+
+.layers__check{
+	width: 100%;
+	@include flex;
+	@include transition(all ease-in-out 0.2s);
+}
+
+
+.layers__name{
+	margin: 3px 2px;
+	color: $gray4;
+	font-size: 0.9em;
+    text-transform: capitalize;
+	@include calc(width,'100% - 90px')
+}
+.layers__square{
+    margin: 0px 3px;
+	padding: 0 8px;
+	width: 12px;
+    height: 15px;
+    line-height: 0;
+    background: $white;
+    border-radius: 2px;
+	border: 2px solid $gray4;	
+}
+#deptos_vt{
+    border: 2px solid #7F3872;
+} 
+#resguardos_wms{
+    border: 1px solid #FF8B17;
+	background: #ff8b1799;
+} 
+#pnn_wms{
+    border: 1px solid #798A02;
+    background: #798A0299;
+} 
+#cmn_wms{
+    border: 1px solid #A1511B;
+	background: #A1511B99;
+} 
+#zrc_wms{
+    border: 1px solid #53010e;
+	background: #53010e99;
+} 
+#veredas_wms{
+    border: 2px solid #456807;
+} 
+#vial_wms{
+    border: 2px solid #891D1D;
+} 
+
+.layers__slider{
+    margin: 5px auto;
+    @include flex;
+	// @include flex-wrap(wrap)
+}
+
+.layers__slider__text{
+    margin: 4px;
+    font-size: 0.8em;
+    color: $gray8;
+    font-weight: 400;
+}
+
+.layers__scroll {
+    margin: 8px;
+    -webkit-appearance: none;
+    width: 40%;
+    height: 3px;
+    border-radius: 5px;  
+    background: $gray5;
+    outline: none;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+    align-self: center;
+  }
+  
+  .layers__scroll::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 6px;
+    height: 15px;
+    border-radius: 4px; 
+    background: $fifthColor;
+    cursor: pointer;
+  }
+  

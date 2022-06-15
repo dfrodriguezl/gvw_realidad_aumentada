@@ -1,0 +1,170 @@
+// ESTILOS COMPONENTE AYUDA 
+
+.modali-header{
+  padding: 0.2em 0.5em 0 0 !important;
+
+}
+
+.help__container{
+    position: relative;
+    padding: 0 0 8px 0;
+    @include flex;
+    @include justify-content(center);
+}
+.help__title{
+    text-align: center;
+    margin: 5px;
+    font-weight: 700;
+    color:$gray11;
+    font-size: 0.9em;
+    font-family: 'Open Sans', sans-serif;
+}
+.help__listTab{
+    list-style: none;
+    margin: 0 8px;
+    padding:0;
+    border-bottom: 1px solid $gray9;
+    @include flex;
+    @include flex-wrap(wrap);
+    @include justify-content(start);
+}
+
+.help__listTabItem{
+    margin: 5px 5px 0;
+    padding: 5px 15px;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    border:1px solid $gray9;
+    border-bottom: none;
+    background: $white;
+    cursor: pointer;
+    @include flex;
+    @include justify-content(center);
+    @include transition(all ease-in-out 0.2s);
+    &.--active{
+        border:1px solid $sixColor;
+        background: $sixColor;
+        .help__icon{
+            color: $white;
+        }
+        .help__text{
+            color: $white;
+        }
+    }
+    &:hover{
+        background: $fifthColor;
+        .help__icon{
+            color: $white;
+        }
+        .help__text{
+            color: $white;
+        }
+    }
+}
+
+.help__listPanelItem{
+    @include flex;
+    @include justify-content(start);
+    @include transition(all ease-in-out 0.2s);
+}
+
+.help__listPanelLink{
+    margin: 16px 32px;
+    text-decoration: none;
+    @include flex;
+    @include justify-content(start);
+    @include transition(all ease-in-out 0.2s);
+}
+
+.help__icon{
+    font-size: 1.4em;
+    color:$gray6;
+    line-height: 0;
+    @include transition(all ease-in-out 0.2s);
+}
+.help__panelItem__icon1{
+    margin: 8px;
+    list-style: none;
+    font-size: 1.4em;
+    color:$alternativeColor003;
+    line-height: 0;
+    @include transition(all ease-in-out 0.2s);
+}
+.help__panelItem__icon2{
+    margin: 8px;
+    font-size: 1.4em;
+    color:$alternativeColor006;
+    line-height: 0;
+    @include transition(all ease-in-out 0.2s);
+}
+
+.help__text{
+    margin: 2px;
+    font-size: 0.9em;
+    color:$gray6;
+    @include transition(all ease-in-out 0.2s);
+}
+.help__content__text{
+    margin: 8px 32px;
+    font-size: 0.9em;
+    font-weight: 400;
+    line-height: 1.5em;
+    color: $gray6;
+}
+
+.help__panelItem__text{
+    margin: 8px;
+    font-size: 0.9em;
+    font-weight: 400;
+    line-height: 1.5em;
+    color: $gray6;
+}
+.help__panelItem__textBold{
+    margin: 8px 0;
+    font-size: 0.9em;
+    font-weight: 600;
+    line-height: 1.5em;
+    color: $gray6;
+}
+
+.help__content__item{
+    margin: 0 20px;
+    width: 90%;
+}
+
+.modali-close-button{
+    margin: 2px 2px 2px auto !important;
+    padding: 0 !important; 
+    font-weight: 400 !important;
+    font-size: 2rem !important;
+
+}
+
+
+// Inicio Estilos Ayuda - DarkMode
+
+html[data-theme="dark"]{
+    .modali-body,
+    .modali-content,
+    .modali-header{
+        background:  $blackboard;
+    }
+    .modali-close-button{
+        background:  $blackboard;
+        color: $gray1;
+
+    }
+    .help__title{
+        color: $gray1;
+    }
+    .help__content__text{
+        color: $gray1;
+    }
+    .help__panelItem__text{
+        color: $gray1;
+    }
+    .help__panelItem__textBold{
+        color: $gray1;
+    }
+    
+}

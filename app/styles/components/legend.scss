@@ -1,0 +1,260 @@
+.legend {
+    // background: #FFFFFFB3;
+    width: 100%;
+    &.--invisible {
+        display: none;
+    }
+    #sliderLegendTransparency {
+        @include flex;
+    }
+}
+.legend__btn {
+    width: 100%;
+    background: transparent;
+    border: none;
+    padding: 10px 10px;
+    @include flex;
+    @include transition(all ease-in-out 0.2s);
+    &:hover {
+        background: $gray13;
+        .legend__btn__icon,
+        .legend__btn__name {
+            color: $gray8;
+        }
+        .legend__btn__plusMinus__line {
+            background: $fourthColor;
+        }
+    }
+    &:focus {
+        outline: none;
+    }
+}
+.legend__btn__icon {
+    width: 20px;
+    font-size: 1.2em;
+    color: $gray6;
+    @include transition(all ease-in-out 0.2s);
+}
+.legend__btn__name {
+    text-align: left;
+    font-size: 0.8em;
+    color: $gray4;
+    font-weight: 600;
+    margin: 3px 5px;
+    @include calc(width, "100% - 13px");
+    @include transition(all ease-in-out 0.2s);
+}
+.legend__btn__plusMinus {
+    width: 13px;
+    height: 12px;
+    position: relative;
+}
+.legend__btn__plusMinus__line {
+    position: absolute;
+    background: $principalColor;
+    border-radius: 2px;
+    @include transition(all ease-in-out 0.2s);
+    &:nth-child(1) {
+        top: 8px;
+        left: 0;
+        height: 2px;
+        width: 100%;
+    }
+    &:nth-child(2) {
+        left: 5px;
+        top: 3px;
+        width: 2px;
+        height: 100%;
+    }
+}
+.legend__panel {
+    display: none;
+    padding: 5px 10px;
+    &.--active {
+        display: inherit;
+    }
+}
+.legend__panel__list {
+    list-style: none;
+    padding: 0;
+    margin: 24px 0px;
+}
+.legend__panel__list__item {
+    margin: 8px;
+    @include flex;
+}
+.legend__panel__list__item__square {
+    width: 35px;
+    height: 20px;
+    border-radius: 4px;
+}
+.legend__panel__list__item__name {
+    font-size: 0.9em;
+    color: $gray4;
+    margin: 0px 8px;
+}
+
+.legend__panel__list__note {
+    font-size: 0.8em;
+    font-weight: 570;
+    color: $secondaryColor;
+    margin: 8px;
+}
+
+.legend__title {
+    margin: 5px 0;
+    font-size: 0.8em;
+    color: $gray4;
+    text-align: center;
+}
+.legend__value {
+    margin: 3px 0;
+    font-size: 0.9em;
+    color: $gray6;
+    text-align: center;
+}
+
+.legend__slider {
+    margin: 5px auto;
+    // @include flex;
+    // @include flex-wrap(wrap)
+}
+
+.legend__slider__content {
+    margin: 0px 8px;
+    @include flex;
+    // @include flex-wrap(wrap)
+}
+
+.legend__slider__text {
+    margin: 4px;
+    font-size: 0.9em;
+    color: $gray11;
+    font-weight: 500;
+    text-align: center;
+}
+.legend__slider__num {
+    font-size: 0.8em;
+    margin: 10px 0;
+}
+
+.legend__scrollMain {
+    width: 100%;
+}
+
+.legend__scroll {
+    margin: 16px 8px 8px;
+    width: 92%;
+    height: 3px;
+    border-radius: 5px;
+    background: $gray5;
+    outline: none;
+    align-self: center;
+    cursor: pointer;
+    -webkit-appearance: none;
+    @include transition(all ease-in-out 0.2s);
+}
+
+.legend__scroll::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 6px;
+    height: 15px;
+    border-radius: 4px;
+    background: $fifthColor;
+    cursor: pointer;
+}
+.legend__item{
+    margin: 8px;
+    @include flex;
+}
+
+.circle {
+    border-radius: 100%;
+    font-size: 0.9em;
+    margin: auto;
+    padding: 8px;
+    color: $white;
+    text-align: center;
+    background: $alternativeColor005;
+}
+
+.circle__text{
+    margin: 8px;
+    padding: 8px 0;
+    font-size: 0.9em;
+}
+.cluster{
+    margin: 10px 5px;
+    width: 24px;
+    height: 24px;
+}
+
+@media screen and (max-width: $sizeMediumScreen) {
+    // .legend {
+    //     width: $resultBoxWidth;
+    // }
+}
+@media screen and (max-width: $sizeTabletLandScape) {
+    .legend {
+        width: $resultBoxWidthTablet;
+    }
+}
+@media screen and (max-width: $sizePhone) {
+    .legend {
+        position: inherit;
+        width: 100%;
+        z-index: 1;
+        bottom: initial;
+        right: initial;
+        border-radius: 0;
+        width: $resultBoxWidthPhone;
+    }
+}
+//Estilos modo oscuro
+html[data-theme="dark"] {
+    .legend {
+        background: $blackboard;
+    }
+    .legend__title,
+    .legend__value {
+        color: $gray13;
+    }
+    .legend__btn {
+        border-top: 1px solid $gray11;
+        border-bottom: 1px solid $gray11;
+        &:hover {
+            background: $blackboard4;
+            .legend__btn__icon,
+            .legend__btn__name {
+                color: $white;
+            }
+            .legend__btn__plusMinus__line {
+                background: $fourthColor;
+            }
+        }
+        &.--active {
+            background: $blackboard2;
+            .legend__btn__icon,
+            .legend__btn__name {
+                color: $gray13;
+            }
+            .legend__btn__plusMinus__line {
+                background: $fourthColor;
+            }
+        }
+    }
+    .legend__btn__icon,
+    .legend__btn__name {
+        color: $gray1;
+    }
+    .legend__panel__list__item__name {
+        color: $gray1;
+    }
+    .legend__slider__text {
+        color: $gray13;
+    }
+    .legend__slider__num{
+        color: $gray13;
+    }
+}

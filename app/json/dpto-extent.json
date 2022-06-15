@@ -1,0 +1,200 @@
+[
+  {
+    "ref": "Departamento",
+    "name": "ANTIOQUIA",
+    "bextent": "BOX(-77.127831971 5.41855838900005,-73.8812821019999 8.87397372000004)",
+    "cod_dane": "05"
+  },
+  {
+    "ref": "Departamento",
+    "name": "ATLÁNTICO",
+    "bextent": "BOX(-75.249526561 10.253286073,-74.71833014 11.1053703870001)",
+    "cod_dane": "08"
+  },
+  {
+    "ref": "Departamento",
+    "name": "BOGOTÁ, D.C.",
+    "bextent": "BOX(-74.4508503709999 3.73063309900004,-73.986125793 4.83682739500006)",
+    "cod_dane": "11"
+  },
+  {
+    "ref": "Departamento",
+    "name": "BOLÍVAR",
+    "bextent": "BOX(-76.190631176 6.99915985700005,-73.7457800829999 10.8014670320001)",
+    "cod_dane": "13"
+  },
+  {
+    "ref": "Departamento",
+    "name": "BOYACÁ",
+    "bextent": "BOX(-74.6649604259999 4.65519569300005,-71.948853916 7.05555718000005)",
+    "cod_dane": "15"
+  },
+  {
+    "ref": "Departamento",
+    "name": "CALDAS",
+    "bextent": "BOX(-75.9225101169999 4.79969984700006,-74.6274559569999 5.77918150500005)",
+    "cod_dane": "17"
+  },
+  {
+    "ref": "Departamento",
+    "name": "CAQUETÁ",
+    "bextent": "BOX(-76.306221262 -0.705840043999956,-71.2538459039999 2.96414817500005)",
+    "cod_dane": "18"
+  },
+  {
+    "ref": "Departamento",
+    "name": "CAUCA",
+    "bextent": "BOX(-77.928338154 0.95802846600003,-75.747824243 3.32894115900007)",
+    "cod_dane": "19"
+  },
+  {
+    "ref": "Departamento",
+    "name": "CESAR",
+    "bextent": "BOX(-74.1391599899999 7.67435006400007,-72.8857510999999 10.867671536)",
+    "cod_dane": "20"
+  },
+  {
+    "ref": "Departamento",
+    "name": "CÓRDOBA",
+    "bextent": "BOX(-76.5145301279999 7.34708726900004,-74.780945393 9.44774810200005)",
+    "cod_dane": "23"
+  },
+  {
+    "ref": "Departamento",
+    "name": "CUNDINAMARCA",
+    "bextent": "BOX(-74.8906289019999 3.73012900400005,-73.0525569549999 5.83725753900006)",
+    "cod_dane": "25"
+  },
+  {
+    "ref": "Departamento",
+    "name": "CHOCÓ",
+    "bextent": "BOX(-77.883776301 3.96488321300006,-76.001845702 8.67772952900003)",
+    "cod_dane": "27"
+  },
+  {
+    "ref": "Departamento",
+    "name": "HUILA",
+    "bextent": "BOX(-76.624662644 1.55212517100006,-74.413031792 3.84320804300006)",
+    "cod_dane": "41"
+  },
+  {
+    "ref": "Departamento",
+    "name": "LA GUAJIRA",
+    "bextent": "BOX(-73.6649412749999 10.396759353,-71.112958395 12.4594433080001)",
+    "cod_dane": "44"
+  },
+  {
+    "ref": "Departamento",
+    "name": "MAGDALENA",
+    "bextent": "BOX(-74.946599659 8.93648917900003,-73.5418379069999 11.3489120690001)",
+    "cod_dane": "47"
+  },
+  {
+    "ref": "Departamento",
+    "name": "META",
+    "bextent": "BOX(-74.899206868 1.60423818300006,-71.077525696 4.89910133500007)",
+    "cod_dane": "50"
+  },
+  {
+    "ref": "Departamento",
+    "name": "NARIÑO",
+    "bextent": "BOX(-79.0102109749999 0.361348079000038,-76.833680537 2.68389806900007)",
+    "cod_dane": "52"
+  },
+  {
+    "ref": "Departamento",
+    "name": "NORTE DE SANTANDER",
+    "bextent": "BOX(-73.633791859 6.87220123900005,-72.047605614 9.29084667000006)",
+    "cod_dane": "54"
+  },
+  {
+    "ref": "Departamento",
+    "name": "QUINDIO",
+    "bextent": "BOX(-75.8957956259999 4.07531068800006,-75.383171706 4.72136040500004)",
+    "cod_dane": "63"
+  },
+  {
+    "ref": "Departamento",
+    "name": "RISARALDA",
+    "bextent": "BOX(-76.211426568 4.66317253200003,-75.37549907 5.56775397100006)",
+    "cod_dane": "66"
+  },
+  {
+    "ref": "Departamento",
+    "name": "SANTANDER",
+    "bextent": "BOX(-74.5289543219999 5.70753603200006,-72.477058707 8.14501013600005)",
+    "cod_dane": "68"
+  },
+  {
+    "ref": "Departamento",
+    "name": "SUCRE",
+    "bextent": "BOX(-75.706025589 8.27788179100003,-74.532710556 10.145482637)",
+    "cod_dane": "70"
+  },
+  {
+    "ref": "Departamento",
+    "name": "TOLIMA",
+    "bextent": "BOX(-76.105741399 2.87108070000005,-74.474824903 5.31934161500004)",
+    "cod_dane": "73"
+  },
+  {
+    "ref": "Departamento",
+    "name": "VALLE DEL CAUCA",
+    "bextent": "BOX(-77.549772843 3.09123852500005,-75.7072356959999 5.04739361300005)",
+    "cod_dane": "76"
+  },
+  {
+    "ref": "Departamento",
+    "name": "ARAUCA",
+    "bextent": "BOX(-72.366623895 6.03622781900003,-69.427555172 7.10438067100006)",
+    "cod_dane": "81"
+  },
+  {
+    "ref": "Departamento",
+    "name": "CASANARE",
+    "bextent": "BOX(-73.077768523 4.28747598600006,-69.835909922 6.34611086700005)",
+    "cod_dane": "85"
+  },
+  {
+    "ref": "Departamento",
+    "name": "PUTUMAYO",
+    "bextent": "BOX(-77.186805732 -0.562277588999962,-73.841317933 1.46731526800005)",
+    "cod_dane": "86"
+  },
+  {
+    "ref": "Departamento",
+    "name": "ARCHIPIÉLAGO DE SAN ANDRÉS, PROVIDENCIA Y SANTA CATALINA",
+    "bextent": "BOX(-81.735620556 12.480296348,-81.349095056 13.3947277620001)",
+    "cod_dane": "88"
+  },
+  {
+    "ref": "Departamento",
+    "name": "AMAZONAS",
+    "bextent": "BOX(-74.396343965 -4.22940646599994,-69.395496194 0.0972568560000582)",
+    "cod_dane": "91"
+  },
+  {
+    "ref": "Departamento",
+    "name": "GUAINÍA",
+    "bextent": "BOX(-70.94249238 1.16563333300007,-66.847215427 4.04502583100003)",
+    "cod_dane": "94"
+  },
+  {
+    "ref": "Departamento",
+    "name": "GUAVIARE",
+    "bextent": "BOX(-73.663908803 0.655412581000064,-69.9951070019999 2.92498671300007)",
+    "cod_dane": "95"
+  },
+  {
+    "ref": "Departamento",
+    "name": "VAUPÉS",
+    "bextent": "BOX(-72.033192223 -1.22788419899996,-69.115640856 2.08040106000004)",
+    "cod_dane": "97"
+  },
+  {
+    "ref": "Departamento",
+    "name": "VICHADA",
+    "bextent": "BOX(-71.077931045 2.73710902600004,-67.4098031469999 6.32431708000007)",
+    "cod_dane": "99"
+  }
+]

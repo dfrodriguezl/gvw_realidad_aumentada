@@ -1,0 +1,322 @@
+
+// Inicio Estilos Tools - Herramientas 
+
+.tools__panel{
+    margin: 0;
+    // max-height: 380px;
+}
+
+.tools__title{
+    border-top: 1px solid $gray7;
+    border-bottom: 1px solid $gray7;
+    text-align: center;
+    margin: 3px 0;
+    padding: 7px 0;
+    font-weight: 800;
+    color:$gray11;
+    background: $gray13;
+    font-size:0.9em;
+}
+.tools__text{
+    font-size: 0.9em;
+    margin: 16px;
+    color: $gray4;
+    font-weight: 400;
+}
+
+.tools__text_big{
+    font-size: 1.1em;
+    margin: 16px;
+    color: $gray4;
+    font-weight: 400;
+}
+
+.tools__list{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    @include flex;
+    @include flex-wrap(wrap);
+}
+.tools__list__item{
+    display: initial;
+    text-align: center;
+    position: relative;
+    padding: 8px 4px 0px;    
+    // background: $white;
+    @include calc(width,'18%');
+}
+
+.tools__list__item__btn{
+    background: transparent;
+    border:none;
+    text-align: center;
+    text-decoration: none;
+    padding: 0;
+    margin: 0;
+    @include transition(all ease-in-out 0.2s);
+    &:focus{
+        outline: $gray7 auto 0px;
+        border: 0px solid $gray7;
+    }
+    &:hover{
+        opacity: 0.7;
+       .tools__icon{
+            background: $gray4;
+            color: $gray1;
+        }
+    }
+    &.--active{
+        .tools__icon{
+            background: $fifthColor;
+            color: $gray1;
+        }
+    }
+}
+
+.tools__icon{
+    font-size: 1.3em;
+    line-height: 0;
+    color: $gray6;
+    width: 30px;
+    height: 27px; 
+    border-radius: 100%;
+    margin: 0 auto;
+    z-index: 0;
+    padding: 10px 5px 3px 5px;
+    @include transition(all ease-in-out 0.2s);
+}
+
+.tools__iconName{
+    margin: 5px auto;
+    padding: 0 5px;
+    font-size: 0.9em;
+    color: $gray6;
+    z-index: 0;
+    @include transition(all ease-in-out 0.2s);
+}
+
+.toolBar__container{
+    overflow-x:none;
+    max-height: 120vh;
+}
+
+@media screen and (min-width:1900px){
+    .toolBar{
+        width: 19%;
+        &.--collapse{
+            left:-19%;
+        }
+     }
+}
+@media screen and (max-width:$sizeBigScreen){
+    .toolBar{
+        width: 22%;
+        &.--collapse{
+            left:-22%;
+        }
+     }
+}
+@media screen and (max-width:1400px){
+    .toolBar{
+        width: 25%;
+        &.--collapse{
+            left:-25%;
+        }
+    }
+}
+@media screen and (max-width:1300px){
+    .toolBar {
+        width: 27%;
+        &.--collapse{
+            left:-27%;
+        }
+    }
+    .toolBar__container__panel__functionBox__step__btnList__item{
+        width: 30%;
+        margin: 4px 6px 2px 0;
+    }
+}
+@media screen and (max-width:1100px){
+    .toolBar{
+        width:30%;
+        &.--collapse{
+            left:-30%;
+        }
+    }
+}
+@media screen and (max-width:$sizeTabletLandScape){
+    .toolBar{
+        width: 32%;
+    }
+}
+@media screen and (max-width:$sizeTabletPortrait){
+    .toolBar{
+        width: 37%;
+        &.--collapse{
+            left:-37%;
+        }
+    }
+}
+@media screen and (max-width:$sizePhone){
+    .--settingsVisible{
+        .toolBar__container__panel{
+            @include calc(width,'100%');
+        }
+    }
+    .toolBar {
+        height: auto;
+        top: 0px;
+        width: 90%;
+        &.--collapse {
+            left: -90%;
+            .toolBar__collapseBtn{
+                // display: none;
+                right: -20px;
+            }
+        }
+        &.--visible{
+            width: 95%;
+            // height: 100vh;
+            .toolBar__container{
+                @include flex;    
+            }
+        }
+    }
+    .toolBar__collapseBtn{
+        right: -20px;
+    }
+    // .toolBar__container{
+    //     width: 100%;
+    // }
+   .toolBar__container__panel__functionBox{
+        height: 100%;
+        margin: 0;
+    }    
+   .toolBar__container__buttons__list__item__btn__icon {
+        font-size: 1.6em;
+    }
+   .toolBar__container__buttons{
+        width: 100%;
+    }
+    .toolBar__container__buttons__list{
+        @include flex;
+        @include flex-wrap(wrap);
+    }
+    .toolBar__container__buttons__list__item{
+        border: none;
+        width: 25%;
+        &:hover{
+            &:after{
+                display: none;
+            }
+        }        
+    }
+    .toolBar__container__panel__icons__list__item{
+        width: 20%;
+    }
+   .toolBar__container__buttons__list__item__btn__name {
+        font-size: 0.55em;
+        font-weight: 100;
+        text-transform: inherit;
+    }
+    .toolBar__container__panel {
+        margin: 0;
+        @include calc(width,'100%');
+    }
+   .toolBar__container__panel__icons__list__item__btn__iconName {
+        font-size: 0.55em;
+    }
+   .toolBar__container__panel__functionBox__checkList__item__text {
+        font-size: 0.75em;
+    }
+   .toolBar__container__panel__icons__list__item__btn__icon {
+        font-size: 1em;
+        width: 20px;
+        height: 18px;
+        padding: 3px 2px;
+    }
+   .toolBar__container__panel__functionBox__text {
+        font-size: 0.75em;
+    }
+   .toolBar__container__panel__functionBox__step__title {
+        font-size: 0.9em;
+    }
+   .toolBar__container__panel__functionBox__MeasureOption__List__item__button__name {
+        font-size: 0.6em;
+    }
+   .toolBar__container__panel__functionBox__BaseMapList__item {
+        margin: 5px;
+        width: 45%;
+    }
+   .toolBar__container__panel__functionBox__uploadType__type__upload__name {
+        font-size: 0.75em;
+    }
+   .toolBar__container__panel__functionBox__uploadType__type__uploadbtn,
+   .toolBar__container__panel__functionBox__uploadType__type__upload__remove{
+        font-size: 0.75em;
+    }
+}
+@media screen and (max-width:$sizeSmallPhone){
+   .toolBar__container__panel__functionBox {
+        margin: 10px 3px;
+        height:500px;
+    }
+    .tools__title{
+        margin: 2px 5px;
+        padding: 5px 0;
+        font-size: 0.75em;
+    }
+   .toolBar__container__appTitle__name {
+        font-size: 0.75em;
+    }
+   .toolBar__container__panel__icons__list{
+        @include flex-wrap(wrap);
+    }
+    .toolBar__container__panel__functionBox__checkList__item__checkSquare{
+        top: 3px;
+        width: 8px;
+        height: 8px;
+    }
+    .toolBar__container__panel__functionBox__checkList__item__text{
+        margin: 2px 2px;
+    }
+}
+
+// Inicio Estilos NavBar - DarkMode
+
+html[data-theme="dark"]{
+    .tools__text_big,
+    .tools__text, 
+    .tools__iconName{
+        color: $gray12;
+    }
+    .tools__icon{
+        color: $gray12;
+    }
+    .tools__list__item{
+        background:  $blackboard;
+    }
+    .tools__title{
+        background:  $blackboard;
+        color: $gray12;
+    }
+    .tools__list__item__btn{
+        background: transparent;
+        &:hover{
+           .tools__icon{
+                background: $sixColor;
+                color: $gray12;
+            }
+        }
+        &.--active{
+            .tools__icon{
+                background: $fourthColor;
+                color: $gray12;
+            }
+        }
+    }
+    .tools__panel{
+        background:  $blackboard;
+    }
+}
