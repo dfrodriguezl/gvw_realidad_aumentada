@@ -40,7 +40,7 @@ const BarHData = () => {
         }, [])
 
         valor = parseFloat(dataNivel[0][variables.alias])
-        dataFirst = valor.toLocaleString('es');
+        dataFirst = valor.toLocaleString('de-DE');
 
       } else if (nivel === "MPIO") {
         const dataNivel = Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value]).filter((v) => {
@@ -49,7 +49,7 @@ const BarHData = () => {
         // console.log(dataNivel[0])
         if (dataNivel[0] != undefined) {
           valor = parseFloat(dataNivel[0][variables.alias])
-          dataFirst = valor.toLocaleString('es');
+          dataFirst = valor.toLocaleString('de-DE');
         }
 
       } else if (nivel === "SECC") {
@@ -57,7 +57,7 @@ const BarHData = () => {
           return v.NSC === dpto;
         }, [])
         valor = parseFloat(dataNivel[0][variables.alias])
-        dataFirst = valor.toLocaleString('es');
+        dataFirst = valor.toLocaleString('de-DE');
       }
 
 

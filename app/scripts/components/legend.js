@@ -79,7 +79,8 @@ const Leyenda = () => {
       {!propSymbol ?
         <Fragment>
           <h2 className="legend__slider__text" id="title">Símbolos</h2>
-          <ProportionalSymbol />
+          <h3 className="legend__value"><ProportionalSymbol /></h3>
+          
         </Fragment>
         : null}
 

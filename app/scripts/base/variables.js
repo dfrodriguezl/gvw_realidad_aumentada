@@ -17,7 +17,8 @@ export const variables = {
     urlUE: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/censo_economico/unidades2_segment.php?min=y&codigo_municipio=", 
     urlCount: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/censo_economico/unidades2_segment.php?count=y&codigo_municipio=", 
     urlCentroids: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/licencias-construccion/centroides_elic.php?depto=", 
-    urlCentroidsGeneral: "https://nowsoft.app/geoportal/laboratorio/serviciosjson/licencias-construccion/centroides.php?", 
+    // urlCentroidsGeneral: "https://nowsoft.app/geoportal/laboratorio/serviciosjson/licencias-construccion/centroides.php?", 
+    urlCentroidsGeneral: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/licencias-construccion/centroides.php?", 
     key: "pk.eyJ1IjoiYXBwbW92aWxkYW5lIiwiYSI6ImNrbzY4b2tiajFxN2cyb3F3YnR1NDF6eWkifQ.mVlSJXQZVl4CNmQpZ1pXNA",
     baseMaps: {
         'Gris': 'https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/256/{z}/{x}/{y}?access_token=',
@@ -31,7 +32,8 @@ export const variables = {
             tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
             id: "deptos_vt",
             // url: "https://geoportal.dane.gov.co/vector-tiles/mgn_2020/dpto_ccdgo/mgn_2020_dpto_politico/{z}/{x}/{y}.pbf",
-            url: "https://nowsoft.app/vector-tiles/maps/geoportal_dane/mgn_2020_dpto_politico/{z}/{x}/{y}.pbf",
+            // url: "https://nowsoft.app/vector-tiles/maps/geoportal_dane/mgn_2020_dpto_politico/{z}/{x}/{y}.pbf",
+            url: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/vector-tiles/vectortile.php?params=capas_geovisores/mgn2020_dpto/mgn_2020_dpto_politico/dpto_ccdgo/{z}/{x}/{y}",
             title: 'Departamentos',
             visible: true,
             checked: false,
@@ -49,7 +51,8 @@ export const variables = {
             tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
             id: "deptos_vt2",
             // url: "https://geoportal.dane.gov.co/vector-tiles/mgn_2020/dpto_ccdgo/mgn_2020_dpto_politico/{z}/{x}/{y}.pbf",
-            url: "https://nowsoft.app/vector-tiles/maps/geoportal_dane/mgn_2020_dpto_politico/{z}/{x}/{y}.pbf",
+            url: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/vector-tiles/vectortile.php?params=capas_geovisores/mgn2020_dpto/mgn_2020_dpto_politico/dpto_ccdgo/{z}/{x}/{y}",
+            // url: "https://nowsoft.app/vector-tiles/maps/geoportal_dane/mgn_2020_dpto_politico/{z}/{x}/{y}.pbf",
             title: 'Departamentos sel',
             visible: true,
             checked: false,
@@ -68,7 +71,8 @@ export const variables = {
             tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
             id: "mpios_vt",
             // url: "https://geoportal.dane.gov.co/vector-tiles/mgn_2020/mpio_ccnct/mgn_2020_mpio_politico/{z}/{x}/{y}.pbf",
-            url: "https://nowsoft.app/vector-tiles/maps/geoportal_dane/mgn_2020_mpio_politico/{z}/{x}/{y}.pbf",
+            // url: "https://nowsoft.app/vector-tiles/maps/geoportal_dane/mgn_2020_mpio_politico/{z}/{x}/{y}.pbf",
+            url: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/vector-tiles/vectortile.php?params=capas_geovisores/mgn2020_mpio/mgn_2020_mpio_politico/mpio_ccnct/{z}/{x}/{y}",
             title: 'Municipios',
             visible: true,
             checked: false,
@@ -339,6 +343,7 @@ export const variables = {
     updateCharTheme: null,
     updateLegendProportional: null,
     max: null,
-    hideProportionalSymbols: null
+    hideProportionalSymbols: null,
+    updatePeriodoResult: null
 }
 export const urlDeploy = 'http://localhost:3000/'

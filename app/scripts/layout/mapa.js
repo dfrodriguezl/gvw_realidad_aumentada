@@ -137,7 +137,7 @@ const Mapa = () => {
     var newZoom = variables.map.getView().getZoom();
     zoomActual = variables.map.getView().getZoom();
 
-    // variables.loadDeptoCentroids();
+    variables.loadDeptoCentroids();
 
     if (variables.currentZoom != newZoom) {
       variables.deptoSelectedFilter = undefined;
@@ -327,9 +327,9 @@ const Mapa = () => {
       } else {
         if (tipoVariable === "VC") {
           HTML += '<p class="popup__list">' + 'Participación porcentual (' + parseFloat(dataPopup[variables.alias].replace(",", ".")).toFixed(1) + ' ' + dataUnidades + ')' + '</p>'
-          HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[variables.alias2]).toLocaleString('es') + '</span><span class="popup__valueItem"> ' + unidadesAbsolutas + '</span></p>';
+          HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[variables.alias2]).toLocaleString("de-De").replace(",", ".") + '</span><span class="popup__valueItem"> ' + unidadesAbsolutas + '</span></p>';
         } else {
-          HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[variables.alias]).toLocaleString('es') + '</span><span class="popup__valueItem"> ' + unidadesAbsolutas + '</span></p>';
+          HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[variables.alias]).toLocaleString("de-De").replace(",", ".")+ '</span><span class="popup__valueItem"> ' + unidadesAbsolutas + '</span></p>';
         }
       }
 
@@ -467,9 +467,9 @@ const Mapa = () => {
                 // console.log("ALIAS", variables.alias);
                 // console.log("ALIAS 2", variables.alias2);
                 HTML += '<p class="popup__list"><span class="popup__thirdtitle">' + 'Participación porcentual (' + parseFloat(dataPopup[variables.alias].replace(",", ".")).toFixed(1) + ' ' + dataUnidades + ')' + '</span></p>'
-                HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[variables.alias2]).toLocaleString('es') + '</span><span class="popup__valueItem">' + unidadesAbsolutas + '</span></p>';
+                HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[variables.alias2]).toLocaleString("de-De").replace(",", ".") + '</span><span class="popup__valueItem">' + unidadesAbsolutas + '</span></p>';
               } else {
-                HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[variables.alias]).toLocaleString('es') + '</span><span class="popup__valueItem"> ' + unidadesAbsolutas + '</span></p>';
+                HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[variables.alias]).toLocaleString("de-De").replace(",", ".") + '</span><span class="popup__valueItem"> ' + unidadesAbsolutas + '</span></p>';
               }
             }
 

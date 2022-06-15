@@ -100,7 +100,7 @@
     padding: 0 0 0 10px;
     font-size: 1em;
     font-family: 'Open Sans', sans-serif;
-    font-weight: 100;
+    font-weight: 900;
     color:$gray11;
     letter-spacing: -1px;
     position: relative;
@@ -302,5 +302,6 @@ html[data-theme="dark"]{
     .Header__textBox__title,
     .Header__textBox__value{
         color: $gray13;
+        font-weight: 'bolder' !important;
     }
 }

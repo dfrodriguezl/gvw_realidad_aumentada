@@ -32,6 +32,7 @@ const Results = () => {
   const dropdownRef = useRef(null);
   const [isActive, setIsActive] = useDetectOutsideClick(dropdownRef, false);
   const onClick = () => setIsActive(!isActive);
+  const [periodo, setPeriodo] = React.useState(variables.periodoSeleccionado);
 
   variables.legenTheme = function (nivel) {
     setTema(variables.tematica["GRUPOS"][variables.varVariable.substring(0, 3)][0]["GRUPO"]);
@@ -46,6 +47,10 @@ const Results = () => {
     setLocationDpto(depto)
   }
 
+  variables.updatePeriodoResult = (periodo) => {
+    setPeriodo(periodo)
+  }
+
   return (
     <div ref={dropdownRef} className={`results__main ${isActive ? "inactive" : "active"}`}>
       <Fragment>
@@ -58,6 +63,7 @@ const Results = () => {
             <h2 className="results__top__title" id="title">{tema}</h2>
             <h3 className="results__top__subtitle" id="title">{subtema}</h3>
             <h4 className="results__top__thirdtitle result__locationDpto">{locationDpto}</h4>
+            <h4 className="results__top__thirdtitle result__locationDpto">Año movil a {periodo.label}</h4>
           </div>
           <Accordion title="Leyenda" data={true}> <Leyenda /> </Accordion>
           {/* {active && <Accordion title="Leyenda" data={true}> <LeyendaCluster /> </Accordion>}

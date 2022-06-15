@@ -9,7 +9,7 @@ const ProportionalSymbol = () => {
 
   
 
-  const intlNumberFormat = new Intl.NumberFormat('es-ES');
+  const intlNumberFormat = new Intl.NumberFormat('de-DE');
 
   useEffect(() => {
     generateLegend();
@@ -18,6 +18,7 @@ const ProportionalSymbol = () => {
   const generateLegend = () => {
     const min = 0;
     const max = variables.max !== null ? variables.max : 500;
+    const unidad = variables.varVariable.includes("284") ? "m2" : variables.varVariable.includes("292") ? "licencias" : "unidades";
 
     const fillCircle = variables.tematica["CATEGORIAS"][variables.varVariable] ? new Fill({
       color: 'rgb' + variables.tematica["CATEGORIAS"][variables.varVariable][0]['COLOR']
@@ -37,8 +38,16 @@ const ProportionalSymbol = () => {
           const text = new Text({
             offsetX: 80,
             offsetY: -radius,
-            text: `${intlNumberFormat.format(val.toFixed(0))}`,
-            font: '12px Calibri,sans-serif'
+            text: `${intlNumberFormat.format(val.toFixed(0))} (${unidad})`,
+            font: '12px Calibri,sans-serif',
+            backgroundFill: new Fill({
+              color: 'white'
+            }),
+            stroke: new Stroke({
+              color: 'white',
+              width: 2
+            }),
+            padding: [10,10,10,10]
           });
           const newStyle = new Style({
             image: new Circle({

@@ -21,6 +21,7 @@ const Periodo = () => {
         setSelectedPeriodo(event);
         variables.periodoSeleccionado = event;
         variables.updatePeriodoHeader(event);
+        variables.updatePeriodoResult(event);
         const currentZoom = variables.map.getView().getZoom();
         if (currentZoom <= 7) {
             if(!variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"][variables.periodoSeleccionado.value]){
@@ -57,7 +58,7 @@ const Periodo = () => {
         <div className="tools__panel">
             <p className="tools__text">Realice la selección de período que desea ver en el mapa</p>
             <div className="selectBox">
-                <p className="selectBox__name">Periodo (Año corrido al mes de):*</p>
+                <p className="selectBox__name">Periodo (Doce meses al mes de):*</p>
                 <Select
                     styles={{
                         navBar: provided => ({ zIndex: 9999 })
@@ -72,7 +73,7 @@ const Periodo = () => {
                     getOptionLabel={(option) => option.label}
                 /> 
             </div>
-            <p className="help__content__text" itemProp="description">*El año corrido corresponde a la sumatoria de los meses del año desde enero hasta el mes de referencia.</p>
+            <p className="help__content__text" itemProp="description">*El período corresponde a la sumatoria de los últimos doce meses transcurridos hasta el mes de referencia.</p>
         </div>
     )
 }
