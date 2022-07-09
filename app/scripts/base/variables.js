@@ -14,17 +14,25 @@ export const variables = {
     codVisor: "41", //Ponga el codigo que corresponde a SU VISOR
     varVariable: "28401001", //Ponga el codigo de la CATEGORIA que corresponda a su visor
     series: [0, 0, 0, 0, 0],
-    urlUE: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/censo_economico/unidades2_segment.php?min=y&codigo_municipio=", 
-    urlCount: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/censo_economico/unidades2_segment.php?count=y&codigo_municipio=", 
-    urlCentroids: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/licencias-construccion/centroides_elic.php?depto=", 
+    urlUE: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/censo_economico/unidades2_segment.php?min=y&codigo_municipio=",
+    urlCount: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/censo_economico/unidades2_segment.php?count=y&codigo_municipio=",
+    urlCentroids: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/licencias-construccion/centroides_elic.php?depto=",
     // urlCentroidsGeneral: "https://nowsoft.app/geoportal/laboratorio/serviciosjson/licencias-construccion/centroides.php?", 
-    urlCentroidsGeneral: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/licencias-construccion/centroides.php?", 
+    urlCentroidsGeneral: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/licencias-construccion/centroides.php?",
     key: "pk.eyJ1IjoiYXBwbW92aWxkYW5lIiwiYSI6ImNrbzY4b2tiajFxN2cyb3F3YnR1NDF6eWkifQ.mVlSJXQZVl4CNmQpZ1pXNA",
+    key: "",
+    // baseMaps: {
+    //     'Gris': 'https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/256/{z}/{x}/{y}?access_token=',
+    //     'Noche': 'https://api.mapbox.com/styles/v1/mapbox/dark-v10/tiles/256/{z}/{x}/{y}?access_token=',
+    //     'OSM': 'https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/256/{z}/{x}/{y}?access_token=',
+    //     'Satelital': 'https://api.mapbox.com/styles/v1/mapbox/satellite-v9/tiles/256/{z}/{x}/{y}?access_token=',
+    // },
+
     baseMaps: {
-        'Gris': 'https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/256/{z}/{x}/{y}?access_token=',
-        'Noche': 'https://api.mapbox.com/styles/v1/mapbox/dark-v10/tiles/256/{z}/{x}/{y}?access_token=',
-        'OSM': 'https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/256/{z}/{x}/{y}?access_token=',
-        'Satelital': 'https://api.mapbox.com/styles/v1/mapbox/satellite-v9/tiles/256/{z}/{x}/{y}?access_token=',
+        'Gris': 'http://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+        'Noche': 'http://a.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
+        'OSM': 'https://mt1.google.com/vt/lyrs=r&x={x}&y={y}&z={z}',
+        'Satelital': 'https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}',
     },
     baseMapCheck: "Noche",  // Ponga el MAPA BASE que quiere por defecto
     layers: {
@@ -255,19 +263,19 @@ export const variables = {
     coloresLeyend: JSON.parse(localStorage.getItem('leyenda')) != null ? JSON.parse(localStorage.getItem('leyenda')) : {},
     coloresLeyend: {},
     changeLegend: null,
-    changeChart:null,
+    changeChart: null,
     changeMap: null,
     queryText: {},
     alias: null,
     valorTotal: null,
     pintarCluster: null,
-    capas:{},
-    legenTheme:null,
-    legendChange:null,
-    tipoVar:null,
-    thematicTheme:null,
-    tansparency:10,
-    listaVariables:[],
+    capas: {},
+    legenTheme: null,
+    legendChange: null,
+    tipoVar: null,
+    thematicTheme: null,
+    tansparency: 10,
+    listaVariables: [],
     labelsData: [],
     dataPie: [],
     changeLoader: null,
@@ -286,16 +294,16 @@ export const variables = {
     visualThematic: null,
     state: {
         labels: [],
-      
+
         datasets: [
-          {
-            label: '',
-            // labels: myLabels,
-            backgroundColor: [],
-            data: []
-          }
+            {
+                label: '',
+                // labels: myLabels,
+                backgroundColor: [],
+                data: []
+            }
         ]
-      },
+    },
     structureUE: {
         "M": "Manzana",
         "E": "Edificación",
@@ -332,7 +340,7 @@ export const variables = {
     changeStyleMpio: null,
     loadMzCentroids: null,
     unidadesMz: null,
-    periodoSeleccionado: {value: '2021-12', label: '2021-12'},
+    periodoSeleccionado: { value: '2021-12', label: '2021-12' },
     updatePeriodo: null,
     updatePeriodoHeader: null,
     loadDeptoCentroids: null,
