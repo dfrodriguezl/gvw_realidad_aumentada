@@ -1,10 +1,10 @@
 import React, { useState }  from 'react';
 import { variables } from '../base/variables';
 import XYZ from 'ol/source/XYZ';
-import Gris from '../../img/Gris.png';
-import Noche from '../../img/Noche.png';
+import Gris from '../../img/gris.png';
+import Noche from '../../img/noche.png';
 import OSM from '../../img/OSM.png';
-import Satelital from '../../img/Satelital.png';
+import Satelital from '../../img/satelital.png';
 
 const BaseMap = () => {
 

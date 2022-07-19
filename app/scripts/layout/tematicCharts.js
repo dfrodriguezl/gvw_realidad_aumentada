@@ -6,7 +6,7 @@ import Treemap from '../components/charts/treemap';
 import DonuChart from '../components/charts/donuchart';
 import PieChart from '../components/charts/piechart';
 import BarHData from '../components/charts/barHchart';
-import VeloChart from "../components/charts/GaugeChart";
+import VeloChart from "../components/charts/gaugechart";
 
 const cn = (...args) => args.filter(Boolean).join(' ')
   ;
