@@ -352,6 +352,7 @@ export const variables = {
     updateLegendProportional: null,
     max: null,
     hideProportionalSymbols: null,
-    updatePeriodoResult: null
+    updatePeriodoResult: null,
+    periodos: null
 }
 export const urlDeploy = 'http://localhost:3000/'

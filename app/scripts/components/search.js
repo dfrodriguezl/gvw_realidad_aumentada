@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import municipios from '../../json/mpio-extent.json'
 import departamentos from '../../json/dpto-extent.json'
@@ -97,12 +97,15 @@ const Search = ({ filterSearch, placeholder }) => {
             // }
 
         } else {
+            if (variables.periodos === null) {
+                getPeriodos(nivel, campo);
+            }
             if (variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel] !== undefined) {
-                
+
                 if (Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value]).length > 0) {
                     // variables.loadDeptoCentroids();
                     variables.changeMap(nivel, dpto, table);
-                    
+
 
                     if (nivel == "DPTO") {
                         // console.log("VAR ANTERIOR", variables.variableAnterior);
@@ -157,7 +160,7 @@ const Search = ({ filterSearch, placeholder }) => {
                         urlData += "&campo=" + campo
                     }
 
-                    if(variables.periodoSeleccionado){
+                    if (variables.periodoSeleccionado) {
                         urlData += "&anio=" + variables.periodoSeleccionado.value
                     }
                     axios({ method: "GET", url: urlData })
@@ -236,9 +239,35 @@ const Search = ({ filterSearch, placeholder }) => {
 
 
     }
+
+    const getPeriodos = (nivel, campo) => {
+        let urlData = variables.urlVariables + "?codigo_subgrupo=" + variables.varVariable.substring(0, 5) + "&nivel_geografico=" + nivel
+        if (campo != undefined) {
+            urlData += "&campo=" + campo
+        }
+
+        let listaPeriodos = [];
+        let periodos = [];
+        axios({ method: "GET", url: urlData })
+            .then(function (response) {
+                Object.values(response.data.resultado).map((item) => {
+                    // console.log("RESPONSE PERIODOS", item)
+                    listaPeriodos.push(item.G);
+                })
+                const result = Array.from(new Set(listaPeriodos));
+                result.sort().reverse().map((res) => {
+                    periodos.push({ value: res, label: res })
+                })
+                variables.periodos = periodos;
+                variables.periodoSeleccionado = periodos[0];
+                variables.updatePeriodoHeader(periodos[0]);
+                variables.updatePeriodoResult(periodos[0])
+            });
+    }
+
     useEffect(() => {
         const consultaAPI = async () => {
-            
+
             if (Object.keys(variables.tematica).length == 0 || Object.keys(variables.coloresLeyend).length == 0) {
                 const consulta = await axios({ method: "GET", url: variables.urlTemas + "?codigo=" + variables.codVisor });
                 const consultaDos = await axios({ method: "GET", url: variables.urlTemas + "?codigo=" + variables.codVisor + "&sub_temas=yes" });
@@ -267,14 +296,14 @@ const Search = ({ filterSearch, placeholder }) => {
                         }
                     }
                 }, [])
-                
+
                 variables.tematica = {
                     "GRUPOS": consultaUnoFin,
                     "SUBGRUPOS": consultaDosFin,
                     "TEMAS": consultaTres.data,
                     "CATEGORIAS": consultaTresFin
                 }
-                
+
                 localStorage.setItem('tematica', JSON.stringify(variables.tematica))
                 localStorage.setItem('rangos', JSON.stringify(variables.dataRangos))
                 // console.log(variables.dataRangos);
@@ -328,7 +357,7 @@ const Search = ({ filterSearch, placeholder }) => {
                             }
                         }
                     }, []);
-                    
+
                 }, [])
                 localStorage.setItem('leyenda', JSON.stringify(variables.coloresLeyend));
                 // console.log(variables.coloresLeyend);
@@ -363,7 +392,7 @@ const Search = ({ filterSearch, placeholder }) => {
                     variables.filterGeo("DPTO", variables.deptoVariable)
                 }
             } else if (zoom < 7) {
-               
+
                 if (Object.keys(variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"][variables.periodoSeleccionado.value]).length === 0) {
                     variables.changeTheme("DPTO", 0, "ND", "y");
                     // variables.changeTheme("MPIO",0);
@@ -419,15 +448,15 @@ const Search = ({ filterSearch, placeholder }) => {
         // variables.changeTheme("DPTO", 0, "ND");
 
         if (zoom < 7) {
-            if(!variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"][variables.periodoSeleccionado.value]){
+            if (!variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"][variables.periodoSeleccionado.value]) {
                 variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"][variables.periodoSeleccionado.value] = {};
             }
             variables.changeTheme("DPTO", 0, "ND", "y");
         } else if (zoom >= 7 && zoom <= 11) {
-            if(!variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"][variables.periodoSeleccionado.value]){
+            if (!variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"][variables.periodoSeleccionado.value]) {
                 variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"][variables.periodoSeleccionado.value] = {};
             }
-            if(!variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["MPIO"][variables.periodoSeleccionado.value]){
+            if (!variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["MPIO"][variables.periodoSeleccionado.value]) {
                 variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["MPIO"][variables.periodoSeleccionado.value] = {};
             }
             variables.changeTheme("DPTO", 0, "ND", "y");

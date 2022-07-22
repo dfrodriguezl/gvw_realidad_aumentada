@@ -2,18 +2,8 @@ import React, { useState } from "react";
 import Select from 'react-select'
 import { variables } from '../base/variables';
 
-const periodos = [
-    { value: '2021-12', label: '2021-12' },
-    { value: '2020-12', label: '2020-12' },
-    { value: '2019-12', label: '2019-12' },
-    { value: '2018-12', label: '2018-12' },
-    { value: '2017-12', label: '2017-12' },
-    { value: '2016-12', label: '2016-12' },
-    { value: '2015-12', label: '2015-12' },
-]
-
 const Periodo = () => {
-    const [periodosList, setPeriodosList] = useState(periodos);
+    const [periodosList, setPeriodosList] = useState(variables.periodos);
     const [selectedPeriodo, setSelectedPeriodo] = useState(variables.periodoSeleccionado);
 
 
