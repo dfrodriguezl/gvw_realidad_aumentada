@@ -63,7 +63,7 @@ function getColorArray(categoria) {
 const Search = ({ filterSearch, placeholder }) => {
     const [term, setTerm] = useState("");
     const [termDos, setTermDos] = useState("");
-    const [btn, setBtn] = useState("284");
+    const [btn, setBtn] = useState("321");
     const [tematica, setTematica] = useState(variables.tematica);
     const [btnDos, setBtnDos] = useState(variables.varVariable);
     const [visualList, setVisualList] = useState(true); //Estado para determinar el 

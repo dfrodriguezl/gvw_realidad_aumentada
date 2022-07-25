@@ -1,8 +1,8 @@
 // Geovisor - OpenLayers | Variables Globales
 export const variables = {
 
-    title: 'Geovisor de Estadísticas de Licencias de Construcción (ELIC)', //Cambielo por el título de su geovisor
-    description: 'Visor para consulta de los Resultados del Conteo de Unidades Económicas.',
+    title: 'Geovisor de Componente de Insumos Agropecuarios del SIPSA', //Cambielo por el título de su geovisor
+    description: 'Geovisor para consulta del Componente de Insumos Agropecuarios del SIPSA.',
     country: 'Colombia',
     place: ' Todos los departamentos ',
     year: ' 2021 ',
@@ -11,8 +11,8 @@ export const variables = {
     // urlTemas: 'https://nowsoft.app/geoportal/laboratorio/serviciosjson/visores/temas_upper.php', //enlace/servicio  que trae el servicio de las tematicas por visor
     urlVariables: 'https://geoportal.dane.gov.co/laboratorio/serviciosjson/visores/variables8.php',//enlace/servicio  que trae los datos de la variable seleccionada
     // urlVariables: 'https://nowsoft.app/geoportal/laboratorio/serviciosjson/visores/variables8_upper.php',
-    codVisor: "41", //Ponga el codigo que corresponde a SU VISOR
-    varVariable: "28401001", //Ponga el codigo de la CATEGORIA que corresponda a su visor
+    codVisor: "49", //Ponga el codigo que corresponde a SU VISOR
+    varVariable: "32101001", //Ponga el codigo de la CATEGORIA que corresponda a su visor
     series: [0, 0, 0, 0, 0],
     urlUE: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/censo_economico/unidades2_segment.php?min=y&codigo_municipio=",
     urlCount: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/censo_economico/unidades2_segment.php?count=y&codigo_municipio=",

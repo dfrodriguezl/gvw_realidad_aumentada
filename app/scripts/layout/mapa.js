@@ -137,7 +137,7 @@ const Mapa = () => {
     var newZoom = variables.map.getView().getZoom();
     zoomActual = variables.map.getView().getZoom();
 
-    variables.loadDeptoCentroids();
+    // variables.loadDeptoCentroids();
 
     if (variables.currentZoom != newZoom) {
       variables.deptoSelectedFilter = undefined;
@@ -154,7 +154,7 @@ const Mapa = () => {
     }
 
     if (newZoom >= 7 && newZoom <= 11) {
-      variables.loadMpioCentroids();
+      // variables.loadMpioCentroids();
       variables.changeStyleDepto();
       if (variables.deptoSelected == undefined) {
         variables.changeTheme("MPIO", null, null, "y");
@@ -587,9 +587,9 @@ const Mapa = () => {
   // Add clusters
   // addCluster();
   addClusterDepto();
-  variables.loadDeptoCentroids();
+  // variables.loadDeptoCentroids();
   addClusterMpio();
-  variables.loadMpioCentroids();
+  // variables.loadMpioCentroids();
   return (
     <Fragment>
       <div id="switch_visualization"><TipoVisualizacion /></div>
