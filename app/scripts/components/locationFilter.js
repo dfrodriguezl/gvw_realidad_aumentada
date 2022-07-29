@@ -79,9 +79,9 @@ const Filter = (props) => {
         if (variables.changeDonuChartData != null) {
             variables.changeDonuChartData(nivel,evt.cod_dane);
         }
-        if (variables.changeBarChartData != null) {
-            variables.changeBarChartData(nivel,evt.cod_dane);
-        }
+        // if (variables.changeBarChartData != null) {
+        //     variables.changeBarChartData(nivel,evt.cod_dane);
+        // }
 
         let layer = variables.capas['deptos_vt2'];
         // let layer2 = variables.capas['mpios_vt2'];
@@ -134,9 +134,9 @@ const Filter = (props) => {
         if (variables.changeDonuChartData != null) {
             variables.changeDonuChartData(nivel,evt.cod_dane);
         }
-        if (variables.changeBarChartData != null) {
-            variables.changeBarChartData(nivel,evt.cod_dane);
-        }
+        // if (variables.changeBarChartData != null) {
+        //     variables.changeBarChartData(nivel,evt.cod_dane);
+        // }
 
         
 

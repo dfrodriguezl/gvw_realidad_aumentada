@@ -63,7 +63,7 @@ const Results = () => {
             <h2 className="results__top__title" id="title">{tema}</h2>
             <h3 className="results__top__subtitle" id="title">{subtema}</h3>
             <h4 className="results__top__thirdtitle result__locationDpto">{locationDpto}</h4>
-            <h4 className="results__top__thirdtitle result__locationDpto">Año movil a {periodo.label}</h4>
+            <h4 className="results__top__thirdtitle result__locationDpto">{periodo.label}</h4>
           </div>
           <Accordion title="Leyenda" data={true}> <Leyenda /> </Accordion>
           {/* {active && <Accordion title="Leyenda" data={true}> <LeyendaCluster /> </Accordion>}

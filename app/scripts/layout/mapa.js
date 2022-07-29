@@ -34,6 +34,7 @@ import gps_cyan from '../../img/gps-cyan.png'
 import StreetView from 'ol-street-view';
 import 'ol-street-view/dist/css/ol-street-view.min.css';
 import TipoVisualizacion from '../components/tipoVisualizacion';
+import FiltroProductos from '../components/filtroProductos';
 
 var container = document.getElementById('popup');
 var content = document.getElementById('popup-content');
@@ -137,7 +138,7 @@ const Mapa = () => {
     var newZoom = variables.map.getView().getZoom();
     zoomActual = variables.map.getView().getZoom();
 
-    // variables.loadDeptoCentroids();
+    variables.loadMpioCentroids();
 
     if (variables.currentZoom != newZoom) {
       variables.deptoSelectedFilter = undefined;
@@ -147,17 +148,19 @@ const Mapa = () => {
       // addClusterDepto();
       // variables.loadDeptoCentroids();
       // variables.loadDeptoCentroids();
+      variables.loadMpioCentroids();
+      variables.changeTheme("MPIO", 0, "MPIO", "y");
       if (variables.deptoSelected == undefined) {
         // variables.changeTheme("MPIO", null, null, "n");
-        variables.changeTheme("DPTO", 0, "ND", "y");
+        variables.changeTheme("MPIO", 0, "MPIO", "y");
       }
     }
 
     if (newZoom >= 7 && newZoom <= 11) {
-      // variables.loadMpioCentroids();
+      variables.loadMpioCentroids();
       variables.changeStyleDepto();
       if (variables.deptoSelected == undefined) {
-        variables.changeTheme("MPIO", null, null, "y");
+        variables.changeTheme("MPIO", 0, "MPIO", "y");
       } else {
         variables.changeTheme("MPIO", variables.deptoSelected, null, "y");
         variables.deptoSelected = undefined;
@@ -329,7 +332,7 @@ const Mapa = () => {
           HTML += '<p class="popup__list">' + 'Participación porcentual (' + parseFloat(dataPopup[variables.alias].replace(",", ".")).toFixed(1) + ' ' + dataUnidades + ')' + '</p>'
           HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[variables.alias2]).toLocaleString("de-De").replace(",", ".") + '</span><span class="popup__valueItem"> ' + unidadesAbsolutas + '</span></p>';
         } else {
-          HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[variables.alias]).toLocaleString("de-De").replace(",", ".")+ '</span><span class="popup__valueItem"> ' + unidadesAbsolutas + '</span></p>';
+          HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[variables.alias]).toLocaleString("de-De").replace(",", ".") + '</span><span class="popup__valueItem"> ' + unidadesAbsolutas + '</span></p>';
         }
       }
 
@@ -589,10 +592,11 @@ const Mapa = () => {
   addClusterDepto();
   // variables.loadDeptoCentroids();
   addClusterMpio();
-  // variables.loadMpioCentroids();
+  variables.loadMpioCentroids();
   return (
     <Fragment>
       <div id="switch_visualization"><TipoVisualizacion /></div>
+      <div id="switch_productos"><FiltroProductos /></div>
       <div className="coordenates">
         <div id="coordenates__panel"></div>
 
@@ -739,7 +743,7 @@ variables.changeMap = function (nivel, dpto, table) {
       if (campos[index].indexOf(variables.tematica["CATEGORIAS"][variables.varVariable][0]["CAMPO_TABLA2"]) != "-1") {
         let arrField = (campos[index]).split(" ")
         arrField = cleanArray(arrField)
-        
+
         if ((variables.tematica["CATEGORIAS"][variables.varVariable][0]["CAMPO_TABLA2"]).trim() == arrField[0].trim()) {
           variables.alias = (arrField[arrField.length - 1]).trim() // definir el tipo de variable que se debe previsualizar
           variables.valorTotal = variables.alias.replace('PP', 'V')
@@ -767,13 +771,13 @@ variables.changeMap = function (nivel, dpto, table) {
     }
   }
 
-
+  
 
   if (nivel == "DPTO") {
     let valor2Array = [];
     var integrado = Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value]).map(function (a, b) {
       let valor, valor2
-      
+
       if (a["G"] === variables.periodoSeleccionado.value) {
         if (a[variables.alias].includes(",")) {
           valor = parseFloat(a[variables.alias]).toFixed(2).toLocaleString("de-De").replace(",", ".")
@@ -809,7 +813,7 @@ variables.changeMap = function (nivel, dpto, table) {
 
     }, []);
 
-    max = Math.max(...integrado); 
+    max = Math.max(...integrado);
     min = Math.min(...integrado);
     max2 = Math.max(...valor2Array);
     variables.max = valor2Array.length === 0 ? max : max2;
@@ -822,10 +826,10 @@ variables.changeMap = function (nivel, dpto, table) {
     let dataUnidades = variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"];
 
     if (serie.getClassJenks(5) != undefined) {
-      
+
       for (let index = 0; index < (serie.ranges).length; index++) {
         let rangeSplit = serie.ranges[(serie.ranges).length - (index + 1)].split(" - ");
-        let newRange = parseFloat(rangeSplit[0]).toLocaleString("de","DE") + " - " + parseFloat(rangeSplit[1]).toLocaleString("de","DE");
+        let newRange = parseFloat(rangeSplit[0]).toLocaleString("de", "DE") + " - " + parseFloat(rangeSplit[1]).toLocaleString("de", "DE");
         let rango = newRange + " (" + dataUnidades + ")";
         if (index == 0) {
           rango = rango.split("-")
@@ -845,10 +849,10 @@ variables.changeMap = function (nivel, dpto, table) {
 
     if (tipoVariable === "VC") {
       colsTable = [
-        { title: "Código", field: "codigo", hozAlign: "right", width: "150", headerSort: true, headerFilter:true, headerFilterPlaceholder:"Código..." },
-        { title: "Departamento", field: "depto", width: "150", headerFilter:true, headerSort: true, headerFilterPlaceholder:"Departamento..."  },
-        { title: "Cantidad (" + unidadesAbsolutas + ")", field: "valor2", hozAlign: "right", width: "300", headerFilter:true, headerSort: true, headerFilterPlaceholder:"Cantidad..."   },
-        { title: "Porcentaje (%)", field: "valor", hozAlign: "right", width: "400", headerFilter:true, headerSort: true, headerFilterPlaceholder:"Porcentaje..."  },
+        { title: "Código", field: "codigo", hozAlign: "right", width: "150", headerSort: true, headerFilter: true, headerFilterPlaceholder: "Código..." },
+        { title: "Departamento", field: "depto", width: "150", headerFilter: true, headerSort: true, headerFilterPlaceholder: "Departamento..." },
+        { title: "Cantidad (" + unidadesAbsolutas + ")", field: "valor2", hozAlign: "right", width: "300", headerFilter: true, headerSort: true, headerFilterPlaceholder: "Cantidad..." },
+        { title: "Porcentaje (%)", field: "valor", hozAlign: "right", width: "400", headerFilter: true, headerSort: true, headerFilterPlaceholder: "Porcentaje..." },
         {
           title: "Distribución (%)", field: "valor", hozAlign: "left", formatter: "progress", formatterParams: {
             color: variables.coloresLeyend[variables.varVariable][nivel][2][0]
@@ -857,9 +861,9 @@ variables.changeMap = function (nivel, dpto, table) {
       ]
     } else {
       colsTable = [
-        { title: "Código", field: "codigo", hozAlign: "right", width: "150", headerFilter:true, headerSort: true, headerFilterPlaceholder:"Código..." },
-        { title: "Departamento", field: "depto", width: "150", headerFilter:true, headerSort: true, headerFilterPlaceholder:"Departamento..."  },
-        { title: "Valor (" + unidadesAbsolutas + ")", field: "valor", hozAlign: "right", width: "300", headerFilter:true, headerSort: true, headerFilterPlaceholder:"Cantidad..."  },
+        { title: "Código", field: "codigo", hozAlign: "right", width: "150", headerFilter: true, headerSort: true, headerFilterPlaceholder: "Código..." },
+        { title: "Departamento", field: "depto", width: "150", headerFilter: true, headerSort: true, headerFilterPlaceholder: "Departamento..." },
+        { title: "Valor (" + unidadesAbsolutas + ")", field: "valor", hozAlign: "right", width: "300", headerFilter: true, headerSort: true, headerFilterPlaceholder: "Cantidad..." },
         {
           title: "Distribución (Cantidad)", field: "valorGraf", hozAlign: "left", formatter: "progress", formatterParams: {
             color: variables.coloresLeyend[variables.varVariable][nivel][2][0]
@@ -983,7 +987,7 @@ variables.changeMap = function (nivel, dpto, table) {
 
 
         if (a[variables.alias2] != undefined) {
-          
+
           if (a[variables.alias2].includes(",")) {
             // if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined && a[nivel].substring(0,2) === variables.deptoSelectedFilter) {
             valor2 = parseFloat(a[variables.alias2]).toFixed(2).toLocaleString("de-De").replace(",", ".")
@@ -1061,16 +1065,16 @@ variables.changeMap = function (nivel, dpto, table) {
       for (let index = 0; index < (serie.ranges).length; index++) {
         const searchRegExp = /\./g;
         let rangeSplit = serie.ranges[(serie.ranges).length - (index + 1)].split(" - ");
-        console.log("RANGO 1", rangeSplit)
-        let newRange = parseFloat(rangeSplit[0]).toLocaleString("de","DE") + " - " + parseFloat(rangeSplit[1]).toLocaleString("de","DE");
+        // console.log("RANGO 1", rangeSplit)
+        let newRange = parseFloat(rangeSplit[0]).toLocaleString("de", "DE") + " - " + parseFloat(rangeSplit[1]).toLocaleString("de", "DE");
         let rango = newRange + " (" + dataUnidades + ")";
-        console.log("RANGO", rango)
+        // console.log("RANGO", rango)
         // let rango = serie.ranges[(serie.ranges).length - (index + 1)].replace(searchRegExp, ",") + " (" + dataUnidades + ")"
         if (index == 0) {
           rango = rango.split("-")
           rango = " > " + rango[0].trim() + " (" + dataUnidades + ")"
         }
-        
+
         if (table == "y") {
           variables.coloresLeyend[variables.varVariable]["MPIO"][index][2] = rango;
         }
@@ -1092,11 +1096,11 @@ variables.changeMap = function (nivel, dpto, table) {
     let colsTable = []
     if (tipoVariable === "VC") {
       colsTable = [
-        { title: "Departamento", field: "depto", width: "150", headerFilter:true, headerFilterPlaceholder:"Departamento..." },
-        { title: "Cód. Municipio", field: "codigo", width: 150, headerFilter:true, headerFilterPlaceholder:"Código..." },
-        { title: "Municipio", field: "mpio", width: "200", headerFilter:true, headerFilterPlaceholder:"Municipio..." },
-        { title: "Cantidad de licencias", field: "valor2", width: "300", headerFilter:true, headerFilterPlaceholder:"Cantidad..." },
-        { title: "Porcentaje de licencias (%)", field: "valor", width: "300", headerFilter:true, headerFilterPlaceholder:"Porcentaje..." },
+        { title: "Departamento", field: "depto", width: "150", headerFilter: true, headerFilterPlaceholder: "Departamento..." },
+        { title: "Cód. Municipio", field: "codigo", width: 150, headerFilter: true, headerFilterPlaceholder: "Código..." },
+        { title: "Municipio", field: "mpio", width: "200", headerFilter: true, headerFilterPlaceholder: "Municipio..." },
+        { title: "Cantidad de licencias", field: "valor2", width: "300", headerFilter: true, headerFilterPlaceholder: "Cantidad..." },
+        { title: "Porcentaje de licencias (%)", field: "valor", width: "300", headerFilter: true, headerFilterPlaceholder: "Porcentaje..." },
         {
           title: "Distribución (%)", field: "valor", hozAlign: "left", formatter: "progress", formatterParams: {
             color: variables.coloresLeyend[variables.varVariable][nivel][2][0]
@@ -1105,10 +1109,10 @@ variables.changeMap = function (nivel, dpto, table) {
       ]
     } else {
       colsTable = [
-        { title: "Departamento", field: "depto", width: "150", headerFilter:true, headerFilterPlaceholder:"Departamento..." },
-        { title: "Cód. Municipio", field: "codigo", width: 150, headerFilter:true, headerFilterPlaceholder:"Código..." },
-        { title: "Municipio", field: "mpio", width: "200", headerFilter:true, headerFilterPlaceholder:"Municipio..." },
-        { title: "Valor", field: "valor2", width: "300", headerFilter:true, headerFilterPlaceholder:"Cantidad..." },
+        { title: "Departamento", field: "depto", width: "150", headerFilter: true, headerFilterPlaceholder: "Departamento..." },
+        { title: "Cód. Municipio", field: "codigo", width: 150, headerFilter: true, headerFilterPlaceholder: "Código..." },
+        { title: "Municipio", field: "mpio", width: "200", headerFilter: true, headerFilterPlaceholder: "Municipio..." },
+        { title: "Valor", field: "valor2", width: "300", headerFilter: true, headerFilterPlaceholder: "Cantidad..." },
         {
           title: "Distribución (Cantidad)", field: "valor2", hozAlign: "left", formatter: "progress", formatterParams: {
             color: variables.coloresLeyend[variables.varVariable][nivel][2][0]
@@ -1201,23 +1205,19 @@ variables.changeMap = function (nivel, dpto, table) {
     // variables.changeLegend();
     // variables.legenTheme();
 
-    // console.log(variables.deptoSelected);
-
     if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined) {
       variables.filterGeo("DPTO", variables.deptoSelectedFilter)
     } else {
+      variables.unidadesMpio.setStyle(function (feature) {
+        const id = feature.values_.features[0].values_.cod_dane;
+        return changeSymbologiCluster(id, nivel, min, max, max2);
+        // return changeSymbologi(layer, nivel, feature)
+      })
       if (dpto == null) {
         layer.setStyle(function (feature) {
           var layer = feature.get("id");
           return changeSymbologi(layer, nivel, feature)
         })
-
-        variables.unidadesMpio.setStyle(function (feature) {
-          const id = feature.values_.features[0].values_.cod_dane;
-          return changeSymbologiCluster(id, nivel, min, max, max2);
-          // return changeSymbologi(layer, nivel, feature)
-        })
-
       }
     }
 
@@ -1466,10 +1466,10 @@ variables.changeMap = function (nivel, dpto, table) {
 
   }
 
-  if(variables.updateLegendProportional !== null && localStorage.getItem("visualization") === "symbols"){
+  if (variables.updateLegendProportional !== null && localStorage.getItem("visualization") === "symbols") {
     variables.updateLegendProportional();
   }
-  
+
   // variables.changeLoader(true);
 }
 
@@ -2129,8 +2129,8 @@ const addClusterMpio = () => {
 
   variables.unidadesMpio = new VectorLayer({
     title: 'Centroides municipios',
-    maxZoom: 11,
-    minZoom: 7,
+    maxZoom: 21,
+    minZoom: 4,
     source: new Cluster({
       distance: variables.distanceCluster,
       source: new VectorSource({

@@ -353,6 +353,10 @@ export const variables = {
     max: null,
     hideProportionalSymbols: null,
     updatePeriodoResult: null,
-    periodos: null
+    periodos: null,
+    listaProductos: null,
+    productoSeleccionado: null,
+    updateListaProductos: null,
+    updateProductoSeleccionado: null
 }
 export const urlDeploy = 'http://localhost:3000/'

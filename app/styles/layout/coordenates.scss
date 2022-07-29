@@ -41,6 +41,17 @@
     color: $gray4;
     @include flex;
 }
+
+#switch_productos{
+    position: absolute;
+    border-radius: 4px;
+    top: 8px;
+    left: 500px;
+    background: $white; 
+    font-size: small;
+    color: $gray4;
+    @include flex;
+}
 //Estilos modo oscuro
 html[data-theme="dark"]{  
     .coordenates{

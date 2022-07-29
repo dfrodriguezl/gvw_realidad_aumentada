@@ -22,9 +22,11 @@ const BarHData = () => {
       // console.log("NIVEL DATA", nivel)
 
       if (dpto == undefined) {
+        console.log("INTEGRADO", variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel]);
         var integrado = Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value]).map(function (a, b) {
 
           let valor = parseFloat(a[variables.alias])
+          
           if (valor != undefined && !isNaN(valor)) {
             return valor;
           } else {
@@ -32,6 +34,7 @@ const BarHData = () => {
           }
 
         }, {});
+        
         const reducer = (accumulator, curr) => accumulator + curr;
         dataFirst = parseFloat(integrado.reduce(reducer)).toLocaleString('es')
       } else if (nivel === "DPTO") {
@@ -74,7 +77,7 @@ const BarHData = () => {
   }
 
   useEffect(() => {
-    variables.changeBarChartData('DPTO');
+    variables.changeBarChartData('MPIO');
   }, [])
 
   return (

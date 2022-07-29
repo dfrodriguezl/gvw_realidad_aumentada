@@ -12,35 +12,41 @@ const Periodo = () => {
         variables.periodoSeleccionado = event;
         variables.updatePeriodoHeader(event);
         variables.updatePeriodoResult(event);
+        variables.getProductosByPeriodo("MPIO", "MPIO", variables.periodoSeleccionado.value);
         const currentZoom = variables.map.getView().getZoom();
-        if (currentZoom <= 7) {
-            if(!variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"][variables.periodoSeleccionado.value]){
-                variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"][variables.periodoSeleccionado.value] = {};
-            }
-            variables.changeTheme("DPTO", 0, "ND", "y");
-        } else if (currentZoom > 7 && currentZoom <= 11) {
-            if(!variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"][variables.periodoSeleccionado.value]){
-                variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"][variables.periodoSeleccionado.value] = {};
-            }
-            if(!variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["MPIO"][variables.periodoSeleccionado.value]){
-                variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["MPIO"][variables.periodoSeleccionado.value] = {};
-            }
-            variables.changeTheme("DPTO", 0, "ND", "y");
-            variables.changeTheme("MPIO", null, null, "y");
-            if (variables.deptoSelected == undefined && variables.deptoVariable != undefined) {
-                variables.filterGeo("DPTO", variables.deptoVariable)
-            }
-            variables.changeStyleDepto();
-        } else {
-            if (variables.municipioSeleccionado != null) {
-                variables.changeTheme("DPTO", 0, "ND", "n");
-                variables.changeTheme("MPIO", variables.municipioSeleccionado, null, "y");
-            }
-
-            variables.changeTheme("SECC", null, "NSC", "n");
-            variables.changeStyleDepto();
-            variables.changeStyleMpio();
+        if(!variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["MPIO"][variables.periodoSeleccionado.value]){
+            variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["MPIO"][variables.periodoSeleccionado.value] = {};
         }
+        variables.changeTheme("MPIO", 0, "MPIO", "y");
+        variables.changeTheme("MPIO", null, null, "y");
+        // if (currentZoom <= 7) {
+        //     if(!variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"][variables.periodoSeleccionado.value]){
+        //         variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"][variables.periodoSeleccionado.value] = {};
+        //     }
+        //     variables.changeTheme("MPIO", 0, "MPIO", "y");
+        // } else if (currentZoom > 7 && currentZoom <= 11) {
+        //     if(!variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"][variables.periodoSeleccionado.value]){
+        //         variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"][variables.periodoSeleccionado.value] = {};
+        //     }
+        //     if(!variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["MPIO"][variables.periodoSeleccionado.value]){
+        //         variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["MPIO"][variables.periodoSeleccionado.value] = {};
+        //     }
+        //     variables.changeTheme("MPIO", 0, "MPIO", "y");
+        //     variables.changeTheme("MPIO", null, null, "y");
+        //     if (variables.deptoSelected == undefined && variables.deptoVariable != undefined) {
+        //         variables.filterGeo("DPTO", variables.deptoVariable)
+        //     }
+        //     variables.changeStyleDepto();
+        // } else {
+        //     if (variables.municipioSeleccionado != null) {
+        //         variables.changeTheme("MPIO", 0, "MPIO", "n");
+        //         variables.changeTheme("MPIO", variables.municipioSeleccionado, null, "y");
+        //     }
+
+        //     variables.changeTheme("SECC", null, "NSC", "n");
+        //     variables.changeStyleDepto();
+        //     variables.changeStyleMpio();
+        // }
     }
 
 
@@ -48,7 +54,7 @@ const Periodo = () => {
         <div className="tools__panel">
             <p className="tools__text">Realice la selección de período que desea ver en el mapa</p>
             <div className="selectBox">
-                <p className="selectBox__name">Periodo (Doce meses al mes de):*</p>
+                <p className="selectBox__name">Periodo:</p>
                 <Select
                     styles={{
                         navBar: provided => ({ zIndex: 9999 })
@@ -63,7 +69,6 @@ const Periodo = () => {
                     getOptionLabel={(option) => option.label}
                 /> 
             </div>
-            <p className="help__content__text" itemProp="description">*El período corresponde a la sumatoria de los últimos doce meses transcurridos hasta el mes de referencia.</p>
         </div>
     )
 }

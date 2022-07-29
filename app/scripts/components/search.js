@@ -101,6 +101,7 @@ const Search = ({ filterSearch, placeholder }) => {
                 getPeriodos(nivel, campo);
             }
             if (variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel] !== undefined) {
+                variables.getProductosByPeriodo(nivel, campo, variables.periodoSeleccionado.value);
 
                 if (Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value]).length > 0) {
                     // variables.loadDeptoCentroids();
@@ -262,6 +263,44 @@ const Search = ({ filterSearch, placeholder }) => {
                 variables.periodoSeleccionado = periodos[0];
                 variables.updatePeriodoHeader(periodos[0]);
                 variables.updatePeriodoResult(periodos[0])
+                variables.getProductosByPeriodo(nivel, campo, periodos[0].value)
+            });
+    }
+
+    variables.getProductosByPeriodo = (nivel, campo, periodo) => {
+        let urlData = variables.urlVariables + "?codigo_subgrupo=" + variables.varVariable.substring(0, 5) + "&nivel_geografico=" + nivel
+        if (campo != undefined) {
+            urlData += "&campo=" + campo
+        }
+
+        if (periodo !== undefined) {
+            urlData += "&anio=" + periodo
+        }
+
+        let listaProductos = [];
+        let periodos = [];
+        axios({ method: "GET", url: urlData })
+            .then(function (response) {
+                const datos = response.data.resultado;
+                const unique = [...new Set(Object.values(datos).map(item => item.L))];
+                console.log("UNIQUE", unique.sort())
+                unique.sort().map((item) => {
+                    listaProductos.push({ value: item, label: item });
+                })
+
+                variables.updateListaProductos(listaProductos);
+                // Object.values(response.data.resultado).map((item) => {
+                //     // console.log("RESPONSE PERIODOS", item)
+                //     listaPeriodos.push(item.G);
+                // })
+                // const result = Array.from(new Set(listaPeriodos));
+                // result.sort().reverse().map((res) => {
+                //     periodos.push({ value: res, label: res })
+                // })
+                // variables.periodos = periodos;
+                // variables.periodoSeleccionado = periodos[0];
+                // variables.updatePeriodoHeader(periodos[0]);
+                // variables.updatePeriodoResult(periodos[0])
             });
     }
 
@@ -387,14 +426,14 @@ const Search = ({ filterSearch, placeholder }) => {
             let zoom = variables.map.getView().getZoom();
 
             if (zoom >= 7) {
-                variables.changeTheme("MPIO", null, null, "y");
+                variables.changeTheme("MPIO", null, "MPIO", "y");
                 if (variables.deptoSelected == undefined && variables.deptoVariable != undefined) {
                     variables.filterGeo("DPTO", variables.deptoVariable)
                 }
             } else if (zoom < 7) {
 
-                if (Object.keys(variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"][variables.periodoSeleccionado.value]).length === 0) {
-                    variables.changeTheme("DPTO", 0, "ND", "y");
+                if (Object.keys(variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["MPIO"][variables.periodoSeleccionado.value]).length === 0) {
+                    variables.changeTheme("MPIO", 0, "MPIO", "y");
                     // variables.changeTheme("MPIO",0);
                     variables.legenTheme();
 
@@ -451,7 +490,7 @@ const Search = ({ filterSearch, placeholder }) => {
             if (!variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"][variables.periodoSeleccionado.value]) {
                 variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"][variables.periodoSeleccionado.value] = {};
             }
-            variables.changeTheme("DPTO", 0, "ND", "y");
+            variables.changeTheme("MPIO", 0, "MPIO", "y");
         } else if (zoom >= 7 && zoom <= 11) {
             if (!variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"][variables.periodoSeleccionado.value]) {
                 variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"][variables.periodoSeleccionado.value] = {};
@@ -459,7 +498,7 @@ const Search = ({ filterSearch, placeholder }) => {
             if (!variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["MPIO"][variables.periodoSeleccionado.value]) {
                 variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["MPIO"][variables.periodoSeleccionado.value] = {};
             }
-            variables.changeTheme("DPTO", 0, "ND", "y");
+            variables.changeTheme("MPIO", 0, "MPIO", "y");
             variables.changeTheme("MPIO", null, null, "y");
             if (variables.deptoSelected == undefined && variables.deptoVariable != undefined) {
                 variables.filterGeo("DPTO", variables.deptoVariable)
@@ -468,7 +507,7 @@ const Search = ({ filterSearch, placeholder }) => {
         }
         else if (zoom > 11) {
             if (variables.municipioSeleccionado != null) {
-                variables.changeTheme("DPTO", 0, "ND", "n");
+                variables.changeTheme("MPIO", 0, "MPIO", "n");
                 variables.changeTheme("MPIO", variables.municipioSeleccionado, null, "y");
             }
 
