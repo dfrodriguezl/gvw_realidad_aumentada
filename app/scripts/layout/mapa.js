@@ -967,12 +967,6 @@ variables.changeMap = function (nivel, dpto, table) {
       let valor, valor2
       
       if (a["G"] === variables.periodoSeleccionado.value && a["L"] === variables.productoSeleccionado.value) {
-        console.log("A", a)
-        console.log("PRODUCTO", variables.productoSeleccionado)
-        // console.log("LLL", a["L"]);
-        // console.log("PER SELC", variables.productoSeleccionado);
-        // console.log("A MPIO", a[variables.alias]);
-        // console.log("A", a);
         if (a[variables.alias].includes(",")) {
 
           // if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined && a[nivel].substring(0,2) === variables.deptoSelectedFilter) {
@@ -1037,13 +1031,11 @@ variables.changeMap = function (nivel, dpto, table) {
         } else if (valor2 != undefined && !isNaN(valor2)) {
           if (variables.deptoSelectedFilter != undefined) {
             if (a[nivel].substring(0, 2) === variables.deptoSelectedFilter) {
-              console.log("VALOR 3", valor2);
               return valor2
             } else {
               return 0;
             }
           } else {
-            console.log("VALOR 4", valor2);
             return valor2
           }
 
@@ -1057,7 +1049,7 @@ variables.changeMap = function (nivel, dpto, table) {
 
 
     integrado = integrado.filter(o => o > 0);
-    console.log("INTEGRADO MPIO", integrado);
+    // console.log("INTEGRADO MPIO", integrado);
 
     max = Math.max(...integrado);
     min = Math.min(...integrado);
@@ -1071,10 +1063,10 @@ variables.changeMap = function (nivel, dpto, table) {
     let list = integrado.filter((x, i, a) => a.indexOf(x) == i)
     let dataUnidades = variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"];
     // console.log(integrado)
-    console.log("LIST", list)
+    // console.log("LIST", list)
     const rangeNumber = list.length < 5 ? list.length : 5;
     var serie = new geostats(list);
-    console.log("SERIES", serie.getClassJenks(rangeNumber))
+    // console.log("SERIES", serie.getClassJenks(rangeNumber))
     if (serie.getClassJenks(rangeNumber) != undefined) {
       for (let index = 0; index < (serie.ranges).length; index++) {
         const searchRegExp = /\./g;
@@ -1235,6 +1227,13 @@ variables.changeMap = function (nivel, dpto, table) {
     if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined) {
       variables.filterGeo("DPTO", variables.deptoSelectedFilter)
     } else {
+      let layer = variables.capas['mpios_vt'];
+      layer.setStyle(function (feature) {
+        var layer = feature.get("id");
+        return changeSymbologi(layer, nivel, feature)
+      })
+
+      localStorage.getItem("visualization") === "symbols" ? layer.setVisible(false) : layer.setVisible(true);
       variables.unidadesMpio.setStyle(function (feature) {
         const id = feature.values_.features[0].values_.cod_dane;
         return changeSymbologiCluster(id, nivel, min, max, max2);
@@ -1534,7 +1533,7 @@ function changeSymbologi(cluster, nivel, feature, layer) {
     // console.log("VALOR CAMPO", variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][cluster])
     const valorCampo = variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value][cluster];
     if (valorCampo !== undefined) {
-      if (valorCampo["G"] === variables.periodoSeleccionado.value) {
+      if (valorCampo["G"] === variables.periodoSeleccionado.value && valorCampo["L"] === variables.productoSeleccionado.value) {
         color = updateRangeSimbology(valorCampo, nivel, color);
       }
     }

@@ -26,17 +26,17 @@ const TipoVisualizacion = () => {
 
   const change2Chropleths = () => {
     localStorage.setItem("visualization", "choropleth");
-    let layer = variables.capas['deptos_vt'];
-    layer.setVisible(true);
+    // let layer = variables.capas['deptos_vt'];
+    // layer.setVisible(true);
     let layer_2 = variables.capas['mpios_vt'];
     layer_2.setVisible(true);
-    variables.layers["departamentos"]["visible"] = true;
-    variables.layers["departamentos"]["checked"] = true;
+    // variables.layers["departamentos"]["visible"] = true;
+    // variables.layers["departamentos"]["checked"] = true;
     variables.layers["municipios"]["visible"] = true;
     variables.layers["municipios"]["checked"] = true;
-    variables.unidadesDepto.setVisible(false);
-    variables.layers["centroides_depto"]["visible"] = false;
-    variables.layers["centroides_depto"]["checked"] = false;
+    // variables.unidadesDepto.setVisible(false);
+    // variables.layers["centroides_depto"]["visible"] = false;
+    // variables.layers["centroides_depto"]["checked"] = false;
     variables.unidadesMpio.setVisible(false);
     variables.layers["centroides_mpio"]["visible"] = false;
     variables.layers["centroides_mpio"]["checked"] = false;

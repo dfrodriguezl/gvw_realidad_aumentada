@@ -84,8 +84,8 @@ export const variables = {
             title: 'Municipios',
             visible: true,
             checked: false,
-            minZoom: 7,
-            maxZoom: 11,
+            minZoom: 4,
+            maxZoom: 21,
             style: {
                 stroke: {
                     // color: '#FFF',
