@@ -105,4 +105,3 @@ DANE - COLOMBIA
 * **Karen Buitrago** - *Implementación plantilla Geovisores Open Layers - Dane
 * **Jonatan Velasquez** - *Implementación plantilla Geovisores Open Layers - Dane
 * **Diego Rodriguez** - *Implementación plantilla Geovisores Open Layers - Dane
->>>>>>> master
