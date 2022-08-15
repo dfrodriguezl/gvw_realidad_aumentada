@@ -17,10 +17,10 @@ const Leyenda = () => {
   const leyenda = (legend)
     .map((item, index) => {
       return (
-        <li className="legend__panel__list__item" key={index}>
+        item[3] === "visible" ? <li className="legend__panel__list__item" key={index}>
           <canvas className="legend__panel__list__item__square" style={{ background: item[0] }}></canvas>
           <p className="legend__panel__list__item__name"> {item[2]}</p>
-        </li>
+        </li> : null
       )
     });
 
@@ -79,7 +79,7 @@ const Leyenda = () => {
         <Fragment>
           <h2 className="legend__slider__text" id="title">Símbolos</h2>
           <h3 className="legend__value"><ProportionalSymbol /></h3>
-          
+
         </Fragment>
         : null}
 

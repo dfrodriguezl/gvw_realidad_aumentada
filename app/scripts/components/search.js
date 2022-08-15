@@ -100,11 +100,13 @@ const Search = ({ filterSearch, placeholder }) => {
             if (variables.periodos === null) {
                 getPeriodos(nivel, campo);
             }
+            // variables.getProductosByPeriodo(nivel, campo, variables.periodoSeleccionado.value);
             if (variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel] !== undefined) {
-                variables.getProductosByPeriodo(nivel, campo, variables.periodoSeleccionado.value);
+                
 
                 if (Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value]).length > 0) {
                     // variables.loadDeptoCentroids();
+                    
                     variables.changeMap(nivel, dpto, table);
 
 
@@ -164,11 +166,14 @@ const Search = ({ filterSearch, placeholder }) => {
                     if (variables.periodoSeleccionado) {
                         urlData += "&anio=" + variables.periodoSeleccionado.value
                     }
+                    
                     axios({ method: "GET", url: urlData })
                         .then(function (response) {
                             // console.log(variables.dataArrayDatos[variables.varVariable.substring(0, 5)])
+                            // variables.getProductosByPeriodo(nivel, campo, variables.periodoSeleccionado.value);
                             variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value] = response.data.resultado
                             variables.queryText[variables.varVariable.substring(0, 5)] = response.data.consulta
+                            
                             // console.log(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel])
                             // variables.loadDeptoCentroids();
                             variables.changeMap(nivel, dpto, table);
@@ -237,8 +242,6 @@ const Search = ({ filterSearch, placeholder }) => {
 
         }
 
-
-
     }
 
     const getPeriodos = (nivel, campo) => {
@@ -283,12 +286,13 @@ const Search = ({ filterSearch, placeholder }) => {
             .then(function (response) {
                 const datos = response.data.resultado;
                 const unique = [...new Set(Object.values(datos).map(item => item.L))];
-                console.log("UNIQUE", unique.sort())
+                // console.log("UNIQUE", unique.sort())
                 unique.sort().map((item) => {
                     listaProductos.push({ value: item, label: item });
                 })
-
+                
                 variables.updateListaProductos(listaProductos);
+                // variables.changeTheme("MPIO", 0, "MPIO", "y");
                 // Object.values(response.data.resultado).map((item) => {
                 //     // console.log("RESPONSE PERIODOS", item)
                 //     listaPeriodos.push(item.G);
@@ -302,6 +306,7 @@ const Search = ({ filterSearch, placeholder }) => {
                 // variables.updatePeriodoHeader(periodos[0]);
                 // variables.updatePeriodoResult(periodos[0])
             });
+            // variables.changeTheme("MPIO", 0, "MPIO", "y");
     }
 
     useEffect(() => {
@@ -383,13 +388,13 @@ const Search = ({ filterSearch, placeholder }) => {
                             // console.log(punto, "Punto")
                             if (punto === 0) {
                                 (variables.coloresLeyend[datos]["DPTO"]).push([arr[index], 'rgba(' + (chroma(arr[index]).rgba()).toString() + ')', + " "]);
-                                (variables.coloresLeyend[datos]["MPIO"]).push([arr[index], 'rgba(' + (chroma(arr[index]).rgba()).toString() + ')', + " "]);
+                                (variables.coloresLeyend[datos]["MPIO"]).push([arr[index], 'rgba(' + (chroma(arr[index]).rgba()).toString() + ')', + " ", "visible"]);
                                 (variables.coloresLeyend[datos]["MNZN"]).push([arr[index], 'rgba(' + (chroma(arr[index]).rgba()).toString() + ')', + " "]);
                                 (variables.coloresLeyend[datos]["SECC"]).push([arr[index], 'rgba(' + (chroma(arr[index]).rgba()).toString() + ')', + " "]);
                             } else {
                                 if (punto === 4) {
                                     (variables.coloresLeyend[datos]["DPTO"]).push([arr[index], 'rgba(' + (chroma(arr[index]).rgba()).toString() + ')', + " "]);
-                                    (variables.coloresLeyend[datos]["MPIO"]).push([arr[index], 'rgba(' + (chroma(arr[index]).rgba()).toString() + ')', + " "]);
+                                    (variables.coloresLeyend[datos]["MPIO"]).push([arr[index], 'rgba(' + (chroma(arr[index]).rgba()).toString() + ')', + " ", "visible"]);
                                     (variables.coloresLeyend[datos]["MNZN"]).push([arr[index], 'rgba(' + (chroma(arr[index]).rgba()).toString() + ')', + " "]);
                                     (variables.coloresLeyend[datos]["SECC"]).push([arr[index], 'rgba(' + (chroma(arr[index]).rgba()).toString() + ')', + " "]);
                                 }
@@ -490,6 +495,7 @@ const Search = ({ filterSearch, placeholder }) => {
             if (!variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"][variables.periodoSeleccionado.value]) {
                 variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"][variables.periodoSeleccionado.value] = {};
             }
+            variables.getProductosByPeriodo("MPIO", "MPIO", variables.periodoSeleccionado.value);
             variables.changeTheme("MPIO", 0, "MPIO", "y");
         } else if (zoom >= 7 && zoom <= 11) {
             if (!variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"][variables.periodoSeleccionado.value]) {

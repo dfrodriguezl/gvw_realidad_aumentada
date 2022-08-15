@@ -150,10 +150,10 @@ const Mapa = () => {
       // variables.loadDeptoCentroids();
       variables.loadMpioCentroids();
       variables.changeTheme("MPIO", 0, "MPIO", "y");
-      if (variables.deptoSelected == undefined) {
-        // variables.changeTheme("MPIO", null, null, "n");
-        variables.changeTheme("MPIO", 0, "MPIO", "y");
-      }
+      // if (variables.deptoSelected == undefined) {
+      //   // variables.changeTheme("MPIO", null, null, "n");
+      //   variables.changeTheme("MPIO", 0, "MPIO", "y");
+      // }
     }
 
     if (newZoom >= 7 && newZoom <= 11) {
@@ -294,7 +294,7 @@ const Mapa = () => {
       return;
     }
 
-    console.log("FEATURE", feature.values_)
+    // console.log("FEATURE", feature)
 
     // console.log(feature);
 
@@ -320,7 +320,7 @@ const Mapa = () => {
       const tipoVariable = variables.tematica["CATEGORIAS"][variables.varVariable][0]["TIPO_VARIABLE"];
 
       const dataPopup = variables.dataArrayDatos[variables.varVariable.substring(0, 5)][ARR[dataField][1]][variables.periodoSeleccionado.value][feature.properties_[ARR[dataField][0]]]
-      unidadesAbsolutas = variables.varVariable.includes("284") ? "m<sup>2</sup>" : variables.varVariable.includes("292") ? "licencias" : "unidades";
+      unidadesAbsolutas = variables.varVariable.includes("284") ? "m<sup>2</sup>" : variables.varVariable.includes("292") ? "licencias" : "$";
       let HTML = "";
       HTML = '<p class="popup__list"><span class="popup__title">' + dataSubgrupo + '</span></p>';
       HTML += '<p class="popup__list"><span class="popup__subtitle">' + dataCategorias + '</span> ' + '</p>';
@@ -348,7 +348,7 @@ const Mapa = () => {
       content.innerHTML = HTML;
       variables.map.addOverlay(popup);
       popup.setPosition(annoCoord);
-
+      console.log("FEATURE PROP", feature);
       if (feature.properties_.layer == "mgn_2020_dpto_politico") {
         let depto = feature.properties_[ARR[dataField][0]];
         // variables.filterGeo("DPTO", depto);
@@ -458,7 +458,7 @@ const Mapa = () => {
             const dataPopup = variables.dataArrayDatos[variables.varVariable.substring(0, 5)][featureLayer["values_"].cod_dane.length === 2 ? "DPTO" : "MPIO"][variables.periodoSeleccionado.value][featureLayer["values_"].cod_dane];
             // console.log("FEATURE", feature);
 
-            let unidadesAbsolutas = variables.varVariable.includes("284") ? "m<sup>2</sup>" : variables.varVariable.includes("292") ? "licencias" : "unidades";
+            let unidadesAbsolutas = variables.varVariable.includes("284") ? "m<sup>2</sup>" : variables.varVariable.includes("292") ? "licencias" : "$";
             let HTML = "";
             HTML = '<p class="popup__list"><span class="popup__title">' + dataSubgrupo + '</span></p>';
             HTML += '<p class="popup__list"><span class="popup__subtitle">' + dataCategorias + '</span> ' + '</p>';
@@ -499,9 +499,9 @@ const Mapa = () => {
 
             let depto = departamentosFilter[0].cod_dane;
             // variables.filterGeo("DPTO", depto);
-            variables.deptoSelected = depto;
-            variables.deptoSelectedFilter = depto;
-            variables.deptoVariable = depto;
+            // variables.deptoSelected = depto;
+            // variables.deptoSelectedFilter = depto;
+            // variables.deptoVariable = depto;
             // bboxExtent(departamentosFilter[0].bextent)
             if (variables.changeDepto != null) {
               variables.changeDepto("Departamento de " + departamentosFilter[0].name)
@@ -519,7 +519,7 @@ const Mapa = () => {
             }
 
             if (variables.changeBarChartData != null) {
-              variables.changeBarChartData("DPTO", departamentosFilter[0].cod_dane)
+              variables.changeBarChartData("MPIO", municipiosFilter[0].cod_dane)
             }
             if (banderin === 0) {
               banderin = 1;
@@ -730,7 +730,7 @@ function addLayerWms(url, layer) {
 
 //VARIABLES PARA PINTAR MAPA
 variables.changeMap = function (nivel, dpto, table) {
-  unidadesAbsolutas = variables.varVariable.includes("284") ? "m<sup>2</sup>" : variables.varVariable.includes("292") ? "licencias" : "unidades";
+  unidadesAbsolutas = variables.varVariable.includes("284") ? "m<sup>2</sup>" : variables.varVariable.includes("292") ? "licencias" : "$";
   let campos1 = ((variables.queryText[variables.varVariable.substring(0, 5)]).replace('SELECT', '')).split("FROM")
   let campos = campos1[0].split(",")
   let tipoVariable = variables.tematica["CATEGORIAS"][variables.varVariable][0]["TIPO_VARIABLE"];
@@ -771,7 +771,7 @@ variables.changeMap = function (nivel, dpto, table) {
     }
   }
 
-  
+  // console.log("ME FUI POR CHANGE MAP");
 
   if (nivel == "DPTO") {
     let valor2Array = [];
@@ -962,11 +962,17 @@ variables.changeMap = function (nivel, dpto, table) {
   }
   else if (nivel == "MPIO") {
     let valor2Array = [];
+    // console.log("DATA", variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value]);
     var integrado = Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value]).map(function (a, b) {
       let valor, valor2
-
-      if (a["G"] === variables.periodoSeleccionado.value) {
-        // console.log("A MPIO", a);
+      
+      if (a["G"] === variables.periodoSeleccionado.value && a["L"] === variables.productoSeleccionado.value) {
+        console.log("A", a)
+        console.log("PRODUCTO", variables.productoSeleccionado)
+        // console.log("LLL", a["L"]);
+        // console.log("PER SELC", variables.productoSeleccionado);
+        // console.log("A MPIO", a[variables.alias]);
+        // console.log("A", a);
         if (a[variables.alias].includes(",")) {
 
           // if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined && a[nivel].substring(0,2) === variables.deptoSelectedFilter) {
@@ -1013,8 +1019,9 @@ variables.changeMap = function (nivel, dpto, table) {
 
         }
 
-
-
+        
+        // console.log("VALOR 11", valor);
+        // console.log("VALOR 22", valor2);
 
         if (valor != undefined && !isNaN(valor)) {
           if (variables.deptoSelectedFilter != undefined) {
@@ -1030,21 +1037,27 @@ variables.changeMap = function (nivel, dpto, table) {
         } else if (valor2 != undefined && !isNaN(valor2)) {
           if (variables.deptoSelectedFilter != undefined) {
             if (a[nivel].substring(0, 2) === variables.deptoSelectedFilter) {
+              console.log("VALOR 3", valor2);
               return valor2
             } else {
               return 0;
             }
           } else {
+            console.log("VALOR 4", valor2);
             return valor2
           }
 
         } else {
           return 0
         }
+      } else {
+        return 0;
       }
     }, []);
 
-    // console.log("INTEGRADO MPIO", integrado);
+
+    integrado = integrado.filter(o => o > 0);
+    console.log("INTEGRADO MPIO", integrado);
 
     max = Math.max(...integrado);
     min = Math.min(...integrado);
@@ -1058,10 +1071,11 @@ variables.changeMap = function (nivel, dpto, table) {
     let list = integrado.filter((x, i, a) => a.indexOf(x) == i)
     let dataUnidades = variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"];
     // console.log(integrado)
-    // console.log(list)
+    console.log("LIST", list)
+    const rangeNumber = list.length < 5 ? list.length : 5;
     var serie = new geostats(list);
-    // console.log(serie)
-    if (serie.getClassJenks(5) != undefined) {
+    console.log("SERIES", serie.getClassJenks(rangeNumber))
+    if (serie.getClassJenks(rangeNumber) != undefined) {
       for (let index = 0; index < (serie.ranges).length; index++) {
         const searchRegExp = /\./g;
         let rangeSplit = serie.ranges[(serie.ranges).length - (index + 1)].split(" - ");
@@ -1074,13 +1088,24 @@ variables.changeMap = function (nivel, dpto, table) {
           rango = rango.split("-")
           rango = " > " + rango[0].trim() + " (" + dataUnidades + ")"
         }
-
+        console.log("RANGO", rango);
+        console.log("TABLE", table);
         if (table == "y") {
+          console.log("RANG", variables.coloresLeyend[variables.varVariable]["MPIO"]);
           variables.coloresLeyend[variables.varVariable]["MPIO"][index][2] = rango;
         }
 
       }
     }
+
+
+    variables.coloresLeyend[variables.varVariable]["MPIO"].map((color, idx) => {
+      if (idx >= rangeNumber) {
+        variables.coloresLeyend[variables.varVariable]["MPIO"][idx][3] = "hidden";
+      } else {
+        variables.coloresLeyend[variables.varVariable]["MPIO"][idx][3] = "visible";
+      }
+    })
 
     let layer = variables.capas['mpios_vt'];
     let extent = variables.map.getView().calculateExtent();
@@ -1188,6 +1213,8 @@ variables.changeMap = function (nivel, dpto, table) {
       // console.log(mpio)
 
     }, []);
+
+    // variables.changeLegend(nivel);
 
     // console.log(variables.coloresLeyend[variables.varVariable]["MPIO"])
     // variables.changeChart();
@@ -1493,7 +1520,7 @@ const updateRangeSimbology = (valorCampo, nivel, colorInput) => {
     }, []);
   }
 
-  return color;
+  return color === undefined ? colorInput : color;
 }
 
 function changeSymbologi(cluster, nivel, feature, layer) {
@@ -1612,12 +1639,14 @@ function changeSymbologiCluster(cluster, nivel, min, max, max2) {
   } else {
     // console.log("VALOR CAMPO", variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][cluster])
     const valorCampo = variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value][cluster];
+
     if (valorCampo !== undefined) {
-      if (valorCampo["G"] === variables.periodoSeleccionado.value) {
+
+      if (valorCampo["G"] === variables.periodoSeleccionado.value && valorCampo["L"] === variables.productoSeleccionado.value) {
         color = updateRangeSimbology(valorCampo, nivel, color);
         let valor = valorCampo[variables.alias2] ? valorCampo[variables.alias2] : valorCampo[variables.alias];
         let maxValor = valorCampo[variables.alias2] ? max2 : max;
-        radioValor = (valor.replace(",", ".") * 60) / maxValor;
+        radioValor = (valor.replace(",", ".") * 30) / maxValor;
       }
     }
 
