@@ -10,6 +10,7 @@ export const variables = {
     urlTemas: 'https://geoportal.dane.gov.co/laboratorio/serviciosjson/visores/temas.php',
     // urlTemas: 'https://nowsoft.app/geoportal/laboratorio/serviciosjson/visores/temas_upper.php', //enlace/servicio  que trae el servicio de las tematicas por visor
     urlVariables: 'https://geoportal.dane.gov.co/laboratorio/serviciosjson/visores/variables8.php',//enlace/servicio  que trae los datos de la variable seleccionada
+    urlVariablesProductos: 'https://geoportal.dane.gov.co/laboratorio/serviciosjson/sipsa/productos.php',//enlace/servicio  que trae los datos de la variable seleccionada
     // urlVariables: 'https://nowsoft.app/geoportal/laboratorio/serviciosjson/visores/variables8_upper.php',
     codVisor: "49", //Ponga el codigo que corresponde a SU VISOR
     varVariable: "32101001", //Ponga el codigo de la CATEGORIA que corresponda a su visor
@@ -357,6 +358,10 @@ export const variables = {
     listaProductos: null,
     productoSeleccionado: null,
     updateListaProductos: null,
-    updateProductoSeleccionado: null
+    updateProductoSeleccionado: null,
+    variablesCampos: {
+        '%': 'VARIACION_PP',
+        '$': 'PRECIO_PROMEDIO_ACTUAL'
+    }
 }
 export const urlDeploy = 'http://localhost:3000/'

@@ -158,10 +158,10 @@ const Search = ({ filterSearch, placeholder }) => {
                     }
                 }
                 else {
-                    let urlData = variables.urlVariables + "?codigo_subgrupo=" + variables.varVariable.substring(0, 5) + "&nivel_geografico=" + nivel
-                    if (campo != undefined) {
-                        urlData += "&campo=" + campo
-                    }
+                    let urlData = variables.urlVariablesProductos + "?codigo_subgrupo=" + variables.varVariable.substring(0, 5)
+                    // if (campo != undefined) {
+                    //     urlData += "&campo=" + campo
+                    // }
 
                     if (variables.periodoSeleccionado) {
                         urlData += "&anio=" + variables.periodoSeleccionado.value
@@ -171,8 +171,8 @@ const Search = ({ filterSearch, placeholder }) => {
                         .then(function (response) {
                             // console.log(variables.dataArrayDatos[variables.varVariable.substring(0, 5)])
                             // variables.getProductosByPeriodo(nivel, campo, variables.periodoSeleccionado.value);
-                            variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value] = response.data.resultado
-                            variables.queryText[variables.varVariable.substring(0, 5)] = response.data.consulta
+                            variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value] = JSON.parse(response.data.replace("Array","")).resultado;
+                            // variables.queryText[variables.varVariable.substring(0, 5)] = response.data.consulta
                             
                             // console.log(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel])
                             // variables.loadDeptoCentroids();

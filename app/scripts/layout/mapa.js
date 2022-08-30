@@ -296,7 +296,7 @@ const Mapa = () => {
 
     // console.log("FEATURE", feature)
 
-    // console.log(feature);
+    // console.log("FEATURE", feature);
 
 
 
@@ -319,7 +319,15 @@ const Mapa = () => {
       const dataCategorias = variables.tematica["CATEGORIAS"][variables.varVariable][0]["CATEGORIA"];
       const tipoVariable = variables.tematica["CATEGORIAS"][variables.varVariable][0]["TIPO_VARIABLE"];
 
-      const dataPopup = variables.dataArrayDatos[variables.varVariable.substring(0, 5)][ARR[dataField][1]][variables.periodoSeleccionado.value][feature.properties_[ARR[dataField][0]]]
+      // const dataPopup = variables.dataArrayDatos[variables.varVariable.substring(0, 5)][ARR[dataField][1]][variables.periodoSeleccionado.value][feature.properties_[ARR[dataField][0]]]
+      // console.log("POPUP", variables.dataArrayDatos[variables.varVariable.substring(0, 5)][ARR[dataField][1]][variables.periodoSeleccionado.value])
+      const dataPopup = variables.dataArrayDatos[variables.varVariable.substring(0, 5)][ARR[dataField][1]][variables.periodoSeleccionado.value].filter((a) => {
+        if (a["FECHA"] === variables.periodoSeleccionado.value && a["NOMBRE_INSUMO"] === variables.productoSeleccionado.value
+          && a["COD_MPIO"] === feature.properties_[ARR[dataField][0]]) {
+          return a;
+        }
+      });
+
       unidadesAbsolutas = variables.varVariable.includes("284") ? "m<sup>2</sup>" : variables.varVariable.includes("292") ? "licencias" : "$";
       let HTML = "";
       HTML = '<p class="popup__list"><span class="popup__title">' + dataSubgrupo + '</span></p>';
@@ -332,7 +340,16 @@ const Mapa = () => {
           HTML += '<p class="popup__list">' + 'Participación porcentual (' + parseFloat(dataPopup[variables.alias].replace(",", ".")).toFixed(1) + ' ' + dataUnidades + ')' + '</p>'
           HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[variables.alias2]).toLocaleString("de-De").replace(",", ".") + '</span><span class="popup__valueItem"> ' + unidadesAbsolutas + '</span></p>';
         } else {
-          HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[variables.alias]).toLocaleString("de-De").replace(",", ".") + '</span><span class="popup__valueItem"> ' + unidadesAbsolutas + '</span></p>';
+          HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[0][variables.alias]).toLocaleString("de-De").replace(",", ".") + '</span><span class="popup__valueItem"> ' + dataUnidades + '</span></p>';
+          if (dataUnidades === '$') {
+            HTML += '<p class="popup__list"><span class="popup__subtitle">Precio promedio anterior</span></p>';
+            HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[0]["PRECIO_PROMEDIO_ANTERIOR"]).toLocaleString("de-De").replace(",", ".") + '</span><span class="popup__valueItem"> ' + dataUnidades + '</span></p>';
+          } else if (dataUnidades === '%') {
+            HTML += '<p class="popup__list"><span class="popup__subtitle">Tendencia</span></p>';
+            HTML += '<p class="popup__list"><span class="popup__value">' + dataPopup[0]["TENDENCIA"] + '</span></p>';
+          }
+
+
         }
       }
 
@@ -348,7 +365,7 @@ const Mapa = () => {
       content.innerHTML = HTML;
       variables.map.addOverlay(popup);
       popup.setPosition(annoCoord);
-      console.log("FEATURE PROP", feature);
+      // console.log("FEATURE PROP", feature);
       if (feature.properties_.layer == "mgn_2020_dpto_politico") {
         let depto = feature.properties_[ARR[dataField][0]];
         // variables.filterGeo("DPTO", depto);
@@ -455,8 +472,12 @@ const Mapa = () => {
             const dataUnidades = variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"];
             const dataCategorias = variables.tematica["CATEGORIAS"][variables.varVariable][0]["CATEGORIA"];
             const tipoVariable = variables.tematica["CATEGORIAS"][variables.varVariable][0]["TIPO_VARIABLE"];
-            const dataPopup = variables.dataArrayDatos[variables.varVariable.substring(0, 5)][featureLayer["values_"].cod_dane.length === 2 ? "DPTO" : "MPIO"][variables.periodoSeleccionado.value][featureLayer["values_"].cod_dane];
-            // console.log("FEATURE", feature);
+            const dataPopup = variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["MPIO"][variables.periodoSeleccionado.value].filter((a) => {
+              if (a["FECHA"] === variables.periodoSeleccionado.value && a["NOMBRE_INSUMO"] === variables.productoSeleccionado.value
+                && a["COD_MPIO"] === featureLayer["values_"].cod_dane) {
+                return a;
+              }
+            });
 
             let unidadesAbsolutas = variables.varVariable.includes("284") ? "m<sup>2</sup>" : variables.varVariable.includes("292") ? "licencias" : "$";
             let HTML = "";
@@ -472,7 +493,9 @@ const Mapa = () => {
                 HTML += '<p class="popup__list"><span class="popup__thirdtitle">' + 'Participación porcentual (' + parseFloat(dataPopup[variables.alias].replace(",", ".")).toFixed(1) + ' ' + dataUnidades + ')' + '</span></p>'
                 HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[variables.alias2]).toLocaleString("de-De").replace(",", ".") + '</span><span class="popup__valueItem">' + unidadesAbsolutas + '</span></p>';
               } else {
-                HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[variables.alias]).toLocaleString("de-De").replace(",", ".") + '</span><span class="popup__valueItem"> ' + unidadesAbsolutas + '</span></p>';
+                HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[0][variables.alias]).toLocaleString("de-De").replace(",", ".") + '</span><span class="popup__valueItem"> ' + unidadesAbsolutas + '</span></p>';
+                HTML += '<p class="popup__list"><span class="popup__subtitle">Precio promedio anterior</span></p>';
+                HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[0]["PRECIO_PROMEDIO_ANTERIOR"]).toLocaleString("de-De").replace(",", ".") + '</span><span class="popup__valueItem"> ' + unidadesAbsolutas + '</span></p>';
               }
             }
 
@@ -731,53 +754,55 @@ function addLayerWms(url, layer) {
 //VARIABLES PARA PINTAR MAPA
 variables.changeMap = function (nivel, dpto, table) {
   unidadesAbsolutas = variables.varVariable.includes("284") ? "m<sup>2</sup>" : variables.varVariable.includes("292") ? "licencias" : "$";
-  let campos1 = ((variables.queryText[variables.varVariable.substring(0, 5)]).replace('SELECT', '')).split("FROM")
-  let campos = campos1[0].split(",")
+  // let campos1 = ((variables.queryText[variables.varVariable.substring(0, 5)]).replace('SELECT', '')).split("FROM")
+  // let campos = campos1[0].split(",")
   let tipoVariable = variables.tematica["CATEGORIAS"][variables.varVariable][0]["TIPO_VARIABLE"];
 
-  for (let index = 0; index < campos.length; index++) {
-    if (tipoVariable === "VC") {
-      // console.log("CAMPOS", campos);
-      // console.log("TABLA 2", variables.tematica["CATEGORIAS"][variables.varVariable][0]["CAMPO_TABLA2"]);
-      // console.log("TABLA 1", variables.tematica["CATEGORIAS"][variables.varVariable][0]["CAMPO_TABLA"]);
-      if (campos[index].indexOf(variables.tematica["CATEGORIAS"][variables.varVariable][0]["CAMPO_TABLA2"]) != "-1") {
-        let arrField = (campos[index]).split(" ")
-        arrField = cleanArray(arrField)
+  // for (let index = 0; index < campos.length; index++) {
+  //   if (tipoVariable === "VC") {
+  //     // console.log("CAMPOS", campos);
+  //     // console.log("TABLA 2", variables.tematica["CATEGORIAS"][variables.varVariable][0]["CAMPO_TABLA2"]);
+  //     // console.log("TABLA 1", variables.tematica["CATEGORIAS"][variables.varVariable][0]["CAMPO_TABLA"]);
+  //     if (campos[index].indexOf(variables.tematica["CATEGORIAS"][variables.varVariable][0]["CAMPO_TABLA2"]) != "-1") {
+  //       let arrField = (campos[index]).split(" ")
+  //       arrField = cleanArray(arrField)
 
-        if ((variables.tematica["CATEGORIAS"][variables.varVariable][0]["CAMPO_TABLA2"]).trim() == arrField[0].trim()) {
-          variables.alias = (arrField[arrField.length - 1]).trim() // definir el tipo de variable que se debe previsualizar
-          variables.valorTotal = variables.alias.replace('PP', 'V')
-        }
-      }
-      else if (campos[index].indexOf(variables.tematica["CATEGORIAS"][variables.varVariable][0]["CAMPO_TABLA"]) != "-1") {
-        let arrField = (campos[index]).split(" ")
-        arrField = cleanArray(arrField)
-        console.log("ARR FIELD 2", arrField);
-        if ((variables.tematica["CATEGORIAS"][variables.varVariable][0]["CAMPO_TABLA"]).trim() == arrField[0].trim()) {
-          variables.alias2 = (arrField[arrField.length - 1]).trim() //definir el tipo de variable que se debe previsualizar
-          variables.valorTotal = variables.alias2.replace('V', 'PP')
-        }
-      }
-    }
-    else {
-      if (campos[index].indexOf(variables.tematica["CATEGORIAS"][variables.varVariable][0]["CAMPO_TABLA"]) != "-1") {
-        let arrField = (campos[index]).split(" ")
-        arrField = cleanArray(arrField)
-        if ((variables.tematica["CATEGORIAS"][variables.varVariable][0]["CAMPO_TABLA"]).trim() == arrField[0].trim()) {
-          variables.alias = (arrField[arrField.length - 1]).trim() // definir el tipo de variable que se debe previsualizar
-          variables.valorTotal = variables.alias.replace('V', 'PP')
-        }
-      }
-    }
-  }
+  //       if ((variables.tematica["CATEGORIAS"][variables.varVariable][0]["CAMPO_TABLA2"]).trim() == arrField[0].trim()) {
+  //         variables.alias = (arrField[arrField.length - 1]).trim() // definir el tipo de variable que se debe previsualizar
+  //         variables.valorTotal = variables.alias.replace('PP', 'V')
+  //       }
+  //     }
+  //     else if (campos[index].indexOf(variables.tematica["CATEGORIAS"][variables.varVariable][0]["CAMPO_TABLA"]) != "-1") {
+  //       let arrField = (campos[index]).split(" ")
+  //       arrField = cleanArray(arrField)
+  //       console.log("ARR FIELD 2", arrField);
+  //       if ((variables.tematica["CATEGORIAS"][variables.varVariable][0]["CAMPO_TABLA"]).trim() == arrField[0].trim()) {
+  //         variables.alias2 = (arrField[arrField.length - 1]).trim() //definir el tipo de variable que se debe previsualizar
+  //         variables.valorTotal = variables.alias2.replace('V', 'PP')
+  //       }
+  //     }
+  //   }
+  //   else {
+  //     if (campos[index].indexOf(variables.tematica["CATEGORIAS"][variables.varVariable][0]["CAMPO_TABLA"]) != "-1") {
+  //       let arrField = (campos[index]).split(" ")
+  //       arrField = cleanArray(arrField)
+  //       if ((variables.tematica["CATEGORIAS"][variables.varVariable][0]["CAMPO_TABLA"]).trim() == arrField[0].trim()) {
+  //         variables.alias = (arrField[arrField.length - 1]).trim() // definir el tipo de variable que se debe previsualizar
+  //         variables.valorTotal = variables.alias.replace('V', 'PP')
+  //       }
+  //     }
+  //   }
+  // }
 
+
+  variables.alias = variables.variablesCampos[variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"]];
   // console.log("ME FUI POR CHANGE MAP");
 
   if (nivel == "DPTO") {
     let valor2Array = [];
     var integrado = Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value]).map(function (a, b) {
       let valor, valor2
-
+      c
       if (a["G"] === variables.periodoSeleccionado.value) {
         if (a[variables.alias].includes(",")) {
           valor = parseFloat(a[variables.alias]).toFixed(2).toLocaleString("de-De").replace(",", ".")
@@ -962,11 +987,12 @@ variables.changeMap = function (nivel, dpto, table) {
   }
   else if (nivel == "MPIO") {
     let valor2Array = [];
-    // console.log("DATA", variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value]);
+
     var integrado = Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value]).map(function (a, b) {
       let valor, valor2
-      
-      if (a["G"] === variables.periodoSeleccionado.value && a["L"] === variables.productoSeleccionado.value) {
+
+
+      if (a["FECHA"] === variables.periodoSeleccionado.value && a["NOMBRE_INSUMO"] === variables.productoSeleccionado.value) {
         if (a[variables.alias].includes(",")) {
 
           // if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined && a[nivel].substring(0,2) === variables.deptoSelectedFilter) {
@@ -1013,7 +1039,7 @@ variables.changeMap = function (nivel, dpto, table) {
 
         }
 
-        
+
         // console.log("VALOR 11", valor);
         // console.log("VALOR 22", valor2);
 
@@ -1047,7 +1073,7 @@ variables.changeMap = function (nivel, dpto, table) {
       }
     }, []);
 
-
+    // console.log("INTEGRADO", integrado);
     integrado = integrado.filter(o => o > 0);
     // console.log("INTEGRADO MPIO", integrado);
 
@@ -1061,6 +1087,7 @@ variables.changeMap = function (nivel, dpto, table) {
     // console.log("MAX2", max2);
 
     let list = integrado.filter((x, i, a) => a.indexOf(x) == i)
+    // console.log("LIST", list);
     let dataUnidades = variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"];
     // console.log(integrado)
     // console.log("LIST", list)
@@ -1080,10 +1107,7 @@ variables.changeMap = function (nivel, dpto, table) {
           rango = rango.split("-")
           rango = " > " + rango[0].trim() + " (" + dataUnidades + ")"
         }
-        console.log("RANGO", rango);
-        console.log("TABLE", table);
         if (table == "y") {
-          console.log("RANG", variables.coloresLeyend[variables.varVariable]["MPIO"]);
           variables.coloresLeyend[variables.varVariable]["MPIO"][index][2] = rango;
         }
 
@@ -1138,73 +1162,73 @@ variables.changeMap = function (nivel, dpto, table) {
       ]
     }
 
-    var labels = Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value]).map(function (a, b) {
+    // var labels = Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value]).map(function (a, b) {
 
-      let valor = parseFloat(a[variables.alias]).toFixed(2)
-      let valor2 = parseFloat(a[variables.alias2])
-      // let valor3 = (valor * 100)
-      // console.log(a)
-      let mpio = (municipios).filter(result => (result.cod_dane == a[nivel]))
-      let depto = (departamentos).filter(result => (result.cod_dane == a[nivel].substring(0, 2)))
-      // console.log(depto)
+    //   let valor = parseFloat(a[variables.alias]).toFixed(2)
+    //   let valor2 = parseFloat(a[variables.alias2])
+    //   // let valor3 = (valor * 100)
+    //   // console.log(a)
+    //   let mpio = (municipios).filter(result => (result.cod_dane == a[nivel]))
+    //   let depto = (departamentos).filter(result => (result.cod_dane == a[nivel].substring(0, 2)))
+    //   // console.log(depto)
 
-      // console.log(dpto)
-      if (dpto != null) {
-        depto = (departamentos).filter(result => (result.cod_dane == dpto))
-        if (mpio[0].cod_dane.substring(0, 2) == dpto) {
-          dataTable.push({ depto: depto[0].name, mpio: mpio[0].name, codigo: mpio[0].cod_dane, valor: valor, valor2: valor2 });
-        }
+    //   // console.log(dpto)
+    //   if (dpto != null) {
+    //     depto = (departamentos).filter(result => (result.cod_dane == dpto))
+    //     if (mpio[0].cod_dane.substring(0, 2) == dpto) {
+    //       dataTable.push({ depto: depto[0].name, mpio: mpio[0].name, codigo: mpio[0].cod_dane, valor: valor, valor2: valor2 });
+    //     }
 
-        // mpio = (municipios).filter(result => (result.cod_dane.substring(0,2) == dpto))
+    //     // mpio = (municipios).filter(result => (result.cod_dane.substring(0,2) == dpto))
 
-      } else {
-        let shouldSkipp = false;
-        f.forEach((m) => {
-          if (shouldSkipp) {
-            return;
-          }
-          // console.log(m)
+    //   } else {
+    //     let shouldSkipp = false;
+    //     f.forEach((m) => {
+    //       if (shouldSkipp) {
+    //         return;
+    //       }
+    //       // console.log(m)
 
-          if (m.properties_.id == mpio[0].cod_dane) {
-            // console.log(valor)
-            // console.log(depto)
-            labelsData.push(mpio[0].name)
-            data.push(valor);
-            dataTable.push({ depto: depto[0].name, mpio: mpio[0].name, codigo: mpio[0].cod_dane, valor: valor });
+    //       if (m.properties_.id == mpio[0].cod_dane) {
+    //         // console.log(valor)
+    //         // console.log(depto)
+    //         labelsData.push(mpio[0].name)
+    //         data.push(valor);
+    //         dataTable.push({ depto: depto[0].name, mpio: mpio[0].name, codigo: mpio[0].cod_dane, valor: valor });
 
-            let shouldSkip = false;
-            (variables.coloresLeyend[variables.varVariable][nivel]).forEach((value) => {
-              // console.log(value)
-              let element = value[2].split("-")
-              let colour
+    //         let shouldSkip = false;
+    //         (variables.coloresLeyend[variables.varVariable][nivel]).forEach((value) => {
+    //           // console.log(value)
+    //           let element = value[2].split("-")
+    //           let colour
 
-              if (shouldSkip) {
-                return;
-              }
+    //           if (shouldSkip) {
+    //             return;
+    //           }
 
-              if (element.length == 1) {
-                if (parseFloat(valor) >= parseFloat((element[0].replace(">", "").trim()))) {
-                  colour = value[0];
-                  colors.push(colour)
-                  shouldSkip = true
-                }
-              } else {
-                if (parseFloat(valor) >= parseFloat(element[0]) && parseFloat(valor) <= parseFloat(element[1])) {
-                  colour = value[0];
-                  colors.push(colour)
-                  shouldSkip = true
-                }
-              }
-            })
+    //           if (element.length == 1) {
+    //             if (parseFloat(valor) >= parseFloat((element[0].replace(">", "").trim()))) {
+    //               colour = value[0];
+    //               colors.push(colour)
+    //               shouldSkip = true
+    //             }
+    //           } else {
+    //             if (parseFloat(valor) >= parseFloat(element[0]) && parseFloat(valor) <= parseFloat(element[1])) {
+    //               colour = value[0];
+    //               colors.push(colour)
+    //               shouldSkip = true
+    //             }
+    //           }
+    //         })
 
-            shouldSkipp = true;
-          }
-        })
-      }
+    //         shouldSkipp = true;
+    //       }
+    //     })
+    //   }
 
-      // console.log(mpio)
+    //   // console.log(mpio)
 
-    }, []);
+    // }, []);
 
     // variables.changeLegend(nivel);
 
@@ -1501,18 +1525,18 @@ variables.changeMap = function (nivel, dpto, table) {
 
 const updateRangeSimbology = (valorCampo, nivel, colorInput) => {
   let color = colorInput;
-  if (valorCampo != undefined) {
+  if (valorCampo.length > 0) {
     (variables.coloresLeyend[variables.varVariable][nivel]).map(function (obj, j, k) {
       let element = obj[2];
       element = String(element).split('-');
       if (element.length == 1) {
-        if (parseFloat(valorCampo[variables.alias]).toFixed(2)
+        if (parseFloat(valorCampo[0][variables.alias]).toFixed(2)
           >= parseFloat(element[0].replace(">", "").replaceAll('.', '').replace("%", "").trim())) {
           color = obj[0];
         }
       } else {
-        if (parseFloat(valorCampo[variables.alias]).toFixed(2) >= parseFloat(element[0].replaceAll('.', '').replace("%", ""))
-          && parseFloat(valorCampo[variables.alias]).toFixed(2) <= parseFloat(element[1].replaceAll('.', '').replace("%", ""))) {
+        if (parseFloat(valorCampo[0][variables.alias]).toFixed(2) >= parseFloat(element[0].replaceAll('.', '').replace("%", ""))
+          && parseFloat(valorCampo[0][variables.alias]).toFixed(2) <= parseFloat(element[1].replaceAll('.', '').replace("%", ""))) {
           color = obj[0];
         }
       }
@@ -1524,16 +1548,22 @@ const updateRangeSimbology = (valorCampo, nivel, colorInput) => {
 
 function changeSymbologi(cluster, nivel, feature, layer) {
   let color = "#FFFFFF80";
-  let valorCampo = "";
+  // let valorCampo = "";
 
   if (variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][cluster.substring(0, 2)] !== undefined && nivel === "MNZN") {
     const valorCampo = variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][cluster.substring(0, 2)][cluster];
     color = updateRangeSimbology(valorCampo, nivel, color);
   } else {
     // console.log("VALOR CAMPO", variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][cluster])
-    const valorCampo = variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value][cluster];
-    if (valorCampo !== undefined) {
-      if (valorCampo["G"] === variables.periodoSeleccionado.value && valorCampo["L"] === variables.productoSeleccionado.value) {
+    const valorCampo = variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value].filter((a) => {
+      if (a["FECHA"] === variables.periodoSeleccionado.value && a["NOMBRE_INSUMO"] === variables.productoSeleccionado.value
+        && a["COD_MPIO"] === cluster) {
+        return a;
+      }
+    });
+    // const valorCampo = variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value][cluster];
+    if (valorCampo.length > 0) {
+      if (valorCampo[0]["FECHA"] === variables.periodoSeleccionado.value && valorCampo[0]["NOMBRE_INSUMO"] === variables.productoSeleccionado.value) {
         color = updateRangeSimbology(valorCampo, nivel, color);
       }
     }
@@ -1637,14 +1667,20 @@ function changeSymbologiCluster(cluster, nivel, min, max, max2) {
     color = updateRangeSimbology(valorCampo, nivel, color);
   } else {
     // console.log("VALOR CAMPO", variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][cluster])
-    const valorCampo = variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value][cluster];
+    // const valorCampo = variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value][cluster];
+    const valorCampo = variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value].filter((a) => {
+      if (a["FECHA"] === variables.periodoSeleccionado.value && a["NOMBRE_INSUMO"] === variables.productoSeleccionado.value
+        && a["COD_MPIO"] === cluster) {
+        return a;
+      }
+    });
 
-    if (valorCampo !== undefined) {
+    if (valorCampo.length > 0) {
 
-      if (valorCampo["G"] === variables.periodoSeleccionado.value && valorCampo["L"] === variables.productoSeleccionado.value) {
+      if (valorCampo[0]["FECHA"] === variables.periodoSeleccionado.value && valorCampo[0]["NOMBRE_INSUMO"] === variables.productoSeleccionado.value) {
         color = updateRangeSimbology(valorCampo, nivel, color);
-        let valor = valorCampo[variables.alias2] ? valorCampo[variables.alias2] : valorCampo[variables.alias];
-        let maxValor = valorCampo[variables.alias2] ? max2 : max;
+        let valor = valorCampo[0][variables.alias2] ? valorCampo[0][variables.alias2] : valorCampo[0][variables.alias];
+        let maxValor = valorCampo[0][variables.alias2] ? max2 : max;
         radioValor = (valor.replace(",", ".") * 30) / maxValor;
       }
     }
