@@ -322,7 +322,7 @@ const Mapa = () => {
       // const dataPopup = variables.dataArrayDatos[variables.varVariable.substring(0, 5)][ARR[dataField][1]][variables.periodoSeleccionado.value][feature.properties_[ARR[dataField][0]]]
       // console.log("POPUP", variables.dataArrayDatos[variables.varVariable.substring(0, 5)][ARR[dataField][1]][variables.periodoSeleccionado.value])
       const dataPopup = variables.dataArrayDatos[variables.varVariable.substring(0, 5)][ARR[dataField][1]][variables.periodoSeleccionado.value].filter((a) => {
-        if (a["FECHA"] === variables.periodoSeleccionado.value && a["NOMBRE_INSUMO"] === variables.productoSeleccionado.value
+        if (a["FECHA"] === variables.periodoSeleccionado.value && a["PRODUCTOS_ESPECIE_PUBLI"] === variables.productoSeleccionado.value
           && a["COD_MPIO"] === feature.properties_[ARR[dataField][0]]) {
           return a;
         }
@@ -473,7 +473,7 @@ const Mapa = () => {
             const dataCategorias = variables.tematica["CATEGORIAS"][variables.varVariable][0]["CATEGORIA"];
             const tipoVariable = variables.tematica["CATEGORIAS"][variables.varVariable][0]["TIPO_VARIABLE"];
             const dataPopup = variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["MPIO"][variables.periodoSeleccionado.value].filter((a) => {
-              if (a["FECHA"] === variables.periodoSeleccionado.value && a["NOMBRE_INSUMO"] === variables.productoSeleccionado.value
+              if (a["FECHA"] === variables.periodoSeleccionado.value && a["PRODUCTOS_ESPECIE_PUBLI"] === variables.productoSeleccionado.value
                 && a["COD_MPIO"] === featureLayer["values_"].cod_dane) {
                 return a;
               }
@@ -992,7 +992,7 @@ variables.changeMap = function (nivel, dpto, table) {
       let valor, valor2
 
 
-      if (a["FECHA"] === variables.periodoSeleccionado.value && a["NOMBRE_INSUMO"] === variables.productoSeleccionado.value) {
+      if (a["FECHA"] === variables.periodoSeleccionado.value && a["PRODUCTOS_ESPECIE_PUBLI"] === variables.productoSeleccionado.value) {
         if (a[variables.alias].includes(",")) {
 
           // if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined && a[nivel].substring(0,2) === variables.deptoSelectedFilter) {
@@ -1556,14 +1556,14 @@ function changeSymbologi(cluster, nivel, feature, layer) {
   } else {
     // console.log("VALOR CAMPO", variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][cluster])
     const valorCampo = variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value].filter((a) => {
-      if (a["FECHA"] === variables.periodoSeleccionado.value && a["NOMBRE_INSUMO"] === variables.productoSeleccionado.value
+      if (a["FECHA"] === variables.periodoSeleccionado.value && a["PRODUCTOS_ESPECIE_PUBLI"] === variables.productoSeleccionado.value
         && a["COD_MPIO"] === cluster) {
         return a;
       }
     });
     // const valorCampo = variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value][cluster];
     if (valorCampo.length > 0) {
-      if (valorCampo[0]["FECHA"] === variables.periodoSeleccionado.value && valorCampo[0]["NOMBRE_INSUMO"] === variables.productoSeleccionado.value) {
+      if (valorCampo[0]["FECHA"] === variables.periodoSeleccionado.value && valorCampo[0]["PRODUCTOS_ESPECIE_PUBLI"] === variables.productoSeleccionado.value) {
         color = updateRangeSimbology(valorCampo, nivel, color);
       }
     }
@@ -1669,7 +1669,7 @@ function changeSymbologiCluster(cluster, nivel, min, max, max2) {
     // console.log("VALOR CAMPO", variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][cluster])
     // const valorCampo = variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value][cluster];
     const valorCampo = variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value].filter((a) => {
-      if (a["FECHA"] === variables.periodoSeleccionado.value && a["NOMBRE_INSUMO"] === variables.productoSeleccionado.value
+      if (a["FECHA"] === variables.periodoSeleccionado.value && a["PRODUCTOS_ESPECIE_PUBLI"] === variables.productoSeleccionado.value
         && a["COD_MPIO"] === cluster) {
         return a;
       }
@@ -1677,7 +1677,7 @@ function changeSymbologiCluster(cluster, nivel, min, max, max2) {
 
     if (valorCampo.length > 0) {
 
-      if (valorCampo[0]["FECHA"] === variables.periodoSeleccionado.value && valorCampo[0]["NOMBRE_INSUMO"] === variables.productoSeleccionado.value) {
+      if (valorCampo[0]["FECHA"] === variables.periodoSeleccionado.value && valorCampo[0]["PRODUCTOS_ESPECIE_PUBLI"] === variables.productoSeleccionado.value) {
         color = updateRangeSimbology(valorCampo, nivel, color);
         let valor = valorCampo[0][variables.alias2] ? valorCampo[0][variables.alias2] : valorCampo[0][variables.alias];
         let maxValor = valorCampo[0][variables.alias2] ? max2 : max;

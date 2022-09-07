@@ -62,7 +62,7 @@ const HelpContent = () => {
                         Geovisor para la consulta y visualización de la información correspondiente a los resultados de la operación estadística de 
                         licencias de construcción para agregados geográficos departamento y municipios
                             <br />
-                            <a href="https://www.dane.gov.co/index.php/estadisticas-por-tema/construccion/licencias-de-construccion" target="_blank" className="help__listPanelLink">
+                            <a href="https://www.dane.gov.co/index.php/estadisticas-por-tema/precios-y-costos/sistema-de-informacion-de-precios-sipsa" target="_blank" className="help__listPanelLink">
                                 <div className="help__panelItem__icon1">
                                     <span className="DANE__Geovisor__icon__List"></span>
                                 </div>
