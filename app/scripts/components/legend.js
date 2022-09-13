@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext, useLayoutEffect, Fragment } from "react";
 import { variables } from '../base/variables';
-import ProportionalSymbol from "./proportionalSymbol";
+
 
 const Leyenda = () => {
   // const [tema, setTema] = React.useState("Educación");
@@ -9,7 +9,7 @@ const Leyenda = () => {
   const [categoria, setCategoria] = useState("");
   const [unidad, setUnidad] = useState("");
   const [transparency, setTransparency] = useState(variables.tansparency);
-  const [propSymbol, setPropSymbol] = useState(false);
+
 
   // console.log(legend)
   // console.log(variables.tematica)
@@ -47,14 +47,6 @@ const Leyenda = () => {
     setTransparency(transparencia)
   }
 
-  variables.hideProportionalSymbols = (hide) => {
-    if (hide) {
-      setPropSymbol(true);
-    } else {
-      setPropSymbol(false);
-    }
-  }
-
   return (
     <div className="legend">
       {/* <h2 className="result__top__title result__tema"  id="title"> {tema} - {subtema} - {categoria}</h2> */}
@@ -74,14 +66,6 @@ const Leyenda = () => {
           <p className="legend__slider__num" >100%</p>
         </div>
       </div>
-
-      {!propSymbol ?
-        <Fragment>
-          <h2 className="legend__slider__text" id="title">Símbolos</h2>
-          <h3 className="legend__value"><ProportionalSymbol /></h3>
-
-        </Fragment>
-        : null}
 
     </div>
   );

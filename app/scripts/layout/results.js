@@ -4,22 +4,25 @@ import { variables } from '../base/variables';
 import Leyenda from '../components/legend';
 import LeyendaCluster from '../components/legendaCluster';
 import TematicCharts from '../layout/tematicCharts';
+import ProportionalSymbol from "../components/proportionalSymbol";
 import { useDetectOutsideClick } from "./useDetectOutsideClick";
 
-const Accordion = ({ title, children, data }) => {
+const Accordion = ({ title, icon, children, data }) => {
   const [isOpen, setOpen] = React.useState(data);
+
   return (
-    <div className="results__item">
+    <li className="results__itemList">
       <div
         className={`results__title ${isOpen ? "open" : ""}`}
         onClick={() => setOpen(!isOpen)}
       >
+        <span className={`results__icon ${icon}`}></span>
         {title}
       </div>
       <div className={`results__panel ${!isOpen ? "collapsed" : ""}`}>
         <div className="results__content">{children}</div>
       </div>
-    </div>
+    </li>
   );
 };
 
@@ -33,6 +36,7 @@ const Results = () => {
   const [isActive, setIsActive] = useDetectOutsideClick(dropdownRef, false);
   const onClick = () => setIsActive(!isActive);
   const [periodo, setPeriodo] = React.useState(variables.periodoSeleccionado);
+  const [propSymbol, setPropSymbol] = useState(false);
 
   variables.legenTheme = function (nivel) {
     setTema(variables.tematica["GRUPOS"][variables.varVariable.substring(0, 3)][0]["GRUPO"]);
@@ -51,6 +55,14 @@ const Results = () => {
     setPeriodo(periodo)
   }
 
+  variables.hideProportionalSymbols = (hide) => {
+    if (hide) {
+      setPropSymbol(true);
+    } else {
+      setPropSymbol(false);
+    }
+  }
+
   return (
     <div ref={dropdownRef} className={`results__main ${isActive ? "inactive" : "active"}`}>
       <Fragment>
@@ -65,10 +77,18 @@ const Results = () => {
             <h4 className="results__top__thirdtitle result__locationDpto">{locationDpto}</h4>
             <h4 className="results__top__thirdtitle result__locationDpto">{periodo.label}</h4>
           </div>
-          <Accordion title="Leyenda" data={true}> <Leyenda /> </Accordion>
-          {/* {active && <Accordion title="Leyenda" data={true}> <LeyendaCluster /> </Accordion>}
-          {!active && <Accordion title="Leyenda" data={true}> <Leyenda /> </Accordion>} */}
-          <Accordion title="Resultado Temático" data={true}> <TematicCharts /> </Accordion>
+          
+          <ul className='results__item'>
+            <Accordion title="Leyenda" icon="DANE__Geovisor__icon__layers" data={true}> <Leyenda /> </Accordion>
+            
+            {!propSymbol ?
+            <Accordion title="Leyenda Símbolos" icon="DANE__Geovisor__icon__radioButtonFilled" data={true}> <ProportionalSymbol /> </Accordion>
+            : null}
+
+            <Accordion title="Resultado Temático" icon="DANE__Geovisor__icon__graphBarVertical" data={true}> <TematicCharts /> </Accordion>
+
+          </ul>
+
           <div className="results__panel__source">
             <p className="results__panel__source__name">Fuente: <a rel="noreferrer" href="https://www.dane.gov.co/index.php/estadisticas-por-tema/precios-y-costos/sistema-de-informacion-de-precios-sipsa" target="_blank" className="results__source__link">{variables.title}</a></p>
           </div>
