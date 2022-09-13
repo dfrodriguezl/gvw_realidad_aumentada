@@ -44,11 +44,11 @@
 
 #switch_productos{
     position: absolute;
+    width: 22%;
     border-radius: 4px;
-    top: 8px;
-    left: 500px;
+    bottom: 80px;
+    left: 8px;
     background: $white; 
-    font-size: small;
     color: $gray4;
     @include flex;
 }
