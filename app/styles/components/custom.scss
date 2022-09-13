@@ -1,5 +1,5 @@
 .custom{
-    margin: 10px 15px 20px;
+    margin: 8px 16px;
     @include flex;
 }
 .custom__text{
@@ -11,17 +11,16 @@
 
 .custom__text_big{
     margin: 4px 0;
-    font-weight: 500;
     color: $gray6;
-    font-size: 1em;
+    font-size: 0.8em;
 }
 
 .custom__content{
     position: relative;
     display: inline-block;
-    width: 40px;
-    height: 25px;
-    margin: 0 8px;
+    width: 53px;
+    height: 24px;
+    margin: 8px 16px 8px 0;
 }
 .custom__input{
     opacity: 0;
