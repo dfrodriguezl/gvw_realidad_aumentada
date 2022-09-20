@@ -1,101 +1,120 @@
 //----Estilos para los filtros de las tematicas ---//
-.--filtros {
-    &.--visibleGroupPrincipal {
-        .search {
-            display: none;
-        }
-        .toolbar__secondPanelContent {
-            @include flex;
-            flex-direction: column;
-        }
-        .filter__thematic {
-            display: none;
-        }
-        .filter__thematicGroup__more {
-            width: 100%;
-            @include order(1);
-            @include flex;
-        }
-        .filter__thematicGroup__moreIcon {
-            margin: 8px 11px;
-        }
-        .filter__thematicGroup__moreLine {
-            width: 8px;
-            height: 3px;
-            border-radius: 2px;
-            &:nth-child(1) {
-                left: 11px;
-                top: 15px;
-                @include transform(rotate(45deg));
-            }
-            &:nth-child(2) {
-                left: 11px;
-                top: 11px;
-                @include transform(rotate(-45deg));
-            }
-            &:nth-child(3) {
-                left: 11px;
-                top: 11px;
-                @include transform(rotate(-45deg));
-            }
-            &:nth-child(4) {
-                left: 11px;
-                top: 11px;
-                @include transform(rotate(-45deg));
-            }
-        }
-        .filter__thematicGroup__moreText {
-            margin: 15px 0;
-            &.--seemore {
-                display: none;
-            }
-            &.--back {
-                display: inherit;
-            }
-        }
-        .filter__thematicGroup__list {
-            width: 100%;
-            max-height: 50vh;
-            overflow-y: scroll;
-            @include order(2);
-            &::-webkit-scrollbar {
-                width: 8px;
-                height: 5px;
-            }
-            &::-webkit-scrollbar-track {
-                background: $gray1;
-            }
-            &::-webkit-scrollbar-thumb {
-                background: $fifthColor;
-                border-radius: 4px;
-            }
-            &::-webkit-scrollbar-thumb:hover {
-                background: $sixColor;
-            }
-        }
-        .filter__thematicGroup__item,
-        .filter__thematicGroup__item__link {
-            @include flex;
-            @include calc(width, "100% - 10px");
-        }
-        .filter__thematicGroup__dos {
-            @include flex;
-            @include calc(width, "100% - 10px");
-        }
-        .filter__thematicGroup__icon {
-            margin: 5px;
-        }
-        .filter__thematicGroup__name {
-            text-align: left;
-            margin: 16px 5px;
-        }
+.filter__thematicGroup{
+    @include flex;
+    @include flex-wrap(nowrap);
+
+    &.--filtros {
+        @include flex;
+        @include flex-wrap(wrap);
     }
 }
-//* Estilos de grupos  para filtros *//
-.filter__thematicGroup {
-    @include flex;
-    @include flex-wrap(wrap);
+
+.filter__thematicGroup{
+    &.--filtros {
+        &.--visibleGroupPrincipal {
+            .search {
+                display: none;
+            }
+            .toolbar__secondPanelContent {
+                @include flex;
+                flex-direction: column;
+            }
+            .filter__thematic {
+                display: none;
+            }
+            .filter__thematicGroup{
+                color: blue;
+            }
+            .filter__thematicGroup__more {
+                width: 100%;
+                @include order(1);
+                @include flex;
+            }
+            .filter__thematicGroup__moreIcon {
+                margin: 8px 11px;
+            }
+            .filter__thematicGroup__moreLine {
+                width: 8px;
+                height: 3px;
+                border-radius: 2px;
+                &:nth-child(1) {
+                    left: 11px;
+                    top: 15px;
+                    @include transform(rotate(45deg));
+                }
+                &:nth-child(2) {
+                    left: 11px;
+                    top: 11px;
+                    @include transform(rotate(-45deg));
+                }
+                &:nth-child(3) {
+                    left: 11px;
+                    top: 11px;
+                    @include transform(rotate(-45deg));
+                }
+                // &:nth-child(4) {
+                //     left: 11px;
+                //     top: 11px;
+                //     @include transform(rotate(-45deg));
+                // }
+            }
+            .filter__thematicGroup__moreText {
+                margin: 15px 0;
+                &.--seemore {
+                    display: none;
+                }
+                &.--back {
+                    display: inherit;
+                }
+            }
+            .filter__thematicGroup__list {
+                width: 100%;
+                max-height: 50vh;
+                overflow-y: scroll;
+                @include order(2);
+                &::-webkit-scrollbar {
+                    width: 8px;
+                    height: 5px;
+                }
+                &::-webkit-scrollbar-track {
+                    background: $gray1;
+                }
+                &::-webkit-scrollbar-thumb {
+                    background: $fifthColor;
+                    border-radius: 4px;
+                }
+                &::-webkit-scrollbar-thumb:hover {
+                    background: $sixColor;
+                }
+            }
+            .filter__thematicGroup__item,
+            .filter__thematicGroup__item__link {
+                @include flex;
+                @include calc(width, "100% - 10px");
+            }
+            .filter__thematicGroup__dos {
+                @include flex;
+                @include calc(width, "100% - 10px");
+            }
+            .filter__thematicGroup__icon {
+                margin: 5px;
+            }
+            .filter__thematicGroup__name {
+                text-align: left;
+                margin: 16px 5px;
+            }
+        }
+    }
+
 }
+
+// .filter__thematicGroup{
+//         @include flex;
+//         @include flex-wrap(nowrap);
+// }
+    
+        
+        //* Estilos de grupos  para filtros *//
 .filter__thematicGroup__list {
     list-style: none;
     margin: 5px 0;
@@ -122,10 +141,13 @@
     }
     &:nth-child(1),
     &:nth-child(2),
-    &:nth-child(3),
-    &:nth-child(4) {
+    &:nth-child(3) {
         display: initial;
     }
+    // ,
+    // &:nth-child(4) {
+    //     display: initial;
+    // }
     &.--disable {
         cursor: none;
         pointer-events: none;
@@ -136,7 +158,7 @@
     cursor: pointer;
     margin: 3px;
     display: none;
-    // @include calc(width, "50% - 115px");
+    @include calc(width, "33% - 10px");
     &:hover {
         opacity: 0.7;
     }
@@ -149,10 +171,13 @@
     }
     &:nth-child(1),
     &:nth-child(2),
-    &:nth-child(3),
-    &:nth-child(4) {
+    &:nth-child(3) {
         display: initial;
     }
+    // ,
+    // &:nth-child(4) {
+    //     display: initial;
+    // }
     &.--disable {
         cursor: none;
         pointer-events: none;
@@ -185,7 +210,7 @@
 }
 //ver más estilos de tema
 .filter__thematicGroup__more {
-    width: 100%;
+    width: 30%;
     padding: 9px;
     cursor: pointer;
     &.--invisible {
@@ -243,7 +268,7 @@
     margin: 8px 0;
     overflow-y: scroll;
     overflow-x: hidden;
-    @include calc(max-height,'44vh');
+    @include calc(max-height,'32vh');
     &::-webkit-scrollbar {
         width: 8px;
         height: 5px;
@@ -277,71 +302,31 @@
             display: none;
         }
     }
-    // &:before {
-    //     position: absolute;
-    //     content: "";
-    //     right: 18px;
-    //     top: 20px;
-    //     z-index: 3;
-    //     width: 12px;
-    //     height: 2px;
-    //     background: $gray6;
-    //     border-radius: 5px;
-    //     @include transition(all ease-in-out 0.2s);
-    // }
-    // &:after {
-    //     position: absolute;
-    //     content: "";
-    //     right: 18px;
-    //     top: 20px;
-    //     z-index: 3;
-    //     width: 12px;
-    //     height: 2px;
-    //     background: $gray6;
-    //     border-radius: 5px;
-    //     @include transition(all ease-in-out 0.2s);
-    //     @include transform(rotate(90deg));
-    // }
-    // &:before {
-    //     position: absolute;
-    //     content: "\2796";
-    //     right: 18px;
-    //     top: 20px;
-    //     z-index: 3;
-    //     width: 12px;
-    //     height: 2px;
-    //     background: $gray6;
-    //     border-radius: 5px;
-    //     @include transition(all ease-in-out 0.2s);
-    //     // @include transform(rotate(90deg));
-    // }
-    // &:after {
-    //     position: absolute;
-    //     // content: "\2796";
-    //     content: '';
-    //     right: 18px;
-    //     top: 20px;
-    //     z-index: 3;
-    //     width: 12px;
-    //     height: 2px;
-    //     background: $gray6;
-    //     border-radius: 5px;
-    //     @include transition(all ease-in-out 0.2s);
-    //     // @include transform(rotate(90deg));
-
-    // }
-    // .--collapsible:after {
-    //     content: "\2212";
-    //     right: 18px;
-    //     top: 20px;
-    //     z-index: 3;
-    //     width: 12px;
-    //     height: 2px;
-    //     background: $gray6;
-    //     border-radius: 5px;
-    //     @include transition(all ease-in-out 0.2s);
-    //     @include transform(rotate(90deg));
-    //   }
+    &:before {
+        position: absolute;
+        content: "";
+        right: 18px;
+        top: 20px;
+        z-index: 3;
+        width: 12px;
+        height: 2px;
+        background: $gray6;
+        border-radius: 5px;
+        @include transition(all ease-in-out 0.2s);
+    }
+    &:after {
+        position: absolute;
+        content: "";
+        right: 18px;
+        top: 20px;
+        z-index: 3;
+        width: 12px;
+        height: 2px;
+        background: $gray6;
+        border-radius: 5px;
+        @include transition(all ease-in-out 0.2s);
+        @include transform(rotate(90deg));
+    }
     &:hover {
         background: $gray13;
         .filter__thematic__name {
@@ -349,11 +334,10 @@
         }
         &:before {
             background: $sevenColor;
-            @include transform(rotate(0deg));
         }
         &:after {
             background: $sevenColor;
-            // @include transform(rotate(0deg));
+            @include transform(rotate(0deg));
         }
     }
 }
@@ -470,6 +454,20 @@
         // max-height: 208px;
         @include calc(max-height, "100% - 480px");
     }
+}
+
+@media screen and (max-width: $sizePhone) {
+    .filter__thematicGroup__item {
+        width: calc(57% - 70px);
+    }
+    .filter__thematicGroup__name{
+        font-size: 0.8em;
+        padding: 3px 0px;
+    }
+    .filter__thematic{
+        @include calc(max-height,'33vh');
+    }
+
 }
 
 //Estilos modo oscuro

@@ -1,5 +1,6 @@
 // ACORDION GRUPO - CONFIGURACION Y MAQUETA DE ACORDION PARA QUE MUESTRE LOS GRUPOS DEL VISOR DESDE BASE DE DATOS
 import React, { useState } from "react";
+import { Fragment } from "react";
 import { variables } from "../../base/variables";
 
 const NavButton = ({ temaTematica, click, btn }) => {
@@ -49,7 +50,7 @@ const NavButton = ({ temaTematica, click, btn }) => {
     let claseInactiva = "filter__thematicGroup__moreText";
 
     return (
-      <div>
+      <>
         {verMas && <div className="filter__thematicGroup__more" id="ver__mas" onClick={handleClickPanel}>
           <div className="filter__thematicGroup__moreIcon" >
             <span className="filter__thematicGroup__moreLine"></span>
@@ -66,13 +67,13 @@ const NavButton = ({ temaTematica, click, btn }) => {
           </div>
           <p className={claseInactiva} >Volver</p>
         </div>}
-      </div>
+      </>
     )
   }
 
   return (
     <div className="filter__thematic">
-      {verMas && <div className="filter__thematicGroup --filtros">
+      {verMas && <div className="filter__thematicGroup">
         <ul className="filter__thematicGroup__list">
           {botones}
         </ul>
@@ -82,7 +83,7 @@ const NavButton = ({ temaTematica, click, btn }) => {
         <ul className="filter__thematicGroup__list">
           {botones}
         </ul>
-        <Plus></Plus>
+        {/* <Plus></Plus> */}
       </div>}
     </div>
   );
