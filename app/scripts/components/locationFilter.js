@@ -10,15 +10,22 @@ import { boundingExtent } from 'ol/extent';
 import { transformExtent } from 'ol/proj';
 import { variables } from '../base/variables';
 import { Stroke, Style } from 'ol/style';
+import { getCenter } from 'ol/extent';
 
-function bboxExtent(bbox) {
+function bboxExtent(bbox, tipo) {
     bbox = bbox.replace('BOX(', '').replace(')', '')
     bbox = bbox.split(",")
     let bbox1 = bbox[0].split(" ")
     let bbox2 = bbox[1].split(" ")
     var ext = boundingExtent([[bbox1[0], bbox1[1]], [bbox2[0], bbox2[1]]]);
     ext = transformExtent(ext, 'EPSG:4326', 'EPSG:3857');
-    variables.map.getView().fit(ext, variables.map.getSize());
+    if(tipo === "mpio"){
+        // variables.map.getView().fit(ext, variables.map.getSize());
+        variables.map.getView().animate({center: getCenter(ext)})
+    } else {
+        variables.map.getView().fit(ext, variables.map.getSize());
+    }
+    
 }
 
 const Filter = (props) => {
@@ -45,13 +52,13 @@ const Filter = (props) => {
     const handleChange1 = (evt) => {
         setSelectedOption(evt);
         let bbox = evt.bextent
-        bboxExtent(bbox) 
+        bboxExtent(bbox, "dpto") 
         // console.log(evt)
         variables.deptoSelected = evt.cod_dane;
         variables.deptoSelectedFilter = evt.cod_dane;
         variables.deptoVariable = evt.cod_dane;
         
-        variables.filterGeo("DPTO",evt.cod_dane)     
+        // variables.filterGeo("DPTO",evt.cod_dane)     
         
         
         // let currZoom = variables.map.getView().getZoom();
@@ -109,7 +116,7 @@ const Filter = (props) => {
         // const filtroDos = municipios.filter((o) => o.cod_dane === evt.cod_dane)
         setSelectedOption2(evt)
         let bbox = evt.bextent
-        bboxExtent(bbox)
+        bboxExtent(bbox, "mpio")
         variables.municipioSeleccionado = evt.cod_dane;
         // variables.changeLoader(false);
         // variables.loadUE(evt.cod_dane);
@@ -122,7 +129,7 @@ const Filter = (props) => {
         //   console.log(variables.map.getZoom())
         if(variables.map.getView().getZoom() < 12){
             let filter = clase.filter((o) => (o.cod_dane).indexOf(evt.cod_dane+"1") != -1)
-            bboxExtent(filter[0].bextent)
+            bboxExtent(filter[0].bextent,"mpio")
         }
 
         let nivel = 'MPIO';
@@ -140,15 +147,15 @@ const Filter = (props) => {
 
         
 
-        nivel = 'MNZN';
+        // nivel = 'MNZN';
 
-        variables.changeTheme(nivel, selectedOption.cod_dane, "NM", "N");
+        // variables.changeTheme(nivel, selectedOption.cod_dane, "NM", "N");
 
-        nivel = 'SECC';
+        // nivel = 'SECC';
 
-        variables.changeTheme(nivel, selectedOption.cod_dane, "NSC", "N");
+        // variables.changeTheme(nivel, selectedOption.cod_dane, "NSC", "N");
 
-        variables.loadMzCentroids(selectedOption.cod_dane)
+        // variables.loadMzCentroids(selectedOption.cod_dane)
 
         // variables.changeStyleMpio();
     }
@@ -157,7 +164,7 @@ const Filter = (props) => {
         const filtroTres = clase.filter((o) => (o.cod_dane).indexOf(selectedOption2.cod_dane+evt.value) != -1)
         setSelectedOption3(evt.value)
         let bbox = filtroTres[0].bextent
-        bboxExtent(bbox)
+        bboxExtent(bbox, "mpio")
         options4 = cps.filter((o) => o.cod_dane.substring(0,5) === selectedOption2.cod_dane);
         // console.log(options4)
         setListCp(options4)
@@ -165,7 +172,7 @@ const Filter = (props) => {
 
     const handleChange4 = (evt) => {
         let bbox = evt.bextent
-        bboxExtent(bbox)
+        bboxExtent(bbox, "mpio")
     }
 
     const hightlightFeature = (layer, id, capa) => {

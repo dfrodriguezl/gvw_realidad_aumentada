@@ -138,7 +138,7 @@ const Mapa = () => {
     var newZoom = variables.map.getView().getZoom();
     zoomActual = variables.map.getView().getZoom();
 
-    variables.loadMpioCentroids();
+    // variables.loadMpioCentroids();
 
     if (variables.currentZoom != newZoom) {
       variables.deptoSelectedFilter = undefined;
@@ -148,7 +148,7 @@ const Mapa = () => {
       // addClusterDepto();
       // variables.loadDeptoCentroids();
       // variables.loadDeptoCentroids();
-      variables.loadMpioCentroids();
+      // variables.loadMpioCentroids();
       variables.changeTheme("MPIO", 0, "MPIO", "y");
       // if (variables.deptoSelected == undefined) {
       //   // variables.changeTheme("MPIO", null, null, "n");
@@ -157,7 +157,7 @@ const Mapa = () => {
     }
 
     if (newZoom >= 7 && newZoom <= 11) {
-      variables.loadMpioCentroids();
+      // variables.loadMpioCentroids();
       variables.changeStyleDepto();
       if (variables.deptoSelected == undefined) {
         variables.changeTheme("MPIO", 0, "MPIO", "y");
@@ -1044,16 +1044,18 @@ variables.changeMap = function (nivel, dpto, table) {
         // console.log("VALOR 22", valor2);
 
         if (valor != undefined && !isNaN(valor)) {
-          if (variables.deptoSelectedFilter != undefined) {
-            if (a[nivel].substring(0, 2) === variables.deptoSelectedFilter) {
-              return valor
-            } else {
-              return 0;
-            }
-          } else {
-            return valor
-          }
+          // if (variables.deptoSelectedFilter != undefined) {
+          //   // console.log("A NIVEL", a);
+          //   if (a[nivel].substring(0, 2) === variables.deptoSelectedFilter) {
+          //     return valor
+          //   } else {
+          //     return 0;
+          //   }
+          // } else {
+          //   return valor
+          // }
 
+          return valor;
         } else if (valor2 != undefined && !isNaN(valor2)) {
           if (variables.deptoSelectedFilter != undefined) {
             if (a[nivel].substring(0, 2) === variables.deptoSelectedFilter) {
