@@ -96,6 +96,25 @@ export const variables = {
             },
             ol: null
         },
+        municipiosSel: {
+            tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
+            id: "mpios_vt2",
+            // url: "https://geoportal.dane.gov.co/vector-tiles/mgn_2020/mpio_ccnct/mgn_2020_mpio_politico/{z}/{x}/{y}.pbf",
+            // url: "https://nowsoft.app/vector-tiles/maps/geoportal_dane/mgn_2020_mpio_politico/{z}/{x}/{y}.pbf",
+            url: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/vector-tiles/vectortile.php?params=capas_geovisores/mgn2020_mpio/mgn_2020_mpio_politico/mpio_ccnct/{z}/{x}/{y}",
+            title: 'Municipios sel',
+            visible: true,
+            checked: false,
+            minZoom: 4,
+            maxZoom: 21,
+            style: {
+                stroke: {
+                    color: '#ffffff00',
+                    width: 0
+                }
+            },
+            ol: null
+        },
         // secciones: {
         //     tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
         //     id: "secc_vt",

@@ -141,6 +141,10 @@ const Filter = (props) => {
         if (variables.changeDonuChartData != null) {
             variables.changeDonuChartData(nivel,evt.cod_dane);
         }
+
+        let layer = variables.capas['mpios_vt2'];
+        // let layer2 = variables.capas['mpios_vt2'];
+        hightlightFeature(layer, evt.cod_dane, 'id')
         // if (variables.changeBarChartData != null) {
         //     variables.changeBarChartData(nivel,evt.cod_dane);
         // }

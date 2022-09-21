@@ -16,9 +16,11 @@ const ProportionalSymbol = () => {
   }, [])
 
   const generateLegend = () => {
-    const min = 0;
+    const min = variables.min;
     const max = variables.max !== null ? variables.max : 500;
-    const unidad = variables.varVariable.includes("284") ? "m2" : variables.varVariable.includes("292") ? "licencias" : "$";
+    const unidad = variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"];
+    // console.log("MIN 2", min);
+    // console.log("MAX 2", max);
 
     const fillCircle = variables.tematica["CATEGORIAS"][variables.varVariable] ? new Fill({
       color: 'rgb' + variables.tematica["CATEGORIAS"][variables.varVariable][0]['COLOR']
@@ -29,12 +31,13 @@ const ProportionalSymbol = () => {
       size: [300, 200]
     });
     
-    [min, (min + max) / 5, ((min + max) / 5) * 2, ((min + max) / 5) * 3, ((min + max) / 5) * 3, ((min + max) / 5) * 4, max]
+    [min, min + ((max - min) / 4), min + (((max - min) / 4) * 2), min + (((max - min) / 4) * 3), max]
       .slice(0)
       .reverse()
       .forEach(val => {
+        // console.log("VAL", val);
         if (val !== min) {
-          const radius = (val * 30) / max;
+          const radius = ((val - min)/(max - min))*30;
           const text = new Text({
             offsetX: 80,
             offsetY: -radius,

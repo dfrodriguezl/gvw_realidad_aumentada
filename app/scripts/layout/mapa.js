@@ -1083,6 +1083,7 @@ variables.changeMap = function (nivel, dpto, table) {
     min = Math.min(...integrado);
     max2 = Math.max(...valor2Array);
     variables.max = valor2Array.length === 0 ? max : max2;
+    variables.min = min;
     // console.log("MAX", max);
     // console.log("MIN", min);
     // console.log("MAX2ARRAY", valor2Array);
@@ -1683,7 +1684,8 @@ function changeSymbologiCluster(cluster, nivel, min, max, max2) {
         color = updateRangeSimbology(valorCampo, nivel, color);
         let valor = valorCampo[0][variables.alias2] ? valorCampo[0][variables.alias2] : valorCampo[0][variables.alias];
         let maxValor = valorCampo[0][variables.alias2] ? max2 : max;
-        radioValor = (valor.replace(",", ".") * 30) / maxValor;
+        radioValor = ((valor.replace(",", ".") - variables.min)/(maxValor- variables.min))*30;
+        // radioValor = (valor.replace(",", ".") * 30) / maxValor;
       }
     }
 
