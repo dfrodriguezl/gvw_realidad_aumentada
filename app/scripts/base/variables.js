@@ -381,6 +381,8 @@ export const variables = {
     variablesCampos: {
         '%': 'VARIACION_PP',
         '$': 'PRECIO_PROMEDIO_ACTUAL'
-    }
+    },
+    updateSymbols: null,
+    updateToProp: null
 }
 export const urlDeploy = 'http://localhost:3000/'

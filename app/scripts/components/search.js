@@ -523,6 +523,16 @@ const Search = ({ filterSearch, placeholder }) => {
         }
 
         variables.baseMapCheck = "Gris";
+
+        if(variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"] === "%"){
+            if(variables.updateSymbols != null){
+                variables.updateSymbols();
+            }
+        } else if (variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"] === "$") {
+            if(variables.updateToProp != null){
+                variables.updateToProp();
+            }
+        }
     };
 
     const results = municipios.concat(departamentos, centros);

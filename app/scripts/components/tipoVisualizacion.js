@@ -66,6 +66,16 @@ const TipoVisualizacion = () => {
     }
   }
 
+  variables.updateSymbols = () => {
+    // toggleThemeChange();
+    change2Chropleths();
+  }
+
+  variables.updateProps = () => {
+    // toggleThemeChange();
+    change2Symbols();
+  }
+
   return (
     <div className="tools__panel">
       <div className="custom__panel">
