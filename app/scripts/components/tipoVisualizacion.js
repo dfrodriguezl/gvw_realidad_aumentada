@@ -69,11 +69,14 @@ const TipoVisualizacion = () => {
   variables.updateSymbols = () => {
     // toggleThemeChange();
     change2Chropleths();
+    setChecked(true);
+    
   }
 
   variables.updateProps = () => {
     // toggleThemeChange();
     change2Symbols();
+    
   }
 
   return (

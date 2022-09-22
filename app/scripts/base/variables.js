@@ -294,7 +294,7 @@ export const variables = {
     legendChange: null,
     tipoVar: null,
     thematicTheme: null,
-    tansparency: 10,
+    tansparency: 8,
     listaVariables: [],
     labelsData: [],
     dataPie: [],
@@ -383,6 +383,7 @@ export const variables = {
         '$': 'PRECIO_PROMEDIO_ACTUAL'
     },
     updateSymbols: null,
-    updateToProp: null
+    updateToProp: null,
+    hideVisualizationSwitch: null
 }
 export const urlDeploy = 'http://localhost:3000/'

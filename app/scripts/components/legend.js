@@ -57,7 +57,7 @@ const Leyenda = () => {
       </ul>
       {/* <h5>Los colores más oscuros en la leyenda corresponden a los rangos más altos </h5> */}
       <div className="legend__slider">
-        <p className="legend__slider__text" >Nivel de transparencia (Mapa)</p>
+        <p className="legend__slider__text" >Nivel de transparencia (Capa)</p>
         <div className="legend__slider__content">
           <p className="legend__slider__num" >0%</p>
           <label className="legend__scrollMain" htmlFor="scroll">

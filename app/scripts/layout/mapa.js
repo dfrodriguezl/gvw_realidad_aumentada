@@ -4,7 +4,7 @@
 
 import 'ol/ol.css';
 import { Map, View } from 'ol';
-import React, { Component, Fragment } from 'react';
+import React, { Component, Fragment, useState } from 'react';
 import ReactDOM from 'react-dom';
 import Overlay from 'ol/Overlay';
 import TileLayer from 'ol/layer/Tile';
@@ -48,6 +48,8 @@ let min;
 let max2;
 
 const Mapa = () => {
+
+  // const [hideVisualizationSwitch, setHideVisualizationSwitch] = useState("show");
 
 
   const Accordion = ({ title, children, data }) => {
@@ -344,6 +346,10 @@ const Mapa = () => {
           if (dataUnidades === '$') {
             HTML += '<p class="popup__list"><span class="popup__subtitle">Precio promedio anterior</span></p>';
             HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[0]["PRECIO_PROMEDIO_ANTERIOR"]).toLocaleString("de-De").replace(",", ".") + '</span><span class="popup__valueItem"> ' + dataUnidades + '</span></p>';
+            HTML += '<p class="popup__list"><span class="popup__subtitle">Tendencia</span></p>';
+            HTML += '<p class="popup__list"><span class="popup__value">' + dataPopup[0]["TENDENCIA"] + '</span></p>';
+            HTML += '<p class="popup__list"><span class="popup__subtitle">Variación</span></p>';
+            HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[0]["VARIACION_PP"]).toLocaleString("de-De").replace(",", ".") + '</span><span class="popup__valueItem">%</span></p>';
           } else if (dataUnidades === '%') {
             HTML += '<p class="popup__list"><span class="popup__subtitle">Tendencia</span></p>';
             HTML += '<p class="popup__list"><span class="popup__value">' + dataPopup[0]["TENDENCIA"] + '</span></p>';
@@ -496,6 +502,10 @@ const Mapa = () => {
                 HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[0][variables.alias]).toLocaleString("de-De").replace(",", ".") + '</span><span class="popup__valueItem"> ' + unidadesAbsolutas + '</span></p>';
                 HTML += '<p class="popup__list"><span class="popup__subtitle">Precio promedio anterior</span></p>';
                 HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[0]["PRECIO_PROMEDIO_ANTERIOR"]).toLocaleString("de-De").replace(",", ".") + '</span><span class="popup__valueItem"> ' + unidadesAbsolutas + '</span></p>';
+                HTML += '<p class="popup__list"><span class="popup__subtitle">Tendencia</span></p>';
+                HTML += '<p class="popup__list"><span class="popup__value">' + dataPopup[0]["TENDENCIA"] + '</span></p>';
+                HTML += '<p class="popup__list"><span class="popup__subtitle">Variación</span></p>';
+                HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[0]["VARIACION_PP"]).toLocaleString("de-De").replace(",", ".") + '</span><span class="popup__valueItem">%</span></p>';
               }
             }
 
@@ -608,6 +618,11 @@ const Mapa = () => {
     coordinates = "Lat: " + c.join(" ");
     document.getElementById("coordenates__panel").innerHTML = coordinates;
   });
+
+  // variables.hideVisualizationSwitch = (hide) => {
+  //   setHideVisualizationSwitch(hide)
+  // }
+
   fillResolutions();
   loadLayers2();
   // Add clusters
@@ -1684,7 +1699,7 @@ function changeSymbologiCluster(cluster, nivel, min, max, max2) {
         color = updateRangeSimbology(valorCampo, nivel, color);
         let valor = valorCampo[0][variables.alias2] ? valorCampo[0][variables.alias2] : valorCampo[0][variables.alias];
         let maxValor = valorCampo[0][variables.alias2] ? max2 : max;
-        radioValor = ((valor.replace(",", ".") - variables.min)/(maxValor- variables.min))*30;
+        radioValor = ((valor.replace(",", ".") - variables.min) / (maxValor - variables.min)) * 30;
         // radioValor = (valor.replace(",", ".") * 30) / maxValor;
       }
     }
