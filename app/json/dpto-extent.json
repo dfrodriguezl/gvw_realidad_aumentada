@@ -1,6 +1,12 @@
 [
   {
     "ref": "Departamento",
+    "name": "TODOS LOS DEPARTAMENTOS",
+    "bextent": "BOX(-77.127831971 5.41855838900005,-73.8812821019999 8.87397372000004)",
+    "cod_dane": "00"
+  },
+  {
+    "ref": "Departamento",
     "name": "ANTIOQUIA",
     "bextent": "BOX(-77.127831971 5.41855838900005,-73.8812821019999 8.87397372000004)",
     "cod_dane": "05"
