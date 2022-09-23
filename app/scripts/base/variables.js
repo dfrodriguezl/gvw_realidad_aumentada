@@ -51,7 +51,7 @@ export const variables = {
             style: {
                 stroke: {
                     color: '#7F3872',
-                    width: 2
+                    width: 1
                 }
             },
             ol: null

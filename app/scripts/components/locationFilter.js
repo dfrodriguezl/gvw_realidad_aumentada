@@ -92,7 +92,7 @@ const Filter = (props) => {
 
         let layer = variables.capas['deptos_vt2'];
         // let layer2 = variables.capas['mpios_vt2'];
-        hightlightFeature(layer, evt.cod_dane, 'id')
+        hightlightFeature(layer, evt.cod_dane, 'id', 'dptos')
         variables.changeStyleDepto();
 
         // let layer = variables.capas['deptos_vt2'];
@@ -144,7 +144,7 @@ const Filter = (props) => {
 
         let layer = variables.capas['mpios_vt2'];
         // let layer2 = variables.capas['mpios_vt2'];
-        hightlightFeature(layer, evt.cod_dane, 'id')
+        hightlightFeature(layer, evt.cod_dane, 'id', 'mpios')
         // if (variables.changeBarChartData != null) {
         //     variables.changeBarChartData(nivel,evt.cod_dane);
         // }
@@ -179,13 +179,13 @@ const Filter = (props) => {
         bboxExtent(bbox, "mpio")
     }
 
-    const hightlightFeature = (layer, id, capa) => {
+    const hightlightFeature = (layer, id, capa, tipo) => {
 
         let styleHg = new Style({
             fill: null,
             stroke: new Stroke({
-                color: "#00ffff",
-                width: 10
+                color: tipo === "mpios" ? "#00ffff" : "#cc66ff",
+                width: 5
             })
         });
         layer.setStyle(function (feature) { 

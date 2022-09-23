@@ -96,7 +96,7 @@ const FiltroProductos= () => {
     <div className="tools__panel">
         <p className="tools__text">¿Cuál producto desea ver en el mapa?</p>
         <div className="selectBox">
-            <p className="selectBox__name">Producto:</p>
+            <p className="selectBox__name">Producto, presentación:</p>
             <Select
                 styles={{
                     navBar: provided => ({ zIndex: 9999 })

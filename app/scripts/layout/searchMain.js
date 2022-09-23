@@ -6,7 +6,7 @@ const resultados = false
 
 const SeachMain = () => {
     return (
-        // <div className="toolbar__function filter --visible">
+        // <div className="toolbar__function filter" >
                 <Search filterSearch={resultados} placeholder="Escriba un indicador"/>
         // </div>
     );

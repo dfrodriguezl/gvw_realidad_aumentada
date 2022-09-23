@@ -627,7 +627,7 @@ const Mapa = () => {
   loadLayers2();
   // Add clusters
   // addCluster();
-  addClusterDepto();
+  // addClusterDepto();
   // variables.loadDeptoCentroids();
   addClusterMpio();
   variables.loadMpioCentroids();
@@ -1565,7 +1565,7 @@ const updateRangeSimbology = (valorCampo, nivel, colorInput) => {
 }
 
 function changeSymbologi(cluster, nivel, feature, layer) {
-  let color = "#FFFFFF80";
+  let color = "#FFFFFF1A";
   // let valorCampo = "";
 
   if (variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][cluster.substring(0, 2)] !== undefined && nivel === "MNZN") {

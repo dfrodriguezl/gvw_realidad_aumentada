@@ -599,8 +599,8 @@ const Search = ({ filterSearch, placeholder }) => {
         <Fragment>
             {!filterSearch && <NavButton temaTematica={tematica} click={handleChangeBtn} btn={btn} />}
             {visualList && <div className="searchBox">
-                <div className="search">
-                    {/* <input
+                {placeholder !== "Escriba un indicador" && <div className="search">
+                    <input
                         className="search__input"
                         placeholder={placeholder}
                         value={filterSearch ? term : termDos}
@@ -610,9 +610,9 @@ const Search = ({ filterSearch, placeholder }) => {
                         <span className="DANE__Geovisor__icon__search"></span>
                     </button>
                     <div className="search__erase"></div>
-                    <p className="search__errorMessage">Lo sentimos, no encontramos nada relacionado.</p> */}
+                    <p className="search__errorMessage">Lo sentimos, no encontramos nada relacionado.</p>
                     {filterSearch && <ul className="search__list">{searchResultsMapped}</ul>}
-                </div>
+                </div>}
                 {!filterSearch && <div className="filter__thematic">
                     <ul className="filter__thematic__list">
                         {temas}
