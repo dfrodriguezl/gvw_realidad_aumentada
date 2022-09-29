@@ -7,17 +7,20 @@ import { variables } from "../base/variables";
 
 const ProportionalSymbol = () => {
 
-  
+
 
   const intlNumberFormat = new Intl.NumberFormat('de-DE');
 
   useEffect(() => {
-    generateLegend();
+    if (variables.tematica["CATEGORIAS"][variables.varVariable]) {
+      generateLegend();
+    }
   }, [])
 
   const generateLegend = () => {
     const min = variables.min;
     const max = variables.max !== null ? variables.max : 500;
+    console.log("VARIABLE", variables.tematica)
     const unidad = variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"];
     // console.log("MIN 2", min);
     // console.log("MAX 2", max);
@@ -30,14 +33,14 @@ const ProportionalSymbol = () => {
     let vectorContext = toContext(canvas.getContext('2d'), {
       size: [300, 200]
     });
-    
+
     [min, min + ((max - min) / 4), min + (((max - min) / 4) * 2), min + (((max - min) / 4) * 3), max]
       .slice(0)
       .reverse()
       .forEach(val => {
         // console.log("VAL", val);
         if (val !== min) {
-          const radius = ((val - min)/(max - min))*30;
+          const radius = ((val - min) / (max - min)) * 30;
           const text = new Text({
             offsetX: 80,
             offsetY: -radius,
@@ -50,7 +53,7 @@ const ProportionalSymbol = () => {
               color: 'white',
               width: 2
             }),
-            padding: [10,10,10,10]
+            padding: [10, 10, 10, 10]
           });
           const newStyle = new Style({
             image: new Circle({
