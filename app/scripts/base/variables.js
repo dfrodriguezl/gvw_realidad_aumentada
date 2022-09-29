@@ -30,8 +30,8 @@ export const variables = {
     // },
 
     baseMaps: {
-        'Gris': 'http://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
-        'Noche': 'http://a.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
+        'Gris': 'https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+        'Noche': 'https://a.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
         'OSM': 'https://mt1.google.com/vt/lyrs=r&x={x}&y={y}&z={z}',
         'Satelital': 'https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}',
     },
