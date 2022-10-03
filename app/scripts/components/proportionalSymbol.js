@@ -20,7 +20,6 @@ const ProportionalSymbol = () => {
   const generateLegend = () => {
     const min = variables.min;
     const max = variables.max !== null ? variables.max : 500;
-    console.log("VARIABLE", variables.tematica)
     const unidad = variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"];
     // console.log("MIN 2", min);
     // console.log("MAX 2", max);

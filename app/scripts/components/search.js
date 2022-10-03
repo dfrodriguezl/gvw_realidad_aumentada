@@ -97,6 +97,7 @@ const Search = ({ filterSearch, placeholder }) => {
             // }
 
         } else {
+            // console.log("CHANGE THEME", "SI");
             if (variables.periodos === null) {
                 getPeriodos(nivel, campo);
             }
@@ -335,9 +336,9 @@ const Search = ({ filterSearch, placeholder }) => {
                         ["MPIO"]: {
                             [variables.periodoSeleccionado.value]: {}
                         },
-                        ["SECC"]: {
-                            [variables.periodoSeleccionado.value]: {}
-                        }
+                        // ["SECC"]: {
+                        //     [variables.periodoSeleccionado.value]: {}
+                        // }
                     }
                 }, [])
 
@@ -365,7 +366,7 @@ const Search = ({ filterSearch, placeholder }) => {
                             ["MPIO"]: [],
                             ["DPTO"]: [],
                             ["MNZN"]: [],
-                            ["SECC"]: []
+                            // ["SECC"]: []
                         }
                     } else {
                         variables.coloresLeyend[datos] = {
@@ -373,7 +374,7 @@ const Search = ({ filterSearch, placeholder }) => {
                             ["DPTO"]: [],
                             ["MNZN"]: [],
                             ["CAMPOS"]: [],
-                            ["SECC"]: []
+                            // ["SECC"]: []
                         }
                     }
 
@@ -390,13 +391,13 @@ const Search = ({ filterSearch, placeholder }) => {
                                 (variables.coloresLeyend[datos]["DPTO"]).push([arr[index], 'rgba(' + (chroma(arr[index]).rgba()).toString() + ')', + " "]);
                                 (variables.coloresLeyend[datos]["MPIO"]).push([arr[index], 'rgba(' + (chroma(arr[index]).rgba()).toString() + ')', + " ", "visible"]);
                                 (variables.coloresLeyend[datos]["MNZN"]).push([arr[index], 'rgba(' + (chroma(arr[index]).rgba()).toString() + ')', + " "]);
-                                (variables.coloresLeyend[datos]["SECC"]).push([arr[index], 'rgba(' + (chroma(arr[index]).rgba()).toString() + ')', + " "]);
+                                // (variables.coloresLeyend[datos]["SECC"]).push([arr[index], 'rgba(' + (chroma(arr[index]).rgba()).toString() + ')', + " "]);
                             } else {
                                 if (punto === 4) {
                                     (variables.coloresLeyend[datos]["DPTO"]).push([arr[index], 'rgba(' + (chroma(arr[index]).rgba()).toString() + ')', + " "]);
                                     (variables.coloresLeyend[datos]["MPIO"]).push([arr[index], 'rgba(' + (chroma(arr[index]).rgba()).toString() + ')', + " ", "visible"]);
                                     (variables.coloresLeyend[datos]["MNZN"]).push([arr[index], 'rgba(' + (chroma(arr[index]).rgba()).toString() + ')', + " "]);
-                                    (variables.coloresLeyend[datos]["SECC"]).push([arr[index], 'rgba(' + (chroma(arr[index]).rgba()).toString() + ')', + " "]);
+                                    // (variables.coloresLeyend[datos]["SECC"]).push([arr[index], 'rgba(' + (chroma(arr[index]).rgba()).toString() + ')', + " "]);
                                 }
                             }
                         }
@@ -418,9 +419,9 @@ const Search = ({ filterSearch, placeholder }) => {
                             ["MNZN"]: {
                                 [variables.periodoSeleccionado.value]: {}
                             },
-                            ["SECC"]: {
-                                [variables.periodoSeleccionado.value]: {}
-                            },
+                            // ["SECC"]: {
+                            //     [variables.periodoSeleccionado.value]: {}
+                            // },
                         }
                     }, [])
                 }
@@ -438,20 +439,20 @@ const Search = ({ filterSearch, placeholder }) => {
             } else if (zoom < 7) {
 
                 if (Object.keys(variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["MPIO"][variables.periodoSeleccionado.value]).length === 0) {
-                    variables.changeTheme("MPIO", 0, "MPIO", "y");
+                    // variables.changeTheme("MPIO", 0, "MPIO", "y");
                     // variables.changeTheme("MPIO",0);
                     variables.legenTheme();
 
                     // if(variables.changeLegend != undefined ){variables.changeLegend();}                
                 }
             }
-        };
 
-        // console.log(filterSearch);
-        consultaAPI();
-        // if (!filterSearch) {
-        //     consultaAPI();
-        // }
+            // variables.legenTheme();
+        };
+        
+        if (!filterSearch) {
+            consultaAPI();
+        }
     }, []);
 
     function handleClick(extent) {
