@@ -344,15 +344,11 @@ const Mapa = () => {
         } else {
           HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[0][variables.alias]).toLocaleString("de-De").replace(",", ".") + '</span><span class="popup__valueItem"> ' + dataUnidades + '</span></p>';
           if (dataUnidades === '$') {
-            HTML += '<p class="popup__list"><span class="popup__subtitle">Precio promedio anterior</span></p>';
-            HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[0]["PRECIO_PROMEDIO_ANTERIOR"]).toLocaleString("de-De").replace(",", ".") + '</span><span class="popup__valueItem"> ' + dataUnidades + '</span></p>';
-            HTML += '<p class="popup__list"><span class="popup__subtitle">Tendencia</span></p>';
-            HTML += '<p class="popup__list"><span class="popup__value">' + dataPopup[0]["TENDENCIA"] + '</span></p>';
-            HTML += '<p class="popup__list"><span class="popup__subtitle">Variación</span></p>';
-            HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[0]["VARIACION_PP"]).toLocaleString("de-De").replace(",", ".") + '</span><span class="popup__valueItem">%</span></p>';
+            HTML += '<p class="popup__list"><span class="popup__subtitle">Precio promedio anterior: </span><span class="popup__subtitle">' + unidadesAbsolutas + " " + parseFloat(dataPopup[0]["PRECIO_PROMEDIO_ANTERIOR"]).toLocaleString("de-De").replace(",", ".") + '</span></p>';
+                HTML += '<p class="popup__list"><span class="popup__subtitle">Tendencia: </span><span class="popup__subtitle">' + dataPopup[0]["TENDENCIA"] + '</span></p>';
+                HTML += '<p class="popup__list"><span class="popup__subtitle">Variación: </span><span class="popup__subtitle">' + parseFloat(dataPopup[0]["VARIACION_PP"]).toLocaleString("de-De").replace(",", ".") + ' %</span></p>';
           } else if (dataUnidades === '%') {
-            HTML += '<p class="popup__list"><span class="popup__subtitle">Tendencia</span></p>';
-            HTML += '<p class="popup__list"><span class="popup__value">' + dataPopup[0]["TENDENCIA"] + '</span></p>';
+            HTML += '<p class="popup__list"><span class="popup__subtitle">Tendencia: </span><span class="popup__subtitle">' + dataPopup[0]["TENDENCIA"] + '</span></p>';
           }
 
 
