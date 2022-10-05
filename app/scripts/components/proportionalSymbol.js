@@ -33,6 +33,9 @@ const ProportionalSymbol = () => {
       size: [300, 200]
     });
 
+    console.log("MIN", min);
+    console.log("MAX", max);
+
     [min, min + ((max - min) / 4), min + (((max - min) / 4) * 2), min + (((max - min) / 4) * 3), max]
       .slice(0)
       .reverse()
@@ -40,6 +43,7 @@ const ProportionalSymbol = () => {
         // console.log("VAL", val);
         if (val !== min) {
           const radius = ((val - min) / (max - min)) * 30;
+          console.log("RADIUS", radius);
           const text = new Text({
             offsetX: 80,
             offsetY: -radius,

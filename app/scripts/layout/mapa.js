@@ -997,95 +997,184 @@ variables.changeMap = function (nivel, dpto, table) {
       let valor2Array = [];
 
       var integrado = Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value]).map(function (a, b) {
-        let valor, valor2
-
-
-        if (a["FECHA"] === variables.periodoSeleccionado.value && a["PRODUCTOS_ESPECIE_PUBLI"] === variables.productoSeleccionado.value) {
-          if (a[variables.alias].includes(",")) {
-
-            // if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined && a[nivel].substring(0,2) === variables.deptoSelectedFilter) {
-            valor = parseFloat(a[variables.alias].replace(",", ".")).toFixed(2).toLocaleString("de-De")
-            // }
-            // else{
-            //   valor = parseFloat(a[variables.alias]).toFixed(2).toLocaleString("de-De").replace(",", ".")
-            // }
-          } else {
-            // if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined && a[nivel].substring(0,2) === variables.deptoSelectedFilter) {
-            valor = parseFloat(a[variables.alias]).toFixed(2)
-            // }
-            // else {
-            //   valor = parseFloat(a[variables.alias]).toFixed(2)
-            // }
-
-          }
-
-
-          if (a[variables.alias2] != undefined) {
-
-            if (a[variables.alias2].includes(",")) {
+        let valor, valor2;
+        
+        if(dpto !== 0){
+          if (a["FECHA"] === variables.periodoSeleccionado.value && a["PRODUCTOS_ESPECIE_PUBLI"] === variables.productoSeleccionado.value && a["COD_DPTO"] === dpto) {
+            if (a[variables.alias].includes(",")) {
+              // console.log("VALOR",a[variables.alias]);
               // if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined && a[nivel].substring(0,2) === variables.deptoSelectedFilter) {
-              valor2 = parseFloat(a[variables.alias2]).toFixed(2).toLocaleString("de-De").replace(",", ".")
-              // }
+              valor = parseFloat(a[variables.alias].replace(",", ".")).toFixed(2).toLocaleString("de-De")
 
+              // console.log("VALOR PROCESADO",valor);
+              // }
+              // else{
+              //   valor = parseFloat(a[variables.alias]).toFixed(2).toLocaleString("de-De").replace(",", ".")
+              // }
             } else {
               // if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined && a[nivel].substring(0,2) === variables.deptoSelectedFilter) {
-              valor2 = parseFloat(a[variables.alias2])
+              valor = parseFloat(a[variables.alias]).toFixed(2)
               // }
-
+              // else {
+              //   valor = parseFloat(a[variables.alias]).toFixed(2)
+              // }
+  
             }
-
-            if (!isNaN(valor2)) {
-              if (variables.deptoSelectedFilter != undefined) {
-                if (a[nivel].substring(0, 2) === variables.deptoSelectedFilter) {
+  
+  
+            if (a[variables.alias2] != undefined) {
+  
+              if (a[variables.alias2].includes(",")) {
+                // if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined && a[nivel].substring(0,2) === variables.deptoSelectedFilter) {
+                valor2 = parseFloat(a[variables.alias2]).toFixed(2).toLocaleString("de-De").replace(",", ".")
+                // }
+  
+              } else {
+                // if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined && a[nivel].substring(0,2) === variables.deptoSelectedFilter) {
+                valor2 = parseFloat(a[variables.alias2])
+                // }
+  
+              }
+  
+              if (!isNaN(valor2)) {
+                if (variables.deptoSelectedFilter != undefined) {
+                  if (a[nivel].substring(0, 2) === variables.deptoSelectedFilter) {
+                    valor2Array.push(valor2);
+                  }
+                } else {
                   valor2Array.push(valor2);
                 }
-              } else {
-                valor2Array.push(valor2);
+  
               }
-
+  
             }
-
-          }
-
-
-          // console.log("VALOR 11", valor);
-          // console.log("VALOR 22", valor2);
-
-          if (valor != undefined && !isNaN(valor)) {
-            // if (variables.deptoSelectedFilter != undefined) {
-            //   // console.log("A NIVEL", a);
-            //   if (a[nivel].substring(0, 2) === variables.deptoSelectedFilter) {
-            //     return valor
-            //   } else {
-            //     return 0;
-            //   }
-            // } else {
-            //   return valor
-            // }
-
-            return valor;
-          } else if (valor2 != undefined && !isNaN(valor2)) {
-            if (variables.deptoSelectedFilter != undefined) {
-              if (a[nivel].substring(0, 2) === variables.deptoSelectedFilter) {
+  
+  
+            // console.log("VALOR 11", valor);
+            // console.log("VALOR 22", valor2);
+  
+            if (valor != undefined && !isNaN(valor)) {
+              // if (variables.deptoSelectedFilter != undefined) {
+              //   // console.log("A NIVEL", a);
+              //   if (a[nivel].substring(0, 2) === variables.deptoSelectedFilter) {
+              //     return valor
+              //   } else {
+              //     return 0;
+              //   }
+              // } else {
+              //   return valor
+              // }
+  
+              return valor;
+            } else if (valor2 != undefined && !isNaN(valor2)) {
+              if (variables.deptoSelectedFilter != undefined) {
+                if (a[nivel].substring(0, 2) === variables.deptoSelectedFilter) {
+                  return valor2
+                } else {
+                  return 0;
+                }
+              } else {
                 return valor2
-              } else {
-                return 0;
               }
+  
             } else {
-              return valor2
+              return 0
             }
-
           } else {
-            return 0
+            return 0;
           }
         } else {
-          return 0;
+          if (a["FECHA"] === variables.periodoSeleccionado.value && a["PRODUCTOS_ESPECIE_PUBLI"] === variables.productoSeleccionado.value) {
+            if (a[variables.alias].includes(",")) {
+              // console.log("VALOR",a[variables.alias]);
+              // if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined && a[nivel].substring(0,2) === variables.deptoSelectedFilter) {
+              valor = parseFloat(a[variables.alias].replace(",", ".")).toFixed(2).toLocaleString("de-De")
+              // console.log("VALOR PROCESADO",valor);
+              // }
+              // else{
+              //   valor = parseFloat(a[variables.alias]).toFixed(2).toLocaleString("de-De").replace(",", ".")
+              // }
+            } else {
+              // if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined && a[nivel].substring(0,2) === variables.deptoSelectedFilter) {
+              valor = parseFloat(a[variables.alias]).toFixed(2)
+              // }
+              // else {
+              //   valor = parseFloat(a[variables.alias]).toFixed(2)
+              // }
+  
+            }
+  
+  
+            if (a[variables.alias2] != undefined) {
+  
+              if (a[variables.alias2].includes(",")) {
+                // if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined && a[nivel].substring(0,2) === variables.deptoSelectedFilter) {
+                valor2 = parseFloat(a[variables.alias2]).toFixed(2).toLocaleString("de-De").replace(",", ".")
+                // }
+  
+              } else {
+                // if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined && a[nivel].substring(0,2) === variables.deptoSelectedFilter) {
+                valor2 = parseFloat(a[variables.alias2])
+                // }
+  
+              }
+  
+              if (!isNaN(valor2)) {
+                if (variables.deptoSelectedFilter != undefined) {
+                  if (a[nivel].substring(0, 2) === variables.deptoSelectedFilter) {
+                    valor2Array.push(valor2);
+                  }
+                } else {
+                  valor2Array.push(valor2);
+                }
+  
+              }
+  
+            }
+  
+  
+            // console.log("VALOR 11", valor);
+            // console.log("VALOR 22", valor2);
+  
+            if (valor != undefined && !isNaN(valor)) {
+              // if (variables.deptoSelectedFilter != undefined) {
+              //   // console.log("A NIVEL", a);
+              //   if (a[nivel].substring(0, 2) === variables.deptoSelectedFilter) {
+              //     return valor
+              //   } else {
+              //     return 0;
+              //   }
+              // } else {
+              //   return valor
+              // }
+  
+              return valor;
+            } else if (valor2 != undefined && !isNaN(valor2)) {
+              if (variables.deptoSelectedFilter != undefined) {
+                if (a[nivel].substring(0, 2) === variables.deptoSelectedFilter) {
+                  return valor2
+                } else {
+                  return 0;
+                }
+              } else {
+                return valor2
+              }
+  
+            } else {
+              return 0
+            }
+          } else {
+            return 0;
+          }
         }
+
+        
       }, []);
 
       // console.log("INTEGRADO", integrado);
-      integrado = integrado.filter(o => o > 0);
-      // console.log("INTEGRADO MPIO", integrado);
+      if(tipoVariable !== "DV"){
+        integrado = integrado.filter(o => o !== 0);
+      }
 
       max = Math.max(...integrado);
       min = Math.min(...integrado);
@@ -1098,7 +1187,7 @@ variables.changeMap = function (nivel, dpto, table) {
       // console.log("MAX2", max2);
 
       let list = integrado.filter((x, i, a) => a.indexOf(x) == i)
-      // console.log("LIST", list);
+      console.log("LIST", list);
       let dataUnidades = variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"];
       // console.log(integrado)
       // console.log("LIST", list)
@@ -1250,9 +1339,10 @@ variables.changeMap = function (nivel, dpto, table) {
       variables.legenTheme();
 
       if (table == "y") {
-        variables.changeLegend(nivel);
         variables.updateData(dataTable, colsTable);
       }
+
+      variables.changeLegend(nivel);
       // console.log(variables.coloresLeyend[variables.varVariable]), "Colores";
 
       // console.log(variables.coloresLeyend[variables.varVariable]);
@@ -1543,7 +1633,8 @@ const updateRangeSimbology = (valorCampo, nivel, colorInput) => {
   if (valorCampo.length > 0) {
     (variables.coloresLeyend[variables.varVariable][nivel]).map(function (obj, j, k) {
       let element = obj[2];
-      element = String(element).split('-');
+      element = String(element).split(' - ');
+      console.log("ELEMENT", element);
       if (element.length == 1) {
         if (parseFloat(valorCampo[0][variables.alias]).toFixed(2)
           >= parseFloat(element[0].replace(">", "").replaceAll('.', '').replace("%", "").trim())) {
@@ -1577,6 +1668,7 @@ function changeSymbologi(cluster, nivel, feature, layer) {
       }
     });
     // const valorCampo = variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value][cluster];
+    console.log("VALOR CAMPO", valorCampo);
     if (valorCampo.length > 0) {
       if (valorCampo[0]["FECHA"] === variables.periodoSeleccionado.value && valorCampo[0]["PRODUCTOS_ESPECIE_PUBLI"] === variables.productoSeleccionado.value) {
         color = updateRangeSimbology(valorCampo, nivel, color);

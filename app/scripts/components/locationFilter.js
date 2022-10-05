@@ -117,6 +117,9 @@ const Filter = (props) => {
             variables.changeStyleDepto();
         }
 
+        // variables.changeTheme("MPIO", variables.deptoSelected, null, "y");
+        variables.changeMap("MPIO", variables.deptoSelected, "n");
+
 
         // let layer = variables.capas['deptos_vt2'];
         // let layer2 = variables.capas['mpios_vt2'];
@@ -180,7 +183,7 @@ const Filter = (props) => {
 
         // nivel = 'SECC';
 
-        // variables.changeTheme(nivel, selectedOption.cod_dane, "NSC", "N");
+        // variables.changeTheme(nivel, selectedOption.cod_dane, "MPIO", "n");
 
         // variables.loadMzCentroids(selectedOption.cod_dane)
 
