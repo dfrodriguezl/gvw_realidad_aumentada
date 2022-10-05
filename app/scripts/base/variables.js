@@ -384,6 +384,13 @@ export const variables = {
     },
     updateSymbols: null,
     updateToProp: null,
-    hideVisualizationSwitch: null
+    hideVisualizationSwitch: null,
+    coloresDivergentes: {
+        "0": "#ca0020",
+        "1": "#f4a582",
+        "2": "#f7f7f7",
+        "3": "#92c5de",
+        "4": "#0571b0"
+    }
 }
 export const urlDeploy = 'http://localhost:3000/'

@@ -345,8 +345,8 @@ const Mapa = () => {
           HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[0][variables.alias]).toLocaleString("de-De").replace(",", ".") + '</span><span class="popup__valueItem"> ' + dataUnidades + '</span></p>';
           if (dataUnidades === '$') {
             HTML += '<p class="popup__list"><span class="popup__subtitle">Precio promedio anterior: </span><span class="popup__subtitle">' + unidadesAbsolutas + " " + parseFloat(dataPopup[0]["PRECIO_PROMEDIO_ANTERIOR"]).toLocaleString("de-De").replace(",", ".") + '</span></p>';
-                HTML += '<p class="popup__list"><span class="popup__subtitle">Tendencia: </span><span class="popup__subtitle">' + dataPopup[0]["TENDENCIA"] + '</span></p>';
-                HTML += '<p class="popup__list"><span class="popup__subtitle">Variación: </span><span class="popup__subtitle">' + parseFloat(dataPopup[0]["VARIACION_PP"]).toLocaleString("de-De").replace(",", ".") + ' %</span></p>';
+            HTML += '<p class="popup__list"><span class="popup__subtitle">Tendencia: </span><span class="popup__subtitle">' + dataPopup[0]["TENDENCIA"] + '</span></p>';
+            HTML += '<p class="popup__list"><span class="popup__subtitle">Variación: </span><span class="popup__subtitle">' + parseFloat(dataPopup[0]["VARIACION_PP"]).toLocaleString("de-De").replace(",", ".") + ' %</span></p>';
           } else if (dataUnidades === '%') {
             HTML += '<p class="popup__list"><span class="popup__subtitle">Tendencia: </span><span class="popup__subtitle">' + dataPopup[0]["TENDENCIA"] + '</span></p>';
           }
@@ -998,8 +998,8 @@ variables.changeMap = function (nivel, dpto, table) {
 
       var integrado = Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value]).map(function (a, b) {
         let valor, valor2;
-        
-        if(dpto !== 0){
+
+        if (dpto !== 0) {
           if (a["FECHA"] === variables.periodoSeleccionado.value && a["PRODUCTOS_ESPECIE_PUBLI"] === variables.productoSeleccionado.value && a["COD_DPTO"] === dpto) {
             if (a[variables.alias].includes(",")) {
               // console.log("VALOR",a[variables.alias]);
@@ -1018,24 +1018,24 @@ variables.changeMap = function (nivel, dpto, table) {
               // else {
               //   valor = parseFloat(a[variables.alias]).toFixed(2)
               // }
-  
+
             }
-  
-  
+
+
             if (a[variables.alias2] != undefined) {
-  
+
               if (a[variables.alias2].includes(",")) {
                 // if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined && a[nivel].substring(0,2) === variables.deptoSelectedFilter) {
                 valor2 = parseFloat(a[variables.alias2]).toFixed(2).toLocaleString("de-De").replace(",", ".")
                 // }
-  
+
               } else {
                 // if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined && a[nivel].substring(0,2) === variables.deptoSelectedFilter) {
                 valor2 = parseFloat(a[variables.alias2])
                 // }
-  
+
               }
-  
+
               if (!isNaN(valor2)) {
                 if (variables.deptoSelectedFilter != undefined) {
                   if (a[nivel].substring(0, 2) === variables.deptoSelectedFilter) {
@@ -1044,15 +1044,15 @@ variables.changeMap = function (nivel, dpto, table) {
                 } else {
                   valor2Array.push(valor2);
                 }
-  
+
               }
-  
+
             }
-  
-  
+
+
             // console.log("VALOR 11", valor);
             // console.log("VALOR 22", valor2);
-  
+
             if (valor != undefined && !isNaN(valor)) {
               // if (variables.deptoSelectedFilter != undefined) {
               //   // console.log("A NIVEL", a);
@@ -1064,7 +1064,7 @@ variables.changeMap = function (nivel, dpto, table) {
               // } else {
               //   return valor
               // }
-  
+
               return valor;
             } else if (valor2 != undefined && !isNaN(valor2)) {
               if (variables.deptoSelectedFilter != undefined) {
@@ -1076,7 +1076,7 @@ variables.changeMap = function (nivel, dpto, table) {
               } else {
                 return valor2
               }
-  
+
             } else {
               return 0
             }
@@ -1101,24 +1101,24 @@ variables.changeMap = function (nivel, dpto, table) {
               // else {
               //   valor = parseFloat(a[variables.alias]).toFixed(2)
               // }
-  
+
             }
-  
-  
+
+
             if (a[variables.alias2] != undefined) {
-  
+
               if (a[variables.alias2].includes(",")) {
                 // if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined && a[nivel].substring(0,2) === variables.deptoSelectedFilter) {
                 valor2 = parseFloat(a[variables.alias2]).toFixed(2).toLocaleString("de-De").replace(",", ".")
                 // }
-  
+
               } else {
                 // if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined && a[nivel].substring(0,2) === variables.deptoSelectedFilter) {
                 valor2 = parseFloat(a[variables.alias2])
                 // }
-  
+
               }
-  
+
               if (!isNaN(valor2)) {
                 if (variables.deptoSelectedFilter != undefined) {
                   if (a[nivel].substring(0, 2) === variables.deptoSelectedFilter) {
@@ -1127,15 +1127,15 @@ variables.changeMap = function (nivel, dpto, table) {
                 } else {
                   valor2Array.push(valor2);
                 }
-  
+
               }
-  
+
             }
-  
-  
+
+
             // console.log("VALOR 11", valor);
             // console.log("VALOR 22", valor2);
-  
+
             if (valor != undefined && !isNaN(valor)) {
               // if (variables.deptoSelectedFilter != undefined) {
               //   // console.log("A NIVEL", a);
@@ -1147,7 +1147,7 @@ variables.changeMap = function (nivel, dpto, table) {
               // } else {
               //   return valor
               // }
-  
+
               return valor;
             } else if (valor2 != undefined && !isNaN(valor2)) {
               if (variables.deptoSelectedFilter != undefined) {
@@ -1159,7 +1159,7 @@ variables.changeMap = function (nivel, dpto, table) {
               } else {
                 return valor2
               }
-  
+
             } else {
               return 0
             }
@@ -1168,11 +1168,11 @@ variables.changeMap = function (nivel, dpto, table) {
           }
         }
 
-        
+
       }, []);
 
       // console.log("INTEGRADO", integrado);
-      if(tipoVariable !== "DV"){
+      if (tipoVariable !== "DV") {
         integrado = integrado.filter(o => o !== 0);
       }
 
@@ -1187,7 +1187,7 @@ variables.changeMap = function (nivel, dpto, table) {
       // console.log("MAX2", max2);
 
       let list = integrado.filter((x, i, a) => a.indexOf(x) == i)
-      console.log("LIST", list);
+      // console.log("LIST", list);
       let dataUnidades = variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"];
       // console.log(integrado)
       // console.log("LIST", list)
@@ -1207,6 +1207,7 @@ variables.changeMap = function (nivel, dpto, table) {
             rango = rango.split("-")
             rango = " > " + rango[0].trim() + " (" + dataUnidades + ")"
           }
+
           if (table == "y") {
             variables.coloresLeyend[variables.varVariable]["MPIO"][index][2] = rango;
           }
@@ -1630,24 +1631,47 @@ variables.changeMap = function (nivel, dpto, table) {
 
 const updateRangeSimbology = (valorCampo, nivel, colorInput) => {
   let color = colorInput;
-  if (valorCampo.length > 0) {
-    (variables.coloresLeyend[variables.varVariable][nivel]).map(function (obj, j, k) {
-      let element = obj[2];
-      element = String(element).split(' - ');
-      console.log("ELEMENT", element);
-      if (element.length == 1) {
-        if (parseFloat(valorCampo[0][variables.alias]).toFixed(2)
-          >= parseFloat(element[0].replace(">", "").replaceAll('.', '').replace("%", "").trim())) {
-          color = obj[0];
+  const tipoVariable = variables.tematica["CATEGORIAS"][variables.varVariable][0]["TIPO_VARIABLE"];
+
+  if (tipoVariable === "DV") {
+    if (valorCampo.length > 0) {
+      (variables.coloresLeyend[variables.varVariable][nivel]).map(function (obj, j, k) {
+        let element = obj[2];
+        element = String(element).split(' - ');
+        if (element.length == 1) {
+          if (parseFloat(valorCampo[0][variables.alias]).toFixed(2)
+            >= parseFloat(element[0].replace(">", "").replaceAll('.', '').replace("%", "").trim())) {
+            color = variables.coloresDivergentes[j];
+          }
+        } else {
+          if (parseFloat(valorCampo[0][variables.alias]).toFixed(2) >= parseFloat(element[0].replaceAll('.', '').replace("%", ""))
+            && parseFloat(valorCampo[0][variables.alias]).toFixed(2) <= parseFloat(element[1].replaceAll('.', '').replace("%", ""))) {
+            color = variables.coloresDivergentes[j];
+          }
         }
-      } else {
-        if (parseFloat(valorCampo[0][variables.alias]).toFixed(2) >= parseFloat(element[0].replaceAll('.', '').replace("%", ""))
-          && parseFloat(valorCampo[0][variables.alias]).toFixed(2) <= parseFloat(element[1].replaceAll('.', '').replace("%", ""))) {
-          color = obj[0];
+      })
+    }
+  } else {
+    if (valorCampo.length > 0) {
+      (variables.coloresLeyend[variables.varVariable][nivel]).map(function (obj, j, k) {
+        let element = obj[2];
+        element = String(element).split(' - ');
+        if (element.length == 1) {
+          if (parseFloat(valorCampo[0][variables.alias]).toFixed(2)
+            >= parseFloat(element[0].replace(">", "").replaceAll('.', '').replace("%", "").trim())) {
+            color = obj[0];
+          }
+        } else {
+          if (parseFloat(valorCampo[0][variables.alias]).toFixed(2) >= parseFloat(element[0].replaceAll('.', '').replace("%", ""))
+            && parseFloat(valorCampo[0][variables.alias]).toFixed(2) <= parseFloat(element[1].replaceAll('.', '').replace("%", ""))) {
+            color = obj[0];
+          }
         }
-      }
-    }, []);
+      }, []);
+    }
   }
+
+
 
   return color === undefined ? colorInput : color;
 }
@@ -1668,7 +1692,7 @@ function changeSymbologi(cluster, nivel, feature, layer) {
       }
     });
     // const valorCampo = variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value][cluster];
-    console.log("VALOR CAMPO", valorCampo);
+    // console.log("VALOR CAMPO", valorCampo);
     if (valorCampo.length > 0) {
       if (valorCampo[0]["FECHA"] === variables.periodoSeleccionado.value && valorCampo[0]["PRODUCTOS_ESPECIE_PUBLI"] === variables.productoSeleccionado.value) {
         color = updateRangeSimbology(valorCampo, nivel, color);
