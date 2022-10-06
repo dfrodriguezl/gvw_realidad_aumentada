@@ -102,144 +102,148 @@ const Search = ({ filterSearch, placeholder }) => {
                 getPeriodos(nivel, campo);
             }
             // variables.getProductosByPeriodo(nivel, campo, variables.periodoSeleccionado.value);
-            if (variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel] !== undefined) {
+            console.log("VARIABLE", variables.varVariable);
+            if(variables.varVariable !== undefined){
+                if (variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel] !== undefined) {
                 
 
-                if (Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value]).length > 0) {
-                    // variables.loadDeptoCentroids();
-                    
-                    variables.changeMap(nivel, dpto, table);
-
-
-                    if (nivel == "DPTO") {
-                        // console.log("VAR ANTERIOR", variables.variableAnterior);
-                        if (variables.variableAnterior != null) {
-                            if (variables.variableAnterior.substring(0, 5) != variables.varVariable.substring(0, 5)) {
-                                if (variables.changePieChartData != null) {
-                                    variables.changePieChartData(nivel, variables.deptoVariable);
-                                }
-                                if (variables.changeDonuChartData != null) {
-                                    variables.changeDonuChartData(nivel, variables.deptoVariable);
-                                }
-                            }
-                        }
-
-                        if (variables.changeBarChartData != null) {
-                            variables.changeBarChartData(nivel);
-                            if (variables.deptoVariable != undefined) {
-                                variables.changeBarChartData(nivel, variables.deptoVariable);
-                            }
-                        }
-                        if (variables.changeGaugeChartData != null) {
-                            variables.changeGaugeChartData(nivel);
-                        }
-                    } else if (nivel === "MPIO") {
-                        if (variables.variableAnterior != null) {
-                            if (variables.variableAnterior.substring(0, 5) != variables.varVariable.substring(0, 5)) {
-                                if (variables.changePieChartData != null) {
-                                    variables.changePieChartData("DPTO", variables.deptoVariable);
-                                }
-                                if (variables.changeDonuChartData != null) {
-                                    variables.changeDonuChartData("DPTO", variables.deptoVariable);
-                                }
-                            }
-                        }
-
-
-
-                        if (variables.changeBarChartData != null) {
-                            variables.changeBarChartData(nivel, variables.deptoVariable);
-                            if (variables.deptoVariable != undefined) {
-                                variables.changeBarChartData(nivel, variables.deptoVariable);
-                            }
-                        }
-                        if (variables.changeGaugeChartData != null) {
-                            variables.changeGaugeChartData(nivel, variables.deptoVariable);
-                        }
-                    }
-                }
-                else {
-                    let urlData = variables.urlVariablesProductos + "?codigo_subgrupo=" + variables.varVariable.substring(0, 5)
-                    // if (campo != undefined) {
-                    //     urlData += "&campo=" + campo
-                    // }
-
-                    if (variables.periodoSeleccionado) {
-                        urlData += "&anio=" + variables.periodoSeleccionado.value
-                    }
-                    
-                    axios({ method: "GET", url: urlData })
-                        .then(function (response) {
-                            // console.log(variables.dataArrayDatos[variables.varVariable.substring(0, 5)])
-                            // variables.getProductosByPeriodo(nivel, campo, variables.periodoSeleccionado.value);
-                            variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value] = JSON.parse(response.data.replace("Array","")).resultado;
-                            // variables.queryText[variables.varVariable.substring(0, 5)] = response.data.consulta
-                            
-                            // console.log(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel])
-                            // variables.loadDeptoCentroids();
-                            variables.changeMap(nivel, dpto, table);
-                            // console.log(nivel)
-                            if (variables.deptoSelected == undefined && variables.deptoVariable != undefined) {
-                                variables.filterGeo("DPTO", variables.deptoVariable)
-                            }
-                            // console.log(variables.changePieChartData, variables.changeDonuChartData, variables.changeBarChartData)
-                            // console.log(nivel)
-                            if (nivel == "DPTO") {
-                                if (variables.changePieChartData != null) {
-                                    variables.changePieChartData(nivel, '97');
-                                    if (variables.deptoVariable != undefined) {
-                                        variables.deptoVariable(nivel, variables.deptoVariable);
+                    if (Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value]).length > 0) {
+                        // variables.loadDeptoCentroids();
+                        
+                        variables.changeMap(nivel, dpto, table);
+    
+    
+                        if (nivel == "DPTO") {
+                            // console.log("VAR ANTERIOR", variables.variableAnterior);
+                            if (variables.variableAnterior != null) {
+                                if (variables.variableAnterior.substring(0, 5) != variables.varVariable.substring(0, 5)) {
+                                    if (variables.changePieChartData != null) {
+                                        variables.changePieChartData(nivel, variables.deptoVariable);
                                     }
-                                }
-                                // console.log(variables.changeDonuChartData);
-                                if (variables.changeDonuChartData != null) {
-                                    variables.changeDonuChartData(nivel, '97');
-                                    if (variables.deptoVariable != undefined) {
+                                    if (variables.changeDonuChartData != null) {
                                         variables.changeDonuChartData(nivel, variables.deptoVariable);
                                     }
                                 }
-                                if (variables.changeBarChartData != null) {
-                                    variables.changeBarChartData(nivel);
-                                    if (variables.deptoVariable != undefined) {
-                                        variables.changeBarChartData(nivel, variables.deptoVariable);
+                            }
+    
+                            if (variables.changeBarChartData != null) {
+                                variables.changeBarChartData(nivel);
+                                if (variables.deptoVariable != undefined) {
+                                    variables.changeBarChartData(nivel, variables.deptoVariable);
+                                }
+                            }
+                            if (variables.changeGaugeChartData != null) {
+                                variables.changeGaugeChartData(nivel);
+                            }
+                        } else if (nivel === "MPIO") {
+                            if (variables.variableAnterior != null) {
+                                if (variables.variableAnterior.substring(0, 5) != variables.varVariable.substring(0, 5)) {
+                                    if (variables.changePieChartData != null) {
+                                        variables.changePieChartData("DPTO", variables.deptoVariable);
                                     }
-                                }
-                                if (variables.changeGaugeChartData != null) {
-                                    variables.changeGaugeChartData(nivel);
-                                }
-                            } else if (nivel === "MPIO") {
-
-                                if (variables.changeDonuChartData != null) {
-                                    if (variables.deptoVariable != undefined) {
+                                    if (variables.changeDonuChartData != null) {
                                         variables.changeDonuChartData("DPTO", variables.deptoVariable);
                                     }
                                 }
-                                // if (variables.changePieChartData != null) {
-                                //     variables.changePieChartData(nivel, dpto);
-                                //     if (variables.deptoVariable != undefined) {
-                                //         variables.deptoVariable(nivel, variables.deptoVariable);
-                                //     }
-                                // }
-                                // // console.log(variables.changeDonuChartData);
-                                // if (variables.changeDonuChartData != null) {
-                                //     variables.changeDonuChartData(nivel, dpto);
-                                //     if (variables.deptoVariable != undefined) {
-                                //         variables.changeDonuChartData(nivel, variables.deptoVariable);
-                                //     }
-                                // }
-                                // if (variables.changeBarChartData != null) {
-                                //     variables.changeBarChartData(nivel);
-                                //     if (variables.deptoVariable != undefined) {
-                                //         variables.changeBarChartData(nivel, variables.deptoVariable);
-                                //     }
-                                // }
-                                // if (variables.changeGaugeChartData != null) {
-                                //     variables.changeGaugeChartData(nivel);
-                                // }
                             }
-                        });
+    
+    
+    
+                            if (variables.changeBarChartData != null) {
+                                variables.changeBarChartData(nivel, variables.deptoVariable);
+                                if (variables.deptoVariable != undefined) {
+                                    variables.changeBarChartData(nivel, variables.deptoVariable);
+                                }
+                            }
+                            if (variables.changeGaugeChartData != null) {
+                                variables.changeGaugeChartData(nivel, variables.deptoVariable);
+                            }
+                        }
+                    }
+                    else {
+                        let urlData = variables.urlVariablesProductos + "?codigo_subgrupo=" + variables.varVariable.substring(0, 5)
+                        // if (campo != undefined) {
+                        //     urlData += "&campo=" + campo
+                        // }
+    
+                        if (variables.periodoSeleccionado) {
+                            urlData += "&anio=" + variables.periodoSeleccionado.value
+                        }
+                        
+                        axios({ method: "GET", url: urlData })
+                            .then(function (response) {
+                                // console.log(variables.dataArrayDatos[variables.varVariable.substring(0, 5)])
+                                // variables.getProductosByPeriodo(nivel, campo, variables.periodoSeleccionado.value);
+                                variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value] = JSON.parse(response.data.replace("Array","")).resultado;
+                                // variables.queryText[variables.varVariable.substring(0, 5)] = response.data.consulta
+                                
+                                // console.log(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel])
+                                // variables.loadDeptoCentroids();
+                                variables.changeMap(nivel, dpto, table);
+                                // console.log(nivel)
+                                if (variables.deptoSelected == undefined && variables.deptoVariable != undefined) {
+                                    variables.filterGeo("DPTO", variables.deptoVariable)
+                                }
+                                // console.log(variables.changePieChartData, variables.changeDonuChartData, variables.changeBarChartData)
+                                // console.log(nivel)
+                                if (nivel == "DPTO") {
+                                    if (variables.changePieChartData != null) {
+                                        variables.changePieChartData(nivel, '97');
+                                        if (variables.deptoVariable != undefined) {
+                                            variables.deptoVariable(nivel, variables.deptoVariable);
+                                        }
+                                    }
+                                    // console.log(variables.changeDonuChartData);
+                                    if (variables.changeDonuChartData != null) {
+                                        variables.changeDonuChartData(nivel, '97');
+                                        if (variables.deptoVariable != undefined) {
+                                            variables.changeDonuChartData(nivel, variables.deptoVariable);
+                                        }
+                                    }
+                                    if (variables.changeBarChartData != null) {
+                                        variables.changeBarChartData(nivel);
+                                        if (variables.deptoVariable != undefined) {
+                                            variables.changeBarChartData(nivel, variables.deptoVariable);
+                                        }
+                                    }
+                                    if (variables.changeGaugeChartData != null) {
+                                        variables.changeGaugeChartData(nivel);
+                                    }
+                                } else if (nivel === "MPIO") {
+    
+                                    if (variables.changeDonuChartData != null) {
+                                        if (variables.deptoVariable != undefined) {
+                                            variables.changeDonuChartData("DPTO", variables.deptoVariable);
+                                        }
+                                    }
+                                    // if (variables.changePieChartData != null) {
+                                    //     variables.changePieChartData(nivel, dpto);
+                                    //     if (variables.deptoVariable != undefined) {
+                                    //         variables.deptoVariable(nivel, variables.deptoVariable);
+                                    //     }
+                                    // }
+                                    // // console.log(variables.changeDonuChartData);
+                                    // if (variables.changeDonuChartData != null) {
+                                    //     variables.changeDonuChartData(nivel, dpto);
+                                    //     if (variables.deptoVariable != undefined) {
+                                    //         variables.changeDonuChartData(nivel, variables.deptoVariable);
+                                    //     }
+                                    // }
+                                    // if (variables.changeBarChartData != null) {
+                                    //     variables.changeBarChartData(nivel);
+                                    //     if (variables.deptoVariable != undefined) {
+                                    //         variables.changeBarChartData(nivel, variables.deptoVariable);
+                                    //     }
+                                    // }
+                                    // if (variables.changeGaugeChartData != null) {
+                                    //     variables.changeGaugeChartData(nivel);
+                                    // }
+                                }
+                            });
+                    }
                 }
             }
+            
 
         }
 
