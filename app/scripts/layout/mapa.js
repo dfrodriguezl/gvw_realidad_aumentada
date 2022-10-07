@@ -1909,13 +1909,13 @@ function changeSymbologiCluster(cluster, nivel, min, max, max2) {
 
   }
 
-  // if (nivel === "MPIO") {
-  //   if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined) {
-  //     if (cluster.substring(0, 2) !== variables.deptoSelectedFilter) {
-  //       radioValor = 0;
-  //     }
-  //   }
-  // }
+  if (nivel === "MPIO") {
+    if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined) {
+      if (cluster.substring(0, 2) !== variables.deptoSelectedFilter) {
+        radioValor = 0;
+      }
+    }
+  }
 
   // console.log("RADIO", radioValor);
 
