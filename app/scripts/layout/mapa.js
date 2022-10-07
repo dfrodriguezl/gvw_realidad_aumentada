@@ -1254,14 +1254,14 @@ variables.changeMap = function (nivel, dpto, table) {
           { title: "Departamento", field: "depto", width: "150", headerFilter: true, headerFilterPlaceholder: "Departamento..." },
           { title: "Cód. Municipio", field: "codigo", width: 150, headerFilter: true, headerFilterPlaceholder: "Código..." },
           { title: "Municipio", field: "mpio", width: "200", headerFilter: true, headerFilterPlaceholder: "Municipio..." },
-          tipoVariable === "DV" ? 
-          { title: "Variación porcentual", field: "valor", width: "300", headerFilter: true, headerFilterPlaceholder: "Variación..." } :
-          { title: "Precio promedio actual", field: "valor", width: "300", headerFilter: true, headerFilterPlaceholder: "Precio..." },
-          {
-            title: "Distribución (Cantidad)", field: "valor2", hozAlign: "left", formatter: "progress", formatterParams: {
-              color: variables.coloresLeyend[variables.varVariable][nivel][2][0]
-            }
-          }
+          tipoVariable === "DV" ?
+            { title: "Variación porcentual", field: "valor", width: "300", headerFilter: true, headerFilterPlaceholder: "Variación..." } :
+            { title: "Precio promedio actual", field: "valor", width: "300", headerFilter: true, headerFilterPlaceholder: "Precio..." },
+          // {
+          //   title: "Distribución (Cantidad)", field: "valor2", hozAlign: "left", formatter: "progress", formatterParams: {
+          //     color: variables.coloresLeyend[variables.varVariable][nivel][2][0]
+          //   }
+          // }
         ]
       }
 
@@ -1269,7 +1269,7 @@ variables.changeMap = function (nivel, dpto, table) {
 
         if (dpto !== 0) {
           if (a["FECHA"] === variables.periodoSeleccionado.value && a["PRODUCTOS_ESPECIE_PUBLI"] === variables.productoSeleccionado.value && a["COD_DPTO"] === dpto) {
-            console.log("A DATA", a);
+            // console.log("A DATA", a);
             let valor = parseFloat(a[variables.alias]).toFixed(2)
             let valor2 = parseFloat(a[variables.alias2])
             // let valor3 = (valor * 100)
@@ -1277,47 +1277,47 @@ variables.changeMap = function (nivel, dpto, table) {
             let mpio = (municipios).filter(result => (result.cod_dane == a["COD_MPIO"]))
             let depto = (departamentos).filter(result => (result.cod_dane == a["COD_MPIO"].substring(0, 2)))
             // console.log(depto)
-            
-  
+
+
             // console.log(dpto)
             if (dpto != null) {
               depto = (departamentos).filter(result => (result.cod_dane == dpto))
               if (mpio[0].cod_dane.substring(0, 2) == dpto) {
                 dataTable.push({ depto: depto[0].name, mpio: mpio[0].name, codigo: mpio[0].cod_dane, valor: valor, valor2: valor2 });
               }
-  
+
               // mpio = (municipios).filter(result => (result.cod_dane.substring(0,2) == dpto))
-  
+
             } else {
               let shouldSkipp = false;
               labelsData.push(mpio[0].name);
               data.push(valor);
               dataTable.push({ depto: depto[0].name, mpio: mpio[0].name, codigo: mpio[0].cod_dane, valor: valor });
-              console.log("LABELS DATA", labelsData);
-              console.log("DATA", data);
+              // console.log("LABELS DATA", labelsData);
+              // console.log("DATA", data);
               // f.forEach((m) => {
               //   if (shouldSkipp) {
               //     return;
               //   }
               //   // console.log(m)
-  
+
               //   if (m.properties_.id == mpio[0].cod_dane) {
               //     // console.log(valor)
               //     // console.log(depto)
               //     labelsData.push(mpio[0].name)
               //     data.push(valor);
               //     dataTable.push({ depto: depto[0].name, mpio: mpio[0].name, codigo: mpio[0].cod_dane, valor: valor });
-  
+
               //     let shouldSkip = false;
               //     (variables.coloresLeyend[variables.varVariable][nivel]).forEach((value) => {
               //       // console.log(value)
               //       let element = value[2].split("-")
               //       let colour
-  
+
               //       if (shouldSkip) {
               //         return;
               //       }
-  
+
               //       if (element.length == 1) {
               //         if (parseFloat(valor) >= parseFloat((element[0].replace(">", "").trim()))) {
               //           colour = value[0];
@@ -1332,7 +1332,7 @@ variables.changeMap = function (nivel, dpto, table) {
               //         }
               //       }
               //     })
-  
+
               //     shouldSkipp = true;
               //   }
               // })
@@ -1341,7 +1341,7 @@ variables.changeMap = function (nivel, dpto, table) {
         } else {
           // console.log("A DATA", a);
           if (a["FECHA"] === variables.periodoSeleccionado.value && a["PRODUCTOS_ESPECIE_PUBLI"] === variables.productoSeleccionado.value) {
-            
+
             let valor = parseFloat(a[variables.alias]).toFixed(2)
             let valor2 = parseFloat(a[variables.alias2])
             // let valor3 = (valor * 100)
@@ -1350,48 +1350,48 @@ variables.changeMap = function (nivel, dpto, table) {
             let depto = (departamentos).filter(result => (result.cod_dane == a["COD_MPIO"].substring(0, 2)))
             // console.log("MPIO", mpio)
             // console.log("DPTO", depto)
-  
-            console.log("DPTO", dpto)
+
+            // console.log("DPTO", dpto)
             if (dpto != 0) {
               depto = (departamentos).filter(result => (result.cod_dane == dpto))
               if (mpio[0].cod_dane.substring(0, 2) == dpto) {
                 dataTable.push({ depto: depto[0].name, mpio: mpio[0].name, codigo: mpio[0].cod_dane, valor: valor, valor2: valor2 });
               }
-  
+
               // mpio = (municipios).filter(result => (result.cod_dane.substring(0,2) == dpto))
-  
+
             } else {
               let shouldSkipp = false;
               labelsData.push(mpio[0].name);
               data.push(valor);
               dataTable.push({ depto: depto[0].name, mpio: mpio[0].name, codigo: mpio[0].cod_dane, valor: valor });
-              console.log("LABELS DATA", labelsData);
-              console.log("DATA", data);
-              console.log("VALOR", valor);
+              // console.log("LABELS DATA", labelsData);
+              // console.log("DATA", data);
+              // console.log("VALOR", valor);
               // console.log("F", f);
               // f.forEach((m) => {
               //   if (shouldSkipp) {
               //     return;
               //   }
               //   console.log("M", m)
-  
+
               //   if (m.properties_.id == mpio[0].cod_dane) {
               //     // console.log(valor)
               //     // console.log(depto)
               //     labelsData.push(mpio[0].name)
               //     data.push(valor);
               //     dataTable.push({ depto: depto[0].name, mpio: mpio[0].name, codigo: mpio[0].cod_dane, valor: valor });
-  
+
               //     let shouldSkip = false;
               //     (variables.coloresLeyend[variables.varVariable][nivel]).forEach((value) => {
               //       // console.log(value)
               //       let element = value[2].split("-")
               //       let colour
-  
+
               //       if (shouldSkip) {
               //         return;
               //       }
-  
+
               //       if (element.length == 1) {
               //         if (parseFloat(valor) >= parseFloat((element[0].replace(">", "").trim()))) {
               //           colour = value[0];
@@ -1406,7 +1406,7 @@ variables.changeMap = function (nivel, dpto, table) {
               //         }
               //       }
               //     })
-  
+
               //     shouldSkipp = true;
               //   }
               // })
@@ -1414,7 +1414,7 @@ variables.changeMap = function (nivel, dpto, table) {
           }
         }
 
-        
+
 
 
         // console.log(mpio)
@@ -1909,42 +1909,44 @@ function changeSymbologiCluster(cluster, nivel, min, max, max2) {
 
   }
 
-  if (nivel === "MPIO") {
-    if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined) {
-      if (cluster.substring(0, 2) !== variables.deptoSelectedFilter) {
-        radioValor = 0;
-      }
-    }
+  // if (nivel === "MPIO") {
+  //   if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined) {
+  //     if (cluster.substring(0, 2) !== variables.deptoSelectedFilter) {
+  //       radioValor = 0;
+  //     }
+  //   }
+  // }
+
+  // console.log("RADIO", radioValor);
+
+  if (radioValor > 0) {
+    // color = updateRangeSimbology(valorCampo, nivel, color);
+
+    let strokeColor = '#adaba3'
+
+    // let layerName = feature.properties_.layer;
+    // // console.log(layerName)
+    // layerName == 'mgn_2020_dpto_politico' ? strokeColor = '#FFFFFF' : layerName == 'MGN_2018_URB_MANZANA' ? strokeColor = '#FFFFFF00' : strokeColor = '#adaba3'
+    let fill = new Fill({
+      color: color.endsWith("80") ? color : color + "E6"
+    });
+    let stroke = new Stroke({
+      color: strokeColor,
+      width: 1
+    })
+    let styleLyr = new Style({
+      image: new CircleStyle({
+        radius: radioValor,
+        stroke: stroke,
+        fill: fill
+      })
+
+    });
+
+    return styleLyr
   }
 
 
-
-
-
-  // color = updateRangeSimbology(valorCampo, nivel, color);
-
-  let strokeColor = '#adaba3'
-
-  // let layerName = feature.properties_.layer;
-  // // console.log(layerName)
-  // layerName == 'mgn_2020_dpto_politico' ? strokeColor = '#FFFFFF' : layerName == 'MGN_2018_URB_MANZANA' ? strokeColor = '#FFFFFF00' : strokeColor = '#adaba3'
-  let fill = new Fill({
-    color: color.endsWith("80") ? color : color + "E6"
-  });
-  let stroke = new Stroke({
-    color: strokeColor,
-    width: 1
-  })
-  let styleLyr = new Style({
-    image: new CircleStyle({
-      radius: radioValor,
-      stroke: stroke,
-      fill: fill
-    })
-
-  });
-
-  return styleLyr
 }
 
 variables.filterGeo = (nivel, value) => {

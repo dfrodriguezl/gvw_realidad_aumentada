@@ -52,8 +52,6 @@ const TableContent = () => {
   ]
 
   variables.updateData = (dataTable,cols) => { 
-    console.log("DATA", dataTable);
-    console.log("COLS", cols);
     setCol(cols)
     setData(dataTable)
   }
