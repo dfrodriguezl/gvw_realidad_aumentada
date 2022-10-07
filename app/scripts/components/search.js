@@ -102,8 +102,9 @@ const Search = ({ filterSearch, placeholder }) => {
                 getPeriodos(nivel, campo);
             }
             // variables.getProductosByPeriodo(nivel, campo, variables.periodoSeleccionado.value);
-            console.log("VARIABLE", variables.varVariable);
-            if(variables.varVariable !== undefined){
+            // console.log("VARIABLE", variables.varVariable);
+            // if(variables.dataArrayDatos[variables.varVariable.substring(0, 5)] !== undefined){
+                // console.log("DATA ARRAY DATOS", variables.dataArrayDatos);
                 if (variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel] !== undefined) {
                 
 
@@ -242,7 +243,7 @@ const Search = ({ filterSearch, placeholder }) => {
                             });
                     }
                 }
-            }
+            // }
             
 
         }
