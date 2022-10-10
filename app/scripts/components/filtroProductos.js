@@ -99,7 +99,7 @@ const FiltroProductos= () => {
             <p className="selectBox__name">Producto, presentación:</p>
             <Select
                 styles={{
-                    navBar: provided => ({ zIndex: 9999 })
+                    navBar: provided => ({ zIndex: 99999 })
                 }}
                 name="form-field-name"
                 className="select2-container"

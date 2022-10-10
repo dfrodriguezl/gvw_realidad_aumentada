@@ -348,6 +348,8 @@ const Mapa = () => {
             HTML += '<p class="popup__list"><span class="popup__subtitle">Tendencia: </span><span class="popup__subtitle">' + dataPopup[0]["TENDENCIA"] + '</span></p>';
             HTML += '<p class="popup__list"><span class="popup__subtitle">Variación: </span><span class="popup__subtitle">' + parseFloat(dataPopup[0]["VARIACION_PP"]).toLocaleString("de-De").replace(",", ".") + ' %</span></p>';
           } else if (dataUnidades === '%') {
+            HTML += '<p class="popup__list"><span class="popup__subtitle">Precio promedio actual: </span><span class="popup__subtitle">' + parseFloat(dataPopup[0]["PRECIO_PROMEDIO_ACTUAL"]).toLocaleString("de-De").replace(",", ".") + ' %</span></p>';
+            HTML += '<p class="popup__list"><span class="popup__subtitle">Precio promedio anterior: </span><span class="popup__subtitle">' + unidadesAbsolutas + " " + parseFloat(dataPopup[0]["PRECIO_PROMEDIO_ANTERIOR"]).toLocaleString("de-De").replace(",", ".") + '</span></p>';
             HTML += '<p class="popup__list"><span class="popup__subtitle">Tendencia: </span><span class="popup__subtitle">' + dataPopup[0]["TENDENCIA"] + '</span></p>';
           }
 
