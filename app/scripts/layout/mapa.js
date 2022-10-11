@@ -348,7 +348,7 @@ const Mapa = () => {
             HTML += '<p class="popup__list"><span class="popup__subtitle">Tendencia: </span><span class="popup__subtitle">' + dataPopup[0]["TENDENCIA"] + '</span></p>';
             HTML += '<p class="popup__list"><span class="popup__subtitle">Variación: </span><span class="popup__subtitle">' + parseFloat(dataPopup[0]["VARIACION_PP"]).toLocaleString("de-De").replace(",", ".") + ' %</span></p>';
           } else if (dataUnidades === '%') {
-            HTML += '<p class="popup__list"><span class="popup__subtitle">Precio promedio actual: </span><span class="popup__subtitle">' + parseFloat(dataPopup[0]["PRECIO_PROMEDIO_ACTUAL"]).toLocaleString("de-De").replace(",", ".") + ' %</span></p>';
+            HTML += '<p class="popup__list"><span class="popup__subtitle">Precio promedio actual: </span><span class="popup__subtitle">' + unidadesAbsolutas + " " + parseFloat(dataPopup[0]["PRECIO_PROMEDIO_ACTUAL"]).toLocaleString("de-De").replace(",", ".") + ' </span></p>';
             HTML += '<p class="popup__list"><span class="popup__subtitle">Precio promedio anterior: </span><span class="popup__subtitle">' + unidadesAbsolutas + " " + parseFloat(dataPopup[0]["PRECIO_PROMEDIO_ANTERIOR"]).toLocaleString("de-De").replace(",", ".") + '</span></p>';
             HTML += '<p class="popup__list"><span class="popup__subtitle">Tendencia: </span><span class="popup__subtitle">' + dataPopup[0]["TENDENCIA"] + '</span></p>';
           }
@@ -1173,58 +1173,105 @@ variables.changeMap = function (nivel, dpto, table) {
 
       }, []);
 
+      const dataUnidades = variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"];
+
       // console.log("INTEGRADO", integrado);
       if (tipoVariable !== "DV") {
         integrado = integrado.filter(o => o !== 0);
-      }
+        max = Math.max(...integrado);
+        min = Math.min(...integrado);
+        max2 = Math.max(...valor2Array);
+        variables.max = valor2Array.length === 0 ? max : max2;
+        variables.min = min;
+        // console.log("MAX", max);
+        // console.log("MIN", min);
+        // console.log("MAX2ARRAY", valor2Array);
+        // console.log("MAX2", max2);
 
-      max = Math.max(...integrado);
-      min = Math.min(...integrado);
-      max2 = Math.max(...valor2Array);
-      variables.max = valor2Array.length === 0 ? max : max2;
-      variables.min = min;
-      // console.log("MAX", max);
-      // console.log("MIN", min);
-      // console.log("MAX2ARRAY", valor2Array);
-      // console.log("MAX2", max2);
+        let list = integrado.filter((x, i, a) => a.indexOf(x) == i)
+        // console.log("LIST", list);
 
-      let list = integrado.filter((x, i, a) => a.indexOf(x) == i)
-      // console.log("LIST", list);
-      let dataUnidades = variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"];
-      // console.log(integrado)
-      // console.log("LIST", list)
-      const rangeNumber = list.length < 5 ? list.length : 5;
-      var serie = new geostats(list);
-      // console.log("SERIES", serie.getClassJenks(rangeNumber))
-      if (serie.getClassJenks(rangeNumber) != undefined) {
-        for (let index = 0; index < (serie.ranges).length; index++) {
-          const searchRegExp = /\./g;
-          let rangeSplit = serie.ranges[(serie.ranges).length - (index + 1)].split(" - ");
-          // console.log("RANGO 1", rangeSplit)
-          let newRange = parseFloat(rangeSplit[0]).toLocaleString("de", "DE") + " - " + parseFloat(rangeSplit[1]).toLocaleString("de", "DE");
-          let rango = newRange + " (" + dataUnidades + ")";
-          // console.log("RANGO", rango)
-          // let rango = serie.ranges[(serie.ranges).length - (index + 1)].replace(searchRegExp, ",") + " (" + dataUnidades + ")"
-          if (index == 0) {
-            rango = rango.split("-")
-            rango = " > " + rango[0].trim() + " (" + dataUnidades + ")"
+        // console.log(integrado)
+        // console.log("LIST", list)
+        const rangeNumber = list.length < 5 ? list.length : 5;
+        var serie = new geostats(list);
+        // console.log("SERIES", serie.getClassJenks(rangeNumber))
+        if (serie.getClassJenks(rangeNumber) != undefined) {
+          for (let index = 0; index < (serie.ranges).length; index++) {
+            const searchRegExp = /\./g;
+            let rangeSplit = serie.ranges[(serie.ranges).length - (index + 1)].split(" - ");
+            // console.log("RANGO 1", rangeSplit)
+            let newRange = parseFloat(rangeSplit[0]).toLocaleString("de", "DE") + " - " + parseFloat(rangeSplit[1]).toLocaleString("de", "DE");
+            let rango = newRange + " (" + dataUnidades + ")";
+            // console.log("RANGO", rango)
+            // let rango = serie.ranges[(serie.ranges).length - (index + 1)].replace(searchRegExp, ",") + " (" + dataUnidades + ")"
+            if (index == 0) {
+              rango = rango.split("-")
+              rango = " > " + rango[0].trim() + " (" + dataUnidades + ")"
+            }
+
+            if (table == "y") {
+              variables.coloresLeyend[variables.varVariable]["MPIO"][index][2] = rango;
+            }
+
           }
+        }
 
-          if (table == "y") {
+
+        variables.coloresLeyend[variables.varVariable]["MPIO"].map((color, idx) => {
+          if (idx >= rangeNumber) {
+            variables.coloresLeyend[variables.varVariable]["MPIO"][idx][3] = "hidden";
+          } else {
+            variables.coloresLeyend[variables.varVariable]["MPIO"][idx][3] = "visible";
+          }
+        })
+      } else {
+        let integradoPos = integrado.filter(o => o > 0);
+        let integradoNeg = integrado.filter(o => o < 0);
+        integradoPos.push(0.1);
+        integradoNeg.push(-0.1);
+        // let integradoZero = integrado.filter(o => o === 0);
+        let listPos = integradoPos.filter((x, i, a) => a.indexOf(x) == i);
+        let listNeg = integradoNeg.filter((x, i, a) => a.indexOf(x) == i);
+        // let listZero = integradoZero.filter((x, i, a) => a.indexOf(x) == i);
+        let rangeNumber = 2;
+        let seriePos = new geostats(listPos);
+        let serieNeg = new geostats(listNeg);
+        // let serieZero = new geostats(listZero);
+        if (seriePos.getClassJenks(rangeNumber) != undefined) {
+          for (let index = 0; index < (seriePos.ranges).length; index++) {
+            let rangeSplit = seriePos.ranges[(seriePos.ranges).length - (index + 1)].split(" - ");
+            let newRange = parseFloat(rangeSplit[0]).toLocaleString("de", "DE") + " - " + parseFloat(rangeSplit[1]).toLocaleString("de", "DE");
+            let rango = newRange + " (" + dataUnidades + ")";
+            if (index == 0) {
+              rango = rango.split("-")
+              rango = " > " + rango[0].trim() + " (" + dataUnidades + ")"
+            }
+
             variables.coloresLeyend[variables.varVariable]["MPIO"][index][2] = rango;
-          }
 
+          }
         }
+
+        variables.coloresLeyend[variables.varVariable]["MPIO"][2][2] = '0 ' + dataUnidades;
+
+        if (serieNeg.getClassJenks(rangeNumber) != undefined) {
+          for (let index = 0; index < (serieNeg.ranges).length; index++) {
+            let rangeSplit = serieNeg.ranges[(serieNeg.ranges).length - (index + 1)].split(" - ");
+            let newRange = parseFloat(rangeSplit[1]).toLocaleString("de", "DE") + " - " + parseFloat(rangeSplit[0]).toLocaleString("de", "DE");
+            let rango = newRange + " (" + dataUnidades + ")";
+            if (index === serieNeg.ranges.length - 1) {
+              rango = rango.split(" - ");
+              rango = " < " + rango[1].trim();
+            }
+            variables.coloresLeyend[variables.varVariable]["MPIO"][index + 3][2] = rango;
+
+          }
+        }
+
       }
 
 
-      variables.coloresLeyend[variables.varVariable]["MPIO"].map((color, idx) => {
-        if (idx >= rangeNumber) {
-          variables.coloresLeyend[variables.varVariable]["MPIO"][idx][3] = "hidden";
-        } else {
-          variables.coloresLeyend[variables.varVariable]["MPIO"][idx][3] = "visible";
-        }
-      })
 
       let layer = variables.capas['mpios_vt'];
       let extent = variables.map.getView().calculateExtent();
@@ -1727,21 +1774,132 @@ const updateRangeSimbology = (valorCampo, nivel, colorInput) => {
 
   if (tipoVariable === "DV") {
     if (valorCampo.length > 0) {
-      (variables.coloresLeyend[variables.varVariable][nivel]).map(function (obj, j, k) {
+
+      for(let index = 0; index < variables.coloresLeyend[variables.varVariable][nivel].length; index++){
+        const obj = variables.coloresLeyend[variables.varVariable][nivel][index];
+        console.log("OBJ", obj);
         let element = obj[2];
         element = String(element).split(' - ');
         if (element.length == 1) {
-          if (parseFloat(valorCampo[0][variables.alias]).toFixed(2)
-            >= parseFloat(element[0].replace(">", "").replaceAll('.', '').replace("%", "").trim())) {
-            color = variables.coloresDivergentes[j];
+          const valorEvaluado = parseFloat(valorCampo[0][variables.alias].replaceAll(',', '.')).toFixed(2);
+          const valorElemento = parseFloat(element[0].replace(">", "").replace("<", "").replaceAll(',', '.').replace("%", "").trim()).toFixed(2);
+
+          if (valorEvaluado > 0) {
+            if (valorElemento > 0) {
+              if (valorEvaluado
+                >= valorElemento) {
+                color = obj[0];
+                break;
+              }
+            }
+
+          } else if (valorEvaluado < 0 && valorElemento) {
+            if (valorElemento < 0) {
+              if (valorEvaluado
+                <= valorElemento) {
+                color = obj[0];
+                break;
+              }
+            }
+
+          } else {
+            color = obj[0];
+            break;
           }
+
+
         } else {
-          if (parseFloat(valorCampo[0][variables.alias]).toFixed(2) >= parseFloat(element[0].replaceAll('.', '').replace("%", ""))
-            && parseFloat(valorCampo[0][variables.alias]).toFixed(2) <= parseFloat(element[1].replaceAll('.', '').replace("%", ""))) {
-            color = variables.coloresDivergentes[j];
+          const valorEvaluado = parseFloat(valorCampo[0][variables.alias].replaceAll(',', '.')).toFixed(2);
+          const valorElemento0 = parseFloat(element[0].replaceAll(',', '.').replace("%", ""));
+          const valorElemento1 = parseFloat(element[1].replaceAll(',', '.').replace("%", ""));
+
+          if (valorEvaluado > 0) {
+            if (valorElemento0 > 0) {
+              if (valorEvaluado < valorElemento1
+                && valorEvaluado >= valorElemento0) {
+                color = obj[0];
+                break;
+              }
+            }
+
+          } else if (valorEvaluado < 0) {
+            if (valorElemento0 < 0) {
+              if (valorEvaluado <= valorElemento0
+                && valorEvaluado > valorElemento1) {
+                console.log("VALOR EVALUADO", valorEvaluado);
+                console.log("VALOR ELEMENTO 0", valorElemento0);
+                console.log("VALOR ELEMENTO 1", valorElemento1);
+                color = obj[0];
+                break;
+              }
+            }
+
+          } else {
+            color = obj[0];
+            break;
           }
+
         }
-      })
+      }
+
+      // (variables.coloresLeyend[variables.varVariable][nivel]).map(function (obj, j, k) {
+      //   let element = obj[2];
+      //   element = String(element).split(' - ');
+      //   if (element.length == 1) {
+      //     const valorEvaluado = parseFloat(valorCampo[0][variables.alias].replaceAll(',', '.')).toFixed(2);
+      //     const valorElemento = parseFloat(element[0].replace(">", "").replace("<", "").replaceAll(',', '.').replace("%", "").trim()).toFixed(2);
+
+      //     if (valorEvaluado > 0) {
+      //       if (valorElemento > 0) {
+      //         if (valorEvaluado
+      //           >= valorElemento) {
+      //           color = obj[0];
+      //         }
+      //       }
+
+      //     } else if (valorEvaluado < 0 && valorElemento) {
+      //       if (valorElemento < 0) {
+      //         if (valorEvaluado
+      //           <= valorElemento) {
+      //           color = obj[0];
+      //         }
+      //       }
+
+      //     } else {
+      //       color = obj[0];
+      //     }
+
+
+      //   } else {
+      //     const valorEvaluado = parseFloat(valorCampo[0][variables.alias].replaceAll(',', '.')).toFixed(2);
+      //     const valorElemento0 = parseFloat(element[0].replaceAll(',', '.').replace("%", ""));
+      //     const valorElemento1 = parseFloat(element[1].replaceAll(',', '.').replace("%", ""));
+
+      //     if (valorEvaluado > 0) {
+      //       if (valorElemento0 > 0) {
+      //         if (valorEvaluado <= valorElemento1
+      //           && valorEvaluado >= valorElemento0) {
+      //           color = obj[0];
+      //         }
+      //       }
+
+      //     } else if (valorEvaluado < 0) {
+      //       if (valorElemento0 < 0) {
+      //         if (valorEvaluado <= valorElemento0
+      //           && valorEvaluado >= valorElemento1) {
+      //           console.log("VALOR EVALUADO", valorEvaluado);
+      //           console.log("VALOR ELEMENTO 0", valorElemento0);
+      //           console.log("VALOR ELEMENTO 1", valorElemento1);
+      //           color = obj[0];
+      //         }
+      //       }
+
+      //     } else {
+      //       color = obj[0];
+      //     }
+
+      //   }
+      // })
     }
   } else {
     if (valorCampo.length > 0) {
