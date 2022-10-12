@@ -118,7 +118,7 @@ const Filter = (props) => {
         }
 
         // variables.changeTheme("MPIO", variables.deptoSelected, null, "y");
-        variables.changeMap("MPIO", variables.deptoSelected, "n");
+        variables.changeMap("MPIO", variables.deptoSelected, "y");
 
 
         // let layer = variables.capas['deptos_vt2'];
