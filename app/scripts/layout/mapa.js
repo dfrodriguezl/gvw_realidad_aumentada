@@ -803,400 +803,408 @@ variables.changeMap = function (nivel, dpto, table) {
   //     }
   //   }
   // }
+  variables.alias = variables.variablesCampos[variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"]];
+  // console.log("ME FUI POR CHANGE MAP");
 
-  if (1 === 1) {
-    variables.alias = variables.variablesCampos[variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"]];
-    // console.log("ME FUI POR CHANGE MAP");
+  if (nivel == "DPTO") {
+    let valor2Array = [];
+    var integrado = Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value]).map(function (a, b) {
+      let valor, valor2
+      c
+      if (a["G"] === variables.periodoSeleccionado.value) {
+        if (a[variables.alias].includes(",")) {
+          valor = parseFloat(a[variables.alias]).toFixed(2).toLocaleString("de-De").replace(",", ".")
+        } else {
+          valor = parseFloat(a[variables.alias]).toFixed(2)
+        }
 
-    if (nivel == "DPTO") {
-      let valor2Array = [];
-      var integrado = Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value]).map(function (a, b) {
-        let valor, valor2
-        c
-        if (a["G"] === variables.periodoSeleccionado.value) {
-          if (a[variables.alias].includes(",")) {
-            valor = parseFloat(a[variables.alias]).toFixed(2).toLocaleString("de-De").replace(",", ".")
+
+        if (a[variables.alias2] != undefined) {
+          if (a[variables.alias2].includes(",")) {
+            valor2 = parseFloat(a[variables.alias2]).toFixed(2).toLocaleString("de-De").replace(",", ".")
           } else {
+            valor2 = parseFloat(a[variables.alias2])
+          }
+
+          if (!isNaN(valor2)) {
+            valor2Array.push(valor2);
+          }
+
+        }
+
+
+
+
+        if (valor != undefined && !isNaN(valor)) {
+          return valor
+        } else if (valor2 != undefined && !isNaN(valor2)) {
+          return valor2
+        } else {
+          return 0
+        }
+      }
+
+    }, []);
+
+    max = Math.max(...integrado);
+    min = Math.min(...integrado);
+    max2 = Math.max(...valor2Array);
+    variables.max = valor2Array.length === 0 ? max : max2;
+
+    let list = integrado.filter((x, i, a) => a.indexOf(x) == i)
+    // console.log(integrado)
+
+    // LEYENDA NIVEL DPTO
+    var serie = new geostats(list);
+    let dataUnidades = variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"];
+
+    if (serie.getClassJenks(5) != undefined) {
+
+      for (let index = 0; index < (serie.ranges).length; index++) {
+        let rangeSplit = serie.ranges[(serie.ranges).length - (index + 1)].split(" - ");
+        let newRange = parseFloat(rangeSplit[0]).toLocaleString("de", "DE") + " - " + parseFloat(rangeSplit[1]).toLocaleString("de", "DE");
+        let rango = newRange + " (" + dataUnidades + ")";
+        if (index == 0) {
+          rango = rango.split("-")
+          rango = " > " + rango[0].trim() + " (" + dataUnidades + ")"
+        }
+
+        variables.coloresLeyend[variables.varVariable]["DPTO"][index][2] = rango;
+      }
+    }
+
+    // DATOS TABLA POR DEPARTAMENTO
+    let labelsData = []
+    let data = []
+    let colors = []
+    let dataTable = []
+    let colsTable = []
+
+    if (tipoVariable === "VC") {
+      colsTable = [
+        { title: "Código", field: "codigo", hozAlign: "right", width: "150", headerSort: true, headerFilter: true, headerFilterPlaceholder: "Código..." },
+        { title: "Departamento", field: "depto", width: "150", headerFilter: true, headerSort: true, headerFilterPlaceholder: "Departamento..." },
+        { title: "Cantidad (" + unidadesAbsolutas + ")", field: "valor2", hozAlign: "right", width: "300", headerFilter: true, headerSort: true, headerFilterPlaceholder: "Cantidad..." },
+        { title: "Porcentaje (%)", field: "valor", hozAlign: "right", width: "400", headerFilter: true, headerSort: true, headerFilterPlaceholder: "Porcentaje..." },
+        {
+          title: "Distribución (%)", field: "valor", hozAlign: "left", formatter: "progress", formatterParams: {
+            color: variables.coloresLeyend[variables.varVariable][nivel][2][0]
+          }
+        }
+      ]
+    } else {
+      colsTable = [
+        { title: "Código", field: "codigo", hozAlign: "right", width: "150", headerFilter: true, headerSort: true, headerFilterPlaceholder: "Código..." },
+        { title: "Departamento", field: "depto", width: "150", headerFilter: true, headerSort: true, headerFilterPlaceholder: "Departamento..." },
+        { title: "Valor (" + unidadesAbsolutas + ")", field: "valor", hozAlign: "right", width: "300", headerFilter: true, headerSort: true, headerFilterPlaceholder: "Cantidad..." },
+        {
+          title: "Distribución (Cantidad)", field: "valorGraf", hozAlign: "left", formatter: "progress", formatterParams: {
+            color: variables.coloresLeyend[variables.varVariable][nivel][2][0]
+          }
+        }
+      ]
+    }
+    var labels = Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value]).map(function (a, b) {
+
+      let valor = parseFloat(a[variables.alias]).toFixed(2).replace(".", ",");
+      let valor2 = parseFloat(a[variables.alias2]).toLocaleString("de-De").replace(",", ".")
+
+      if (a[variables.alias].includes(",")) {
+        valor = parseFloat(a[variables.alias].replace(".", ",")).toFixed(2)
+        valor2 = parseFloat(a[variables.alias2].replace(",", "."))
+      } else {
+        valor = parseFloat(a[variables.alias].replace(".", ",")).toFixed(2)
+        valor2 = parseFloat(a[variables.alias2])
+      }
+
+      let depto = (departamentos).filter(result => (result.cod_dane == a["ND"]))
+      labelsData.push(depto[0].name.length > 18 ? [depto[0].name.substring(0, 17), depto[0].name.substring(18, depto[0].name.length)] : depto[0].name)
+      // console.log(valor)
+      data.push(valor);
+
+      dataTable.push({ depto: depto[0].name, codigo: depto[0].cod_dane, valor: valor, valor2: valor2, valorGraf: (parseFloat(valor) * 100) / max });
+
+      let shouldSkip = false;
+      (variables.coloresLeyend[variables.varVariable][nivel]).forEach((value) => {
+        let element = value[2].split("-")
+        let colour
+
+        if (shouldSkip) {
+          return;
+        }
+
+        if (element.length == 1) {
+          if (parseFloat(valor) >= parseFloat((element[0].replace(">", "").trim()))) {
+            colour = value[0];
+            colors.push(colour)
+            shouldSkip = true
+          }
+        } else {
+          if (parseFloat(valor) >= parseFloat(element[0]) && parseFloat(valor) <= parseFloat(element[1])) {
+            colour = value[0];
+            colors.push(colour)
+            shouldSkip = true
+          }
+        }
+
+
+      })
+    }, []);
+
+    variables.changeLegend(nivel);
+    variables.changeChart();
+    variables.legenTheme();
+    if (table == "y") {
+      let orderData = dataTable.sort((a, b) => {
+        if (parseFloat(a.valor) > parseFloat(b.valor)) {
+          return -1;
+        } else if (parseFloat(a.valor) < parseFloat(b.valor)) {
+          return 1;
+        }
+        return 0;
+      })
+      // console.log("ORDER",orderData)
+      variables.updateData(orderData, colsTable);
+    }
+
+    // console.log(variables.deptoSelected);
+    if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined) {
+      variables.filterGeo("DPTO", variables.deptoSelectedFilter)
+    } else {
+      let layer = variables.capas['deptos_vt'];
+      layer.setStyle(function (feature) {
+        var layer = feature.get("id");
+        return changeSymbologi(layer, nivel, feature)
+      })
+
+      localStorage.getItem("visualization") === "symbols" ? layer.setVisible(false) : layer.setVisible(true);
+
+      // if(layer.getVisible()){
+      //   layer.setVisible(false);
+      // }
+
+
+
+      variables.unidadesDepto.setStyle(function (feature) {
+        const id = feature.values_.features[0].values_.cod_dane;
+        return changeSymbologiCluster(id, nivel, min, max, max2);
+        // return changeSymbologi(layer, nivel, feature)
+      })
+    }
+
+  }
+  else if (nivel == "MPIO") {
+    let valor2Array = [];
+
+    var integrado = Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value]).map(function (a, b) {
+      let valor, valor2;
+
+      if (dpto !== 0) {
+        if (a["FECHA"] === variables.periodoSeleccionado.value && a["PRODUCTOS_ESPECIE_PUBLI"] === variables.productoSeleccionado.value && a["COD_DPTO"] === dpto) {
+          if (a[variables.alias].includes(",")) {
+            // console.log("VALOR",a[variables.alias]);
+            // if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined && a[nivel].substring(0,2) === variables.deptoSelectedFilter) {
+            valor = parseFloat(a[variables.alias].replace(",", ".")).toFixed(2).toLocaleString("de-De")
+
+            // console.log("VALOR PROCESADO",valor);
+            // }
+            // else{
+            //   valor = parseFloat(a[variables.alias]).toFixed(2).toLocaleString("de-De").replace(",", ".")
+            // }
+          } else {
+            // if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined && a[nivel].substring(0,2) === variables.deptoSelectedFilter) {
             valor = parseFloat(a[variables.alias]).toFixed(2)
+            // }
+            // else {
+            //   valor = parseFloat(a[variables.alias]).toFixed(2)
+            // }
+
           }
 
 
           if (a[variables.alias2] != undefined) {
+
             if (a[variables.alias2].includes(",")) {
+              // if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined && a[nivel].substring(0,2) === variables.deptoSelectedFilter) {
               valor2 = parseFloat(a[variables.alias2]).toFixed(2).toLocaleString("de-De").replace(",", ".")
+              // }
+
             } else {
+              // if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined && a[nivel].substring(0,2) === variables.deptoSelectedFilter) {
               valor2 = parseFloat(a[variables.alias2])
+              // }
+
             }
 
             if (!isNaN(valor2)) {
-              valor2Array.push(valor2);
+              if (variables.deptoSelectedFilter != undefined) {
+                if (a[nivel].substring(0, 2) === variables.deptoSelectedFilter) {
+                  valor2Array.push(valor2);
+                }
+              } else {
+                valor2Array.push(valor2);
+              }
+
             }
 
           }
 
 
-
+          // console.log("VALOR 11", valor);
+          // console.log("VALOR 22", valor2);
 
           if (valor != undefined && !isNaN(valor)) {
-            return valor
+            // if (variables.deptoSelectedFilter != undefined) {
+            //   // console.log("A NIVEL", a);
+            //   if (a[nivel].substring(0, 2) === variables.deptoSelectedFilter) {
+            //     return valor
+            //   } else {
+            //     return 0;
+            //   }
+            // } else {
+            //   return valor
+            // }
+
+            return valor;
           } else if (valor2 != undefined && !isNaN(valor2)) {
-            return valor2
+            if (variables.deptoSelectedFilter != undefined) {
+              if (a[nivel].substring(0, 2) === variables.deptoSelectedFilter) {
+                return valor2
+              } else {
+                return 0;
+              }
+            } else {
+              return valor2
+            }
+
           } else {
             return 0
           }
+        } else {
+          return 0;
         }
+      } else {
+        if (a["FECHA"] === variables.periodoSeleccionado.value && a["PRODUCTOS_ESPECIE_PUBLI"] === variables.productoSeleccionado.value) {
+          if (a[variables.alias].includes(",")) {
+            // console.log("VALOR",a[variables.alias]);
+            // if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined && a[nivel].substring(0,2) === variables.deptoSelectedFilter) {
+            valor = parseFloat(a[variables.alias].replace(",", ".")).toFixed(2).toLocaleString("de-De")
+            // console.log("VALOR PROCESADO",valor);
+            // }
+            // else{
+            //   valor = parseFloat(a[variables.alias]).toFixed(2).toLocaleString("de-De").replace(",", ".")
+            // }
+          } else {
+            // if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined && a[nivel].substring(0,2) === variables.deptoSelectedFilter) {
+            valor = parseFloat(a[variables.alias]).toFixed(2)
+            // }
+            // else {
+            //   valor = parseFloat(a[variables.alias]).toFixed(2)
+            // }
 
-      }, []);
+          }
 
+
+          if (a[variables.alias2] != undefined) {
+
+            if (a[variables.alias2].includes(",")) {
+              // if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined && a[nivel].substring(0,2) === variables.deptoSelectedFilter) {
+              valor2 = parseFloat(a[variables.alias2]).toFixed(2).toLocaleString("de-De").replace(",", ".")
+              // }
+
+            } else {
+              // if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined && a[nivel].substring(0,2) === variables.deptoSelectedFilter) {
+              valor2 = parseFloat(a[variables.alias2])
+              // }
+
+            }
+
+            if (!isNaN(valor2)) {
+              if (variables.deptoSelectedFilter != undefined) {
+                if (a[nivel].substring(0, 2) === variables.deptoSelectedFilter) {
+                  valor2Array.push(valor2);
+                }
+              } else {
+                valor2Array.push(valor2);
+              }
+
+            }
+
+          }
+
+
+          // console.log("VALOR 11", valor);
+          // console.log("VALOR 22", valor2);
+
+          if (valor != undefined && !isNaN(valor)) {
+            // if (variables.deptoSelectedFilter != undefined) {
+            //   // console.log("A NIVEL", a);
+            //   if (a[nivel].substring(0, 2) === variables.deptoSelectedFilter) {
+            //     return valor
+            //   } else {
+            //     return 0;
+            //   }
+            // } else {
+            //   return valor
+            // }
+
+            return valor;
+          } else if (valor2 != undefined && !isNaN(valor2)) {
+            if (variables.deptoSelectedFilter != undefined) {
+              if (a[nivel].substring(0, 2) === variables.deptoSelectedFilter) {
+                return valor2
+              } else {
+                return 0;
+              }
+            } else {
+              return valor2
+            }
+
+          } else {
+            return 0
+          }
+        } else {
+          return 0;
+        }
+      }
+
+
+    }, []);
+
+    const dataUnidades = variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"];
+
+    // console.log("INTEGRADO", integrado);
+    if (tipoVariable !== "DV") {
+      integrado = integrado.filter(o => o !== 0);
       max = Math.max(...integrado);
       min = Math.min(...integrado);
       max2 = Math.max(...valor2Array);
       variables.max = valor2Array.length === 0 ? max : max2;
+      variables.min = min;
+      // console.log("MAX", max);
+      // console.log("MIN", min);
+      // console.log("MAX2ARRAY", valor2Array);
+      // console.log("MAX2", max2);
 
       let list = integrado.filter((x, i, a) => a.indexOf(x) == i)
+      // console.log("LIST", list);
+
       // console.log(integrado)
-
-      // LEYENDA NIVEL DPTO
+      // console.log("LIST", list)
+      const rangeNumber = list.length < 5 ? list.length : 5;
       var serie = new geostats(list);
-      let dataUnidades = variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"];
 
-      if (serie.getClassJenks(5) != undefined) {
-
-        for (let index = 0; index < (serie.ranges).length; index++) {
-          let rangeSplit = serie.ranges[(serie.ranges).length - (index + 1)].split(" - ");
-          let newRange = parseFloat(rangeSplit[0]).toLocaleString("de", "DE") + " - " + parseFloat(rangeSplit[1]).toLocaleString("de", "DE");
-          let rango = newRange + " (" + dataUnidades + ")";
-          if (index == 0) {
-            rango = rango.split("-")
-            rango = " > " + rango[0].trim() + " (" + dataUnidades + ")"
-          }
-
-          variables.coloresLeyend[variables.varVariable]["DPTO"][index][2] = rango;
-        }
-      }
-
-      // DATOS TABLA POR DEPARTAMENTO
-      let labelsData = []
-      let data = []
-      let colors = []
-      let dataTable = []
-      let colsTable = []
-
-      if (tipoVariable === "VC") {
-        colsTable = [
-          { title: "Código", field: "codigo", hozAlign: "right", width: "150", headerSort: true, headerFilter: true, headerFilterPlaceholder: "Código..." },
-          { title: "Departamento", field: "depto", width: "150", headerFilter: true, headerSort: true, headerFilterPlaceholder: "Departamento..." },
-          { title: "Cantidad (" + unidadesAbsolutas + ")", field: "valor2", hozAlign: "right", width: "300", headerFilter: true, headerSort: true, headerFilterPlaceholder: "Cantidad..." },
-          { title: "Porcentaje (%)", field: "valor", hozAlign: "right", width: "400", headerFilter: true, headerSort: true, headerFilterPlaceholder: "Porcentaje..." },
-          {
-            title: "Distribución (%)", field: "valor", hozAlign: "left", formatter: "progress", formatterParams: {
-              color: variables.coloresLeyend[variables.varVariable][nivel][2][0]
-            }
-          }
-        ]
-      } else {
-        colsTable = [
-          { title: "Código", field: "codigo", hozAlign: "right", width: "150", headerFilter: true, headerSort: true, headerFilterPlaceholder: "Código..." },
-          { title: "Departamento", field: "depto", width: "150", headerFilter: true, headerSort: true, headerFilterPlaceholder: "Departamento..." },
-          { title: "Valor (" + unidadesAbsolutas + ")", field: "valor", hozAlign: "right", width: "300", headerFilter: true, headerSort: true, headerFilterPlaceholder: "Cantidad..." },
-          {
-            title: "Distribución (Cantidad)", field: "valorGraf", hozAlign: "left", formatter: "progress", formatterParams: {
-              color: variables.coloresLeyend[variables.varVariable][nivel][2][0]
-            }
-          }
-        ]
-      }
-      var labels = Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value]).map(function (a, b) {
-
-        let valor = parseFloat(a[variables.alias]).toFixed(2).replace(".", ",");
-        let valor2 = parseFloat(a[variables.alias2]).toLocaleString("de-De").replace(",", ".")
-
-        if (a[variables.alias].includes(",")) {
-          valor = parseFloat(a[variables.alias].replace(".", ",")).toFixed(2)
-          valor2 = parseFloat(a[variables.alias2].replace(",", "."))
-        } else {
-          valor = parseFloat(a[variables.alias].replace(".", ",")).toFixed(2)
-          valor2 = parseFloat(a[variables.alias2])
-        }
-
-        let depto = (departamentos).filter(result => (result.cod_dane == a["ND"]))
-        labelsData.push(depto[0].name.length > 18 ? [depto[0].name.substring(0, 17), depto[0].name.substring(18, depto[0].name.length)] : depto[0].name)
-        // console.log(valor)
-        data.push(valor);
-
-        dataTable.push({ depto: depto[0].name, codigo: depto[0].cod_dane, valor: valor, valor2: valor2, valorGraf: (parseFloat(valor) * 100) / max });
-
-        let shouldSkip = false;
-        (variables.coloresLeyend[variables.varVariable][nivel]).forEach((value) => {
-          let element = value[2].split("-")
-          let colour
-
-          if (shouldSkip) {
-            return;
-          }
-
-          if (element.length == 1) {
-            if (parseFloat(valor) >= parseFloat((element[0].replace(">", "").trim()))) {
-              colour = value[0];
-              colors.push(colour)
-              shouldSkip = true
-            }
-          } else {
-            if (parseFloat(valor) >= parseFloat(element[0]) && parseFloat(valor) <= parseFloat(element[1])) {
-              colour = value[0];
-              colors.push(colour)
-              shouldSkip = true
-            }
-          }
-
-
-        })
-      }, []);
-
-      variables.changeLegend(nivel);
-      variables.changeChart();
-      variables.legenTheme();
-      if (table == "y") {
-        let orderData = dataTable.sort((a, b) => {
-          if (parseFloat(a.valor) > parseFloat(b.valor)) {
-            return -1;
-          } else if (parseFloat(a.valor) < parseFloat(b.valor)) {
-            return 1;
-          }
-          return 0;
-        })
-        // console.log("ORDER",orderData)
-        variables.updateData(orderData, colsTable);
-      }
-
-      // console.log(variables.deptoSelected);
-      if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined) {
-        variables.filterGeo("DPTO", variables.deptoSelectedFilter)
-      } else {
-        let layer = variables.capas['deptos_vt'];
-        layer.setStyle(function (feature) {
-          var layer = feature.get("id");
-          return changeSymbologi(layer, nivel, feature)
-        })
-
-        localStorage.getItem("visualization") === "symbols" ? layer.setVisible(false) : layer.setVisible(true);
-
-        // if(layer.getVisible()){
-        //   layer.setVisible(false);
-        // }
-
-
-
-        variables.unidadesDepto.setStyle(function (feature) {
-          const id = feature.values_.features[0].values_.cod_dane;
-          return changeSymbologiCluster(id, nivel, min, max, max2);
-          // return changeSymbologi(layer, nivel, feature)
-        })
-      }
-
-    }
-    else if (nivel == "MPIO") {
-      let valor2Array = [];
-
-      var integrado = Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value]).map(function (a, b) {
-        let valor, valor2;
-
-        if (dpto !== 0) {
-          if (a["FECHA"] === variables.periodoSeleccionado.value && a["PRODUCTOS_ESPECIE_PUBLI"] === variables.productoSeleccionado.value && a["COD_DPTO"] === dpto) {
-            if (a[variables.alias].includes(",")) {
-              // console.log("VALOR",a[variables.alias]);
-              // if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined && a[nivel].substring(0,2) === variables.deptoSelectedFilter) {
-              valor = parseFloat(a[variables.alias].replace(",", ".")).toFixed(2).toLocaleString("de-De")
-
-              // console.log("VALOR PROCESADO",valor);
-              // }
-              // else{
-              //   valor = parseFloat(a[variables.alias]).toFixed(2).toLocaleString("de-De").replace(",", ".")
-              // }
-            } else {
-              // if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined && a[nivel].substring(0,2) === variables.deptoSelectedFilter) {
-              valor = parseFloat(a[variables.alias]).toFixed(2)
-              // }
-              // else {
-              //   valor = parseFloat(a[variables.alias]).toFixed(2)
-              // }
-
-            }
-
-
-            if (a[variables.alias2] != undefined) {
-
-              if (a[variables.alias2].includes(",")) {
-                // if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined && a[nivel].substring(0,2) === variables.deptoSelectedFilter) {
-                valor2 = parseFloat(a[variables.alias2]).toFixed(2).toLocaleString("de-De").replace(",", ".")
-                // }
-
-              } else {
-                // if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined && a[nivel].substring(0,2) === variables.deptoSelectedFilter) {
-                valor2 = parseFloat(a[variables.alias2])
-                // }
-
-              }
-
-              if (!isNaN(valor2)) {
-                if (variables.deptoSelectedFilter != undefined) {
-                  if (a[nivel].substring(0, 2) === variables.deptoSelectedFilter) {
-                    valor2Array.push(valor2);
-                  }
-                } else {
-                  valor2Array.push(valor2);
-                }
-
-              }
-
-            }
-
-
-            // console.log("VALOR 11", valor);
-            // console.log("VALOR 22", valor2);
-
-            if (valor != undefined && !isNaN(valor)) {
-              // if (variables.deptoSelectedFilter != undefined) {
-              //   // console.log("A NIVEL", a);
-              //   if (a[nivel].substring(0, 2) === variables.deptoSelectedFilter) {
-              //     return valor
-              //   } else {
-              //     return 0;
-              //   }
-              // } else {
-              //   return valor
-              // }
-
-              return valor;
-            } else if (valor2 != undefined && !isNaN(valor2)) {
-              if (variables.deptoSelectedFilter != undefined) {
-                if (a[nivel].substring(0, 2) === variables.deptoSelectedFilter) {
-                  return valor2
-                } else {
-                  return 0;
-                }
-              } else {
-                return valor2
-              }
-
-            } else {
-              return 0
-            }
-          } else {
-            return 0;
-          }
-        } else {
-          if (a["FECHA"] === variables.periodoSeleccionado.value && a["PRODUCTOS_ESPECIE_PUBLI"] === variables.productoSeleccionado.value) {
-            if (a[variables.alias].includes(",")) {
-              // console.log("VALOR",a[variables.alias]);
-              // if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined && a[nivel].substring(0,2) === variables.deptoSelectedFilter) {
-              valor = parseFloat(a[variables.alias].replace(",", ".")).toFixed(2).toLocaleString("de-De")
-              // console.log("VALOR PROCESADO",valor);
-              // }
-              // else{
-              //   valor = parseFloat(a[variables.alias]).toFixed(2).toLocaleString("de-De").replace(",", ".")
-              // }
-            } else {
-              // if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined && a[nivel].substring(0,2) === variables.deptoSelectedFilter) {
-              valor = parseFloat(a[variables.alias]).toFixed(2)
-              // }
-              // else {
-              //   valor = parseFloat(a[variables.alias]).toFixed(2)
-              // }
-
-            }
-
-
-            if (a[variables.alias2] != undefined) {
-
-              if (a[variables.alias2].includes(",")) {
-                // if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined && a[nivel].substring(0,2) === variables.deptoSelectedFilter) {
-                valor2 = parseFloat(a[variables.alias2]).toFixed(2).toLocaleString("de-De").replace(",", ".")
-                // }
-
-              } else {
-                // if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined && a[nivel].substring(0,2) === variables.deptoSelectedFilter) {
-                valor2 = parseFloat(a[variables.alias2])
-                // }
-
-              }
-
-              if (!isNaN(valor2)) {
-                if (variables.deptoSelectedFilter != undefined) {
-                  if (a[nivel].substring(0, 2) === variables.deptoSelectedFilter) {
-                    valor2Array.push(valor2);
-                  }
-                } else {
-                  valor2Array.push(valor2);
-                }
-
-              }
-
-            }
-
-
-            // console.log("VALOR 11", valor);
-            // console.log("VALOR 22", valor2);
-
-            if (valor != undefined && !isNaN(valor)) {
-              // if (variables.deptoSelectedFilter != undefined) {
-              //   // console.log("A NIVEL", a);
-              //   if (a[nivel].substring(0, 2) === variables.deptoSelectedFilter) {
-              //     return valor
-              //   } else {
-              //     return 0;
-              //   }
-              // } else {
-              //   return valor
-              // }
-
-              return valor;
-            } else if (valor2 != undefined && !isNaN(valor2)) {
-              if (variables.deptoSelectedFilter != undefined) {
-                if (a[nivel].substring(0, 2) === variables.deptoSelectedFilter) {
-                  return valor2
-                } else {
-                  return 0;
-                }
-              } else {
-                return valor2
-              }
-
-            } else {
-              return 0
-            }
-          } else {
-            return 0;
+      if (list.length > 2) {
+        let classes = 5;
+        if (serie.getClassJenks(classes).includes(undefined)) {
+          classes = 4;
+          if (serie.getClassJenks(classes).includes(undefined)) {
+            classes = 3;
           }
         }
 
-
-      }, []);
-
-      const dataUnidades = variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"];
-
-      // console.log("INTEGRADO", integrado);
-      if (tipoVariable !== "DV") {
-        integrado = integrado.filter(o => o !== 0);
-        max = Math.max(...integrado);
-        min = Math.min(...integrado);
-        max2 = Math.max(...valor2Array);
-        variables.max = valor2Array.length === 0 ? max : max2;
-        variables.min = min;
-        // console.log("MAX", max);
-        // console.log("MIN", min);
-        // console.log("MAX2ARRAY", valor2Array);
-        // console.log("MAX2", max2);
-
-        let list = integrado.filter((x, i, a) => a.indexOf(x) == i)
-        // console.log("LIST", list);
-
-        // console.log(integrado)
-        // console.log("LIST", list)
-        const rangeNumber = list.length < 5 ? list.length : 5;
-        var serie = new geostats(list);
         // console.log("SERIES", serie.getClassJenks(rangeNumber))
-        if (serie.getClassJenks(rangeNumber) != undefined) {
+        if (serie.getClassJenks(classes) != undefined) {
           for (let index = 0; index < (serie.ranges).length; index++) {
             const searchRegExp = /\./g;
             let rangeSplit = serie.ranges[(serie.ranges).length - (index + 1)].split(" - ");
@@ -1226,541 +1234,561 @@ variables.changeMap = function (nivel, dpto, table) {
           }
         })
       } else {
-        let integradoPos = integrado.filter(o => o > 0);
-        let integradoNeg = integrado.filter(o => o < 0);
-        integradoPos.push(0.1);
-        integradoNeg.push(-0.1);
-        // let integradoZero = integrado.filter(o => o === 0);
-        let listPos = integradoPos.filter((x, i, a) => a.indexOf(x) == i);
-        let listNeg = integradoNeg.filter((x, i, a) => a.indexOf(x) == i);
-        // let listZero = integradoZero.filter((x, i, a) => a.indexOf(x) == i);
-        let rangeNumber = 2;
-        let seriePos = new geostats(listPos);
-        let serieNeg = new geostats(listNeg);
-        // let serieZero = new geostats(listZero);
-        if (seriePos.getClassJenks(rangeNumber) != undefined) {
-          for (let index = 0; index < (seriePos.ranges).length; index++) {
-            let rangeSplit = seriePos.ranges[(seriePos.ranges).length - (index + 1)].split(" - ");
-            let newRange = parseFloat(rangeSplit[0]).toLocaleString("de", "DE") + " - " + parseFloat(rangeSplit[1]).toLocaleString("de", "DE");
-            let rango = newRange + " (" + dataUnidades + ")";
-            if (index == 0) {
-              rango = rango.split("-")
-              rango = " > " + rango[0].trim() + " (" + dataUnidades + ")"
-            }
-
-            variables.coloresLeyend[variables.varVariable]["MPIO"][index][2] = rango;
-
-          }
-        }
-
-        variables.coloresLeyend[variables.varVariable]["MPIO"][2][2] = '0 ' + dataUnidades;
-
-        if (serieNeg.getClassJenks(rangeNumber) != undefined) {
-          for (let index = 0; index < (serieNeg.ranges).length; index++) {
-            let rangeSplit = serieNeg.ranges[(serieNeg.ranges).length - (index + 1)].split(" - ");
-            let newRange = parseFloat(rangeSplit[1]).toLocaleString("de", "DE") + " - " + parseFloat(rangeSplit[0]).toLocaleString("de", "DE");
-            let rango = newRange + " (" + dataUnidades + ")";
-            if (index === serieNeg.ranges.length - 1) {
-              rango = rango.split(" - ");
-              rango = " < " + rango[0].trim();
-            }
-            variables.coloresLeyend[variables.varVariable]["MPIO"][index + 3][2] = rango;
-
-          }
-        }
-
+        variables.coloresLeyend[variables.varVariable]["MPIO"] = [];
+        variables.coloresLeyend[variables.varVariable]["MPIO"][0] = [];
+        variables.coloresLeyend[variables.varVariable]["MPIO"][0][0] = "#C5C5C5";
+        variables.coloresLeyend[variables.varVariable]["MPIO"][0][2] = "rgba(197,197,197,1)";
+        variables.coloresLeyend[variables.varVariable]["MPIO"][0][2] = "Sin información";
       }
 
-
-
-      let layer = variables.capas['mpios_vt'];
-      let extent = variables.map.getView().calculateExtent();
-      let f = layer.getSource().getFeaturesInExtent(extent);
-
-
-
-      // DATOS TABLA POR MUNICIPIO
-      let labelsData = []
-      let data = []
-      let colors = []
-      let dataTable = []
-      let colsTable = []
-      if (tipoVariable === "VC") {
-        colsTable = [
-          { title: "Departamento", field: "depto", width: "150", headerFilter: true, headerFilterPlaceholder: "Departamento..." },
-          { title: "Cód. Municipio", field: "codigo", width: 150, headerFilter: true, headerFilterPlaceholder: "Código..." },
-          { title: "Municipio", field: "mpio", width: "200", headerFilter: true, headerFilterPlaceholder: "Municipio..." },
-          { title: "Cantidad de licencias", field: "valor2", width: "300", headerFilter: true, headerFilterPlaceholder: "Cantidad..." },
-          { title: "Porcentaje de licencias (%)", field: "valor", width: "300", headerFilter: true, headerFilterPlaceholder: "Porcentaje..." },
-          {
-            title: "Distribución (%)", field: "valor", hozAlign: "left", formatter: "progress", formatterParams: {
-              color: variables.coloresLeyend[variables.varVariable][nivel][2][0]
-            }
-          }
-        ]
-      } else {
-        colsTable = [
-          { title: "Departamento", field: "depto", width: "150", headerFilter: true, headerFilterPlaceholder: "Departamento..." },
-          { title: "Cód. Municipio", field: "codigo", width: 150, headerFilter: true, headerFilterPlaceholder: "Código..." },
-          { title: "Municipio", field: "mpio", width: "200", headerFilter: true, headerFilterPlaceholder: "Municipio..." },
-          tipoVariable === "DV" ?
-            { title: "Variación porcentual", field: "valor", width: "300", headerFilter: true, headerFilterPlaceholder: "Variación..." } :
-            { title: "Precio promedio actual", field: "valor", width: "300", headerFilter: true, headerFilterPlaceholder: "Precio..." },
-          // {
-          //   title: "Distribución (Cantidad)", field: "valor2", hozAlign: "left", formatter: "progress", formatterParams: {
-          //     color: variables.coloresLeyend[variables.varVariable][nivel][2][0]
-          //   }
-          // }
-        ]
+    } else {
+      let integradoPos = integrado.filter(o => o > 0);
+      let integradoNeg = integrado.filter(o => o < 0);
+      integradoPos.push(0.1);
+      integradoNeg.push(-0.1);
+      let listPos = integradoPos.filter((x, i, a) => a.indexOf(x) == i);
+      let listNeg = integradoNeg.filter((x, i, a) => a.indexOf(x) == i);
+      let rangeNumber = 2;
+      let seriePos = new geostats(listPos);
+      let serieNeg = new geostats(listNeg);
+      if (seriePos.getClassJenks(rangeNumber).includes(undefined)) {
+        rangeNumber = 1
       }
-
-      Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value]).map(function (a, b) {
-
-        if (dpto !== 0) {
-          if (a["FECHA"] === variables.periodoSeleccionado.value && a["PRODUCTOS_ESPECIE_PUBLI"] === variables.productoSeleccionado.value && a["COD_DPTO"] === dpto) {
-            // console.log("A DATA", a);
-            let valor = parseFloat(a[variables.alias]).toFixed(2)
-            let valor2 = parseFloat(a[variables.alias2])
-            // let valor3 = (valor * 100)
-            // console.log(a)
-            let mpio = (municipios).filter(result => (result.cod_dane == a["COD_MPIO"]))
-            let depto = (departamentos).filter(result => (result.cod_dane == a["COD_MPIO"].substring(0, 2)))
-            // console.log(depto)
-
-
-            // console.log(dpto)
-            if (dpto != null) {
-              depto = (departamentos).filter(result => (result.cod_dane == dpto))
-              if (mpio[0].cod_dane.substring(0, 2) == dpto) {
-                dataTable.push({ depto: depto[0].name, mpio: mpio[0].name, codigo: mpio[0].cod_dane, valor: valor, valor2: valor2 });
-              }
-
-              // mpio = (municipios).filter(result => (result.cod_dane.substring(0,2) == dpto))
-
-            } else {
-              let shouldSkipp = false;
-              labelsData.push(mpio[0].name);
-              data.push(valor);
-              dataTable.push({ depto: depto[0].name, mpio: mpio[0].name, codigo: mpio[0].cod_dane, valor: valor });
-              // console.log("LABELS DATA", labelsData);
-              // console.log("DATA", data);
-              // f.forEach((m) => {
-              //   if (shouldSkipp) {
-              //     return;
-              //   }
-              //   // console.log(m)
-
-              //   if (m.properties_.id == mpio[0].cod_dane) {
-              //     // console.log(valor)
-              //     // console.log(depto)
-              //     labelsData.push(mpio[0].name)
-              //     data.push(valor);
-              //     dataTable.push({ depto: depto[0].name, mpio: mpio[0].name, codigo: mpio[0].cod_dane, valor: valor });
-
-              //     let shouldSkip = false;
-              //     (variables.coloresLeyend[variables.varVariable][nivel]).forEach((value) => {
-              //       // console.log(value)
-              //       let element = value[2].split("-")
-              //       let colour
-
-              //       if (shouldSkip) {
-              //         return;
-              //       }
-
-              //       if (element.length == 1) {
-              //         if (parseFloat(valor) >= parseFloat((element[0].replace(">", "").trim()))) {
-              //           colour = value[0];
-              //           colors.push(colour)
-              //           shouldSkip = true
-              //         }
-              //       } else {
-              //         if (parseFloat(valor) >= parseFloat(element[0]) && parseFloat(valor) <= parseFloat(element[1])) {
-              //           colour = value[0];
-              //           colors.push(colour)
-              //           shouldSkip = true
-              //         }
-              //       }
-              //     })
-
-              //     shouldSkipp = true;
-              //   }
-              // })
-            }
-          }
-        } else {
-          // console.log("A DATA", a);
-          if (a["FECHA"] === variables.periodoSeleccionado.value && a["PRODUCTOS_ESPECIE_PUBLI"] === variables.productoSeleccionado.value) {
-
-            let valor = parseFloat(a[variables.alias]).toFixed(2)
-            let valor2 = parseFloat(a[variables.alias2])
-            // let valor3 = (valor * 100)
-            // console.log(a)
-            let mpio = (municipios).filter(result => (result.cod_dane == a["COD_MPIO"]))
-            let depto = (departamentos).filter(result => (result.cod_dane == a["COD_MPIO"].substring(0, 2)))
-            // console.log("MPIO", mpio)
-            // console.log("DPTO", depto)
-
-            // console.log("DPTO", dpto)
-            if (dpto != 0) {
-              depto = (departamentos).filter(result => (result.cod_dane == dpto))
-              if (mpio[0].cod_dane.substring(0, 2) == dpto) {
-                dataTable.push({ depto: depto[0].name, mpio: mpio[0].name, codigo: mpio[0].cod_dane, valor: valor, valor2: valor2 });
-              }
-
-              // mpio = (municipios).filter(result => (result.cod_dane.substring(0,2) == dpto))
-
-            } else {
-              let shouldSkipp = false;
-              labelsData.push(mpio[0].name);
-              data.push(valor);
-              dataTable.push({ depto: depto[0].name, mpio: mpio[0].name, codigo: mpio[0].cod_dane, valor: valor });
-              // console.log("LABELS DATA", labelsData);
-              // console.log("DATA", data);
-              // console.log("VALOR", valor);
-              // console.log("F", f);
-              // f.forEach((m) => {
-              //   if (shouldSkipp) {
-              //     return;
-              //   }
-              //   console.log("M", m)
-
-              //   if (m.properties_.id == mpio[0].cod_dane) {
-              //     // console.log(valor)
-              //     // console.log(depto)
-              //     labelsData.push(mpio[0].name)
-              //     data.push(valor);
-              //     dataTable.push({ depto: depto[0].name, mpio: mpio[0].name, codigo: mpio[0].cod_dane, valor: valor });
-
-              //     let shouldSkip = false;
-              //     (variables.coloresLeyend[variables.varVariable][nivel]).forEach((value) => {
-              //       // console.log(value)
-              //       let element = value[2].split("-")
-              //       let colour
-
-              //       if (shouldSkip) {
-              //         return;
-              //       }
-
-              //       if (element.length == 1) {
-              //         if (parseFloat(valor) >= parseFloat((element[0].replace(">", "").trim()))) {
-              //           colour = value[0];
-              //           colors.push(colour)
-              //           shouldSkip = true
-              //         }
-              //       } else {
-              //         if (parseFloat(valor) >= parseFloat(element[0]) && parseFloat(valor) <= parseFloat(element[1])) {
-              //           colour = value[0];
-              //           colors.push(colour)
-              //           shouldSkip = true
-              //         }
-              //       }
-              //     })
-
-              //     shouldSkipp = true;
-              //   }
-              // })
-            }
-          }
-        }
-
-
-
-
-        // console.log(mpio)
-
-      }, []);
-
-      // variables.changeLegend(nivel);
-
-      // console.log(variables.coloresLeyend[variables.varVariable]["MPIO"])
-      // variables.changeChart();
-
-      variables.changeChart();
-      variables.legenTheme();
-
-      if (table == "y") {
-        variables.updateData(dataTable, colsTable);
-      }
-
-      variables.changeLegend(nivel);
-      // console.log(variables.coloresLeyend[variables.varVariable]), "Colores";
-
-      // console.log(variables.coloresLeyend[variables.varVariable]);
-      // variables.changeLegend();
-      // variables.legenTheme();
-
-      if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined) {
-        variables.filterGeo("DPTO", variables.deptoSelectedFilter)
-      } else {
-        let layer = variables.capas['mpios_vt'];
-        layer.setStyle(function (feature) {
-          var layer = feature.get("id");
-          return changeSymbologi(layer, nivel, feature)
-        })
-
-        localStorage.getItem("visualization") === "symbols" ? layer.setVisible(false) : layer.setVisible(true);
-        variables.unidadesMpio.setStyle(function (feature) {
-          const id = feature.values_.features[0].values_.cod_dane;
-          return changeSymbologiCluster(id, nivel, min, max, max2);
-          // return changeSymbologi(layer, nivel, feature)
-        })
-        if (dpto == null) {
-          layer.setStyle(function (feature) {
-            var layer = feature.get("id");
-            return changeSymbologi(layer, nivel, feature)
-          })
-        }
-      }
-
-      localStorage.getItem("visualization") === "symbols" ? layer.setVisible(false) : layer.setVisible(true);
-
-      // console.log(layer)
-    } else if (nivel == "SECC") {
-
-      var integrado = Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel]).map(function (a, b) {
-        let valor = parseFloat(a[variables.alias]).toFixed(2)
-        if (valor != undefined && !isNaN(valor)) {
-          return valor;
-        } else {
-          return 0
-        }
-      }, []);
-
-      let list = integrado.filter((x, i, a) => a.indexOf(x) == i)
-      let dataUnidades = variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"];
-      // console.log(integrado)
-      // console.log(list)
-      var serie = new geostats(list);
-      // console.log(serie)
-      if (serie.getClassJenks(5) != undefined) {
-        for (let index = 0; index < (serie.ranges).length; index++) {
-          const searchRegExp = /\./g;
-          let rango = serie.ranges[(serie.ranges).length - (index + 1)].replace(searchRegExp, ",") + " (" + dataUnidades + ")"
+      if (seriePos.getClassJenks(rangeNumber) != undefined) {
+        for (let index = 0; index < (seriePos.ranges).length; index++) {
+          let rangeSplit = seriePos.ranges[(seriePos.ranges).length - (index + 1)].split(" - ");
+          let newRange = parseFloat(rangeSplit[0]).toLocaleString("de", "DE") + " - " + parseFloat(rangeSplit[1]).toLocaleString("de", "DE");
+          let rango = newRange + " (" + dataUnidades + ")";
           if (index == 0) {
             rango = rango.split("-")
             rango = " > " + rango[0].trim() + " (" + dataUnidades + ")"
           }
-          // console.log(rango)
-          // console.log(variables.coloresLeyend[variables.varVariable]["MPIO"][index][2])
-          // console.log(rango, "Rango")
-          // variables.coloresLeyend[variables.varVariable]["DPTO"][index][2] = rango;
-          variables.coloresLeyend[variables.varVariable]["SECC"][index][2] = rango;
+
+          variables.coloresLeyend[variables.varVariable]["MPIO"][index][2] = rango;
 
         }
       }
 
-      // console.log(variables.coloresLeyend)
-
-      // let layer = variables.capas['mpios_vt'];
-
-      // let extent = variables.map.getView().calculateExtent();
-      // let features = layer.getSource().forEachFeatureInExtent(extent, function(feature){
-      //   console.log(Feature);
-      // });
-      // let f = layer.getSource().getFeaturesInExtent(extent);
-      // console.log(f)
-
-
-
-      // DATOS TABLA POR MUNICIPIO
-      let labelsData = []
-      let data = []
-      let colors = []
-      let dataTable = []
-      let colsTable = []
-      if (tipoVariable === "VC") {
-        colsTable = [
-          { title: "Departamento", field: "depto", width: "150" },
-          { title: "Cód. Municipio", field: "codigo", width: 150 },
-          { title: "Municipio", field: "mpio", width: "200" },
-          { title: "Sección urbana", field: "nsc", width: "200" },
-          { title: "Cantidad de licencias", field: "valor2", width: "300" },
-          { title: "Porcentaje de licencias (%)", field: "valor", width: "300" },
-          {
-            title: "Distribución (%)", field: "valor", hozAlign: "left", formatter: "progress", formatterParams: {
-              color: variables.coloresLeyend[variables.varVariable][nivel][2][0]
-            }
-          }
-        ]
-      } else {
-        colsTable = [
-          { title: "Departamento", field: "depto", width: "150" },
-          { title: "Cód. Municipio", field: "codigo", width: 150 },
-          { title: "Municipio", field: "mpio", width: "200" },
-          { title: "Sección urbana", field: "nsc", width: "200" },
-          { title: "Valor", field: "valor2", width: "300" },
-          {
-            title: "Distribución (Cantidad)", field: "valor2", hozAlign: "left", formatter: "progress", formatterParams: {
-              color: variables.coloresLeyend[variables.varVariable][nivel][2][0]
-            }
-          }
-        ]
+      variables.coloresLeyend[variables.varVariable]["MPIO"][2][2] = '0 ' + dataUnidades;
+      rangeNumber = 2;
+      if (serieNeg.getClassJenks(rangeNumber).includes(undefined)) {
+        rangeNumber = 1;
       }
 
-      var labels = Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel]).map(function (a, b) {
+      if (serieNeg.getClassJenks(rangeNumber) != undefined) {
+        for (let index = 0; index < (serieNeg.ranges).length; index++) {
+          let rangeSplit = serieNeg.ranges[(serieNeg.ranges).length - (index + 1)].split(" - ");
+          let newRange = parseFloat(rangeSplit[1]).toLocaleString("de", "DE") + " - " + parseFloat(rangeSplit[0]).toLocaleString("de", "DE");
+          let rango = newRange + " (" + dataUnidades + ")";
+          if (index === serieNeg.ranges.length - 1) {
+            rango = rango.split(" - ");
+            rango = " < " + rango[0].trim();
+          }
+          variables.coloresLeyend[variables.varVariable]["MPIO"][index + 3][2] = rango;
 
-        let valor = parseFloat(a[variables.alias]).toFixed(2)
-        let valor2 = parseFloat(a[variables.alias2])
-        let lvl = "NSC";
-
-        let mpio = (municipios).filter(result => (result.cod_dane == a[lvl].substring(0, 5)))
-        let depto = (departamentos).filter(result => (result.cod_dane == a[lvl].substring(0, 2)))
-
-        if (depto.length > 0) {
-          labelsData.push(depto[0].name.length > 18 ? [depto[0].name.substring(0, 17), depto[0].name.substring(18, depto[0].name.length)] : depto[0].name)
-          // console.log(valor)
-          data.push(valor);
-
-          dataTable.push({ depto: depto[0].name, codigo: mpio[0].cod_dane, mpio: mpio[0].name, nsc: a[lvl], valor: valor, valor2: valor2 });
-
-          let shouldSkip = false;
-          (variables.coloresLeyend[variables.varVariable][nivel]).forEach((value) => {
-            let element = String(value[2]).split("-")
-            let colour
-
-            if (shouldSkip) {
-              return;
-            }
-
-            if (element.length == 1) {
-              if (parseFloat(valor) >= parseFloat((element[0].replace(">", "").trim()))) {
-                colour = value[0];
-                colors.push(colour)
-                shouldSkip = true
-              }
-            } else {
-              if (parseFloat(valor) >= parseFloat(element[0]) && parseFloat(valor) <= parseFloat(element[1])) {
-                colour = value[0];
-                colors.push(colour)
-                shouldSkip = true
-              }
-            }
-
-
-          })
         }
+      }
 
-        // }
-
-        // console.log(mpio)
-
-      }, []);
-
-      // console.log(variables.coloresLeyend[variables.varVariable]["MPIO"])
-      // variables.changeChart();
-
-      variables.changeLegend(nivel);
-      variables.changeChart();
-      variables.legenTheme();
-
-      let layer = variables.capas["secc_vt"];
-
-
-
-
-
-
-
-      // variables.legenTheme();
-
-      // console.log(variables.coloresLeyend[variables.varVariable]);
-
-      layer.setStyle(function (feature) {
-
-        // console.log(feature)
-
-        var field = feature.get("id");
-        return changeSymbologi(field, nivel, feature, layer)
-
+      variables.coloresLeyend[variables.varVariable]["MPIO"].map((color, idx) => {
+        if(color[2] === 0){
+          variables.coloresLeyend[variables.varVariable]["MPIO"][idx][3] = "hidden";
+        } else {
+          variables.coloresLeyend[variables.varVariable]["MPIO"][idx][3] = "visible";
+        }
       })
 
-
-      // console.log(layer)
-    } else if (nivel == "MNZN") {
-
-      // let integrado_mnzn;
+    }
 
 
 
-      // Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel]).forEach(function (a) {
-
-      //   if (a != undefined) {
-
-      //     integrado_mnzn = Object.values(a).map((value, b) => {
-
-      //       let valor = parseFloat(value[variables.alias].replace(",", "."))
-
-      //       if (valor != undefined && !isNaN(valor)) {
-
-      //         return valor;
-
-      //       } else {
-
-      //         return 0;
-
-      //       }
-
-      //     }, [])
-
-      //   }
-
-      // });
-
-      // let list = integrado_mnzn.filter((x, i, a) => a.indexOf(x) == i)
-
-      // var serie = new geostats(list);
-
-      // if (serie.getClassJenks(5) != undefined) {
+    let layer = variables.capas['mpios_vt'];
+    let extent = variables.map.getView().calculateExtent();
+    let f = layer.getSource().getFeaturesInExtent(extent);
 
 
-      //   for (let index = 0; index < (serie.ranges).length; index++) {
 
-      //     let rango = serie.ranges[(serie.ranges).length - (index + 1)]
+    // DATOS TABLA POR MUNICIPIO
+    let labelsData = []
+    let data = []
+    let colors = []
+    let dataTable = []
+    let colsTable = []
+    if (tipoVariable === "VC") {
+      colsTable = [
+        { title: "Departamento", field: "depto", width: "150", headerFilter: true, headerFilterPlaceholder: "Departamento..." },
+        { title: "Cód. Municipio", field: "codigo", width: 150, headerFilter: true, headerFilterPlaceholder: "Código..." },
+        { title: "Municipio", field: "mpio", width: "200", headerFilter: true, headerFilterPlaceholder: "Municipio..." },
+        { title: "Cantidad de licencias", field: "valor2", width: "300", headerFilter: true, headerFilterPlaceholder: "Cantidad..." },
+        { title: "Porcentaje de licencias (%)", field: "valor", width: "300", headerFilter: true, headerFilterPlaceholder: "Porcentaje..." },
+        {
+          title: "Distribución (%)", field: "valor", hozAlign: "left", formatter: "progress", formatterParams: {
+            color: variables.coloresLeyend[variables.varVariable][nivel][2][0]
+          }
+        }
+      ]
+    } else {
+      colsTable = [
+        { title: "Departamento", field: "depto", width: "150", headerFilter: true, headerFilterPlaceholder: "Departamento..." },
+        { title: "Cód. Municipio", field: "codigo", width: 150, headerFilter: true, headerFilterPlaceholder: "Código..." },
+        { title: "Municipio", field: "mpio", width: "200", headerFilter: true, headerFilterPlaceholder: "Municipio..." },
+        tipoVariable === "DV" ?
+          { title: "Variación porcentual", field: "valor", width: "300", headerFilter: true, headerFilterPlaceholder: "Variación..." } :
+          { title: "Precio promedio actual", field: "valor", width: "300", headerFilter: true, headerFilterPlaceholder: "Precio..." },
+        // {
+        //   title: "Distribución (Cantidad)", field: "valor2", hozAlign: "left", formatter: "progress", formatterParams: {
+        //     color: variables.coloresLeyend[variables.varVariable][nivel][2][0]
+        //   }
+        // }
+      ]
+    }
 
-      //     if (index == 0) {
+    Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value]).map(function (a, b) {
 
-      //       rango = rango.split("-")
+      if (dpto !== 0) {
+        if (a["FECHA"] === variables.periodoSeleccionado.value && a["PRODUCTOS_ESPECIE_PUBLI"] === variables.productoSeleccionado.value && a["COD_DPTO"] === dpto) {
+          // console.log("A DATA", a);
+          let valor = parseFloat(a[variables.alias]).toFixed(2)
+          let valor2 = parseFloat(a[variables.alias2])
+          // let valor3 = (valor * 100)
+          // console.log(a)
+          let mpio = (municipios).filter(result => (result.cod_dane == a["COD_MPIO"]))
+          let depto = (departamentos).filter(result => (result.cod_dane == a["COD_MPIO"].substring(0, 2)))
+          // console.log(depto)
 
-      //       rango = " > " + rango[0].trim()
 
-      //     }
+          // console.log(dpto)
+          if (dpto != null) {
+            depto = (departamentos).filter(result => (result.cod_dane == dpto))
+            if (mpio[0].cod_dane.substring(0, 2) == dpto) {
+              dataTable.push({ depto: depto[0].name, mpio: mpio[0].name, codigo: mpio[0].cod_dane, valor: valor, valor2: valor2 });
+            }
 
-      //     variables.coloresLeyend[variables.varVariable]["MNZN"][index][2] = rango;
-      //     // variables.coloresLeyend[variables.varVariable]["DPTO"][index][2] = rango;
+            // mpio = (municipios).filter(result => (result.cod_dane.substring(0,2) == dpto))
 
-      //   }
+          } else {
+            let shouldSkipp = false;
+            labelsData.push(mpio[0].name);
+            data.push(valor);
+            dataTable.push({ depto: depto[0].name, mpio: mpio[0].name, codigo: mpio[0].cod_dane, valor: valor });
+            // console.log("LABELS DATA", labelsData);
+            // console.log("DATA", data);
+            // f.forEach((m) => {
+            //   if (shouldSkipp) {
+            //     return;
+            //   }
+            //   // console.log(m)
+
+            //   if (m.properties_.id == mpio[0].cod_dane) {
+            //     // console.log(valor)
+            //     // console.log(depto)
+            //     labelsData.push(mpio[0].name)
+            //     data.push(valor);
+            //     dataTable.push({ depto: depto[0].name, mpio: mpio[0].name, codigo: mpio[0].cod_dane, valor: valor });
+
+            //     let shouldSkip = false;
+            //     (variables.coloresLeyend[variables.varVariable][nivel]).forEach((value) => {
+            //       // console.log(value)
+            //       let element = value[2].split("-")
+            //       let colour
+
+            //       if (shouldSkip) {
+            //         return;
+            //       }
+
+            //       if (element.length == 1) {
+            //         if (parseFloat(valor) >= parseFloat((element[0].replace(">", "").trim()))) {
+            //           colour = value[0];
+            //           colors.push(colour)
+            //           shouldSkip = true
+            //         }
+            //       } else {
+            //         if (parseFloat(valor) >= parseFloat(element[0]) && parseFloat(valor) <= parseFloat(element[1])) {
+            //           colour = value[0];
+            //           colors.push(colour)
+            //           shouldSkip = true
+            //         }
+            //       }
+            //     })
+
+            //     shouldSkipp = true;
+            //   }
+            // })
+          }
+        }
+      } else {
+        // console.log("A DATA", a);
+        if (a["FECHA"] === variables.periodoSeleccionado.value && a["PRODUCTOS_ESPECIE_PUBLI"] === variables.productoSeleccionado.value) {
+
+          let valor = parseFloat(a[variables.alias]).toFixed(2)
+          let valor2 = parseFloat(a[variables.alias2])
+          // let valor3 = (valor * 100)
+          // console.log(a)
+          let mpio = (municipios).filter(result => (result.cod_dane == a["COD_MPIO"]))
+          let depto = (departamentos).filter(result => (result.cod_dane == a["COD_MPIO"].substring(0, 2)))
+          // console.log("MPIO", mpio)
+          // console.log("DPTO", depto)
+
+          // console.log("DPTO", dpto)
+          if (dpto != 0) {
+            depto = (departamentos).filter(result => (result.cod_dane == dpto))
+            if (mpio[0].cod_dane.substring(0, 2) == dpto) {
+              dataTable.push({ depto: depto[0].name, mpio: mpio[0].name, codigo: mpio[0].cod_dane, valor: valor, valor2: valor2 });
+            }
+
+            // mpio = (municipios).filter(result => (result.cod_dane.substring(0,2) == dpto))
+
+          } else {
+            let shouldSkipp = false;
+            labelsData.push(mpio[0].name);
+            data.push(valor);
+            dataTable.push({ depto: depto[0].name, mpio: mpio[0].name, codigo: mpio[0].cod_dane, valor: valor });
+            // console.log("LABELS DATA", labelsData);
+            // console.log("DATA", data);
+            // console.log("VALOR", valor);
+            // console.log("F", f);
+            // f.forEach((m) => {
+            //   if (shouldSkipp) {
+            //     return;
+            //   }
+            //   console.log("M", m)
+
+            //   if (m.properties_.id == mpio[0].cod_dane) {
+            //     // console.log(valor)
+            //     // console.log(depto)
+            //     labelsData.push(mpio[0].name)
+            //     data.push(valor);
+            //     dataTable.push({ depto: depto[0].name, mpio: mpio[0].name, codigo: mpio[0].cod_dane, valor: valor });
+
+            //     let shouldSkip = false;
+            //     (variables.coloresLeyend[variables.varVariable][nivel]).forEach((value) => {
+            //       // console.log(value)
+            //       let element = value[2].split("-")
+            //       let colour
+
+            //       if (shouldSkip) {
+            //         return;
+            //       }
+
+            //       if (element.length == 1) {
+            //         if (parseFloat(valor) >= parseFloat((element[0].replace(">", "").trim()))) {
+            //           colour = value[0];
+            //           colors.push(colour)
+            //           shouldSkip = true
+            //         }
+            //       } else {
+            //         if (parseFloat(valor) >= parseFloat(element[0]) && parseFloat(valor) <= parseFloat(element[1])) {
+            //           colour = value[0];
+            //           colors.push(colour)
+            //           shouldSkip = true
+            //         }
+            //       }
+            //     })
+
+            //     shouldSkipp = true;
+            //   }
+            // })
+          }
+        }
+      }
+
+
+
+
+      // console.log(mpio)
+
+    }, []);
+
+    // variables.changeLegend(nivel);
+
+    // console.log(variables.coloresLeyend[variables.varVariable]["MPIO"])
+    // variables.changeChart();
+
+    variables.changeChart();
+    variables.legenTheme();
+
+    if (table == "y") {
+      variables.updateData(dataTable, colsTable);
+    }
+
+    variables.changeLegend(nivel);
+    // console.log(variables.coloresLeyend[variables.varVariable]), "Colores";
+
+    // console.log(variables.coloresLeyend[variables.varVariable]);
+    // variables.changeLegend();
+    // variables.legenTheme();
+
+    if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined) {
+      variables.filterGeo("DPTO", variables.deptoSelectedFilter)
+    } else {
+      let layer = variables.capas['mpios_vt'];
+      layer.setStyle(function (feature) {
+        var layer = feature.get("id");
+        return changeSymbologi(layer, nivel, feature)
+      })
+
+      localStorage.getItem("visualization") === "symbols" ? layer.setVisible(false) : layer.setVisible(true);
+      variables.unidadesMpio.setStyle(function (feature) {
+        const id = feature.values_.features[0].values_.cod_dane;
+        return changeSymbologiCluster(id, nivel, min, max, max2);
+        // return changeSymbologi(layer, nivel, feature)
+      })
+      if (dpto == null) {
+        layer.setStyle(function (feature) {
+          var layer = feature.get("id");
+          return changeSymbologi(layer, nivel, feature)
+        })
+      }
+    }
+
+    localStorage.getItem("visualization") === "symbols" ? layer.setVisible(false) : layer.setVisible(true);
+
+    // console.log(layer)
+  } else if (nivel == "SECC") {
+
+    var integrado = Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel]).map(function (a, b) {
+      let valor = parseFloat(a[variables.alias]).toFixed(2)
+      if (valor != undefined && !isNaN(valor)) {
+        return valor;
+      } else {
+        return 0
+      }
+    }, []);
+
+    let list = integrado.filter((x, i, a) => a.indexOf(x) == i)
+    let dataUnidades = variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"];
+    // console.log(integrado)
+    // console.log(list)
+    var serie = new geostats(list);
+    // console.log(serie)
+    if (serie.getClassJenks(5) != undefined) {
+      for (let index = 0; index < (serie.ranges).length; index++) {
+        const searchRegExp = /\./g;
+        let rango = serie.ranges[(serie.ranges).length - (index + 1)].replace(searchRegExp, ",") + " (" + dataUnidades + ")"
+        if (index == 0) {
+          rango = rango.split("-")
+          rango = " > " + rango[0].trim() + " (" + dataUnidades + ")"
+        }
+        // console.log(rango)
+        // console.log(variables.coloresLeyend[variables.varVariable]["MPIO"][index][2])
+        // console.log(rango, "Rango")
+        // variables.coloresLeyend[variables.varVariable]["DPTO"][index][2] = rango;
+        variables.coloresLeyend[variables.varVariable]["SECC"][index][2] = rango;
+
+      }
+    }
+
+    // console.log(variables.coloresLeyend)
+
+    // let layer = variables.capas['mpios_vt'];
+
+    // let extent = variables.map.getView().calculateExtent();
+    // let features = layer.getSource().forEachFeatureInExtent(extent, function(feature){
+    //   console.log(Feature);
+    // });
+    // let f = layer.getSource().getFeaturesInExtent(extent);
+    // console.log(f)
+
+
+
+    // DATOS TABLA POR MUNICIPIO
+    let labelsData = []
+    let data = []
+    let colors = []
+    let dataTable = []
+    let colsTable = []
+    if (tipoVariable === "VC") {
+      colsTable = [
+        { title: "Departamento", field: "depto", width: "150" },
+        { title: "Cód. Municipio", field: "codigo", width: 150 },
+        { title: "Municipio", field: "mpio", width: "200" },
+        { title: "Sección urbana", field: "nsc", width: "200" },
+        { title: "Cantidad de licencias", field: "valor2", width: "300" },
+        { title: "Porcentaje de licencias (%)", field: "valor", width: "300" },
+        {
+          title: "Distribución (%)", field: "valor", hozAlign: "left", formatter: "progress", formatterParams: {
+            color: variables.coloresLeyend[variables.varVariable][nivel][2][0]
+          }
+        }
+      ]
+    } else {
+      colsTable = [
+        { title: "Departamento", field: "depto", width: "150" },
+        { title: "Cód. Municipio", field: "codigo", width: 150 },
+        { title: "Municipio", field: "mpio", width: "200" },
+        { title: "Sección urbana", field: "nsc", width: "200" },
+        { title: "Valor", field: "valor2", width: "300" },
+        {
+          title: "Distribución (Cantidad)", field: "valor2", hozAlign: "left", formatter: "progress", formatterParams: {
+            color: variables.coloresLeyend[variables.varVariable][nivel][2][0]
+          }
+        }
+      ]
+    }
+
+    var labels = Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel]).map(function (a, b) {
+
+      let valor = parseFloat(a[variables.alias]).toFixed(2)
+      let valor2 = parseFloat(a[variables.alias2])
+      let lvl = "NSC";
+
+      let mpio = (municipios).filter(result => (result.cod_dane == a[lvl].substring(0, 5)))
+      let depto = (departamentos).filter(result => (result.cod_dane == a[lvl].substring(0, 2)))
+
+      if (depto.length > 0) {
+        labelsData.push(depto[0].name.length > 18 ? [depto[0].name.substring(0, 17), depto[0].name.substring(18, depto[0].name.length)] : depto[0].name)
+        // console.log(valor)
+        data.push(valor);
+
+        dataTable.push({ depto: depto[0].name, codigo: mpio[0].cod_dane, mpio: mpio[0].name, nsc: a[lvl], valor: valor, valor2: valor2 });
+
+        let shouldSkip = false;
+        (variables.coloresLeyend[variables.varVariable][nivel]).forEach((value) => {
+          let element = String(value[2]).split("-")
+          let colour
+
+          if (shouldSkip) {
+            return;
+          }
+
+          if (element.length == 1) {
+            if (parseFloat(valor) >= parseFloat((element[0].replace(">", "").trim()))) {
+              colour = value[0];
+              colors.push(colour)
+              shouldSkip = true
+            }
+          } else {
+            if (parseFloat(valor) >= parseFloat(element[0]) && parseFloat(valor) <= parseFloat(element[1])) {
+              colour = value[0];
+              colors.push(colour)
+              shouldSkip = true
+            }
+          }
+
+
+        })
+      }
 
       // }
 
+      // console.log(mpio)
+
+    }, []);
+
+    // console.log(variables.coloresLeyend[variables.varVariable]["MPIO"])
+    // variables.changeChart();
+
+    variables.changeLegend(nivel);
+    variables.changeChart();
+    variables.legenTheme();
+
+    let layer = variables.capas["secc_vt"];
 
 
 
 
-      // let layer = variables.capas["mzn_vt"];
-
-      // variables.changeLegend(nivel);
 
 
 
-      // // variables.legenTheme();
+    // variables.legenTheme();
 
-      // // console.log(variables.coloresLeyend[variables.varVariable]);
+    // console.log(variables.coloresLeyend[variables.varVariable]);
 
-      // layer.setStyle(function (feature) {
+    layer.setStyle(function (feature) {
 
-      //   // console.log(feature)
+      // console.log(feature)
 
-      //   var field = feature.get("cod_dane");
-      //   return changeSymbologi(field, nivel, feature, layer)
+      var field = feature.get("id");
+      return changeSymbologi(field, nivel, feature, layer)
 
-      // })
+    })
 
-    }
 
-    if (variables.updateLegendProportional !== null && localStorage.getItem("visualization") === "symbols") {
-      variables.updateLegendProportional();
-    }
+    // console.log(layer)
+  } else if (nivel == "MNZN") {
+
+    // let integrado_mnzn;
+
+
+
+    // Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel]).forEach(function (a) {
+
+    //   if (a != undefined) {
+
+    //     integrado_mnzn = Object.values(a).map((value, b) => {
+
+    //       let valor = parseFloat(value[variables.alias].replace(",", "."))
+
+    //       if (valor != undefined && !isNaN(valor)) {
+
+    //         return valor;
+
+    //       } else {
+
+    //         return 0;
+
+    //       }
+
+    //     }, [])
+
+    //   }
+
+    // });
+
+    // let list = integrado_mnzn.filter((x, i, a) => a.indexOf(x) == i)
+
+    // var serie = new geostats(list);
+
+    // if (serie.getClassJenks(5) != undefined) {
+
+
+    //   for (let index = 0; index < (serie.ranges).length; index++) {
+
+    //     let rango = serie.ranges[(serie.ranges).length - (index + 1)]
+
+    //     if (index == 0) {
+
+    //       rango = rango.split("-")
+
+    //       rango = " > " + rango[0].trim()
+
+    //     }
+
+    //     variables.coloresLeyend[variables.varVariable]["MNZN"][index][2] = rango;
+    //     // variables.coloresLeyend[variables.varVariable]["DPTO"][index][2] = rango;
+
+    //   }
+
+    // }
+
+
+
+
+
+    // let layer = variables.capas["mzn_vt"];
+
+    // variables.changeLegend(nivel);
+
+
+
+    // // variables.legenTheme();
+
+    // // console.log(variables.coloresLeyend[variables.varVariable]);
+
+    // layer.setStyle(function (feature) {
+
+    //   // console.log(feature)
+
+    //   var field = feature.get("cod_dane");
+    //   return changeSymbologi(field, nivel, feature, layer)
+
+    // })
+
   }
+
+  if (variables.updateLegendProportional !== null && localStorage.getItem("visualization") === "symbols") {
+    variables.updateLegendProportional();
+  }
+
 
 
 
@@ -1775,7 +1803,7 @@ const updateRangeSimbology = (valorCampo, nivel, colorInput) => {
   if (tipoVariable === "DV") {
     if (valorCampo.length > 0) {
 
-      for(let index = 0; index < variables.coloresLeyend[variables.varVariable][nivel].length; index++){
+      for (let index = 0; index < variables.coloresLeyend[variables.varVariable][nivel].length; index++) {
         const obj = variables.coloresLeyend[variables.varVariable][nivel][index];
         let element = obj[2];
         element = String(element).split(' - ');
