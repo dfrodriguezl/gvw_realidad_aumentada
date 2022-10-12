@@ -35,6 +35,8 @@ import StreetView from 'ol-street-view';
 import 'ol-street-view/dist/css/ol-street-view.min.css';
 import TipoVisualizacion from '../components/tipoVisualizacion';
 import FiltroProductos from '../components/filtroProductos';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 var container = document.getElementById('popup');
 var content = document.getElementById('popup-content');
@@ -632,7 +634,7 @@ const Mapa = () => {
       <div id="switch_productos"><FiltroProductos /></div>
       <div className="coordenates">
         <div id="coordenates__panel"></div>
-
+        <ToastContainer />
         {/* <TipoVisualizacion /> */}
 
       </div>
