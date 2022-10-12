@@ -342,7 +342,7 @@ const Mapa = () => {
           HTML += '<p class="popup__list">' + 'Participación porcentual (' + parseFloat(dataPopup[variables.alias].replace(",", ".")).toFixed(1) + ' ' + dataUnidades + ')' + '</p>'
           HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[variables.alias2]).toLocaleString("de-De").replace(",", ".") + '</span><span class="popup__valueItem"> ' + unidadesAbsolutas + '</span></p>';
         } else {
-          HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[0][variables.alias]).toLocaleString("de-De").replace(",", ".") + '</span><span class="popup__valueItem"> ' + dataUnidades + '</span></p>';
+          HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[0][variables.alias].toLocaleString("de-De").replace(",", ".")).toFixed(2) + '</span><span class="popup__valueItem"> ' + dataUnidades + '</span></p>';
           if (dataUnidades === '$') {
             HTML += '<p class="popup__list"><span class="popup__subtitle">Precio promedio anterior: </span><span class="popup__subtitle">' + unidadesAbsolutas + " " + parseFloat(dataPopup[0]["PRECIO_PROMEDIO_ANTERIOR"]).toLocaleString("de-De").replace(",", ".") + '</span></p>';
             HTML += '<p class="popup__list"><span class="popup__subtitle">Tendencia: </span><span class="popup__subtitle">' + dataPopup[0]["TENDENCIA"] + '</span></p>';
@@ -1262,7 +1262,7 @@ variables.changeMap = function (nivel, dpto, table) {
             let rango = newRange + " (" + dataUnidades + ")";
             if (index === serieNeg.ranges.length - 1) {
               rango = rango.split(" - ");
-              rango = " < " + rango[1].trim();
+              rango = " < " + rango[0].trim();
             }
             variables.coloresLeyend[variables.varVariable]["MPIO"][index + 3][2] = rango;
 
@@ -1777,7 +1777,6 @@ const updateRangeSimbology = (valorCampo, nivel, colorInput) => {
 
       for(let index = 0; index < variables.coloresLeyend[variables.varVariable][nivel].length; index++){
         const obj = variables.coloresLeyend[variables.varVariable][nivel][index];
-        console.log("OBJ", obj);
         let element = obj[2];
         element = String(element).split(' - ');
         if (element.length == 1) {
@@ -1826,9 +1825,6 @@ const updateRangeSimbology = (valorCampo, nivel, colorInput) => {
             if (valorElemento0 < 0) {
               if (valorEvaluado <= valorElemento0
                 && valorEvaluado > valorElemento1) {
-                console.log("VALOR EVALUADO", valorEvaluado);
-                console.log("VALOR ELEMENTO 0", valorElemento0);
-                console.log("VALOR ELEMENTO 1", valorElemento1);
                 color = obj[0];
                 break;
               }
