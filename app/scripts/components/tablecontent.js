@@ -9,6 +9,7 @@ const TableContent = () => {
   const [responsive, setResponsive] = useState("vertical");
   const [data, setData] = useState([])
   const [col, setCol] = useState([])
+  const [periodoActual, setPeriodoActual] = useState()
   const tableRef = useRef();
   
   const options = {
@@ -60,10 +61,14 @@ const TableContent = () => {
     tableRef.current.table.download("csv","data.csv");
   }
 
+  variables.updatePeriodoTabla = (nuevoPeriodo) => {
+    setPeriodoActual(nuevoPeriodo)
+}
+
   return (
     <React.Fragment> 
       <div className="tableBox__top">
-        <h3 className="tableBox__tableName">Tabla de datos - {variables.tematica["CATEGORIAS"][variables.varVariable][0]["CATEGORIA"]}</h3>
+        <h3 className="tableBox__tableName">Tabla de datos - {variables.tematica["CATEGORIAS"][variables.varVariable][0]["CATEGORIA"]} - {periodoActual ? periodoActual.label : null}</h3>
         <ExportTable exportar={downloadData}/>
         {/* <div className="tableBox__close"></div> */}
       </div>

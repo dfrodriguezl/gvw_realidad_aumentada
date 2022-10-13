@@ -237,6 +237,7 @@ const Search = ({ filterSearch, placeholder }) => {
                 variables.periodos = periodos;
                 variables.periodoSeleccionado = periodos[0];
                 variables.updatePeriodoHeader(periodos[0]);
+                variables.updatePeriodoTabla(periodos[0]);
                 variables.updatePeriodoResult(periodos[0])
                 variables.getProductosByPeriodo(nivel, campo, periodos[0].value)
             });
