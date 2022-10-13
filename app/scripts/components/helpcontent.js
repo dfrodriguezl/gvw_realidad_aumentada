@@ -59,8 +59,7 @@ const HelpContent = () => {
                 <Panel>
                     <div className="help__content" id="help__aboutUrl">
                         <p className="help__content__text" itemProp="description">
-                        Geovisor para la consulta y visualización de las estadísticas de insumos y factores asociados a la producción agropecuaria del
-                        Sistema de Información de Precios y Abastecimiento del Sector Agropecuario (SIPSA-I) con desagregación por municipios
+                        Geovisor para la consulta y visualización de la información correspondiente a los resultados de la operación estadística SIPSA_I agregada por Insumos Agrícolas, Insumos Pecuarios y Factores asociados a la producción agropecuaria.
                             <br />
                             <a href="https://www.dane.gov.co/index.php/estadisticas-por-tema/precios-y-costos/sistema-de-informacion-de-precios-sipsa" target="_blank" className="help__listPanelLink">
                                 <div className="help__panelItem__icon1">

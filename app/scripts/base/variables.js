@@ -1,8 +1,8 @@
 // Geovisor - OpenLayers | Variables Globales
 export const variables = {
 
-    title: 'Geovisor de Componente de Insumos Agropecuarios del SIPSA', //Cambielo por el título de su geovisor
-    description: 'Geovisor para consulta del Componente de Insumos Agropecuarios del SIPSA.',
+    title: 'Geovisor del Componente de Insumos y Factores Asociados a la Producción Agropecuaria (SIPSA_I)', //Cambielo por el título de su geovisor
+    description: 'Geovisor del Componente de Insumos y Factores Asociados a la Producción Agropecuaria (SIPSA_I).',
     country: 'Colombia',
     place: ' Todos los departamentos ',
     year: ' 2021 ',
