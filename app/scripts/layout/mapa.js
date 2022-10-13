@@ -954,7 +954,7 @@ variables.changeMap = function (nivel, dpto, table) {
     }, []);
 
     variables.changeLegend(nivel);
-    variables.changeChart();
+    // variables.changeChart();
     variables.legenTheme();
     if (table == "y") {
       let orderData = dataTable.sort((a, b) => {
@@ -1505,7 +1505,7 @@ variables.changeMap = function (nivel, dpto, table) {
     // console.log(variables.coloresLeyend[variables.varVariable]["MPIO"])
     // variables.changeChart();
 
-    variables.changeChart();
+    // variables.changeChart();
     variables.legenTheme();
 
     if (table == "y") {
@@ -1680,7 +1680,7 @@ variables.changeMap = function (nivel, dpto, table) {
     // variables.changeChart();
 
     variables.changeLegend(nivel);
-    variables.changeChart();
+    // variables.changeChart();
     variables.legenTheme();
 
     let layer = variables.capas["secc_vt"];
