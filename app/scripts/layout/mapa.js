@@ -1224,6 +1224,8 @@ variables.changeMap = function (nivel, dpto, table) {
               variables.coloresLeyend[variables.varVariable]["MPIO"][index][2] = rango;
             }
 
+            // variables.coloresLeyend[variables.varVariable]["MPIO"][index][2] = rango;
+
           }
         }
 
@@ -2088,7 +2090,7 @@ function changeSymbologiCluster(cluster, nivel, min, max, max2) {
         color = updateRangeSimbology(valorCampo, nivel, color);
         let valor = valorCampo[0][variables.alias2] ? valorCampo[0][variables.alias2] : valorCampo[0][variables.alias];
         let maxValor = valorCampo[0][variables.alias2] ? max2 : max;
-        radioValor = ((valor.replace(",", ".") - variables.min) / (maxValor - variables.min)) * 30;
+        radioValor = ((valor.replace(",", ".") - variables.min) / (maxValor - variables.min)) * 35;
         // radioValor = (valor.replace(",", ".") * 30) / maxValor;
       }
     }

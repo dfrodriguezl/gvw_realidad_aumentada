@@ -42,7 +42,7 @@ const ProportionalSymbol = () => {
       .forEach(val => {
         // console.log("VAL", val);
         if (val !== min) {
-          const radius = ((val - min) / (max - min)) * 30;
+          const radius = ((val - min) / (max - min)) * 35;
           // console.log("RADIUS", radius);
           const text = new Text({
             offsetX: 80,
