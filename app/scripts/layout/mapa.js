@@ -1183,6 +1183,8 @@ variables.changeMap = function (nivel, dpto, table) {
       max2 = Math.max(...valor2Array);
       variables.max = valor2Array.length === 0 ? max : max2;
       variables.min = min;
+
+      // console.log("MAX", max);
       // console.log("MAX", max);
       // console.log("MIN", min);
       // console.log("MAX2ARRAY", valor2Array);
@@ -1196,16 +1198,23 @@ variables.changeMap = function (nivel, dpto, table) {
       const rangeNumber = list.length < 5 ? list.length : 5;
       var serie = new geostats(list);
 
-      if (list.length > 2) {
+      if (list.length > 1) {
         let classes = 5;
-        if (serie.getClassJenks(classes).includes(undefined)) {
-          classes = 4;
+
+        if (list.length == 2) {
+          classes = 2;
           if (serie.getClassJenks(classes).includes(undefined)) {
-            classes = 3;
+            classes = 1;
+          }
+        } else {
+          if (serie.getClassJenks(classes).includes(undefined)) {
+            classes = 4;
+            if (serie.getClassJenks(classes).includes(undefined)) {
+              classes = 3;
+            }
           }
         }
 
-        // console.log("SERIES", serie.getClassJenks(rangeNumber))
         if (serie.getClassJenks(classes) != undefined) {
           for (let index = 0; index < (serie.ranges).length; index++) {
             const searchRegExp = /\./g;
@@ -1237,12 +1246,6 @@ variables.changeMap = function (nivel, dpto, table) {
             variables.coloresLeyend[variables.varVariable]["MPIO"][idx][3] = "visible";
           }
         })
-      } else {
-        variables.coloresLeyend[variables.varVariable]["MPIO"] = [];
-        variables.coloresLeyend[variables.varVariable]["MPIO"][0] = [];
-        variables.coloresLeyend[variables.varVariable]["MPIO"][0][0] = "#C5C5C5";
-        variables.coloresLeyend[variables.varVariable]["MPIO"][0][2] = "rgba(197,197,197,1)";
-        variables.coloresLeyend[variables.varVariable]["MPIO"][0][2] = "Sin información";
       }
 
     } else {
@@ -1294,7 +1297,7 @@ variables.changeMap = function (nivel, dpto, table) {
       }
 
       variables.coloresLeyend[variables.varVariable]["MPIO"].map((color, idx) => {
-        if(color[2] === 0){
+        if (color[2] === 0) {
           variables.coloresLeyend[variables.varVariable]["MPIO"][idx][3] = "hidden";
         } else {
           variables.coloresLeyend[variables.varVariable]["MPIO"][idx][3] = "visible";
@@ -1931,21 +1934,46 @@ const updateRangeSimbology = (valorCampo, nivel, colorInput) => {
     }
   } else {
     if (valorCampo.length > 0) {
-      (variables.coloresLeyend[variables.varVariable][nivel]).map(function (obj, j, k) {
-        let element = obj[2];
-        element = String(element).split(' - ');
-        if (element.length == 1) {
-          if (parseFloat(valorCampo[0][variables.alias]).toFixed(2)
-            >= parseFloat(element[0].replace(">", "").replaceAll('.', '').replace("%", "").trim())) {
-            color = obj[0];
-          }
-        } else {
-          if (parseFloat(valorCampo[0][variables.alias]).toFixed(2) >= parseFloat(element[0].replaceAll('.', '').replace("%", ""))
-            && parseFloat(valorCampo[0][variables.alias]).toFixed(2) <= parseFloat(element[1].replaceAll('.', '').replace("%", ""))) {
-            color = obj[0];
+      for(let index = 0; index < variables.coloresLeyend[variables.varVariable][nivel].length; index++){
+        const obj = variables.coloresLeyend[variables.varVariable][nivel][index];
+        if (obj[3] === "visible") {
+          console.log("OBJ", obj);
+          let element = obj[2];
+          element = String(element).split(' - ');
+          if (element.length == 1) {
+            if (parseFloat(valorCampo[0][variables.alias]).toFixed(2)
+              >= parseFloat(element[0].replace(">", "").replaceAll('.', '').replace("($)", "").trim())) {
+              color = obj[0];
+              break;
+            }
+          } else {
+            if (parseFloat(valorCampo[0][variables.alias]).toFixed(2) >= parseFloat(element[0].replaceAll('.', '').replace("%", ""))
+              && parseFloat(valorCampo[0][variables.alias]).toFixed(2) <= parseFloat(element[1].replaceAll('.', '').replace("%", ""))) {
+              color = obj[0];
+              break;
+            }
           }
         }
-      }, []);
+      }
+      // (variables.coloresLeyend[variables.varVariable][nivel]).map(function (obj, j, k) {
+      //   if (obj[3] === "visible") {
+      //     console.log("OBJ", obj);
+      //     let element = obj[2];
+      //     element = String(element).split(' - ');
+      //     if (element.length == 1) {
+      //       if (parseFloat(valorCampo[0][variables.alias]).toFixed(2)
+      //         >= parseFloat(element[0].replace(">", "").replaceAll('.', '').replace("($)", "").trim())) {
+      //         color = obj[0];
+      //       }
+      //     } else {
+      //       if (parseFloat(valorCampo[0][variables.alias]).toFixed(2) >= parseFloat(element[0].replaceAll('.', '').replace("%", ""))
+      //         && parseFloat(valorCampo[0][variables.alias]).toFixed(2) <= parseFloat(element[1].replaceAll('.', '').replace("%", ""))) {
+      //         color = obj[0];
+      //       }
+      //     }
+      //   }
+
+      // }, []);
     }
   }
 
