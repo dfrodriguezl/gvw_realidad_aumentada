@@ -392,6 +392,7 @@ export const variables = {
         "3": "#92c5de",
         "4": "#0571b0"
     },
-    updatePeriodoTabla: null
+    updatePeriodoTabla: null,
+    closer: null
 }
 export const urlDeploy = 'http://localhost:3000/'

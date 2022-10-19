@@ -254,7 +254,6 @@ const Search = ({ filterSearch, placeholder }) => {
         }
 
         let listaProductos = [];
-        let periodos = [];
         axios({ method: "GET", url: urlData })
             .then(function (response) {
                 const datos = response.data.resultado;
@@ -463,6 +462,8 @@ const Search = ({ filterSearch, placeholder }) => {
                 variables.updateToProp();
             }
         }
+
+        variables.closer.click();
     };
 
     const results = municipios.concat(departamentos, centros);

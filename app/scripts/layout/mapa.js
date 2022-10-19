@@ -40,7 +40,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 var container = document.getElementById('popup');
 var content = document.getElementById('popup-content');
-var closer = document.getElementById('popup-closer');
+variables.closer = document.getElementById('popup-closer');
 let zoomActual;
 let unidadesAbsolutas;
 
@@ -74,9 +74,9 @@ const Mapa = () => {
   localStorage.setItem("theme", "light");
   localStorage.setItem("visualization", "symbols");
 
-  closer.onclick = function () {
+  variables.closer.onclick = function () {
     overlay.setPosition(undefined);
-    closer.blur();
+    variables.closer.blur();
     return false;
   };
 
@@ -1872,72 +1872,12 @@ const updateRangeSimbology = (valorCampo, nivel, colorInput) => {
 
         }
       }
-
-      // (variables.coloresLeyend[variables.varVariable][nivel]).map(function (obj, j, k) {
-      //   let element = obj[2];
-      //   element = String(element).split(' - ');
-      //   if (element.length == 1) {
-      //     const valorEvaluado = parseFloat(valorCampo[0][variables.alias].replaceAll(',', '.')).toFixed(2);
-      //     const valorElemento = parseFloat(element[0].replace(">", "").replace("<", "").replaceAll(',', '.').replace("%", "").trim()).toFixed(2);
-
-      //     if (valorEvaluado > 0) {
-      //       if (valorElemento > 0) {
-      //         if (valorEvaluado
-      //           >= valorElemento) {
-      //           color = obj[0];
-      //         }
-      //       }
-
-      //     } else if (valorEvaluado < 0 && valorElemento) {
-      //       if (valorElemento < 0) {
-      //         if (valorEvaluado
-      //           <= valorElemento) {
-      //           color = obj[0];
-      //         }
-      //       }
-
-      //     } else {
-      //       color = obj[0];
-      //     }
-
-
-      //   } else {
-      //     const valorEvaluado = parseFloat(valorCampo[0][variables.alias].replaceAll(',', '.')).toFixed(2);
-      //     const valorElemento0 = parseFloat(element[0].replaceAll(',', '.').replace("%", ""));
-      //     const valorElemento1 = parseFloat(element[1].replaceAll(',', '.').replace("%", ""));
-
-      //     if (valorEvaluado > 0) {
-      //       if (valorElemento0 > 0) {
-      //         if (valorEvaluado <= valorElemento1
-      //           && valorEvaluado >= valorElemento0) {
-      //           color = obj[0];
-      //         }
-      //       }
-
-      //     } else if (valorEvaluado < 0) {
-      //       if (valorElemento0 < 0) {
-      //         if (valorEvaluado <= valorElemento0
-      //           && valorEvaluado >= valorElemento1) {
-      //           console.log("VALOR EVALUADO", valorEvaluado);
-      //           console.log("VALOR ELEMENTO 0", valorElemento0);
-      //           console.log("VALOR ELEMENTO 1", valorElemento1);
-      //           color = obj[0];
-      //         }
-      //       }
-
-      //     } else {
-      //       color = obj[0];
-      //     }
-
-      //   }
-      // })
     }
   } else {
     if (valorCampo.length > 0) {
-      for(let index = 0; index < variables.coloresLeyend[variables.varVariable][nivel].length; index++){
+      for (let index = 0; index < variables.coloresLeyend[variables.varVariable][nivel].length; index++) {
         const obj = variables.coloresLeyend[variables.varVariable][nivel][index];
         if (obj[3] === "visible") {
-          console.log("OBJ", obj);
           let element = obj[2];
           element = String(element).split(' - ');
           if (element.length == 1) {
@@ -1955,25 +1895,6 @@ const updateRangeSimbology = (valorCampo, nivel, colorInput) => {
           }
         }
       }
-      // (variables.coloresLeyend[variables.varVariable][nivel]).map(function (obj, j, k) {
-      //   if (obj[3] === "visible") {
-      //     console.log("OBJ", obj);
-      //     let element = obj[2];
-      //     element = String(element).split(' - ');
-      //     if (element.length == 1) {
-      //       if (parseFloat(valorCampo[0][variables.alias]).toFixed(2)
-      //         >= parseFloat(element[0].replace(">", "").replaceAll('.', '').replace("($)", "").trim())) {
-      //         color = obj[0];
-      //       }
-      //     } else {
-      //       if (parseFloat(valorCampo[0][variables.alias]).toFixed(2) >= parseFloat(element[0].replaceAll('.', '').replace("%", ""))
-      //         && parseFloat(valorCampo[0][variables.alias]).toFixed(2) <= parseFloat(element[1].replaceAll('.', '').replace("%", ""))) {
-      //         color = obj[0];
-      //       }
-      //     }
-      //   }
-
-      // }, []);
     }
   }
 
