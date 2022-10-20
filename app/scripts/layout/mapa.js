@@ -92,16 +92,16 @@ const Mapa = () => {
       crossOrigin: "Anonymous"
     })
   });
-  var overviewMapControl = new OverviewMap({
-    className: 'map__overview',
-    layers: [
-      new TileLayer({
-        source: new XYZ({
-          url: variables.baseMaps[variables.baseMapCheck] + key,
-          crossOrigin: "Anonymous",
-        })
-      })],
-  });
+  // var overviewMapControl = new OverviewMap({
+  //   className: 'map__overview',
+  //   layers: [
+  //     new TileLayer({
+  //       source: new XYZ({
+  //         url: variables.baseMaps[variables.baseMapCheck] + key,
+  //         crossOrigin: "Anonymous",
+  //       })
+  //     })],
+  // });
 
   var controlEsca = new ScaleLine({
     className: 'map__scale',
@@ -115,7 +115,7 @@ const Mapa = () => {
   // Inicializar mapa
   variables.map = new Map({
     target: 'mapa',
-    controls: defaultControls().extend([overviewMapControl, controlEsca]),
+    controls: defaultControls().extend([controlEsca]),
     overlays: [overlay],
     layers: [
       variables.base
@@ -231,20 +231,20 @@ const Mapa = () => {
     }
   })
 
-  let streetView = new StreetView(variables.map,
-    {
-      apiKey: variables.apiGoogle,
-      size: 'sm',
-      resizable: true,
-      sizeToggler: true,
-      defaultMapSize: 'expanded',
-      target: 'mapa',
-      i18n: {
-        dragToInit: 'Drag and drop me',
-        exit: 'Salir'
-      }
-    }
-  );
+  // let streetView = new StreetView(variables.map,
+  //   {
+  //     apiKey: variables.apiGoogle,
+  //     size: 'sm',
+  //     resizable: true,
+  //     sizeToggler: true,
+  //     defaultMapSize: 'expanded',
+  //     target: 'mapa',
+  //     i18n: {
+  //       dragToInit: 'Drag and drop me',
+  //       exit: 'Salir'
+  //     }
+  //   }
+  // );
 
   // Adicionar control streetview
   // let sv = new StreetViewControl({
@@ -618,13 +618,12 @@ const Mapa = () => {
   variables.loadMpioCentroids();
   return (
     <Fragment>
-      <div id="switch_visualization"><TipoVisualizacion /></div>
-      <div id="switch_productos"><FiltroProductos /></div>
+      <ul className='switch'>
+        <li id="switch_visualization"><TipoVisualizacion /></li>
+        <li id="switch_productos"><FiltroProductos /></li>
+      </ul>
       <div className="coordenates">
         <div id="coordenates__panel"></div>
-
-        {/* <TipoVisualizacion /> */}
-
       </div>
     </Fragment>
 

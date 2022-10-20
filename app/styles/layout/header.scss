@@ -88,17 +88,17 @@
     @include flex-wrap(wrap);
 }
 .Header__textBox__title{
-    margin: 6px 10px;
+    margin: 8px 4px;
     font-family: 'Open Sans', sans-serif;
     font-weight: 700;
-    font-size:1em;
+    font-size: 0.9em;
     color:$gray11;
     letter-spacing: -1px;
 }
 .Header__textBox__place{
-    margin:5px 0;
+    margin: 8px 4px;
     padding: 0 0 0 10px;
-    font-size: 1em;
+    font-size: 0.9em;
     font-family: 'Open Sans', sans-serif;
     font-weight: 900;
     color:$gray11;

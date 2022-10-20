@@ -57,8 +57,8 @@
 }
 
 .ol-zoom {
-  left: auto !important;
-  @include calc(right, "20% + 25px");
+  // left: auto !important;
+  @include calc(left, "20% + 114px");
 }
 
 .ol-zoom-out,

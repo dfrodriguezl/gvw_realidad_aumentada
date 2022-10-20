@@ -31,26 +31,27 @@
     font-size: 0.8em;
 }
 
-#switch_visualization{
+.switch{
+    list-style: none;
     position: absolute;
+    right: calc(20% + 15px);
+    top: 0.5em;
     border-radius: 4px;
-    top: 8px;
-    right: 600px;
-    width: 14%;
     background: $white; 
     color: $gray4;
-    @include flex;
+    width: 20%;
+    margin: 0;
+    padding: 0;
+}
+
+#switch_visualization{
+    background: $white; 
+    color: $gray4;
 }
 
 #switch_productos{
-    position: absolute;
-    width: 22%;
-    border-radius: 4px;
-    bottom: 80px;
-    left: 8px;
     background: $white; 
     color: $gray4;
-    @include flex;
 }
 //Estilos modo oscuro
 html[data-theme="dark"]{  
