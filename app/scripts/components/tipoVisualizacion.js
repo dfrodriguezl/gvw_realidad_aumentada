@@ -69,7 +69,7 @@ const TipoVisualizacion = () => {
   return (
     <div className="tools__panel">
       <div className="custom__panel">
-        <p className="tools__text_big">Tipo de simbología a visualizar</p>
+        <p className="tools__text">Tipo de simbología a visualizar</p>
         <div className="custom">
           <p className="custom__text_big"> Símbolos proporcionales </p>
           <label className="custom__content">

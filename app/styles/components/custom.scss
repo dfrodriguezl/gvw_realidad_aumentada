@@ -1,6 +1,7 @@
 .custom{
     margin: 8px 16px;
     @include flex;
+    align-items: center;
 }
 .custom__text{
     margin: 4px 0;

@@ -1,7 +1,7 @@
 //----Estilos para los filtros tipo select ---//
 .selectBox{
     position: relative;
-    margin: 16px auto;
+    margin: 8px auto;
     border:1px solid $gray7;
     border-radius: 8px;
     @include calc(width,'100% - 40px');
