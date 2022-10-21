@@ -638,7 +638,8 @@ const Mapa = () => {
       </ul>
       <div className="coordenates">
         <div id="coordenates__panel"></div>
-        <ToastContainer />
+        <ToastContainer 
+          position="top-center"/>
         {/* <TipoVisualizacion /> */}
 
       </div>
