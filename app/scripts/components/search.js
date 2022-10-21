@@ -104,6 +104,9 @@ const Search = ({ filterSearch, placeholder }) => {
 
             if (variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel] !== undefined) {
 
+                if (!variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value]) {
+                    variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value] = [];
+                }
 
                 if (Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value]).length > 0) {
 
@@ -164,13 +167,13 @@ const Search = ({ filterSearch, placeholder }) => {
 
                     axios({ method: "GET", url: urlData })
                         .then(function (response) {
-                            const jsonResult = JSON.parse(response.data.replace("Array",""));
-                            if(jsonResult){
-                                if(jsonResult.resultado.length === 0){
+                            const jsonResult = JSON.parse(response.data.replace("Array", ""));
+                            if (jsonResult) {
+                                if (jsonResult.resultado.length === 0) {
                                     toast.warn("Para el periodo, producto y variable seleccionada, no hay datos. Intente cambiando la consulta.")
                                 }
                             }
-                            
+
                             variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value] = JSON.parse(response.data.replace("Array", "")).resultado;
                             variables.changeMap(nivel, dpto, table);
                             if (variables.deptoSelected == undefined && variables.deptoVariable != undefined) {

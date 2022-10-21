@@ -10,44 +10,18 @@ const Periodo = () => {
     const handleChange = (event) => {
         setSelectedPeriodo(event);
         variables.periodoSeleccionado = event;
+        console.log("EVENT", event);
         variables.updatePeriodoHeader(event);
         variables.updatePeriodoTabla(event);
         variables.updatePeriodoResult(event);
         variables.getProductosByPeriodo("MPIO", "MPIO", variables.periodoSeleccionado.value);
-        const currentZoom = variables.map.getView().getZoom();
+        // const currentZoom = variables.map.getView().getZoom();
+        console.log("DATA", variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["MPIO"][variables.periodoSeleccionado.value]);
         if(!variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["MPIO"][variables.periodoSeleccionado.value]){
             variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["MPIO"][variables.periodoSeleccionado.value] = {};
         }
         variables.changeTheme("MPIO", 0, "MPIO", "y");
-        variables.changeTheme("MPIO", null, null, "y");
-        // if (currentZoom <= 7) {
-        //     if(!variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"][variables.periodoSeleccionado.value]){
-        //         variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"][variables.periodoSeleccionado.value] = {};
-        //     }
-        //     variables.changeTheme("MPIO", 0, "MPIO", "y");
-        // } else if (currentZoom > 7 && currentZoom <= 11) {
-        //     if(!variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"][variables.periodoSeleccionado.value]){
-        //         variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"][variables.periodoSeleccionado.value] = {};
-        //     }
-        //     if(!variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["MPIO"][variables.periodoSeleccionado.value]){
-        //         variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["MPIO"][variables.periodoSeleccionado.value] = {};
-        //     }
-        //     variables.changeTheme("MPIO", 0, "MPIO", "y");
-        //     variables.changeTheme("MPIO", null, null, "y");
-        //     if (variables.deptoSelected == undefined && variables.deptoVariable != undefined) {
-        //         variables.filterGeo("DPTO", variables.deptoVariable)
-        //     }
-        //     variables.changeStyleDepto();
-        // } else {
-        //     if (variables.municipioSeleccionado != null) {
-        //         variables.changeTheme("MPIO", 0, "MPIO", "n");
-        //         variables.changeTheme("MPIO", variables.municipioSeleccionado, null, "y");
-        //     }
-
-        //     variables.changeTheme("SECC", null, "NSC", "n");
-        //     variables.changeStyleDepto();
-        //     variables.changeStyleMpio();
-        // }
+        // variables.changeTheme("MPIO", null, null, "y");
     }
 
 
