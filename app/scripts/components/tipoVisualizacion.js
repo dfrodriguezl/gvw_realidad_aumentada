@@ -47,23 +47,36 @@ const TipoVisualizacion = () => {
 
   const change2Symbols = () => {
     localStorage.setItem("visualization", "symbols");
-    let layer = variables.capas['deptos_vt'];
-    layer.setVisible(false);
+    // let layer = variables.capas['deptos_vt'];
+    // layer.setVisible(false);
     let layer_2 = variables.capas['mpios_vt'];
     layer_2.setVisible(false);
-    variables.layers["departamentos"]["visible"] = false;
-    variables.layers["departamentos"]["checked"] = false;
+    // variables.layers["departamentos"]["visible"] = false;
+    // variables.layers["departamentos"]["checked"] = false;
     variables.layers["municipios"]["visible"] = false;
     variables.layers["municipios"]["checked"] = false;
-    variables.unidadesDepto.setVisible(true);
-    variables.layers["centroides_depto"]["visible"] = true;
-    variables.layers["centroides_depto"]["checked"] = true;
+    // variables.unidadesDepto.setVisible(true);
+    // variables.layers["centroides_depto"]["visible"] = true;
+    // variables.layers["centroides_depto"]["checked"] = true;
     variables.unidadesMpio.setVisible(true);
     variables.layers["centroides_mpio"]["visible"] = true;
     variables.layers["centroides_mpio"]["checked"] = true;
     if(variables.hideProportionalSymbols !== null){
       variables.hideProportionalSymbols(false);
     }
+  }
+
+  variables.updateSymbols = () => {
+    // toggleThemeChange();
+    change2Chropleths();
+    setChecked(true);
+    
+  }
+
+  variables.updateProps = () => {
+    // toggleThemeChange();
+    change2Symbols();
+    
   }
 
   return (

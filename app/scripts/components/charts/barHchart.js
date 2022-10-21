@@ -11,8 +11,6 @@ const BarHData = () => {
 
   variables.changeBarChartData = function (nivel, dpto) {
 
-
-
     setCategoria(variables.tematica["CATEGORIAS"][variables.varVariable][0]["CATEGORIA"])
 
     let valor = 0;
@@ -22,7 +20,7 @@ const BarHData = () => {
       // console.log("NIVEL DATA", nivel)
 
       if (dpto == undefined) {
-        console.log("INTEGRADO", variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel]);
+        // console.log("INTEGRADO", variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel]);
         var integrado = Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value]).map(function (a, b) {
 
           let valor = parseFloat(a[variables.alias])
@@ -47,9 +45,9 @@ const BarHData = () => {
 
       } else if (nivel === "MPIO") {
         const dataNivel = Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value]).filter((v) => {
-          return v.MPIO === dpto;
+          return v.COD_MPIO === dpto && v.PRODUCTOS_ESPECIE_PUBLI === variables.productoSeleccionado.value;
         }, [])
-        // console.log(dataNivel[0])
+
         if (dataNivel[0] != undefined) {
           valor = parseFloat(dataNivel[0][variables.alias])
           dataFirst = valor.toLocaleString('de-DE');

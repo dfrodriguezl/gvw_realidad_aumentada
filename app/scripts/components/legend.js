@@ -28,7 +28,17 @@ const Leyenda = () => {
     // console.log(variables.coloresLeyend)
     // setTema(variables.tematica["GRUPOS"][variables.varVariable.substring(0, 3)][0]["GRUPO"]);
     // setSubtema(variables.tematica["SUBGRUPOS"][variables.varVariable.substring(0, 5)][0]["SUBGRUPO"]);
-    setLegend(variables.coloresLeyend[variables.varVariable][nivel])
+    const tipoVariable = variables.tematica["CATEGORIAS"][variables.varVariable][0]["TIPO_VARIABLE"];
+    if(tipoVariable === "DV"){
+      const divergentes = variables.coloresLeyend[variables.varVariable][nivel].map((obj, i) => {
+        obj[0] = variables.coloresDivergentes[i];
+        return obj;
+      },[])
+      setLegend(divergentes)
+    } else {
+      setLegend(variables.coloresLeyend[variables.varVariable][nivel])
+    }
+    
     setCategoria(variables.tematica["CATEGORIAS"][variables.varVariable][0]["CATEGORIA"])
     setUnidad(variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"])
   }
@@ -57,7 +67,7 @@ const Leyenda = () => {
       </ul>
       {/* <h5>Los colores más oscuros en la leyenda corresponden a los rangos más altos </h5> */}
       <div className="legend__slider">
-        <p className="legend__slider__text" >Nivel de transparencia (Mapa)</p>
+        <p className="legend__slider__text" >Nivel de transparencia (Capa)</p>
         <div className="legend__slider__content">
           <p className="legend__slider__num" >0%</p>
           <label className="legend__scrollMain" htmlFor="scroll">

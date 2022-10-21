@@ -7,18 +7,25 @@ import clase from '../../json/clase-extent.json'
 import cps from '../../json/centros_poblados-extent.json'
 import Select from 'react-select'
 import { boundingExtent } from 'ol/extent';
-import { transformExtent } from 'ol/proj';
+import { transform, transformExtent } from 'ol/proj';
 import { variables } from '../base/variables';
 import { Stroke, Style } from 'ol/style';
+import { getCenter } from 'ol/extent';
 
-function bboxExtent(bbox) {
+function bboxExtent(bbox, tipo) {
     bbox = bbox.replace('BOX(', '').replace(')', '')
     bbox = bbox.split(",")
     let bbox1 = bbox[0].split(" ")
     let bbox2 = bbox[1].split(" ")
     var ext = boundingExtent([[bbox1[0], bbox1[1]], [bbox2[0], bbox2[1]]]);
     ext = transformExtent(ext, 'EPSG:4326', 'EPSG:3857');
-    variables.map.getView().fit(ext, variables.map.getSize());
+    if (tipo === "mpio") {
+        // variables.map.getView().fit(ext, variables.map.getSize());
+        variables.map.getView().animate({ center: getCenter(ext) })
+    } else {
+        variables.map.getView().fit(ext, variables.map.getSize());
+    }
+
 }
 
 const Filter = (props) => {
@@ -34,59 +41,85 @@ const Filter = (props) => {
     ]
 
     let options4 = [];
-    
+
     const [listCp, setListCp] = useState([]);
     const [selectedOption3, setSelectedOption3] = useState(0);
     const [selectedOption2, setSelectedOption2] = useState(0);
     const [selectedOption, setSelectedOption] = useState(0);
 
-    let filteredOptions = options2.filter((o) => (o.cod_dane).substring(0,2) === selectedOption.cod_dane)
+    let filteredOptions = options2.filter((o) => (o.cod_dane).substring(0, 2) === selectedOption.cod_dane)
+
+    const clearHightlightFeature = (layer) => {
+
+        const defaultStyle = new Style({
+            fill: null,
+            stroke: null
+        })
+
+        layer.setStyle(defaultStyle);
+
+    }
 
     const handleChange1 = (evt) => {
         setSelectedOption(evt);
         let bbox = evt.bextent
-        bboxExtent(bbox) 
-        // console.log(evt)
-        variables.deptoSelected = evt.cod_dane;
-        variables.deptoSelectedFilter = evt.cod_dane;
-        variables.deptoVariable = evt.cod_dane;
-        
-        variables.filterGeo("DPTO",evt.cod_dane)     
-        
-        
-        // let currZoom = variables.map.getView().getZoom();
-        // if(currZoom < 9){
-        //     variables.map.getView().setZoom(9.1) 
-        // }  
-
-        variables.currentZoom = variables.map.getView().getZoom();
-        filteredOptions = [];
-
-        setSelectedOption2({cod_dane:"",value:""});
-        setSelectedOption3({cod_dane:"",value:""});
-        variables.baseMapPrev = variables.baseMapCheck;
-        variables.baseMapCheck = "Gris";
-        if(variables.changeDepto != null){
-            variables.changeDepto(evt.cod_dane + " - " + evt.name)
-        }
-
-        let nivel = 'DPTO';
-
-        if (variables.changePieChartData != null) {
-            variables.changePieChartData(nivel,evt.cod_dane);
-        }
-        // console.log(variables.changeDonuChartData);
-        if (variables.changeDonuChartData != null) {
-            variables.changeDonuChartData(nivel,evt.cod_dane);
-        }
-        // if (variables.changeBarChartData != null) {
-        //     variables.changeBarChartData(nivel,evt.cod_dane);
-        // }
-
+        bboxExtent(bbox, "dpto")
         let layer = variables.capas['deptos_vt2'];
-        // let layer2 = variables.capas['mpios_vt2'];
-        hightlightFeature(layer, evt.cod_dane, 'id')
-        variables.changeStyleDepto();
+
+        if (evt.cod_dane === '00') {
+            variables.deptoSelected = undefined;
+            variables.deptoSelectedFilter = undefined;
+            variables.deptoVariable = undefined;
+            variables.map.getView().setCenter(transform([-74.1083125, 4.663437], 'EPSG:4326', 'EPSG:3857'));
+            variables.map.getView().setZoom(6);
+            clearHightlightFeature(layer);
+        } else {
+            // console.log(evt)
+            variables.deptoSelected = evt.cod_dane;
+            variables.deptoSelectedFilter = evt.cod_dane;
+            variables.deptoVariable = evt.cod_dane;
+
+            // variables.filterGeo("DPTO",evt.cod_dane)     
+
+
+            // let currZoom = variables.map.getView().getZoom();
+            // if(currZoom < 9){
+            //     variables.map.getView().setZoom(9.1) 
+            // }  
+
+            variables.currentZoom = variables.map.getView().getZoom();
+            filteredOptions = [];
+
+            setSelectedOption2({ cod_dane: "", value: "" });
+            setSelectedOption3({ cod_dane: "", value: "" });
+            variables.baseMapPrev = variables.baseMapCheck;
+            variables.baseMapCheck = "Gris";
+            if (variables.changeDepto != null) {
+                variables.changeDepto(evt.cod_dane + " - " + evt.name)
+            }
+
+            let nivel = 'DPTO';
+
+            if (variables.changePieChartData != null) {
+                variables.changePieChartData(nivel, evt.cod_dane);
+            }
+            // console.log(variables.changeDonuChartData);
+            if (variables.changeDonuChartData != null) {
+                variables.changeDonuChartData(nivel, evt.cod_dane);
+            }
+            // if (variables.changeBarChartData != null) {
+            //     variables.changeBarChartData(nivel,evt.cod_dane);
+            // }
+
+            let layer = variables.capas['deptos_vt2'];
+            // let layer2 = variables.capas['mpios_vt2'];
+            hightlightFeature(layer, evt.cod_dane, 'id', 'dptos')
+            variables.changeStyleDepto();
+        }
+
+        // variables.changeTheme("MPIO", variables.deptoSelected, null, "y");
+        variables.changeMap("MPIO", variables.deptoSelected, "y");
+
 
         // let layer = variables.capas['deptos_vt2'];
         // let layer2 = variables.capas['mpios_vt2'];
@@ -96,10 +129,10 @@ const Filter = (props) => {
         // }
         // setSelectedOption2(0);
         // variables.deptoSelected = undefined;
-        
+
     };
 
-    
+
 
     const handleChange2 = (evt) => {
         // console.log(evt)
@@ -109,75 +142,79 @@ const Filter = (props) => {
         // const filtroDos = municipios.filter((o) => o.cod_dane === evt.cod_dane)
         setSelectedOption2(evt)
         let bbox = evt.bextent
-        bboxExtent(bbox)
+        bboxExtent(bbox, "mpio")
         variables.municipioSeleccionado = evt.cod_dane;
         // variables.changeLoader(false);
         // variables.loadUE(evt.cod_dane);
-        setSelectedOption3({cod_dane:"",value:""});
+        setSelectedOption3({ cod_dane: "", value: "" });
         variables.baseMapPrev = variables.baseMapCheck;
         variables.baseMapCheck = "Satelital";
-        if(variables.changeDepto != null){
+        if (variables.changeDepto != null) {
             variables.changeDepto(selectedOption.cod_dane + " - " + selectedOption.name + ", " + evt.cod_dane + " - " + evt.name)
-          }
+        }
         //   console.log(variables.map.getZoom())
-        if(variables.map.getView().getZoom() < 12){
-            let filter = clase.filter((o) => (o.cod_dane).indexOf(evt.cod_dane+"1") != -1)
-            bboxExtent(filter[0].bextent)
+        if (variables.map.getView().getZoom() < 12) {
+            let filter = clase.filter((o) => (o.cod_dane).indexOf(evt.cod_dane + "1") != -1)
+            bboxExtent(filter[0].bextent, "mpio")
         }
 
         let nivel = 'MPIO';
 
         if (variables.changePieChartData != null) {
-            variables.changePieChartData(nivel,evt.cod_dane);
+            variables.changePieChartData(nivel, evt.cod_dane);
         }
         // console.log(variables.changeDonuChartData);
         if (variables.changeDonuChartData != null) {
-            variables.changeDonuChartData(nivel,evt.cod_dane);
+            variables.changeDonuChartData(nivel, evt.cod_dane);
         }
+
+        let layer = variables.capas['mpios_vt2'];
+        // let layer2 = variables.capas['mpios_vt2'];
+        hightlightFeature(layer, evt.cod_dane, 'id', 'mpios')
         // if (variables.changeBarChartData != null) {
         //     variables.changeBarChartData(nivel,evt.cod_dane);
         // }
 
-        
 
-        nivel = 'MNZN';
 
-        variables.changeTheme(nivel, selectedOption.cod_dane, "NM", "N");
+        // nivel = 'MNZN';
 
-        nivel = 'SECC';
+        // variables.changeTheme(nivel, selectedOption.cod_dane, "NM", "N");
 
-        variables.changeTheme(nivel, selectedOption.cod_dane, "NSC", "N");
+        // nivel = 'SECC';
 
-        variables.loadMzCentroids(selectedOption.cod_dane)
+        // variables.changeTheme(nivel, selectedOption.cod_dane, "MPIO", "n");
+
+        // variables.loadMzCentroids(selectedOption.cod_dane)
 
         // variables.changeStyleMpio();
     }
 
     const handleChange3 = (evt) => {
-        const filtroTres = clase.filter((o) => (o.cod_dane).indexOf(selectedOption2.cod_dane+evt.value) != -1)
+        const filtroTres = clase.filter((o) => (o.cod_dane).indexOf(selectedOption2.cod_dane + evt.value) != -1)
         setSelectedOption3(evt.value)
         let bbox = filtroTres[0].bextent
-        bboxExtent(bbox)
-        options4 = cps.filter((o) => o.cod_dane.substring(0,5) === selectedOption2.cod_dane);
+        bboxExtent(bbox, "mpio")
+        options4 = cps.filter((o) => o.cod_dane.substring(0, 5) === selectedOption2.cod_dane);
         // console.log(options4)
         setListCp(options4)
-    }    
+    }
 
     const handleChange4 = (evt) => {
         let bbox = evt.bextent
-        bboxExtent(bbox)
+        bboxExtent(bbox, "mpio")
     }
 
-    const hightlightFeature = (layer, id, capa) => {
+    const hightlightFeature = (layer, id, capa, tipo) => {
 
         let styleHg = new Style({
             fill: null,
             stroke: new Stroke({
-                color: "#00ffff",
-                width: 10
+                color: tipo === "mpios" ? "#00ffff" : "#cc66ff",
+                width: 5
             })
         });
-        layer.setStyle(function (feature) { 
+        layer.setStyle(function (feature) {
             var getlayer = feature.get(capa);
             let style;
             if (getlayer === id) {
@@ -190,43 +227,43 @@ const Filter = (props) => {
 
     }
 
-    
-    return (      
-        <div className="tools__panel">
-           {/* <h3 className="tools__title"> Filtrar </h3> */}
-           <p className="tools__text">Realice la selección geográfica que desea ver en el mapa</p>  
-                <div className="selectBox">
-                    <p className="selectBox__name">Departamento:</p>
-                    <Select
-                        styles={{
-                            navBar: provided => ({ zIndex: 9999 })
-                        }}
-                        name="form-field-name"
-                        value={selectedOption.value}
-                        onChange={handleChange1}
-                        className="select2-container" placeholder="Seleccione un departamento" options ={options1}
-                        // isClearable={true}
-                        getOptionValue={(option) => option.cod_dane}
-                        getOptionLabel={(option) => option.cod_dane + " - " + option.name}
-                    />
-                </div>
-                <div className="selectBox">
-                    <p className="selectBox__name">Municipio:</p>
-                    <Select
-                        // styles={{
-                        //     navBar: provided => ({ zIndex: 9999 })
-                        // }}
-                        name="form-field-name"
-                        value={selectedOption2.value}
-                        onChange={handleChange2}
-                        className="select2-container" placeholder="Seleccione un municipio" options={filteredOptions}
-                        // isClearable={true}
-                        getOptionValue={(option) => option.cod_dane}
-                        getOptionLabel={(option) => option.cod_dane + " - " + option.name}
-                    />
-                </div>
 
-                {/* <div className="selectBox">
+    return (
+        <div className="tools__panel">
+            {/* <h3 className="tools__title"> Filtrar </h3> */}
+            <p className="tools__text">Realice la selección geográfica que desea ver en el mapa</p>
+            <div className="selectBox">
+                <p className="selectBox__name">Departamento:</p>
+                <Select
+                    styles={{
+                        navBar: provided => ({ zIndex: 9999 })
+                    }}
+                    name="form-field-name"
+                    value={selectedOption.value}
+                    onChange={handleChange1}
+                    className="select2-container" placeholder="Seleccione un departamento" options={options1}
+                    // isClearable={true}
+                    getOptionValue={(option) => option.cod_dane}
+                    getOptionLabel={(option) => option.cod_dane + " - " + option.name}
+                />
+            </div>
+            <div className="selectBox">
+                <p className="selectBox__name">Municipio:</p>
+                <Select
+                    // styles={{
+                    //     navBar: provided => ({ zIndex: 9999 })
+                    // }}
+                    name="form-field-name"
+                    value={selectedOption2.value}
+                    onChange={handleChange2}
+                    className="select2-container" placeholder="Seleccione un municipio" options={filteredOptions}
+                    // isClearable={true}
+                    getOptionValue={(option) => option.cod_dane}
+                    getOptionLabel={(option) => option.cod_dane + " - " + option.name}
+                />
+            </div>
+
+            {/* <div className="selectBox">
                     <p className="selectBox__name">Clase:</p>
                     <Select
                         // styles={{
@@ -242,7 +279,7 @@ const Filter = (props) => {
                     />
                 </div> */}
 
-                {/* {
+            {/* {
                     selectedOption3 == 2?
                     <div className="selectBox">
                         <p className="selectBox__name">Centro poblado:</p>
@@ -261,9 +298,9 @@ const Filter = (props) => {
                     </div>:null
                 } */}
 
-                
 
-                
+
+
         </div>
     );
 }

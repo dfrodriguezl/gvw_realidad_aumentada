@@ -1,8 +1,8 @@
 // Geovisor - OpenLayers | Variables Globales
 export const variables = {
 
-    title: 'Geovisor de Componente de Insumos Agropecuarios del SIPSA', //Cambielo por el título de su geovisor
-    description: 'Geovisor para consulta del Componente de Insumos Agropecuarios del SIPSA.',
+    title: 'Geovisor del Componente de Insumos y Factores Asociados a la Producción Agropecuaria (SIPSA_I)', //Cambielo por el título de su geovisor
+    description: 'Geovisor del Componente de Insumos y Factores Asociados a la Producción Agropecuaria (SIPSA_I).',
     country: 'Colombia',
     place: ' Todos los departamentos ',
     year: ' 2021 ',
@@ -30,8 +30,8 @@ export const variables = {
     // },
 
     baseMaps: {
-        'Gris': 'http://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
-        'Noche': 'http://a.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
+        'Gris': 'https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+        'Noche': 'https://a.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
         'OSM': 'https://mt1.google.com/vt/lyrs=r&x={x}&y={y}&z={z}',
         'Satelital': 'https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}',
     },
@@ -51,7 +51,7 @@ export const variables = {
             style: {
                 stroke: {
                     color: '#7F3872',
-                    width: 2
+                    width: 1
                 }
             },
             ol: null
@@ -92,6 +92,25 @@ export const variables = {
                     // color: '#FFF',
                     color: '#000000',
                     width: 0.1
+                }
+            },
+            ol: null
+        },
+        municipiosSel: {
+            tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
+            id: "mpios_vt2",
+            // url: "https://geoportal.dane.gov.co/vector-tiles/mgn_2020/mpio_ccnct/mgn_2020_mpio_politico/{z}/{x}/{y}.pbf",
+            // url: "https://nowsoft.app/vector-tiles/maps/geoportal_dane/mgn_2020_mpio_politico/{z}/{x}/{y}.pbf",
+            url: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/vector-tiles/vectortile.php?params=capas_geovisores/mgn2020_mpio/mgn_2020_mpio_politico/mpio_ccnct/{z}/{x}/{y}",
+            title: 'Municipios sel',
+            visible: true,
+            checked: false,
+            minZoom: 4,
+            maxZoom: 21,
+            style: {
+                stroke: {
+                    color: '#ffffff00',
+                    width: 0
                 }
             },
             ol: null
@@ -275,7 +294,7 @@ export const variables = {
     legendChange: null,
     tipoVar: null,
     thematicTheme: null,
-    tansparency: 10,
+    tansparency: 8,
     listaVariables: [],
     labelsData: [],
     dataPie: [],
@@ -362,6 +381,18 @@ export const variables = {
     variablesCampos: {
         '%': 'VARIACION_PP',
         '$': 'PRECIO_PROMEDIO_ACTUAL'
-    }
+    },
+    updateSymbols: null,
+    updateToProp: null,
+    hideVisualizationSwitch: null,
+    coloresDivergentes: {
+        "0": "#ca0020",
+        "1": "#f4a582",
+        "2": "#f7f7f7",
+        "3": "#92c5de",
+        "4": "#0571b0"
+    },
+    updatePeriodoTabla: null,
+    closer: null
 }
 export const urlDeploy = 'http://localhost:3000/'

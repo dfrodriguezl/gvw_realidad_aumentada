@@ -24,7 +24,7 @@ const Accordion = (tematica) => {
         }
       }}
     >
-      <p className="filter__thematic__nameGroup">  {tematicaDos.GRUPOS[(item[0].COD_SUBGRUPO).substring(0, 3)][0].GRUPO} </p>
+      {index === 0 ? <p className="filter__thematic__nameGroup">  {tematicaDos.GRUPOS[(item[0].COD_SUBGRUPO).substring(0, 3)][0].GRUPO} </p> : null}
       <h3 className="filter__thematic__name"> {item[0].SUBGRUPO}</h3>
       <ul
         key={item[0].COD_SUBGRUPO} id={item[0].COD_SUBGRUPO}

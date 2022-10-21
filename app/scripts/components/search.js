@@ -12,6 +12,7 @@ import NavButton from './thematicFilter/group';
 import chroma from 'chroma-js';
 import { scaleLinear } from "d3-scale";
 import { Fragment } from "react";
+import { toast } from 'react-toastify';
 
 function bboxExtent(bbox) {
     bbox = bbox.replace('BOX(', '').replace(')', '')
@@ -56,7 +57,6 @@ function getColorArray(categoria) {
     }
     arrayColores = [scaleDown(0), scaleDown(1), scaleDown(2), scaleDown(3), colorMedium, scaleUp(1), scaleUp(2), scaleUp(3), scaleUp(4)];
 
-    // c(arrayColores)
     color = [chroma(colorPrincipal).set('hsl.l', arrayColores[0]).hex(), chroma(colorPrincipal).set('hsl.l', arrayColores[1]).hex(), chroma(colorPrincipal).set('hsl.l', arrayColores[2]).hex(), chroma(colorPrincipal).set('hsl.l', arrayColores[3]).hex(), chroma(colorPrincipal).hex(), chroma(colorPrincipal).set('hsl.l', arrayColores[5]).hex(), chroma(colorPrincipal).set('hsl.l', arrayColores[6]).hex(), chroma(colorPrincipal).set('hsl.l', arrayColores[7]).hex(), chroma(colorPrincipal).set('hsl.l', arrayColores[8]).hex()];
     return color;
 }
@@ -66,7 +66,7 @@ const Search = ({ filterSearch, placeholder }) => {
     const [btn, setBtn] = useState("321");
     const [tematica, setTematica] = useState(variables.tematica);
     const [btnDos, setBtnDos] = useState(variables.varVariable);
-    const [visualList, setVisualList] = useState(true); //Estado para determinar el 
+    const [visualList, setVisualList] = useState(true);
 
     variables.visualGroup = function (valor) {
         setVisualList(valor);
@@ -97,21 +97,19 @@ const Search = ({ filterSearch, placeholder }) => {
             // }
 
         } else {
+
             if (variables.periodos === null) {
                 getPeriodos(nivel, campo);
             }
-            // variables.getProductosByPeriodo(nivel, campo, variables.periodoSeleccionado.value);
+
             if (variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel] !== undefined) {
-                
+
 
                 if (Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value]).length > 0) {
-                    // variables.loadDeptoCentroids();
-                    
+
                     variables.changeMap(nivel, dpto, table);
 
-
                     if (nivel == "DPTO") {
-                        // console.log("VAR ANTERIOR", variables.variableAnterior);
                         if (variables.variableAnterior != null) {
                             if (variables.variableAnterior.substring(0, 5) != variables.varVariable.substring(0, 5)) {
                                 if (variables.changePieChartData != null) {
@@ -159,30 +157,25 @@ const Search = ({ filterSearch, placeholder }) => {
                 }
                 else {
                     let urlData = variables.urlVariablesProductos + "?codigo_subgrupo=" + variables.varVariable.substring(0, 5)
-                    // if (campo != undefined) {
-                    //     urlData += "&campo=" + campo
-                    // }
 
                     if (variables.periodoSeleccionado) {
                         urlData += "&anio=" + variables.periodoSeleccionado.value
                     }
-                    
+
                     axios({ method: "GET", url: urlData })
                         .then(function (response) {
-                            // console.log(variables.dataArrayDatos[variables.varVariable.substring(0, 5)])
-                            // variables.getProductosByPeriodo(nivel, campo, variables.periodoSeleccionado.value);
-                            variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value] = JSON.parse(response.data.replace("Array","")).resultado;
-                            // variables.queryText[variables.varVariable.substring(0, 5)] = response.data.consulta
+                            const jsonResult = JSON.parse(response.data.replace("Array",""));
+                            if(jsonResult){
+                                if(jsonResult.resultado.length === 0){
+                                    toast.warn("Para el periodo, producto y variable seleccionada, no hay datos. Intente cambiando la consulta.")
+                                }
+                            }
                             
-                            // console.log(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel])
-                            // variables.loadDeptoCentroids();
+                            variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value] = JSON.parse(response.data.replace("Array", "")).resultado;
                             variables.changeMap(nivel, dpto, table);
-                            // console.log(nivel)
                             if (variables.deptoSelected == undefined && variables.deptoVariable != undefined) {
                                 variables.filterGeo("DPTO", variables.deptoVariable)
                             }
-                            // console.log(variables.changePieChartData, variables.changeDonuChartData, variables.changeBarChartData)
-                            // console.log(nivel)
                             if (nivel == "DPTO") {
                                 if (variables.changePieChartData != null) {
                                     variables.changePieChartData(nivel, '97');
@@ -190,7 +183,7 @@ const Search = ({ filterSearch, placeholder }) => {
                                         variables.deptoVariable(nivel, variables.deptoVariable);
                                     }
                                 }
-                                // console.log(variables.changeDonuChartData);
+
                                 if (variables.changeDonuChartData != null) {
                                     variables.changeDonuChartData(nivel, '97');
                                     if (variables.deptoVariable != undefined) {
@@ -213,32 +206,12 @@ const Search = ({ filterSearch, placeholder }) => {
                                         variables.changeDonuChartData("DPTO", variables.deptoVariable);
                                     }
                                 }
-                                // if (variables.changePieChartData != null) {
-                                //     variables.changePieChartData(nivel, dpto);
-                                //     if (variables.deptoVariable != undefined) {
-                                //         variables.deptoVariable(nivel, variables.deptoVariable);
-                                //     }
-                                // }
-                                // // console.log(variables.changeDonuChartData);
-                                // if (variables.changeDonuChartData != null) {
-                                //     variables.changeDonuChartData(nivel, dpto);
-                                //     if (variables.deptoVariable != undefined) {
-                                //         variables.changeDonuChartData(nivel, variables.deptoVariable);
-                                //     }
-                                // }
-                                // if (variables.changeBarChartData != null) {
-                                //     variables.changeBarChartData(nivel);
-                                //     if (variables.deptoVariable != undefined) {
-                                //         variables.changeBarChartData(nivel, variables.deptoVariable);
-                                //     }
-                                // }
-                                // if (variables.changeGaugeChartData != null) {
-                                //     variables.changeGaugeChartData(nivel);
-                                // }
                             }
                         });
                 }
             }
+            // }
+
 
         }
 
@@ -255,7 +228,6 @@ const Search = ({ filterSearch, placeholder }) => {
         axios({ method: "GET", url: urlData })
             .then(function (response) {
                 Object.values(response.data.resultado).map((item) => {
-                    // console.log("RESPONSE PERIODOS", item)
                     listaPeriodos.push(item.G);
                 })
                 const result = Array.from(new Set(listaPeriodos));
@@ -265,6 +237,7 @@ const Search = ({ filterSearch, placeholder }) => {
                 variables.periodos = periodos;
                 variables.periodoSeleccionado = periodos[0];
                 variables.updatePeriodoHeader(periodos[0]);
+                variables.updatePeriodoTabla(periodos[0]);
                 variables.updatePeriodoResult(periodos[0])
                 variables.getProductosByPeriodo(nivel, campo, periodos[0].value)
             });
@@ -281,32 +254,17 @@ const Search = ({ filterSearch, placeholder }) => {
         }
 
         let listaProductos = [];
-        let periodos = [];
         axios({ method: "GET", url: urlData })
             .then(function (response) {
                 const datos = response.data.resultado;
                 const unique = [...new Set(Object.values(datos).map(item => item.L))];
-                // console.log("UNIQUE", unique.sort())
                 unique.sort().map((item) => {
                     listaProductos.push({ value: item, label: item });
                 })
-                
+
                 variables.updateListaProductos(listaProductos);
-                // variables.changeTheme("MPIO", 0, "MPIO", "y");
-                // Object.values(response.data.resultado).map((item) => {
-                //     // console.log("RESPONSE PERIODOS", item)
-                //     listaPeriodos.push(item.G);
-                // })
-                // const result = Array.from(new Set(listaPeriodos));
-                // result.sort().reverse().map((res) => {
-                //     periodos.push({ value: res, label: res })
-                // })
-                // variables.periodos = periodos;
-                // variables.periodoSeleccionado = periodos[0];
-                // variables.updatePeriodoHeader(periodos[0]);
-                // variables.updatePeriodoResult(periodos[0])
             });
-            // variables.changeTheme("MPIO", 0, "MPIO", "y");
+
     }
 
     useEffect(() => {
@@ -316,14 +274,11 @@ const Search = ({ filterSearch, placeholder }) => {
                 const consulta = await axios({ method: "GET", url: variables.urlTemas + "?codigo=" + variables.codVisor });
                 const consultaDos = await axios({ method: "GET", url: variables.urlTemas + "?codigo=" + variables.codVisor + "&sub_temas=yes" });
                 const consultaTres = await axios({ method: "GET", url: variables.urlTemas + "?codigo=" + variables.codVisor + "&variables=yes" });
-                // const consultaCuatro = await axios({ method: "GET", url: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/visores/clasificacion1.php" });
 
                 const consultaUnoFin = groupByFunct(consulta.data, "COD_GRUPO")
                 const consultaDosFin = groupByFunct(consultaDos.data, "COD_SUBGRUPO")
                 const consultaTresFin = groupByFunct(consultaTres.data, "COD_CATEGORIA")
-                // const consultaCuatroFin = (consultaCuatro.data.resultado).filter(result => (Object.keys(consultaTresFin).indexOf((result.COD_CATEGORIA)) != -1))
-                // variables.dataRangos = groupByFunct(consultaCuatroFin, "COD_CATEGORIA")
-                // console.log("RANGOS 1", consultaCuatroFin)
+
                 Object.keys(consultaDosFin).map((subgrupo) => {
                     variables.dataArrayDatos[subgrupo] = {
                         ["DPTO"]: {
@@ -335,9 +290,6 @@ const Search = ({ filterSearch, placeholder }) => {
                         ["MPIO"]: {
                             [variables.periodoSeleccionado.value]: {}
                         },
-                        ["SECC"]: {
-                            [variables.periodoSeleccionado.value]: {}
-                        }
                     }
                 }, [])
 
@@ -350,22 +302,18 @@ const Search = ({ filterSearch, placeholder }) => {
 
                 localStorage.setItem('tematica', JSON.stringify(variables.tematica))
                 localStorage.setItem('rangos', JSON.stringify(variables.dataRangos))
-                // console.log(variables.dataRangos);
-                // console.log(Object.keys(variables.dataRangos));
-                // console.log(variables.tematica["CATEGORIAS"]);
-                // console.log(Object.keys(variables.tematica["CATEGORIAS"]));
                 Object.keys(variables.tematica["CATEGORIAS"]).map((datos) => {
-                    // console.log(datos);
+
                     let punto = 0;
 
                     if ((variables.dataRangos)[datos] != undefined) {
                         let dominiosRange = groupByFunct((variables.dataRangos)[datos], "NIVEL_GEOGRAFICO");
-                        // console.log(dominiosRange);
+
                         variables.coloresLeyend[datos] = {
                             ["MPIO"]: [],
                             ["DPTO"]: [],
                             ["MNZN"]: [],
-                            ["SECC"]: []
+
                         }
                     } else {
                         variables.coloresLeyend[datos] = {
@@ -373,30 +321,25 @@ const Search = ({ filterSearch, placeholder }) => {
                             ["DPTO"]: [],
                             ["MNZN"]: [],
                             ["CAMPOS"]: [],
-                            ["SECC"]: []
+
                         }
                     }
 
                     let colores = getColorArray(datos);
 
-                    // console.log(colores), "Colores";
-                    // console.log(datos), "datos";
-
                     (colores).map(function (num, index, arr) {
 
                         if (index % 2 == 0) {
-                            // console.log(punto, "Punto")
+
                             if (punto === 0) {
                                 (variables.coloresLeyend[datos]["DPTO"]).push([arr[index], 'rgba(' + (chroma(arr[index]).rgba()).toString() + ')', + " "]);
                                 (variables.coloresLeyend[datos]["MPIO"]).push([arr[index], 'rgba(' + (chroma(arr[index]).rgba()).toString() + ')', + " ", "visible"]);
                                 (variables.coloresLeyend[datos]["MNZN"]).push([arr[index], 'rgba(' + (chroma(arr[index]).rgba()).toString() + ')', + " "]);
-                                (variables.coloresLeyend[datos]["SECC"]).push([arr[index], 'rgba(' + (chroma(arr[index]).rgba()).toString() + ')', + " "]);
                             } else {
                                 if (punto === 4) {
                                     (variables.coloresLeyend[datos]["DPTO"]).push([arr[index], 'rgba(' + (chroma(arr[index]).rgba()).toString() + ')', + " "]);
                                     (variables.coloresLeyend[datos]["MPIO"]).push([arr[index], 'rgba(' + (chroma(arr[index]).rgba()).toString() + ')', + " ", "visible"]);
                                     (variables.coloresLeyend[datos]["MNZN"]).push([arr[index], 'rgba(' + (chroma(arr[index]).rgba()).toString() + ')', + " "]);
-                                    (variables.coloresLeyend[datos]["SECC"]).push([arr[index], 'rgba(' + (chroma(arr[index]).rgba()).toString() + ')', + " "]);
                                 }
                             }
                         }
@@ -404,7 +347,6 @@ const Search = ({ filterSearch, placeholder }) => {
 
                 }, [])
                 localStorage.setItem('leyenda', JSON.stringify(variables.coloresLeyend));
-                // console.log(variables.coloresLeyend);
             } else {
                 if (Object.keys(variables.dataArrayDatos).length === 0) {
                     Object.keys(variables.tematica["SUBGRUPOS"]).map((subgrupo) => {
@@ -418,16 +360,12 @@ const Search = ({ filterSearch, placeholder }) => {
                             ["MNZN"]: {
                                 [variables.periodoSeleccionado.value]: {}
                             },
-                            ["SECC"]: {
-                                [variables.periodoSeleccionado.value]: {}
-                            },
                         }
                     }, [])
                 }
             }
             setTematica(variables.tematica);
 
-            // console.log(variables.dataArrayDatos[variables.varVariable.substring(0, 5)])
             let zoom = variables.map.getView().getZoom();
 
             if (zoom >= 7) {
@@ -438,20 +376,14 @@ const Search = ({ filterSearch, placeholder }) => {
             } else if (zoom < 7) {
 
                 if (Object.keys(variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["MPIO"][variables.periodoSeleccionado.value]).length === 0) {
-                    variables.changeTheme("MPIO", 0, "MPIO", "y");
-                    // variables.changeTheme("MPIO",0);
                     variables.legenTheme();
-
-                    // if(variables.changeLegend != undefined ){variables.changeLegend();}                
                 }
             }
         };
 
-        // console.log(filterSearch);
-        consultaAPI();
-        // if (!filterSearch) {
-        //     consultaAPI();
-        // }
+        if (!filterSearch) {
+            consultaAPI();
+        }
     }, []);
 
     function handleClick(extent) {
@@ -488,9 +420,6 @@ const Search = ({ filterSearch, placeholder }) => {
         variables.varVariable = event.currentTarget.id;
         let zoom = variables.map.getView().getZoom();
 
-        // variables.changeTheme("MPIO");
-        // variables.changeTheme("DPTO", 0, "ND");
-
         if (zoom < 7) {
             if (!variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"][variables.periodoSeleccionado.value]) {
                 variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"][variables.periodoSeleccionado.value] = {};
@@ -523,6 +452,18 @@ const Search = ({ filterSearch, placeholder }) => {
         }
 
         variables.baseMapCheck = "Gris";
+
+        if (variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"] === "%") {
+            if (variables.updateSymbols != null) {
+                variables.updateSymbols();
+            }
+        } else if (variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"] === "$") {
+            if (variables.updateToProp != null) {
+                variables.updateToProp();
+            }
+        }
+
+        variables.closer.click();
     };
 
     const results = municipios.concat(departamentos, centros);
@@ -542,9 +483,7 @@ const Search = ({ filterSearch, placeholder }) => {
             (tematica.TEMAS)
                 .filter(result => ((result.COD_SUBGRUPO) == subgrupo))
                 .map((filteredResult, index) => {
-                    // console.log(filteredResult.CATEGORIA, termDos)
                     if (((filteredResult.CATEGORIA).toLowerCase()).indexOf(termDos.toLowerCase()) != "-1") {
-                        // console.log(filteredResult)
                         return (
                             <AccordionItem categoria={filteredResult} index={index} click={handleChangeBtnDos} btn={btnDos} key={index} />
                         )
@@ -583,7 +522,7 @@ const Search = ({ filterSearch, placeholder }) => {
         <Fragment>
             {!filterSearch && <NavButton temaTematica={tematica} click={handleChangeBtn} btn={btn} />}
             {visualList && <div className="searchBox">
-                <div className="search">
+                {placeholder !== "Escriba un indicador" && <div className="search">
                     <input
                         className="search__input"
                         placeholder={placeholder}
@@ -596,7 +535,7 @@ const Search = ({ filterSearch, placeholder }) => {
                     <div className="search__erase"></div>
                     <p className="search__errorMessage">Lo sentimos, no encontramos nada relacionado.</p>
                     {filterSearch && <ul className="search__list">{searchResultsMapped}</ul>}
-                </div>
+                </div>}
                 {!filterSearch && <div className="filter__thematic">
                     <ul className="filter__thematic__list">
                         {temas}

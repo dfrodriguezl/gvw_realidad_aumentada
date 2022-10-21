@@ -11,6 +11,7 @@ const Periodo = () => {
         setSelectedPeriodo(event);
         variables.periodoSeleccionado = event;
         variables.updatePeriodoHeader(event);
+        variables.updatePeriodoTabla(event);
         variables.updatePeriodoResult(event);
         variables.getProductosByPeriodo("MPIO", "MPIO", variables.periodoSeleccionado.value);
         const currentZoom = variables.map.getView().getZoom();

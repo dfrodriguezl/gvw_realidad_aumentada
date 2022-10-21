@@ -7,18 +7,22 @@ import { variables } from "../base/variables";
 
 const ProportionalSymbol = () => {
 
-  
+
 
   const intlNumberFormat = new Intl.NumberFormat('de-DE');
 
   useEffect(() => {
-    generateLegend();
+    if (variables.tematica["CATEGORIAS"][variables.varVariable]) {
+      generateLegend();
+    }
   }, [])
 
   const generateLegend = () => {
-    const min = 0;
+    const min = variables.min ? variables.min : 0;
     const max = variables.max !== null ? variables.max : 500;
-    const unidad = variables.varVariable.includes("284") ? "m2" : variables.varVariable.includes("292") ? "licencias" : "$";
+    const unidad = variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"];
+    // console.log("MIN 2", min);
+    // console.log("MAX 2", max);
 
     const fillCircle = variables.tematica["CATEGORIAS"][variables.varVariable] ? new Fill({
       color: 'rgb' + variables.tematica["CATEGORIAS"][variables.varVariable][0]['COLOR']
@@ -28,13 +32,18 @@ const ProportionalSymbol = () => {
     let vectorContext = toContext(canvas.getContext('2d'), {
       size: [300, 200]
     });
-    
-    [min, (min + max) / 5, ((min + max) / 5) * 2, ((min + max) / 5) * 3, ((min + max) / 5) * 3, ((min + max) / 5) * 4, max]
+
+    // console.log("MIN", min);
+    // console.log("MAX", max);
+
+    [min, min + ((max - min) / 4), min + (((max - min) / 4) * 2), min + (((max - min) / 4) * 3), max]
       .slice(0)
       .reverse()
       .forEach(val => {
+        // console.log("VAL", val);
         if (val !== min) {
-          const radius = (val * 30) / max;
+          const radius = ((val - min) / (max - min)) * 35;
+          // console.log("RADIUS", radius);
           const text = new Text({
             offsetX: 80,
             offsetY: -radius,
@@ -47,7 +56,7 @@ const ProportionalSymbol = () => {
               color: 'white',
               width: 2
             }),
-            padding: [10,10,10,10]
+            padding: [10, 10, 10, 10]
           });
           const newStyle = new Style({
             image: new Circle({
