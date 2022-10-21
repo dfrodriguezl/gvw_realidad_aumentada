@@ -395,6 +395,7 @@ export const variables = {
     updatePeriodoTabla: null,
     closer: null,
     updateToProps: null,
-    updateProductoResult: null
+    updateProductoResult: null,
+    updateProductotabla: null
 }
 export const urlDeploy = 'http://localhost:3000/'

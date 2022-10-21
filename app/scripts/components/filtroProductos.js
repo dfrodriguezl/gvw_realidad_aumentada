@@ -77,6 +77,7 @@ const FiltroProductos= () => {
     setProductos(lista);
     variables.updateProductoSeleccionado(lista[1])
     variables.updateProductoResult(lista[1]);
+    variables.updateProductoTabla(lista[1]);
   }
 
   variables.updateProductoSeleccionado = (producto) => {
@@ -89,6 +90,7 @@ const FiltroProductos= () => {
   const onChangePeriodo = (e) => {
     variables.updateProductoSeleccionado(e);
     variables.updateProductoResult(e);
+    variables.updateProductoTabla(e);
     // setProductoSeleccionado(e);
     // variables.productoSeleccionado = e;
     
