@@ -37,6 +37,7 @@ const Results = () => {
   const onClick = () => setIsActive(!isActive);
   const [periodo, setPeriodo] = React.useState(variables.periodoSeleccionado);
   const [propSymbol, setPropSymbol] = useState(false);
+  const [producto, setProducto] = React.useState(variables.productoSeleccionado);
 
   variables.legenTheme = function (nivel) {
     setTema(variables.tematica["GRUPOS"][variables.varVariable.substring(0, 3)][0]["GRUPO"]);
@@ -53,6 +54,10 @@ const Results = () => {
 
   variables.updatePeriodoResult = (periodo) => {
     setPeriodo(periodo)
+  }
+
+  variables.updateProductoResult = (producto) => {
+    setProducto(producto)
   }
 
   variables.hideProportionalSymbols = (hide) => {
@@ -76,6 +81,7 @@ const Results = () => {
             <h3 className="results__top__subtitle" id="title">{subtema}</h3>
             <h4 className="results__top__thirdtitle result__locationDpto">{locationDpto}</h4>
             <h4 className="results__top__thirdtitle result__locationDpto">{periodo.label}</h4>
+            <h4 className="results__top__thirdtitle result__locationDpto">{producto && producto.label}</h4>
           </div>
           
           <ul className='results__item'>
