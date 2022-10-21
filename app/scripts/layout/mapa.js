@@ -335,6 +335,7 @@ const Mapa = () => {
       unidadesAbsolutas = variables.varVariable.includes("284") ? "m<sup>2</sup>" : variables.varVariable.includes("292") ? "licencias" : "$";
       let HTML = "";
       HTML = '<p class="popup__list"><span class="popup__title">' + dataSubgrupo + '</span></p>';
+      HTML += '<p class="popup__list"><span class="popup__subtitle">' + variables.productoSeleccionado.label + '</span></p>';
       HTML += '<p class="popup__list"><span class="popup__subtitle">' + dataCategorias + '</span> ' + '</p>';
 
       if (dataPopup == undefined) {
@@ -488,6 +489,7 @@ const Mapa = () => {
             let unidadesAbsolutas = variables.varVariable.includes("284") ? "m<sup>2</sup>" : variables.varVariable.includes("292") ? "licencias" : "$";
             let HTML = "";
             HTML = '<p class="popup__list"><span class="popup__title">' + dataSubgrupo + '</span></p>';
+            HTML += '<p class="popup__list"><span class="popup__subtitle">' + variables.productoSeleccionado.label + '</span></p>';
             HTML += '<p class="popup__list"><span class="popup__subtitle">' + dataCategorias + '</span> ' + '</p>';
 
             if (dataPopup == undefined) {
