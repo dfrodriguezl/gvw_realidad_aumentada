@@ -7,6 +7,7 @@ const WebpackProvideGlobalPlugin = require('webpack-provide-global-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 
 var webpack = require('webpack');
+const CopyPlugin = require("copy-webpack-plugin");
 
 // This is main configuration object.
 // Here you write different options and tell Webpack what to do
@@ -125,7 +126,12 @@ module.exports = {
       filename: 'css/[name].css',
       template: './app/styles/main.scss'
     }),
-    new CompressionPlugin()
+    new CompressionPlugin(),
+    new CopyPlugin({
+      patterns: [
+        {from: './app/img/', to: './img/'}
+      ]
+    })
   ],
   // node: {
   //   fs: "empty"

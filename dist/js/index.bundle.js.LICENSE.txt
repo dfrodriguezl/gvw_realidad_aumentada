@@ -80,14 +80,6 @@ https://github.com/nodeca/pako/blob/master/LICENSE
  */
 
 /**
- * A better abstraction over CSS.
- *
- * @copyright Oleg Isonen (Slobodskoi) / Isonen 2014-present
- * @website https://github.com/cssinjs/jss
- * @license MIT
- */
-
-/**
  * chroma.js - JavaScript library for color conversions
  *
  * Copyright (c) 2011-2019, Gregor Aisch

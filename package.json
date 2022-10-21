@@ -52,6 +52,7 @@
     "chart.js": "^2.9.4",
     "chroma-js": "^2.1.1",
     "compression-webpack-plugin": "^6.0.0",
+    "copy-webpack-plugin": "^11.0.0",
     "cors": "^2.8.5",
     "csv-string": "^4.0.1",
     "d3": "^6.7.0",
