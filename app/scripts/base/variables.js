@@ -393,6 +393,7 @@ export const variables = {
         "4": "#0571b0"
     },
     updatePeriodoTabla: null,
-    closer: null
+    closer: null,
+    updateToProps: null
 }
 export const urlDeploy = 'http://localhost:3000/'

@@ -458,8 +458,8 @@ const Search = ({ filterSearch, placeholder }) => {
                 variables.updateSymbols();
             }
         } else if (variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"] === "$") {
-            if (variables.updateToProp != null) {
-                variables.updateToProp();
+            if (variables.updateToProps != null) {
+                variables.updateToProps();
             }
         }
 

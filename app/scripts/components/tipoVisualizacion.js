@@ -68,13 +68,14 @@ const TipoVisualizacion = () => {
 
   variables.updateSymbols = () => {
     // toggleThemeChange();
-    change2Chropleths();
+    // localStorage.setItem("visualization", "choropleth");
     setChecked(true);
-    
+    change2Chropleths();    
   }
 
-  variables.updateProps = () => {
+  variables.updateToProps = () => {
     // toggleThemeChange();
+    setChecked(false);
     change2Symbols();
     
   }
@@ -89,7 +90,7 @@ const TipoVisualizacion = () => {
             <input
               className="custom__input"
               type="checkbox"
-              defaultChecked={checked}
+              checked={checked}
               onChange={() => toggleThemeChange()}
             />
             <span className="custom__slider" />
