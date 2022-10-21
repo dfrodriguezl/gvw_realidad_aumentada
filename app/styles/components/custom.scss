@@ -16,6 +16,11 @@
     font-size: 0.8em;
 }
 
+.custom__activeText{
+    color: $principalColor;
+    font-weight: bolder;
+}
+
 .custom__content{
     position: relative;
     display: inline-block;

@@ -1,10 +1,11 @@
-// Componente para activar o desactivar el modo oscuro
+// Componente para activar o desactivar el tipo de visualización
 
 import React, { useState, useEffect } from 'react';
 import { variables } from '../base/variables';
 
 const TipoVisualizacion = () => {
   const [checked, setChecked] = useState(localStorage.getItem("visualization") === "symbols" ? false : true);
+  const [textActive, setTextActive] = useState(localStorage.getItem("visualization") === "symbols" ? 0 : 1);
 
   useEffect(() => {
     if (!checked) {
@@ -18,25 +19,20 @@ const TipoVisualizacion = () => {
     if (!checked) {
       change2Chropleths();
       setChecked(true);
+      setTextActive(1);
     } else {
       change2Symbols();
       setChecked(false);
+      setTextActive(0);
     }
   }
 
   const change2Chropleths = () => {
     localStorage.setItem("visualization", "choropleth");
-    // let layer = variables.capas['deptos_vt'];
-    // layer.setVisible(true);
     let layer_2 = variables.capas['mpios_vt'];
     layer_2.setVisible(true);
-    // variables.layers["departamentos"]["visible"] = true;
-    // variables.layers["departamentos"]["checked"] = true;
     variables.layers["municipios"]["visible"] = true;
     variables.layers["municipios"]["checked"] = true;
-    // variables.unidadesDepto.setVisible(false);
-    // variables.layers["centroides_depto"]["visible"] = false;
-    // variables.layers["centroides_depto"]["checked"] = false;
     variables.unidadesMpio.setVisible(false);
     variables.layers["centroides_mpio"]["visible"] = false;
     variables.layers["centroides_mpio"]["checked"] = false;
@@ -47,17 +43,10 @@ const TipoVisualizacion = () => {
 
   const change2Symbols = () => {
     localStorage.setItem("visualization", "symbols");
-    // let layer = variables.capas['deptos_vt'];
-    // layer.setVisible(false);
     let layer_2 = variables.capas['mpios_vt'];
     layer_2.setVisible(false);
-    // variables.layers["departamentos"]["visible"] = false;
-    // variables.layers["departamentos"]["checked"] = false;
     variables.layers["municipios"]["visible"] = false;
     variables.layers["municipios"]["checked"] = false;
-    // variables.unidadesDepto.setVisible(true);
-    // variables.layers["centroides_depto"]["visible"] = true;
-    // variables.layers["centroides_depto"]["checked"] = true;
     variables.unidadesMpio.setVisible(true);
     variables.layers["centroides_mpio"]["visible"] = true;
     variables.layers["centroides_mpio"]["checked"] = true;
@@ -67,15 +56,14 @@ const TipoVisualizacion = () => {
   }
 
   variables.updateSymbols = () => {
-    // toggleThemeChange();
-    // localStorage.setItem("visualization", "choropleth");
     setChecked(true);
+    setTextActive(1);
     change2Chropleths();    
   }
 
   variables.updateToProps = () => {
-    // toggleThemeChange();
     setChecked(false);
+    setTextActive(0);
     change2Symbols();
     
   }
@@ -85,7 +73,7 @@ const TipoVisualizacion = () => {
       <div className="custom__panel">
         <p className="tools__text">Tipo de simbología a visualizar</p>
         <div className="custom">
-          <p className="custom__text_big"> Símbolos proporcionales </p>
+          <p className={textActive === 0 ? "custom__text_big custom__activeText" : "custom__text_big"}> Símbolos proporcionales </p>
           <label className="custom__content">
             <input
               className="custom__input"
@@ -95,7 +83,7 @@ const TipoVisualizacion = () => {
             />
             <span className="custom__slider" />
           </label>
-          <p className="custom__text_big"> Coropletas </p>
+          <p className={textActive === 1 ? "custom__text_big custom__activeText" : "custom__text_big"}> Coropletas </p>
         </div>
       </div>
     </div>
