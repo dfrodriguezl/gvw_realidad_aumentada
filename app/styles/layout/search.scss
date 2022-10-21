@@ -21,7 +21,7 @@
     height: 33px;
     padding:0 5px 0 35px;
     background: $white;      
-    font-size: 0.9em;
+    font-size: 0.8em;
     border:none;
     @include calc(width,'100% - 50px');
     @include flex;

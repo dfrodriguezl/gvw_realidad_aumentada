@@ -15,17 +15,17 @@
     font-weight: 800;
     color:$gray11;
     background: $gray13;
-    font-size:0.9em;
+    font-size: 0.8em;
 }
 .tools__text{
-    font-size: 0.9em;
+    font-size: 0.8em;
     font-weight: 500;
     margin: 8px;
     color: $gray4;
 }
 
 .tools__text_big{
-    font-size: 0.9em;
+    font-size: 0.8em;
     margin: 8px 16px;
     color: $gray4;
     font-weight: 500;
@@ -90,7 +90,7 @@
 .tools__iconName{
     margin: 5px auto;
     padding: 0 5px;
-    font-size: 0.9em;
+    font-size: 0.8em;
     color: $gray6;
     z-index: 0;
     @include transition(all ease-in-out 0.2s);
@@ -231,7 +231,7 @@
         font-size: 0.75em;
     }
    .toolBar__container__panel__icons__list__item__btn__icon {
-        font-size: 1em;
+        font-size: 0.8em;
         width: 20px;
         height: 18px;
         padding: 3px 2px;
@@ -240,7 +240,7 @@
         font-size: 0.75em;
     }
    .toolBar__container__panel__functionBox__step__title {
-        font-size: 0.9em;
+        font-size: 0.8em;
     }
    .toolBar__container__panel__functionBox__MeasureOption__List__item__button__name {
         font-size: 0.6em;

@@ -170,7 +170,7 @@
 .select2-selection__clear {
     background-color: transparent;
     border: none;
-    font-size: 1em
+    font-size: 0.9em
 }
 .select2-container[dir="rtl"] .select2-selection--single .select2-selection__rendered {
     padding-right: 8px;
@@ -192,7 +192,7 @@
 .select2-selection--multiple .select2-selection__clear {
     background-color: transparent;
     border: none;
-    font-size: 1em
+    font-size: 0.9em
 }
 .select2-search--inline .select2-search__field {
     box-sizing: border-box;
@@ -400,7 +400,7 @@
     border-bottom-left-radius: 4px;
     color: $gray6;
     cursor: pointer;
-    font-size: 1em;
+    font-size: 0.9em;
     font-weight: bold;
     padding: 0 4px
 }
@@ -498,7 +498,7 @@
 }
 
 .select2-container--default .select2-results__option .select2-results__option {
-    padding-left: 1em
+    padding-left: 0.9em
 }
 
 .select2-container--default .select2-results__option .select2-results__option .select2-results__group {
@@ -506,7 +506,7 @@
 }
 
 .select2-container--default .select2-results__option .select2-results__option .select2-results__option {
-    margin-left: -1em;
+    margin-left: -0.9em;
     padding-left: 2em
 }
 
@@ -708,7 +708,7 @@
     border-bottom-left-radius: 4px;
     color: $gray6;
     cursor: pointer;
-    font-size: 1em;
+    font-size: 0.9em;
     font-weight: bold;
     padding: 0 4px
 }

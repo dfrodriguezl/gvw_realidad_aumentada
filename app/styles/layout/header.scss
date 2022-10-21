@@ -91,14 +91,14 @@
     margin: 8px 4px;
     font-family: 'Open Sans', sans-serif;
     font-weight: 700;
-    font-size: 0.9em;
+    font-size: 0.8em;
     color:$gray11;
     letter-spacing: -1px;
 }
 .Header__textBox__place{
     margin: 8px 4px;
     padding: 0 0 0 10px;
-    font-size: 0.9em;
+    font-size: 0.8em;
     font-family: 'Open Sans', sans-serif;
     font-weight: 900;
     color:$gray11;
@@ -170,12 +170,12 @@
         @include calc(width,'100% - 220px');
     }
     .Header__textBox__title{
-        font-size: 0.9em;
+        font-size: 0.8em;
         margin: 5px;
         line-height: initial;
     }
     .Header__textBox__place{
-        font-size: 0.9em;
+        font-size: 0.8em;
         border-left: none;
         &:before{
             top: 0;

@@ -201,7 +201,7 @@
     @include transition(all ease-in-out 0.2s);
 }
 .filter__thematicGroup__name {
-    font-size: 0.9em;
+    font-size: 0.8em;
     padding: 3px 8px;
     margin: 8px auto;
     color: $gray6;
@@ -256,7 +256,7 @@
     }
 }
 .filter__thematicGroup__moreText {
-    font-size: 0.9em;
+    font-size: 0.8em;
     text-align: center;
     margin: 13px 0;
     &.--back {
@@ -344,14 +344,14 @@
 .filter__thematic__name {
     padding: 5px 15px 15px 15px;
     margin: 0;
-    font-size: 0.9em;
+    font-size: 0.8em;
     color: $gray4;
     @include transition(all ease-in-out 0.2s);
 }
 .filter__thematic__nameGroup {
     margin: 0;
     padding: 15px 15px 0 15px;
-    font-size: 0.9em;
+    font-size: 0.8em;
     color: $gray6;
     font-weight: 900;
     @include transition(all ease-in-out 0.2s);
@@ -426,7 +426,7 @@
 }
 .filter__thematicVariable__value {
     margin: 6px 5px 2px;
-    font-size: 0.9em;
+    font-size: 0.8em;
     color: $gray4;
     @include calc(width, "100% - 60px");
     @include transition(all ease-in-out 0.2s);
