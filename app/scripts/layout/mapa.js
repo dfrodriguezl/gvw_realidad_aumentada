@@ -1201,8 +1201,8 @@ variables.changeMap = function (nivel, dpto, table) {
       // console.log("LIST", list)
       const rangeNumber = list.length < 5 ? list.length : 5;
       var serie = new geostats(list);
-
-      if (list.length > 0) {
+      console.log("LIST", list);
+      if (list.length > 3) {
         let classes = 5;
 
         if (list.length == 2) {
