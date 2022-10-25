@@ -6,6 +6,7 @@ import { variables } from '../base/variables';
 const TipoVisualizacion = () => {
   const [checked, setChecked] = useState(localStorage.getItem("visualization") === "symbols" ? false : true);
   const [textActive, setTextActive] = useState(localStorage.getItem("visualization") === "symbols" ? 0 : 1);
+  const [disabledSlide, setDisabledSlide] = useState(false);
 
   useEffect(() => {
     if (!checked) {
@@ -58,14 +59,15 @@ const TipoVisualizacion = () => {
   variables.updateSymbols = () => {
     setChecked(true);
     setTextActive(1);
-    change2Chropleths();    
+    change2Chropleths();
+    setDisabledSlide(true);    
   }
 
   variables.updateToProps = () => {
     setChecked(false);
     setTextActive(0);
     change2Symbols();
-    
+    setDisabledSlide(false);    
   }
 
   return (
@@ -80,6 +82,7 @@ const TipoVisualizacion = () => {
               type="checkbox"
               checked={checked}
               onChange={() => toggleThemeChange()}
+              disabled={disabledSlide}
             />
             <span className="custom__slider" />
           </label>

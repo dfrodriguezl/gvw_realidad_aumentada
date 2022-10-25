@@ -343,9 +343,9 @@ const Mapa = () => {
       } else {
         if (tipoVariable === "VC") {
           HTML += '<p class="popup__list">' + 'Participación porcentual (' + parseFloat(dataPopup[variables.alias].replace(",", ".")).toFixed(1) + ' ' + dataUnidades + ')' + '</p>'
-          HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[variables.alias2]).toLocaleString("de-De").replace(",", ".") + '</span><span class="popup__valueItem"> ' + unidadesAbsolutas + '</span></p>';
+          HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[variables.alias2]).toLocaleString("de-De") + '</span><span class="popup__valueItem"> ' + unidadesAbsolutas + '</span></p>';
         } else {
-          HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[0][variables.alias].toLocaleString("de-De").replace(",", ".")).toFixed(2) + '</span><span class="popup__valueItem"> ' + dataUnidades + '</span></p>';
+          HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[0][variables.alias]).toFixed(2) + '</span><span class="popup__valueItem"> ' + dataUnidades + '</span></p>';
           if (dataUnidades === '$') {
             HTML += '<p class="popup__list"><span class="popup__subtitle">Precio promedio anterior: </span><span class="popup__subtitle">' + unidadesAbsolutas + " " + parseFloat(dataPopup[0]["PRECIO_PROMEDIO_ANTERIOR"]).toLocaleString("de-De").replace(",", ".") + '</span></p>';
             HTML += '<p class="popup__list"><span class="popup__subtitle">Tendencia: </span><span class="popup__subtitle">' + dataPopup[0]["TENDENCIA"] + '</span></p>';
@@ -501,7 +501,7 @@ const Mapa = () => {
                 HTML += '<p class="popup__list"><span class="popup__thirdtitle">' + 'Participación porcentual (' + parseFloat(dataPopup[variables.alias].replace(",", ".")).toFixed(1) + ' ' + dataUnidades + ')' + '</span></p>'
                 HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[variables.alias2]).toLocaleString("de-De").replace(",", ".") + '</span><span class="popup__valueItem">' + unidadesAbsolutas + '</span></p>';
               } else {
-                HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[0][variables.alias]).toLocaleString("de-De").replace(",", ".") + '</span><span class="popup__valueItem"> ' + unidadesAbsolutas + '</span></p>';
+                HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[0][variables.alias]).toLocaleString("de-De") + '</span><span class="popup__valueItem"> ' + dataUnidades + '</span></p>';
                 HTML += '<p class="popup__list"><span class="popup__subtitle">Precio promedio anterior: </span><span class="popup__subtitle">' + unidadesAbsolutas + " " + parseFloat(dataPopup[0]["PRECIO_PROMEDIO_ANTERIOR"]).toLocaleString("de-De").replace(",", ".") + '</span></p>';
                 HTML += '<p class="popup__list"><span class="popup__subtitle">Tendencia: </span><span class="popup__subtitle">' + dataPopup[0]["TENDENCIA"] + '</span></p>';
                 HTML += '<p class="popup__list"><span class="popup__subtitle">Variación: </span><span class="popup__subtitle">' + parseFloat(dataPopup[0]["VARIACION_PP"].replace(",", ".")).toFixed(2).toLocaleString("de-De") + ' %</span></p>';
@@ -1189,21 +1189,20 @@ variables.changeMap = function (nivel, dpto, table) {
       variables.max = valor2Array.length === 0 ? max : max2;
       variables.min = min;
 
-      // console.log("MAX", max);
+      // console.log("INTEGRADO", integrado);
       // console.log("MAX", max);
       // console.log("MIN", min);
       // console.log("MAX2ARRAY", valor2Array);
       // console.log("MAX2", max2);
 
       let list = integrado.filter((x, i, a) => a.indexOf(x) == i)
-      // console.log("LIST", list);
 
       // console.log(integrado)
       // console.log("LIST", list)
       const rangeNumber = list.length < 5 ? list.length : 5;
       var serie = new geostats(list);
 
-      if (list.length > 1) {
+      if (list.length > 0) {
         let classes = 5;
 
         if (list.length == 2) {
@@ -1216,6 +1215,9 @@ variables.changeMap = function (nivel, dpto, table) {
             classes = 4;
             if (serie.getClassJenks(classes).includes(undefined)) {
               classes = 3;
+              if (serie.getClassJenks(classes).includes(undefined)) {
+                classes = 2;
+              }
             }
           }
         }

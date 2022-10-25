@@ -75,9 +75,9 @@ const FiltroProductos= () => {
 
   variables.updateListaProductos = (lista) => {
     setProductos(lista);
-    variables.updateProductoSeleccionado(lista[1])
-    variables.updateProductoResult(lista[1]);
-    variables.updateProductoTabla(lista[1]);
+    variables.updateProductoSeleccionado(lista[2])
+    variables.updateProductoResult(lista[2]);
+    variables.updateProductoTabla(lista[2]);
   }
 
   variables.updateProductoSeleccionado = (producto) => {
@@ -91,6 +91,7 @@ const FiltroProductos= () => {
     variables.updateProductoSeleccionado(e);
     variables.updateProductoResult(e);
     variables.updateProductoTabla(e);
+    variables.closer.click();
     // setProductoSeleccionado(e);
     // variables.productoSeleccionado = e;
     
