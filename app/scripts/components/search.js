@@ -170,7 +170,7 @@ const Search = ({ filterSearch, placeholder }) => {
                             const jsonResult = JSON.parse(response.data.replace("Array", ""));
                             if (jsonResult) {
                                 if (jsonResult.resultado.length === 0) {
-                                    toast.warn("Para el periodo, producto y variable seleccionada, no hay datos. Intente cambiando la consulta.",{
+                                    toast.warn("La periodicidad de este producto no es mensual, por favor consulte el mes correspondiente.",{
                                         toastId: 'warn1',
                                     })
                                 }
