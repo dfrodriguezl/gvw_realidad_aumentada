@@ -16,15 +16,23 @@ function bboxExtent(bbox, tipo) {
     bbox = bbox.replace('BOX(', '').replace(')', '')
     bbox = bbox.split(",")
     let bbox1 = bbox[0].split(" ")
-    let bbox2 = bbox[1].split(" ")
+    let bbox2 = bbox[1].split(" ");
+    let boundary = [[bbox1[0], bbox1[1]], [bbox2[0], bbox2[1]]];
+    variables.map.flyTo({
+        center: [-74, 4],
+        zoom: 10,
+        essential: false // this animation is considered essential with respect to prefers-reduced-motion
+    });
+    variables.map.fitBounds(boundary);
+    variables.map.fire('flystart');
     var ext = boundingExtent([[bbox1[0], bbox1[1]], [bbox2[0], bbox2[1]]]);
     ext = transformExtent(ext, 'EPSG:4326', 'EPSG:3857');
-    if (tipo === "mpio") {
-        // variables.map.getView().fit(ext, variables.map.getSize());
-        variables.map.getView().animate({ center: getCenter(ext) })
-    } else {
-        variables.map.getView().fit(ext, variables.map.getSize());
-    }
+    // if (tipo === "mpio") {
+    //     // variables.map.getView().fit(ext, variables.map.getSize());
+    //     variables.map.getView().animate({ center: getCenter(ext) })
+    // } else {
+    //     variables.map.getView().fit(ext, variables.map.getSize());
+    // }
 
 }
 
@@ -70,8 +78,14 @@ const Filter = (props) => {
             variables.deptoSelected = undefined;
             variables.deptoSelectedFilter = undefined;
             variables.deptoVariable = undefined;
-            variables.map.getView().setCenter(transform([-74.1083125, 4.663437], 'EPSG:4326', 'EPSG:3857'));
-            variables.map.getView().setZoom(6);
+            variables.map.flyTo({
+                center: [-74.1083125, 4.663437],
+                zoom: 5,
+                essential: false // this animation is considered essential with respect to prefers-reduced-motion
+            });
+            variables.map.fire('flystart');
+            // variables.map.getView().setCenter(transform([-74.1083125, 4.663437], 'EPSG:4326', 'EPSG:3857'));
+            // variables.map.getView().setZoom(6);
             clearHightlightFeature(layer);
         } else {
             // console.log(evt)
@@ -87,7 +101,7 @@ const Filter = (props) => {
             //     variables.map.getView().setZoom(9.1) 
             // }  
 
-            variables.currentZoom = variables.map.getView().getZoom();
+            // variables.currentZoom = variables.map.getView().getZoom();
             filteredOptions = [];
 
             setSelectedOption2({ cod_dane: "", value: "" });
@@ -113,12 +127,12 @@ const Filter = (props) => {
 
             let layer = variables.capas['deptos_vt2'];
             // let layer2 = variables.capas['mpios_vt2'];
-            hightlightFeature(layer, evt.cod_dane, 'id', 'dptos')
-            variables.changeStyleDepto();
+            // hightlightFeature(layer, evt.cod_dane, 'id', 'dptos')
+            // variables.changeStyleDepto();
         }
 
         // variables.changeTheme("MPIO", variables.deptoSelected, null, "y");
-        variables.changeMap("MPIO", variables.deptoSelected, "y");
+        // variables.changeMap("MPIO", variables.deptoSelected, "y");
 
 
         // let layer = variables.capas['deptos_vt2'];
@@ -153,10 +167,10 @@ const Filter = (props) => {
             variables.changeDepto(selectedOption.cod_dane + " - " + selectedOption.name + ", " + evt.cod_dane + " - " + evt.name)
         }
         //   console.log(variables.map.getZoom())
-        if (variables.map.getView().getZoom() < 12) {
+        // if (variables.map.getZoom() < 12) {
             let filter = clase.filter((o) => (o.cod_dane).indexOf(evt.cod_dane + "1") != -1)
             bboxExtent(filter[0].bextent, "mpio")
-        }
+        
 
         let nivel = 'MPIO';
 
@@ -170,7 +184,7 @@ const Filter = (props) => {
 
         let layer = variables.capas['mpios_vt2'];
         // let layer2 = variables.capas['mpios_vt2'];
-        hightlightFeature(layer, evt.cod_dane, 'id', 'mpios')
+        // hightlightFeature(layer, evt.cod_dane, 'id', 'mpios')
         // if (variables.changeBarChartData != null) {
         //     variables.changeBarChartData(nivel,evt.cod_dane);
         // }

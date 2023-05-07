@@ -21,7 +21,7 @@ import TableContent from './components/tablecontent';
 ReactDOM.render(<Results />, document.getElementById('result'));
 ReactDOM.render(<Header />, document.getElementById('header'));
 ReactDOM.render(<TabsComponent />, document.getElementById('navbar'));
-ReactDOM.render(<Mapa />, document.getElementById('mapa'));
+ReactDOM.render(<Mapa />, document.getElementById('map'));
 ReactDOM.render(<TableContent />, document.getElementById('tableContent'));
 ReactDOM.render(<Load />, document.getElementById('loader'));
 ReactDOM.render(<Footer />, document.getElementById('footer'));

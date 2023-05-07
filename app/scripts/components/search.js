@@ -371,7 +371,8 @@ const Search = ({ filterSearch, placeholder }) => {
             }
             setTematica(variables.tematica);
 
-            let zoom = variables.map.getView().getZoom();
+            // let zoom = variables.map.getView().getZoom();
+            let zoom = 5;
 
             if (zoom >= 7) {
                 variables.changeTheme("MPIO", null, "MPIO", "y");

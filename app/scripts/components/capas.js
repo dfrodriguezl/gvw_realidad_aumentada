@@ -14,29 +14,35 @@ const Capas = () => {
   function handleChange(e) {
     let check = e.target.checked;
     let layer = e.target.value;
-    let layers = variables.layersInMap;
+    // let layers = variables.layersInMap;
+
+    if(check){
+      variables.map.setLayoutProperty(layer, 'visibility', 'visible');
+    } else {
+      variables.map.setLayoutProperty(layer, 'visibility', 'none');
+    }
 
 
-    Object.keys(variables.layers).forEach((layerV, index) => {
-      if (variables.layers[layerV].id == layer) {
-        variables.layers[layerV].checked = check;
-      }
-    });
+    // Object.keys(variables.layers).forEach((layerV, index) => {
+    //   if (variables.layers[layerV].id == layer) {
+    //     variables.layers[layerV].checked = check;
+    //   }
+    // });
 
     setActives(variables.layers);
 
 
-    layers.forEach((lyr) => {
-      // console.log(lyr[layer])
-      if (lyr[layer]) {
-        if (check) {
-          variables.map.addLayer(lyr[layer]);
-          lyr[layer].setVisible(true);
-        } else {
-          variables.map.removeLayer(lyr[layer]);
-        }
-      }
-    })
+    // layers.forEach((lyr) => {
+    //   // console.log(lyr[layer])
+    //   if (lyr[layer]) {
+    //     if (check) {
+    //       variables.map.addLayer(lyr[layer]);
+    //       lyr[layer].setVisible(true);
+    //     } else {
+    //       variables.map.removeLayer(lyr[layer]);
+    //     }
+    //   }
+    // })
   }
 
   // Función para cambiar transparencia de la capa, y guardar su estado
@@ -47,19 +53,23 @@ const Capas = () => {
 
     let transparencia = value / 10;
 
-    Object.keys(variables.layers).forEach((layerV, index) => {
-      if (variables.layers[layerV].id == name) {
-        variables.layers[layerV].transparency = value;
-      }
-    });
+    variables.map.setPaintProperty(name, 'line-opacity', transparencia);
+
+
+
+    // Object.keys(variables.layers).forEach((layerV, index) => {
+    //   if (variables.layers[layerV].id == name) {
+    //     variables.layers[layerV].transparency = value;
+    //   }
+    // });
 
     setActives(variables.layers);
 
-    layers.forEach((lyr) => {
-      if (lyr[name]) {
-        lyr[name].setOpacity(transparencia);
-      }
-    });
+    // layers.forEach((lyr) => {
+    //   if (lyr[name]) {
+    //     lyr[name].setOpacity(transparencia);
+    //   }
+    // });
   }
 
   return (

@@ -71,7 +71,7 @@ const TabsComponent = () => {
           {/* LOS PANELS - LLAMAN EL CONTENIDO DE CADA ITEM TAB SEGUN SU ORDEN */}
           <Panel></Panel>
           <Panel>
-            <Periodo />
+            {/* <Periodo /> */}
             <Filter />
           </Panel>
           <Panel><Temas /></Panel>

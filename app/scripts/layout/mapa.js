@@ -4,7 +4,7 @@
 
 import 'ol/ol.css';
 import { Map, View } from 'ol';
-import React, { Component, Fragment, useState } from 'react';
+import React, { Component, Fragment, useState, useEffect, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import Overlay from 'ol/Overlay';
 import TileLayer from 'ol/layer/Tile';
@@ -38,6 +38,9 @@ import FiltroProductos from '../components/filtroProductos';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+//Libreria MapLibre
+import maplibregl from 'maplibre-gl';
+
 var container = document.getElementById('popup');
 var content = document.getElementById('popup-content');
 variables.closer = document.getElementById('popup-closer');
@@ -53,6 +56,7 @@ const Mapa = () => {
 
   // const [hideVisualizationSwitch, setHideVisualizationSwitch] = useState("show");
 
+  const mapRef = useRef(null);
 
   const Accordion = ({ title, children, data }) => {
     const [isOpen, setOpen] = React.useState(data);
@@ -96,6 +100,7 @@ const Mapa = () => {
       crossOrigin: "Anonymous"
     })
   });
+
   // var overviewMapControl = new OverviewMap({
   //   className: 'map__overview',
   //   layers: [
@@ -116,124 +121,224 @@ const Mapa = () => {
     minWidth: 140,
   });
 
+  // variables.map = new maplibregl.Map({
+  //   container: "mapa",
+  //   center: [-74.1083125, 4.663437], // starting position [lng, lat]
+  //   zoom: 5 // starting zoom
+  // });
+
+  useEffect(() => {
+    variables.map = new maplibregl.Map({
+      container: mapRef.current,
+      center: [-74.1083125, 4.663437], // starting position [lng, lat]
+      zoom: 5 // starting zoom
+    });
+
+    Object.keys(variables.baseMaps).map((basemap) => {
+      variables.map.addSource(basemap, {
+        type: "raster",
+        tiles: [
+          variables.baseMaps[basemap]
+        ],
+        tileSize: 256
+      })
+
+      variables.map.addLayer({
+        id: basemap,
+        type: "raster",
+        source: basemap,
+        minZoom: 0,
+        maxZoom: 22,
+        layout: {
+          visibility: 'none'
+        }
+      })
+
+      if (basemap == variables.baseMapCheck) {
+        variables.map.setLayoutProperty(basemap, 'visibility', 'visible');
+      }
+    });
+
+    loadLayers();
+
+  }, []);
+
+  //Inicializar mapa MapLibre
+  // variables.map = new maplibregl.Map({
+  //   container: 'mapa',
+  //   center: [-74.1083125, 4.663437], // starting position [lng, lat]
+  //   zoom: 5 // starting zoom
+  // })
+
+  // variables.map.on("load", () => {
+  // Object.keys(variables.baseMaps).map((basemap) => {
+  //   variables.map.addSource(basemap, {
+  //     type: "raster",
+  //     tiles: [
+  //       variables.baseMaps[basemap]
+  //     ],
+  //     tileSize: 256
+  //   })
+
+  //   variables.map.addLayer({
+  //     id: basemap,
+  //     type: "raster",
+  //     source: basemap,
+  //     minZoom: 0,
+  //     maxZoom: 22,
+  //     layout: {
+  //       visibility: 'none'
+  //     }
+  //   })
+
+  //   if (basemap == variables.baseMapCheck) {
+  //     variables.map.setLayoutProperty(basemap, 'visibility', 'visible');
+  //   }
+
+  // })
+
+  // })
+
+
+
+  // variables.map.addSource(variables.baseMapCheck, {
+  //   type: "raster",
+  //   tiles: [
+  //     variables.baseMaps[variables.baseMapCheck]
+  //   ],
+  //   tileSize: 256
+  // })
+
+  // variables.map.addLayer({
+  //   id: variables.baseMapCheck,
+  //   type: "raster",
+  //   source: variables.baseMapCheck,
+  //   minZoom: 0,
+  //   maxZoom: 22
+  // })
+
   // Inicializar mapa
-  variables.map = new Map({
-    target: 'mapa',
-    controls: defaultControls().extend([controlEsca]),
-    overlays: [overlay],
-    layers: [
-      variables.base
-    ],
-    view: new View({
-      center: transform([-74.1083125, 4.663437], 'EPSG:4326', 'EPSG:3857'),
-      zoom: 6,
-      multiWorld: false,
-      minZoom: 6
-    })
-  });
+  // variables.map = new Map({
+  //   target: 'mapa',
+  //   controls: defaultControls().extend([controlEsca]),
+  //   overlays: [overlay],
+  //   layers: [
+  //     variables.base
+  //   ],
+  //   view: new View({
+  //     center: transform([-74.1083125, 4.663437], 'EPSG:4326', 'EPSG:3857'),
+  //     zoom: 6,
+  //     multiWorld: false,
+  //     minZoom: 6
+  //   })
+  // });
 
   // Adicionar control de zoom al mapa
   var zoom = new Zoom();
-  variables.map.addControl(zoom);
+  // variables.map.addControl(zoom);
 
-  let currZoom = variables.map.getView().getZoom();
-  variables.map.on('moveend', function (e) {
+  // let currZoom = variables.map.getView().getZoom();
+  let currZoom = 1;
+  // variables.map.on('moveend', function (e) {
 
-    var newZoom = variables.map.getView().getZoom();
-    zoomActual = variables.map.getView().getZoom();
+  //   // var newZoom = variables.map.getView().getZoom();
+  //   // zoomActual = variables.map.getView().getZoom();
 
-    // variables.loadMpioCentroids();
+  //   var newZoom = 2;
+  //   zoomActual = 2;
 
-    if (variables.currentZoom != newZoom) {
-      variables.deptoSelectedFilter = undefined;
-    }
+  //   // variables.loadMpioCentroids();
 
-    if (newZoom < 7) {
-      // addClusterDepto();
-      // variables.loadDeptoCentroids();
-      // variables.loadDeptoCentroids();
-      // variables.loadMpioCentroids();
-      variables.changeTheme("MPIO", 0, "MPIO", "y");
-      // if (variables.deptoSelected == undefined) {
-      //   // variables.changeTheme("MPIO", null, null, "n");
-      //   variables.changeTheme("MPIO", 0, "MPIO", "y");
-      // }
-    }
+  //   if (variables.currentZoom != newZoom) {
+  //     variables.deptoSelectedFilter = undefined;
+  //   }
 
-    if (newZoom >= 7 && newZoom <= 11) {
-      // variables.loadMpioCentroids();
-      variables.changeStyleDepto();
-      if (variables.deptoSelected == undefined) {
-        variables.changeTheme("MPIO", 0, "MPIO", "y");
-      } else {
-        variables.changeTheme("MPIO", variables.deptoSelected, null, "y");
-        variables.deptoSelected = undefined;
-      }
-    }
+  //   if (newZoom < 7) {
+  //     // addClusterDepto();
+  //     // variables.loadDeptoCentroids();
+  //     // variables.loadDeptoCentroids();
+  //     // variables.loadMpioCentroids();
+  //     variables.changeTheme("MPIO", 0, "MPIO", "y");
+  //     // if (variables.deptoSelected == undefined) {
+  //     //   // variables.changeTheme("MPIO", null, null, "n");
+  //     //   variables.changeTheme("MPIO", 0, "MPIO", "y");
+  //     // }
+  //   }
 
-    if (newZoom > 11 && newZoom <= 21) {
-      variables.changeStyleMpio();
-      if (variables.deptoSelected != undefined) {
-        // variables.changeTheme("MNZN", variables.deptoSelected, "NM");
-      } else {
-        let layer = variables.capas['deptos_vt'];
-        let extent = variables.map.getView().calculateExtent();
-        let f = layer.getSource().getFeaturesInExtent(extent);
-        // f.forEach((feature) => {
-        //   // let properties = feature.properties_;
-        //   // variables.changeTheme("SECC", properties.id, "NSC", "N");
-        //   // variables.loadMzCentroids(properties.id);
-        //   // variables.changeTheme("MNZN", properties.id, "NM");
-        // })
-        // let layerMpio = variables.capas['mpios_vt'];
-        // let fMpio = layerMpio.getSource().getFeaturesInExtent(extent);
-        // fMpio.forEach((feature) => {
-        //   let properties = feature.properties_;
-        //   // variables.changeTheme("MNZN", properties.id, "NM");
-        //   variables.loadUE(properties.id)
-        // })
-      }
-      variables.changeStyleDepto();
-    }
+  //   if (newZoom >= 7 && newZoom <= 11) {
+  //     // variables.loadMpioCentroids();
+  //     variables.changeStyleDepto();
+  //     if (variables.deptoSelected == undefined) {
+  //       variables.changeTheme("MPIO", 0, "MPIO", "y");
+  //     } else {
+  //       variables.changeTheme("MPIO", variables.deptoSelected, null, "y");
+  //       variables.deptoSelected = undefined;
+  //     }
+  //   }
 
-    if (newZoom > 11) {
+  //   if (newZoom > 11 && newZoom <= 21) {
+  //     variables.changeStyleMpio();
+  //     if (variables.deptoSelected != undefined) {
+  //       // variables.changeTheme("MNZN", variables.deptoSelected, "NM");
+  //     } else {
+  //       let layer = variables.capas['deptos_vt'];
+  //       let extent = variables.map.getView().calculateExtent();
+  //       let f = layer.getSource().getFeaturesInExtent(extent);
+  //       // f.forEach((feature) => {
+  //       //   // let properties = feature.properties_;
+  //       //   // variables.changeTheme("SECC", properties.id, "NSC", "N");
+  //       //   // variables.loadMzCentroids(properties.id);
+  //       //   // variables.changeTheme("MNZN", properties.id, "NM");
+  //       // })
+  //       // let layerMpio = variables.capas['mpios_vt'];
+  //       // let fMpio = layerMpio.getSource().getFeaturesInExtent(extent);
+  //       // fMpio.forEach((feature) => {
+  //       //   let properties = feature.properties_;
+  //       //   // variables.changeTheme("MNZN", properties.id, "NM");
+  //       //   variables.loadUE(properties.id)
+  //       // })
+  //     }
+  //     variables.changeStyleDepto();
+  //   }
 
-      // if (variables.baseMapCheck != variables.baseMapPrev) {
-      //   variables.baseMapPrev = variables.baseMapCheck;
-      //   variables.base.setSource(
-      //     new XYZ({
-      //       url: variables.baseMaps[variables.baseMapCheck] + variables.key,
-      //       crossOrigin: "Anonymous"
-      //     })
-      //   )
-      //   if (variables.changeBaseMap != null) {
-      //     variables.changeBaseMap();
-      //   }
-      // }
-      // variables.changeTheme("MNZN", "97");
-      variables.legendChange(true)
+  //   if (newZoom > 11) {
+
+  //     // if (variables.baseMapCheck != variables.baseMapPrev) {
+  //     //   variables.baseMapPrev = variables.baseMapCheck;
+  //     //   variables.base.setSource(
+  //     //     new XYZ({
+  //     //       url: variables.baseMaps[variables.baseMapCheck] + variables.key,
+  //     //       crossOrigin: "Anonymous"
+  //     //     })
+  //     //   )
+  //     //   if (variables.changeBaseMap != null) {
+  //     //     variables.changeBaseMap();
+  //     //   }
+  //     // }
+  //     // variables.changeTheme("MNZN", "97");
+  //     variables.legendChange(true)
 
 
-    } else {
-      // variables.baseMapCheck = "Gris";
-      // if (variables.baseMapCheck != variables.baseMapPrev) {
-      //   variables.base.setSource(
-      //     new XYZ({
-      //       url: variables.baseMaps[variables.baseMapCheck] + variables.key,
-      //       crossOrigin: "Anonymous"
-      //     })
-      //   )
-      //   // variables.changeBaseMap();
-      //   if (variables.changeBaseMap != null) {
-      //     variables.changeBaseMap();
-      //   }
-      // }
-      variables.legendChange(false)
-    }
-    if (currZoom != newZoom) {
-      currZoom = newZoom;
-    }
-  })
+  //   } else {
+  //     // variables.baseMapCheck = "Gris";
+  //     // if (variables.baseMapCheck != variables.baseMapPrev) {
+  //     //   variables.base.setSource(
+  //     //     new XYZ({
+  //     //       url: variables.baseMaps[variables.baseMapCheck] + variables.key,
+  //     //       crossOrigin: "Anonymous"
+  //     //     })
+  //     //   )
+  //     //   // variables.changeBaseMap();
+  //     //   if (variables.changeBaseMap != null) {
+  //     //     variables.changeBaseMap();
+  //     //   }
+  //     // }
+  //     variables.legendChange(false)
+  //   }
+  //   if (currZoom != newZoom) {
+  //     currZoom = newZoom;
+  //   }
+  // })
 
   // let streetView = new StreetView(variables.map,
   //   {
@@ -280,366 +385,369 @@ const Mapa = () => {
   }
 
   // display popup on click
-  variables.map.on('click', function (evt) {
+  // variables.map.on('click', function (evt) {
 
-    evt.stopPropagation();
-    let overlayId = 0
-    var annoCoord = evt.coordinate;
-    var anno = document.createElement('div');
-    anno.className = 'ol-popup anno-popup';
-    var popup = overlay
-    // console.log('map On Click');
-    var feature = variables.map.forEachFeatureAtPixel(evt.pixel, function (feature) {
-      // console.log(feature);
-      return feature;
-    });
+  //   evt.stopPropagation();
+  //   let overlayId = 0
+  //   var annoCoord = evt.coordinate;
+  //   var anno = document.createElement('div');
+  //   anno.className = 'ol-popup anno-popup';
+  //   var popup = overlay
+  //   // console.log('map On Click');
+  //   var feature = variables.map.forEachFeatureAtPixel(evt.pixel, function (feature) {
+  //     // console.log(feature);
+  //     return feature;
+  //   });
 
-    if (feature == undefined) {
-      return;
-    }
+  //   if (feature == undefined) {
+  //     return;
+  //   }
 
-    // console.log("FEATURE", feature)
+  //   // console.log("FEATURE", feature)
 
-    // console.log("FEATURE", feature);
-
-
-
-    // console.log(feature.values_)
-    if (feature.values_ == undefined) {
-      let dataField = feature.properties_.layer;
-      let ARR = {
-        "mgn_2020_dpto_politico": ["id", "DPTO"],
-        "mgn_2020_mpio_politico": ["id", "MPIO"],
-        "mgn_2018_urb_seccion": ["id", "SECC"]
-        // "MGN_2018_URB_MANZANA":["cod_dane", "MNZN"]
-      }
-
-      const departamentosFilter = (departamentos).filter(result => (result.cod_dane == (feature.properties_[ARR[dataField][0]]).substring(0, 2)))
-      const municipiosFilter = (municipios).filter(result => (result.cod_dane == (feature.properties_[ARR[dataField][0]]).substring(0, 5)))
-
-      // let dataPopup = []
-      const dataSubgrupo = variables.tematica["CATEGORIAS"][variables.varVariable][0]["SUBGRUPO"];
-      const dataUnidades = variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"];
-      const dataCategorias = variables.tematica["CATEGORIAS"][variables.varVariable][0]["CATEGORIA"];
-      const tipoVariable = variables.tematica["CATEGORIAS"][variables.varVariable][0]["TIPO_VARIABLE"];
-
-      // const dataPopup = variables.dataArrayDatos[variables.varVariable.substring(0, 5)][ARR[dataField][1]][variables.periodoSeleccionado.value][feature.properties_[ARR[dataField][0]]]
-      // console.log("POPUP", variables.dataArrayDatos[variables.varVariable.substring(0, 5)][ARR[dataField][1]][variables.periodoSeleccionado.value])
-      const dataPopup = variables.dataArrayDatos[variables.varVariable.substring(0, 5)][ARR[dataField][1]][variables.periodoSeleccionado.value].filter((a) => {
-        if (a["FECHA"] === variables.periodoSeleccionado.value && a["PRODUCTOS_ESPECIE_PUBLI"] === variables.productoSeleccionado.value
-          && a["COD_MPIO"] === feature.properties_[ARR[dataField][0]]) {
-          return a;
-        }
-      });
-
-      unidadesAbsolutas = variables.varVariable.includes("284") ? "m<sup>2</sup>" : variables.varVariable.includes("292") ? "licencias" : "$";
-      let HTML = "";
-      HTML = '<p class="popup__list"><span class="popup__title">' + dataSubgrupo + '</span></p>';
-      HTML += '<p class="popup__list"><span class="popup__subtitle">' + variables.productoSeleccionado.label + '</span></p>';
-      HTML += '<p class="popup__list"><span class="popup__subtitle">' + dataCategorias + '</span> ' + '</p>';
-
-      if (dataPopup == undefined) {
-        HTML += '<p class="popup__list"><span class="popup__thirdtitle">Porcentaje de unidades:</span> No data</p>';
-      } else {
-        if (tipoVariable === "VC") {
-          HTML += '<p class="popup__list">' + 'Participación porcentual (' + parseFloat(dataPopup[variables.alias].replace(",", ".")).toFixed(1) + ' ' + dataUnidades + ')' + '</p>'
-          HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[variables.alias2]).toLocaleString("de-De") + '</span><span class="popup__valueItem"> ' + unidadesAbsolutas + '</span></p>';
-        } else {
-          HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[0][variables.alias]).toFixed(2) + '</span><span class="popup__valueItem"> ' + dataUnidades + '</span></p>';
-          if (dataUnidades === '$') {
-            HTML += '<p class="popup__list"><span class="popup__subtitle">Precio promedio anterior: </span><span class="popup__subtitle">' + unidadesAbsolutas + " " + parseFloat(dataPopup[0]["PRECIO_PROMEDIO_ANTERIOR"]).toLocaleString("de-De").replace(",", ".") + '</span></p>';
-            HTML += '<p class="popup__list"><span class="popup__subtitle">Tendencia: </span><span class="popup__subtitle">' + dataPopup[0]["TENDENCIA"] + '</span></p>';
-            HTML += '<p class="popup__list"><span class="popup__subtitle">Variación: </span><span class="popup__subtitle">' + parseFloat(dataPopup[0]["VARIACION_PP"].replace(",", ".")).toFixed(2).toLocaleString("de-De")+ ' %</span></p>';
-          } else if (dataUnidades === '%') {
-            HTML += '<p class="popup__list"><span class="popup__subtitle">Precio promedio actual: </span><span class="popup__subtitle">' + unidadesAbsolutas + " " + parseFloat(dataPopup[0]["PRECIO_PROMEDIO_ACTUAL"]).toLocaleString("de-De").replace(",", ".") + ' </span></p>';
-            HTML += '<p class="popup__list"><span class="popup__subtitle">Precio promedio anterior: </span><span class="popup__subtitle">' + unidadesAbsolutas + " " + parseFloat(dataPopup[0]["PRECIO_PROMEDIO_ANTERIOR"]).toLocaleString("de-De").replace(",", ".") + '</span></p>';
-            HTML += '<p class="popup__list"><span class="popup__subtitle">Tendencia: </span><span class="popup__subtitle">' + dataPopup[0]["TENDENCIA"] + '</span></p>';
-          }
-
-
-        }
-      }
-
-      HTML += '<hr>' + '</hr>';
-
-      HTML += '<p class="popup__list"><span class="popup__thirdtitle"> Departamento:</span> ' + departamentosFilter[0].name + '</p>';
-
-      if (municipiosFilter.length != 0) {
-        HTML += '<p class="popup__list"><span class="popup__thirdtitle"> Municipio:</span> ' + municipiosFilter[0].name + '</p>';
-      }
-      HTML += '<p class="popup__list"><span class="popup__thirdtitle"> Cod. DANE:</span> ' + feature.properties_[ARR[dataField][0]] + '</p>';
-
-      content.innerHTML = HTML;
-      variables.map.addOverlay(popup);
-      popup.setPosition(annoCoord);
-      // console.log("FEATURE PROP", feature);
-      if (feature.properties_.layer == "mgn_2020_dpto_politico") {
-        let depto = feature.properties_[ARR[dataField][0]];
-        // variables.filterGeo("DPTO", depto);
-        variables.deptoSelected = depto;
-        variables.deptoSelectedFilter = depto;
-        variables.deptoVariable = depto;
-        // bboxExtent(departamentosFilter[0].bextent)
-        if (variables.changeDepto != null) {
-          variables.changeDepto("Departamento de " + departamentosFilter[0].name)
-        }
-
-        // variables.changeDonuChartData("MPIO", departamentosFilter[0].cod_dane)
-        // variables.changePieChartData("MPIO", departamentosFilter[0].cod_dane)
-        // variables.changeBarChartData("MPIO", departamentosFilter[0].cod_dane)
-        if (variables.changeDonuChartData != null) {
-          variables.changeDonuChartData("DPTO", departamentosFilter[0].cod_dane)
-        }
-
-        if (variables.changePieChartData != null) {
-          variables.changePieChartData("DPTO", departamentosFilter[0].cod_dane)
-        }
-
-        if (variables.changeBarChartData != null) {
-          variables.changeBarChartData("DPTO", departamentosFilter[0].cod_dane)
-        }
+  //   // console.log("FEATURE", feature);
 
 
 
+  //   // console.log(feature.values_)
+  //   if (feature.values_ == undefined) {
+  //     let dataField = feature.properties_.layer;
+  //     let ARR = {
+  //       "mgn_2020_dpto_politico": ["id", "DPTO"],
+  //       "mgn_2020_mpio_politico": ["id", "MPIO"],
+  //       "mgn_2018_urb_seccion": ["id", "SECC"]
+  //       // "MGN_2018_URB_MANZANA":["cod_dane", "MNZN"]
+  //     }
 
-      } else if (feature.properties_.layer == "mgn_2020_mpio_politico" && currZoom <= 11) {
-        let mpio = feature.properties_.id;
-        // variables.filterGeo("MCPIO", mpio);
-        // bboxExtent(municipiosFilter[0].bextent)
-        if (variables.changeDepto != null) {
-          variables.changeDepto("Departamento de " + departamentosFilter[0].name + ", Municipio de " + municipiosFilter[0].name)
-        }
+  //     const departamentosFilter = (departamentos).filter(result => (result.cod_dane == (feature.properties_[ARR[dataField][0]]).substring(0, 2)))
+  //     const municipiosFilter = (municipios).filter(result => (result.cod_dane == (feature.properties_[ARR[dataField][0]]).substring(0, 5)))
+
+  //     // let dataPopup = []
+  //     const dataSubgrupo = variables.tematica["CATEGORIAS"][variables.varVariable][0]["SUBGRUPO"];
+  //     const dataUnidades = variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"];
+  //     const dataCategorias = variables.tematica["CATEGORIAS"][variables.varVariable][0]["CATEGORIA"];
+  //     const tipoVariable = variables.tematica["CATEGORIAS"][variables.varVariable][0]["TIPO_VARIABLE"];
+
+  //     // const dataPopup = variables.dataArrayDatos[variables.varVariable.substring(0, 5)][ARR[dataField][1]][variables.periodoSeleccionado.value][feature.properties_[ARR[dataField][0]]]
+  //     // console.log("POPUP", variables.dataArrayDatos[variables.varVariable.substring(0, 5)][ARR[dataField][1]][variables.periodoSeleccionado.value])
+  //     const dataPopup = variables.dataArrayDatos[variables.varVariable.substring(0, 5)][ARR[dataField][1]][variables.periodoSeleccionado.value].filter((a) => {
+  //       if (a["FECHA"] === variables.periodoSeleccionado.value && a["PRODUCTOS_ESPECIE_PUBLI"] === variables.productoSeleccionado.value
+  //         && a["COD_MPIO"] === feature.properties_[ARR[dataField][0]]) {
+  //         return a;
+  //       }
+  //     });
+
+  //     unidadesAbsolutas = variables.varVariable.includes("284") ? "m<sup>2</sup>" : variables.varVariable.includes("292") ? "licencias" : "$";
+  //     let HTML = "";
+  //     HTML = '<p class="popup__list"><span class="popup__title">' + dataSubgrupo + '</span></p>';
+  //     HTML += '<p class="popup__list"><span class="popup__subtitle">' + variables.productoSeleccionado.label + '</span></p>';
+  //     HTML += '<p class="popup__list"><span class="popup__subtitle">' + dataCategorias + '</span> ' + '</p>';
+
+  //     if (dataPopup == undefined) {
+  //       HTML += '<p class="popup__list"><span class="popup__thirdtitle">Porcentaje de unidades:</span> No data</p>';
+  //     } else {
+  //       if (tipoVariable === "VC") {
+  //         HTML += '<p class="popup__list">' + 'Participación porcentual (' + parseFloat(dataPopup[variables.alias].replace(",", ".")).toFixed(1) + ' ' + dataUnidades + ')' + '</p>'
+  //         HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[variables.alias2]).toLocaleString("de-De") + '</span><span class="popup__valueItem"> ' + unidadesAbsolutas + '</span></p>';
+  //       } else {
+  //         HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[0][variables.alias]).toFixed(2) + '</span><span class="popup__valueItem"> ' + dataUnidades + '</span></p>';
+  //         if (dataUnidades === '$') {
+  //           HTML += '<p class="popup__list"><span class="popup__subtitle">Precio promedio anterior: </span><span class="popup__subtitle">' + unidadesAbsolutas + " " + parseFloat(dataPopup[0]["PRECIO_PROMEDIO_ANTERIOR"]).toLocaleString("de-De").replace(",", ".") + '</span></p>';
+  //           HTML += '<p class="popup__list"><span class="popup__subtitle">Tendencia: </span><span class="popup__subtitle">' + dataPopup[0]["TENDENCIA"] + '</span></p>';
+  //           HTML += '<p class="popup__list"><span class="popup__subtitle">Variación: </span><span class="popup__subtitle">' + parseFloat(dataPopup[0]["VARIACION_PP"].replace(",", ".")).toFixed(2).toLocaleString("de-De") + ' %</span></p>';
+  //         } else if (dataUnidades === '%') {
+  //           HTML += '<p class="popup__list"><span class="popup__subtitle">Precio promedio actual: </span><span class="popup__subtitle">' + unidadesAbsolutas + " " + parseFloat(dataPopup[0]["PRECIO_PROMEDIO_ACTUAL"]).toLocaleString("de-De").replace(",", ".") + ' </span></p>';
+  //           HTML += '<p class="popup__list"><span class="popup__subtitle">Precio promedio anterior: </span><span class="popup__subtitle">' + unidadesAbsolutas + " " + parseFloat(dataPopup[0]["PRECIO_PROMEDIO_ANTERIOR"]).toLocaleString("de-De").replace(",", ".") + '</span></p>';
+  //           HTML += '<p class="popup__list"><span class="popup__subtitle">Tendencia: </span><span class="popup__subtitle">' + dataPopup[0]["TENDENCIA"] + '</span></p>';
+  //         }
 
 
+  //       }
+  //     }
 
-        if (variables.changeDonuChartData != null) {
-          variables.changeDonuChartData("MPIO", municipiosFilter[0].cod_dane)
-        }
+  //     HTML += '<hr>' + '</hr>';
 
-        if (variables.changePieChartData != null) {
-          variables.changePieChartData("MPIO", municipiosFilter[0].cod_dane)
-        }
+  //     HTML += '<p class="popup__list"><span class="popup__thirdtitle"> Departamento:</span> ' + departamentosFilter[0].name + '</p>';
 
-        if (variables.changeBarChartData != null) {
-          variables.changeBarChartData("MPIO", municipiosFilter[0].cod_dane)
-        }
-        // variables.loadUE(mpio);
-        // variables.changeBaseMap("Satelital");
-      } else if (feature.properties_.layer == "mgn_2018_urb_seccion" && currZoom > 11) {
-        let seccion = feature.properties_.id;
+  //     if (municipiosFilter.length != 0) {
+  //       HTML += '<p class="popup__list"><span class="popup__thirdtitle"> Municipio:</span> ' + municipiosFilter[0].name + '</p>';
+  //     }
+  //     HTML += '<p class="popup__list"><span class="popup__thirdtitle"> Cod. DANE:</span> ' + feature.properties_[ARR[dataField][0]] + '</p>';
 
-        if (variables.changeDonuChartData != null) {
-          variables.changeDonuChartData("SECC", seccion)
-        }
+  //     content.innerHTML = HTML;
+  //     variables.map.addOverlay(popup);
+  //     popup.setPosition(annoCoord);
+  //     // console.log("FEATURE PROP", feature);
+  //     if (feature.properties_.layer == "mgn_2020_dpto_politico") {
+  //       let depto = feature.properties_[ARR[dataField][0]];
+  //       // variables.filterGeo("DPTO", depto);
+  //       variables.deptoSelected = depto;
+  //       variables.deptoSelectedFilter = depto;
+  //       variables.deptoVariable = depto;
+  //       // bboxExtent(departamentosFilter[0].bextent)
+  //       if (variables.changeDepto != null) {
+  //         variables.changeDepto("Departamento de " + departamentosFilter[0].name)
+  //       }
 
-        if (variables.changePieChartData != null) {
-          variables.changePieChartData("SECC", seccion)
-        }
+  //       // variables.changeDonuChartData("MPIO", departamentosFilter[0].cod_dane)
+  //       // variables.changePieChartData("MPIO", departamentosFilter[0].cod_dane)
+  //       // variables.changeBarChartData("MPIO", departamentosFilter[0].cod_dane)
+  //       if (variables.changeDonuChartData != null) {
+  //         variables.changeDonuChartData("DPTO", departamentosFilter[0].cod_dane)
+  //       }
 
-        if (variables.changeBarChartData != null) {
-          variables.changeBarChartData("SECC", seccion)
-        }
-      }
-      variables.baseMapPrev = variables.baseMapCheck;
-      variables.baseMapCheck = "Satelital";
+  //       if (variables.changePieChartData != null) {
+  //         variables.changePieChartData("DPTO", departamentosFilter[0].cod_dane)
+  //       }
+
+  //       if (variables.changeBarChartData != null) {
+  //         variables.changeBarChartData("DPTO", departamentosFilter[0].cod_dane)
+  //       }
 
 
 
 
-    } else {
-      // console.log(feature.values_.features)
-      if ((feature.values_.features).length === 1) {
-        let banderin = 0;
-        let tipo = Object.keys(feature.values_.features[0]["values_"])
-        let plot = Object.values(feature.values_.features[0]["values_"]).map(function (obj, index, arr) {
-          // console.log(tipo[index], tipo[index].indexOf('unidad'))
-          if (tipo[index].indexOf('unidad_') > -1) {
-            let tipoDos = Object.keys(obj)
-            let plotdos = Object.values(obj).map(function (objDos, indexDos, arrDos) {
-              if (tipoDos[indexDos] != "undefined") {
-                if (tipoDos[indexDos].indexOf('unidad_') === -1 && tipoDos[indexDos] != "Unidad") {
-                  return (<li key={"abc" + indexDos} className="popup__list">
-                    <p className='popup__thirdtitle'>{tipoDos[indexDos] + ":"}</p>{objDos}<br></br>
-                  </li>)
-                }
-              }
-            }, [])
-            return (
-              <Accordion title={tipo[index]} data={true} key={index}>
-                {plotdos}
-              </Accordion>
-            )
-          }
-          else {
-
-            const featureLayer = feature.values_.features[0];
-            const departamentosFilter = (departamentos).filter(result => result.cod_dane === featureLayer["values_"].cod_dane.substring(0, 2));
-            const municipiosFilter = (municipios).filter(result => result.cod_dane === featureLayer["values_"].cod_dane);
-            const dataSubgrupo = variables.tematica["CATEGORIAS"][variables.varVariable][0]["SUBGRUPO"];
-            const dataUnidades = variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"];
-            const dataCategorias = variables.tematica["CATEGORIAS"][variables.varVariable][0]["CATEGORIA"];
-            const tipoVariable = variables.tematica["CATEGORIAS"][variables.varVariable][0]["TIPO_VARIABLE"];
-            const dataPopup = variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["MPIO"][variables.periodoSeleccionado.value].filter((a) => {
-              if (a["FECHA"] === variables.periodoSeleccionado.value && a["PRODUCTOS_ESPECIE_PUBLI"] === variables.productoSeleccionado.value
-                && a["COD_MPIO"] === featureLayer["values_"].cod_dane) {
-                return a;
-              }
-            });
-
-            let unidadesAbsolutas = variables.varVariable.includes("284") ? "m<sup>2</sup>" : variables.varVariable.includes("292") ? "licencias" : "$";
-            let HTML = "";
-            HTML = '<p class="popup__list"><span class="popup__title">' + dataSubgrupo + '</span></p>';
-            HTML += '<p class="popup__list"><span class="popup__subtitle">' + variables.productoSeleccionado.label + '</span></p>';
-            HTML += '<p class="popup__list"><span class="popup__subtitle">' + dataCategorias + '</span> ' + '</p>';
-
-            if (dataPopup == undefined) {
-              HTML += '<p class="popup__list"><span class="popup__thirdtitle">Porcentaje de unidades:</span> No data</p>';
-            } else {
-              if (tipoVariable === "VC") {
-                // console.log("ALIAS", variables.alias);
-                // console.log("ALIAS 2", variables.alias2);
-                HTML += '<p class="popup__list"><span class="popup__thirdtitle">' + 'Participación porcentual (' + parseFloat(dataPopup[variables.alias].replace(",", ".")).toFixed(1) + ' ' + dataUnidades + ')' + '</span></p>'
-                HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[variables.alias2]).toLocaleString("de-De").replace(",", ".") + '</span><span class="popup__valueItem">' + unidadesAbsolutas + '</span></p>';
-              } else {
-                HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[0][variables.alias]).toLocaleString("de-De") + '</span><span class="popup__valueItem"> ' + dataUnidades + '</span></p>';
-                HTML += '<p class="popup__list"><span class="popup__subtitle">Precio promedio anterior: </span><span class="popup__subtitle">' + unidadesAbsolutas + " " + parseFloat(dataPopup[0]["PRECIO_PROMEDIO_ANTERIOR"]).toLocaleString("de-De").replace(",", ".") + '</span></p>';
-                HTML += '<p class="popup__list"><span class="popup__subtitle">Tendencia: </span><span class="popup__subtitle">' + dataPopup[0]["TENDENCIA"] + '</span></p>';
-                HTML += '<p class="popup__list"><span class="popup__subtitle">Variación: </span><span class="popup__subtitle">' + parseFloat(dataPopup[0]["VARIACION_PP"].replace(",", ".")).toFixed(2).toLocaleString("de-De") + ' %</span></p>';
-              }
-            }
-
-            HTML += '<hr>' + '</hr>';
-
-            // HTML += '<p class="popup__list"><span class="popup__thirdtitle"> Departamento:</span> ' + departamentosFilter[0].name + '</p>';
-
-            // if (departamentosFilter.length != 0) {
-            //   HTML += '<p class="popup__list"><span class="popup__thirdtitle"> Cod. DANE:</span> ' + departamentosFilter[0].cod_dane + '</p>';
-            // }
-
-            HTML += '<p class="popup__list"><span class="popup__thirdtitle"> Departamento:</span> ' + departamentosFilter[0].name + '</p>';
-
-            if (municipiosFilter.length != 0) {
-              HTML += '<p class="popup__list"><span class="popup__thirdtitle"> Municipio:</span> ' + municipiosFilter[0].name + '</p>';
-            }
-
-            HTML += '<p class="popup__list"><span class="popup__thirdtitle"> Cod. DANE:</span> ' + featureLayer["values_"].cod_dane + '</p>';
+  //     } else if (feature.properties_.layer == "mgn_2020_mpio_politico" && currZoom <= 11) {
+  //       let mpio = feature.properties_.id;
+  //       // variables.filterGeo("MCPIO", mpio);
+  //       // bboxExtent(municipiosFilter[0].bextent)
+  //       if (variables.changeDepto != null) {
+  //         variables.changeDepto("Departamento de " + departamentosFilter[0].name + ", Municipio de " + municipiosFilter[0].name)
+  //       }
 
 
-            content.innerHTML = HTML;
-            variables.map.addOverlay(popup);
-            popup.setPosition(annoCoord);
 
-            let depto = departamentosFilter[0].cod_dane;
-            // variables.filterGeo("DPTO", depto);
-            // variables.deptoSelected = depto;
-            // variables.deptoSelectedFilter = depto;
-            // variables.deptoVariable = depto;
-            // bboxExtent(departamentosFilter[0].bextent)
-            if (variables.changeDepto != null) {
-              variables.changeDepto("Departamento de " + departamentosFilter[0].name)
-            }
+  //       if (variables.changeDonuChartData != null) {
+  //         variables.changeDonuChartData("MPIO", municipiosFilter[0].cod_dane)
+  //       }
 
-            // variables.changeDonuChartData("MPIO", departamentosFilter[0].cod_dane)
-            // variables.changePieChartData("MPIO", departamentosFilter[0].cod_dane)
-            // variables.changeBarChartData("MPIO", departamentosFilter[0].cod_dane)
-            if (variables.changeDonuChartData != null) {
-              variables.changeDonuChartData("DPTO", departamentosFilter[0].cod_dane)
-            }
+  //       if (variables.changePieChartData != null) {
+  //         variables.changePieChartData("MPIO", municipiosFilter[0].cod_dane)
+  //       }
 
-            if (variables.changePieChartData != null) {
-              variables.changePieChartData("DPTO", departamentosFilter[0].cod_dane)
-            }
+  //       if (variables.changeBarChartData != null) {
+  //         variables.changeBarChartData("MPIO", municipiosFilter[0].cod_dane)
+  //       }
+  //       // variables.loadUE(mpio);
+  //       // variables.changeBaseMap("Satelital");
+  //     } else if (feature.properties_.layer == "mgn_2018_urb_seccion" && currZoom > 11) {
+  //       let seccion = feature.properties_.id;
 
-            if (variables.changeBarChartData != null) {
-              variables.changeBarChartData("MPIO", municipiosFilter[0].cod_dane)
-            }
-            if (banderin === 0) {
-              banderin = 1;
-              // let plotdos = Object.values(feature.values_.features[0]["values_"]).map(function (objDos, indexDos, arrDos) {
+  //       if (variables.changeDonuChartData != null) {
+  //         variables.changeDonuChartData("SECC", seccion)
+  //       }
 
-              //   if (tipo[indexDos].indexOf('unidad_') === -1) {
-              //     if (tipo[indexDos] != "geometry") {
-              //       // console.log(tipoDos[indexDos],objDos)
-              //       return (<li key={"abc" + indexDos} className="popup__list">
-              //         <p className='popup__thirdtitle'>{tipo[indexDos] + ":"}</p>{objDos}<br></br>
-              //       </li>)
-              //     }
-              //   }
-              // }, [])
-              // return (
-              //   <Accordion title={"Manzana"} data={false} key={index}>
-              //     {plotdos}
-              //   </Accordion>
-              // )
-            }
+  //       if (variables.changePieChartData != null) {
+  //         variables.changePieChartData("SECC", seccion)
+  //       }
 
-          }
-        }, [])
+  //       if (variables.changeBarChartData != null) {
+  //         variables.changeBarChartData("SECC", seccion)
+  //       }
+  //     }
+  //     variables.baseMapPrev = variables.baseMapCheck;
+  //     variables.baseMapCheck = "Satelital";
 
-        // ReactDOM.render(plot, content);
-        // variables.map.addOverlay(popup);
-        // popup.setPosition(annoCoord);
-      }
-    }
-  });
+
+
+
+  //   } else {
+  //     // console.log(feature.values_.features)
+  //     if ((feature.values_.features).length === 1) {
+  //       let banderin = 0;
+  //       let tipo = Object.keys(feature.values_.features[0]["values_"])
+  //       let plot = Object.values(feature.values_.features[0]["values_"]).map(function (obj, index, arr) {
+  //         // console.log(tipo[index], tipo[index].indexOf('unidad'))
+  //         if (tipo[index].indexOf('unidad_') > -1) {
+  //           let tipoDos = Object.keys(obj)
+  //           let plotdos = Object.values(obj).map(function (objDos, indexDos, arrDos) {
+  //             if (tipoDos[indexDos] != "undefined") {
+  //               if (tipoDos[indexDos].indexOf('unidad_') === -1 && tipoDos[indexDos] != "Unidad") {
+  //                 return (<li key={"abc" + indexDos} className="popup__list">
+  //                   <p className='popup__thirdtitle'>{tipoDos[indexDos] + ":"}</p>{objDos}<br></br>
+  //                 </li>)
+  //               }
+  //             }
+  //           }, [])
+  //           return (
+  //             <Accordion title={tipo[index]} data={true} key={index}>
+  //               {plotdos}
+  //             </Accordion>
+  //           )
+  //         }
+  //         else {
+
+  //           const featureLayer = feature.values_.features[0];
+  //           const departamentosFilter = (departamentos).filter(result => result.cod_dane === featureLayer["values_"].cod_dane.substring(0, 2));
+  //           const municipiosFilter = (municipios).filter(result => result.cod_dane === featureLayer["values_"].cod_dane);
+  //           const dataSubgrupo = variables.tematica["CATEGORIAS"][variables.varVariable][0]["SUBGRUPO"];
+  //           const dataUnidades = variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"];
+  //           const dataCategorias = variables.tematica["CATEGORIAS"][variables.varVariable][0]["CATEGORIA"];
+  //           const tipoVariable = variables.tematica["CATEGORIAS"][variables.varVariable][0]["TIPO_VARIABLE"];
+  //           const dataPopup = variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["MPIO"][variables.periodoSeleccionado.value].filter((a) => {
+  //             if (a["FECHA"] === variables.periodoSeleccionado.value && a["PRODUCTOS_ESPECIE_PUBLI"] === variables.productoSeleccionado.value
+  //               && a["COD_MPIO"] === featureLayer["values_"].cod_dane) {
+  //               return a;
+  //             }
+  //           });
+
+  //           let unidadesAbsolutas = variables.varVariable.includes("284") ? "m<sup>2</sup>" : variables.varVariable.includes("292") ? "licencias" : "$";
+  //           let HTML = "";
+  //           HTML = '<p class="popup__list"><span class="popup__title">' + dataSubgrupo + '</span></p>';
+  //           HTML += '<p class="popup__list"><span class="popup__subtitle">' + variables.productoSeleccionado.label + '</span></p>';
+  //           HTML += '<p class="popup__list"><span class="popup__subtitle">' + dataCategorias + '</span> ' + '</p>';
+
+  //           if (dataPopup == undefined) {
+  //             HTML += '<p class="popup__list"><span class="popup__thirdtitle">Porcentaje de unidades:</span> No data</p>';
+  //           } else {
+  //             if (tipoVariable === "VC") {
+  //               // console.log("ALIAS", variables.alias);
+  //               // console.log("ALIAS 2", variables.alias2);
+  //               HTML += '<p class="popup__list"><span class="popup__thirdtitle">' + 'Participación porcentual (' + parseFloat(dataPopup[variables.alias].replace(",", ".")).toFixed(1) + ' ' + dataUnidades + ')' + '</span></p>'
+  //               HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[variables.alias2]).toLocaleString("de-De").replace(",", ".") + '</span><span class="popup__valueItem">' + unidadesAbsolutas + '</span></p>';
+  //             } else {
+  //               HTML += '<p class="popup__list"><span class="popup__value">' + parseFloat(dataPopup[0][variables.alias]).toLocaleString("de-De") + '</span><span class="popup__valueItem"> ' + dataUnidades + '</span></p>';
+  //               HTML += '<p class="popup__list"><span class="popup__subtitle">Precio promedio anterior: </span><span class="popup__subtitle">' + unidadesAbsolutas + " " + parseFloat(dataPopup[0]["PRECIO_PROMEDIO_ANTERIOR"]).toLocaleString("de-De").replace(",", ".") + '</span></p>';
+  //               HTML += '<p class="popup__list"><span class="popup__subtitle">Tendencia: </span><span class="popup__subtitle">' + dataPopup[0]["TENDENCIA"] + '</span></p>';
+  //               HTML += '<p class="popup__list"><span class="popup__subtitle">Variación: </span><span class="popup__subtitle">' + parseFloat(dataPopup[0]["VARIACION_PP"].replace(",", ".")).toFixed(2).toLocaleString("de-De") + ' %</span></p>';
+  //             }
+  //           }
+
+  //           HTML += '<hr>' + '</hr>';
+
+  //           // HTML += '<p class="popup__list"><span class="popup__thirdtitle"> Departamento:</span> ' + departamentosFilter[0].name + '</p>';
+
+  //           // if (departamentosFilter.length != 0) {
+  //           //   HTML += '<p class="popup__list"><span class="popup__thirdtitle"> Cod. DANE:</span> ' + departamentosFilter[0].cod_dane + '</p>';
+  //           // }
+
+  //           HTML += '<p class="popup__list"><span class="popup__thirdtitle"> Departamento:</span> ' + departamentosFilter[0].name + '</p>';
+
+  //           if (municipiosFilter.length != 0) {
+  //             HTML += '<p class="popup__list"><span class="popup__thirdtitle"> Municipio:</span> ' + municipiosFilter[0].name + '</p>';
+  //           }
+
+  //           HTML += '<p class="popup__list"><span class="popup__thirdtitle"> Cod. DANE:</span> ' + featureLayer["values_"].cod_dane + '</p>';
+
+
+  //           content.innerHTML = HTML;
+  //           variables.map.addOverlay(popup);
+  //           popup.setPosition(annoCoord);
+
+  //           let depto = departamentosFilter[0].cod_dane;
+  //           // variables.filterGeo("DPTO", depto);
+  //           // variables.deptoSelected = depto;
+  //           // variables.deptoSelectedFilter = depto;
+  //           // variables.deptoVariable = depto;
+  //           // bboxExtent(departamentosFilter[0].bextent)
+  //           if (variables.changeDepto != null) {
+  //             variables.changeDepto("Departamento de " + departamentosFilter[0].name)
+  //           }
+
+  //           // variables.changeDonuChartData("MPIO", departamentosFilter[0].cod_dane)
+  //           // variables.changePieChartData("MPIO", departamentosFilter[0].cod_dane)
+  //           // variables.changeBarChartData("MPIO", departamentosFilter[0].cod_dane)
+  //           if (variables.changeDonuChartData != null) {
+  //             variables.changeDonuChartData("DPTO", departamentosFilter[0].cod_dane)
+  //           }
+
+  //           if (variables.changePieChartData != null) {
+  //             variables.changePieChartData("DPTO", departamentosFilter[0].cod_dane)
+  //           }
+
+  //           if (variables.changeBarChartData != null) {
+  //             variables.changeBarChartData("MPIO", municipiosFilter[0].cod_dane)
+  //           }
+  //           if (banderin === 0) {
+  //             banderin = 1;
+  //             // let plotdos = Object.values(feature.values_.features[0]["values_"]).map(function (objDos, indexDos, arrDos) {
+
+  //             //   if (tipo[indexDos].indexOf('unidad_') === -1) {
+  //             //     if (tipo[indexDos] != "geometry") {
+  //             //       // console.log(tipoDos[indexDos],objDos)
+  //             //       return (<li key={"abc" + indexDos} className="popup__list">
+  //             //         <p className='popup__thirdtitle'>{tipo[indexDos] + ":"}</p>{objDos}<br></br>
+  //             //       </li>)
+  //             //     }
+  //             //   }
+  //             // }, [])
+  //             // return (
+  //             //   <Accordion title={"Manzana"} data={false} key={index}>
+  //             //     {plotdos}
+  //             //   </Accordion>
+  //             // )
+  //           }
+
+  //         }
+  //       }, [])
+
+  //       // ReactDOM.render(plot, content);
+  //       // variables.map.addOverlay(popup);
+  //       // popup.setPosition(annoCoord);
+  //     }
+  //   }
+  // });
 
   // change mouse cursor when over marker
-  variables.map.on('pointermove', function (e) {
-    if (e.dragging) {
-      return;
-    }
+  // variables.map.on('pointermove', function (e) {
+  //   if (e.dragging) {
+  //     return;
+  //   }
 
-    if (zoomActual <= 11) {
-      var popup = overlay
-      var pixel = variables.map.getEventPixel(e.originalEvent);
-      var coordinates = toLonLat(variables.map.getCoordinateFromPixel(pixel));
-      var feature = variables.map.forEachFeatureAtPixel(pixel, function (feature) {
-        return feature;
-      });
+  //   if (zoomActual <= 11) {
+  //     var popup = overlay
+  //     var pixel = variables.map.getEventPixel(e.originalEvent);
+  //     var coordinates = toLonLat(variables.map.getCoordinateFromPixel(pixel));
+  //     var feature = variables.map.forEachFeatureAtPixel(pixel, function (feature) {
+  //       return feature;
+  //     });
 
-      let hit = variables.map.hasFeatureAtPixel(pixel);
-      let idMap = document.getElementById(variables.map.getTarget());
-      if (hit) {
-        idMap.style.cursor = 'pointer';
-      } else {
-        idMap.style.cursor = '';
-      }
-    } else {
-      let idMap = document.getElementById(variables.map.getTarget());
-      idMap.style.cursor = '';
-    }
+  //     let hit = variables.map.hasFeatureAtPixel(pixel);
+  //     let idMap = document.getElementById(variables.map.getTarget());
+  //     if (hit) {
+  //       idMap.style.cursor = 'pointer';
+  //     } else {
+  //       idMap.style.cursor = '';
+  //     }
+  //   } else {
+  //     let idMap = document.getElementById(variables.map.getTarget());
+  //     idMap.style.cursor = '';
+  //   }
 
 
 
-    coordinates = toStringHDMS(coordinates);
-    let c = coordinates.split(" ");
-    c.splice(3, 0, " , Long:");
-    coordinates = "Lat: " + c.join(" ");
-    document.getElementById("coordenates__panel").innerHTML = coordinates;
-  });
+  //   coordinates = toStringHDMS(coordinates);
+  //   let c = coordinates.split(" ");
+  //   c.splice(3, 0, " , Long:");
+  //   coordinates = "Lat: " + c.join(" ");
+  //   document.getElementById("coordenates__panel").innerHTML = coordinates;
+  // });
 
   // variables.hideVisualizationSwitch = (hide) => {
   //   setHideVisualizationSwitch(hide)
   // }
 
-  fillResolutions();
-  loadLayers2();
-  // Add clusters
-  // addCluster();
-  // addClusterDepto();
-  // variables.loadDeptoCentroids();
-  addClusterMpio();
-  variables.loadMpioCentroids();
+  // fillResolutions();
+  // loadLayers2();
+  // // Add clusters
+  // // addCluster();
+  // // addClusterDepto();
+  // // variables.loadDeptoCentroids();
+  // addClusterMpio();
+  // variables.loadMpioCentroids();
   return (
     <Fragment>
-      <ul className='switch'>
+      {/* <ul className='switch'>
         <li id="switch_visualization"><TipoVisualizacion /></li>
         <li id="switch_productos"><FiltroProductos /></li>
-      </ul>
+      </ul> */}
+
+      <div ref={mapRef} className="mapa"></div>
+
       <div className="coordenates">
         <div id="coordenates__panel"></div>
-        <ToastContainer 
-          position="top-center"/>
+        <ToastContainer
+          position="top-center" />
         {/* <TipoVisualizacion /> */}
 
       </div>
@@ -746,6 +854,90 @@ function loadLayers2() {
     }
   })
 }
+
+// Nueva función carga de capas MapLibre
+function loadLayers() {
+  let layers = variables.layers;
+  // console.log(layers);
+  Object.keys(layers).map((layer, idx) => {
+    let infoLayer = layers[layer];
+    if (infoLayer.tipo == 'vt') {
+      variables.map.addSource(infoLayer.id, {
+        type: "vector",
+        tiles: [
+          infoLayer.url
+        ]
+      })
+
+      variables.map.addLayer({
+        id: infoLayer.id,
+        type: infoLayer.typeLayer,
+        source: infoLayer.id,
+        "source-layer": infoLayer.layer,
+        paint: infoLayer.style
+      })
+
+      variables.map.setLayerZoomRange(infoLayer.id, infoLayer.minZoom, infoLayer.maxZoom)
+
+      variables.capas[infoLayer.id] = variables.map.getLayer(infoLayer.id);
+      if (!infoLayer.visible) {
+        variables.map.setLayoutProperty(infoLayer.id, 'visibility', 'none');
+      }
+
+      let ident = infoLayer.id;
+      let elementLyr = {};
+      elementLyr[ident] = variables.capas[infoLayer.id];
+      variables.layersInMap.push(elementLyr);
+
+
+      // let styles = styleLayer(infoLayer.style);
+      // let styleFill = styles[0];
+      // let styleStroke = styles[1];
+      // let styleLyr = new Style({
+      //   stroke: styleStroke,
+      //   fill: styleFill
+      // });
+      // const tileUrl = (tileCoord) => {
+      //   return (
+      //     infoLayer.url
+      //   )
+      //     .replace('{z}', String(tileCoord[0] * 2 - 1))
+      //     .replace('{x}', String(tileCoord[1]))
+      //     .replace('{y}', String(tileCoord[2]))
+      //     .replace(
+      //       '{a-d}',
+      //       'abcd'.substr(((tileCoord[1] << tileCoord[0]) + tileCoord[2]) % 4, 1)
+      //     );
+      // }
+      // variables.capas[infoLayer.id] = addVtLayer3(infoLayer.maxZoom, infoLayer.minZoom, tileUrl);
+      // variables.map.addLayer(variables.capas[infoLayer.id]);
+      // variables.capas[infoLayer.id].set('id', infoLayer.id);
+      // if (!infoLayer.visible) {
+      //   // variables.capas[infoLayer.id].setVisible(false);
+      //   variables.map.removeLayer(variables.capas[infoLayer.id]);
+      // }
+
+      // variables.capas[infoLayer.id].setStyle(styleLyr);
+
+      // let ident = infoLayer.id;
+      // let elementLyr = {};
+      // elementLyr[ident] = variables.capas[infoLayer.id];
+      // variables.layersInMap.push(elementLyr);
+    } else if (infoLayer.tipo == 'wms') {
+      // console.log(infoLayer)
+      // let wmsCapa = addLayerWms(infoLayer.url, infoLayer.layer)
+      // let ident = infoLayer.id;
+      // variables.map.addLayer(wmsCapa);
+      // let elementLyr = {};
+      // elementLyr[ident] = wmsCapa;
+      // variables.layersInMap.push(elementLyr);
+      // if (infoLayer.checked == false) {
+      //   variables.map.removeLayer(wmsCapa);
+      // }
+    }
+  })
+}
+
 function fillResolutions() {
   for (var i = 0; i <= 8; ++i) {
     resolutions.push(156543.03392804097 / Math.pow(2, i * 2));
