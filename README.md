@@ -1,12 +1,4 @@
-# Plantilla Open Layers - React Hooks
-
-Karen Milena Buitrago López
-Bogotá, Colombia
-kmbuitragol@dane.gov.co
-
-Jonatan Velasquez Vargas
-Bogotá, Colombia
-jvelasquezv@dane.gov.co
+# Plantilla MapLibre - React Hooks
 
 Diego Fernando Rodriguez Lamus
 Bogotá, Colombia
@@ -49,7 +41,7 @@ Paso 4: Para minificar archivos.
 npm run build
 ```
 
-Una vez usted termine de hacer el proyecto, se requiere que suba los archivos minificados.
+Una vez usted termine de hacer el proyecto, se requiere que suba los archivos minificados (Contenido de la carpeta dist).
 
 ## 01 Estructuración del Proyecto
 
@@ -102,6 +94,6 @@ DANE - COLOMBIA
 [MIT](https://choosealicense.com/licenses/mit/)
 
 ## Autores / créditos
-* **Karen Buitrago** - *Implementación plantilla Geovisores Open Layers - Dane
-* **Jonatan Velasquez** - *Implementación plantilla Geovisores Open Layers - Dane
-* **Diego Rodriguez** - *Implementación plantilla Geovisores Open Layers - Dane
+* **Karen Buitrago** - *Implementación plantilla Geovisores MapLibre - Dane
+* **Jonatan Velasquez** - *Implementación plantilla Geovisores MapLibre - Dane
+* **Diego Rodriguez** - *Implementación plantilla Geovisores MapLibre - Dane
