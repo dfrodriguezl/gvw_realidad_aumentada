@@ -59,12 +59,18 @@ const Filter = (props) => {
 
     const clearHightlightFeature = (layer) => {
 
-        const defaultStyle = new Style({
-            fill: null,
-            stroke: null
-        })
+        variables.map.setPaintProperty(
+            layer,
+            'line-opacity',
+            0
+        );
 
-        layer.setStyle(defaultStyle);
+        // const defaultStyle = new Style({
+        //     fill: null,
+        //     stroke: null
+        // })
+
+        // layer.setStyle(defaultStyle);
 
     }
 
@@ -72,7 +78,8 @@ const Filter = (props) => {
         setSelectedOption(evt);
         let bbox = evt.bextent
         bboxExtent(bbox, "dpto")
-        let layer = variables.capas['deptos_vt2'];
+        // let layer = variables.capas['deptos_vt2'];
+        let layer = 'deptos_vt2';
 
         if (evt.cod_dane === '00') {
             variables.deptoSelected = undefined;
@@ -125,9 +132,10 @@ const Filter = (props) => {
             //     variables.changeBarChartData(nivel,evt.cod_dane);
             // }
 
-            let layer = variables.capas['deptos_vt2'];
+            // let layer = variables.capas['deptos_vt2'];
+            let layer = "deptos_vt2";
             // let layer2 = variables.capas['mpios_vt2'];
-            // hightlightFeature(layer, evt.cod_dane, 'id', 'dptos')
+            hightlightFeature(layer, evt.cod_dane, 'id', 'dptos')
             // variables.changeStyleDepto();
         }
 
@@ -168,9 +176,9 @@ const Filter = (props) => {
         }
         //   console.log(variables.map.getZoom())
         // if (variables.map.getZoom() < 12) {
-            let filter = clase.filter((o) => (o.cod_dane).indexOf(evt.cod_dane + "1") != -1)
-            bboxExtent(filter[0].bextent, "mpio")
-        
+        let filter = clase.filter((o) => (o.cod_dane).indexOf(evt.cod_dane + "1") != -1)
+        bboxExtent(filter[0].bextent, "mpio")
+
 
         let nivel = 'MPIO';
 
@@ -221,23 +229,26 @@ const Filter = (props) => {
 
     const hightlightFeature = (layer, id, capa, tipo) => {
 
-        let styleHg = new Style({
-            fill: null,
-            stroke: new Stroke({
-                color: tipo === "mpios" ? "#00ffff" : "#cc66ff",
-                width: 5
-            })
-        });
-        layer.setStyle(function (feature) {
-            var getlayer = feature.get(capa);
-            let style;
-            if (getlayer === id) {
-                style = styleHg;
-                layer.setZIndex(1);
-            }
+        const getLineColorDefault = variables.map.getPaintProperty(layer, 'line-color');
+        const getLineWidthDefault = variables.map.getPaintProperty(layer, 'line-width');
 
-            return style;
-        })
+        variables.map.setPaintProperty(
+            layer,
+            'line-color',
+            ['match', ['get', capa], id, tipo === "mpios" ? "#00ffff" : "#cc66ff", getLineColorDefault]
+        );
+
+        variables.map.setPaintProperty(
+            layer,
+            'line-width',
+            ['match', ['get', capa], id, 5, getLineWidthDefault]
+        );
+
+        variables.map.setPaintProperty(
+            layer,
+            'line-opacity',
+            ['match', ['get', capa], id, 1, 0]
+        );
 
     }
 

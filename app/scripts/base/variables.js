@@ -80,26 +80,27 @@ export const variables = {
             layer: "mgn_2020_dpto_politico",
             typeLayer: "line"
         },
-        // departamentoSel: {
-        //     tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
-        //     id: "deptos_vt2",
-        //     // url: "https://geoportal.dane.gov.co/vector-tiles/mgn_2020/dpto_ccdgo/mgn_2020_dpto_politico/{z}/{x}/{y}.pbf",
-        //     url: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/vector-tiles/vectortile.php?params=capas_geovisores/mgn2020_dpto/mgn_2020_dpto_politico/dpto_ccdgo/{z}/{x}/{y}",
-        //     // url: "https://nowsoft.app/vector-tiles/maps/geoportal_dane/mgn_2020_dpto_politico/{z}/{x}/{y}.pbf",
-        //     title: 'Departamentos sel',
-        //     visible: true,
-        //     checked: false,
-        //     minZoom: 1,
-        //     maxZoom: 12,
-        //     hideToc: true,
-        //     style: {
-        //         stroke: {
-        //             color: '#ffffff00',
-        //             width: 0
-        //         }
-        //     },
-        //     ol: null
-        // },
+        departamentoSel: {
+            tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
+            id: "deptos_vt2",
+            // url: "https://geoportal.dane.gov.co/vector-tiles/mgn_2020/dpto_ccdgo/mgn_2020_dpto_politico/{z}/{x}/{y}.pbf",
+            url: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/vector-tiles/vectortile.php?params=capas_geovisores/mgn2020_dpto/mgn_2020_dpto_politico/dpto_ccdgo/{z}/{x}/{y}",
+            // url: "https://nowsoft.app/vector-tiles/maps/geoportal_dane/mgn_2020_dpto_politico/{z}/{x}/{y}.pbf",
+            title: 'Departamentos sel',
+            visible: true,
+            checked: false,
+            minZoom: 1,
+            maxZoom: 12,
+            hideToc: true,
+            style: {
+                "line-color": '#ffffff',
+                "line-width": 0,
+                "line-opacity": 0
+            },
+            ol: null,
+            layer: "mgn_2020_dpto_politico",
+            typeLayer: "line"
+        },
         
         // municipiosSel: {
         //     tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
