@@ -14,62 +14,24 @@ const Capas = () => {
   function handleChange(e) {
     let check = e.target.checked;
     let layer = e.target.value;
-    // let layers = variables.layersInMap;
 
     if(check){
       variables.map.setLayoutProperty(layer, 'visibility', 'visible');
     } else {
       variables.map.setLayoutProperty(layer, 'visibility', 'none');
     }
-
-
-    // Object.keys(variables.layers).forEach((layerV, index) => {
-    //   if (variables.layers[layerV].id == layer) {
-    //     variables.layers[layerV].checked = check;
-    //   }
-    // });
-
     setActives(variables.layers);
-
-
-    // layers.forEach((lyr) => {
-    //   // console.log(lyr[layer])
-    //   if (lyr[layer]) {
-    //     if (check) {
-    //       variables.map.addLayer(lyr[layer]);
-    //       lyr[layer].setVisible(true);
-    //     } else {
-    //       variables.map.removeLayer(lyr[layer]);
-    //     }
-    //   }
-    // })
   }
 
   // Función para cambiar transparencia de la capa, y guardar su estado
   function changeSlider(e) {
     let value = e.target.value;
     let name = e.target.name;
-    let layers = variables.layersInMap;
-
     let transparencia = value / 10;
 
     variables.map.setPaintProperty(name, 'line-opacity', transparencia);
-
-
-
-    // Object.keys(variables.layers).forEach((layerV, index) => {
-    //   if (variables.layers[layerV].id == name) {
-    //     variables.layers[layerV].transparency = value;
-    //   }
-    // });
-
     setActives(variables.layers);
 
-    // layers.forEach((lyr) => {
-    //   if (lyr[name]) {
-    //     lyr[name].setOpacity(transparencia);
-    //   }
-    // });
   }
 
   return (
@@ -82,13 +44,11 @@ const Capas = () => {
             Object.keys(layers).map((layer, index) => {
               if (!layers[layer].hideToc) {
                 let id = layers[layer].id;
-                let visible = layers[layer].visible;
                 let title = layers[layer].title;
                 let checked = layers[layer].checked == undefined ? true : layers[layer].checked;
                 let transparency = layers[layer].transparency == undefined ? 10 : layers[layer].transparency;
                 let idx = 4 + index;
                 let check = "check" + idx;
-                // console.log(checked);
 
                 return <li className="layers__list__item" key={id}>
                   <div className="layers__check">
