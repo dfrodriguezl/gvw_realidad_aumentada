@@ -76,12 +76,15 @@ const Filter = (props) => {
 
     const handleChange1 = (evt) => {
         setSelectedOption(evt);
+        
         let bbox = evt.bextent
         bboxExtent(bbox, "dpto")
         // let layer = variables.capas['deptos_vt2'];
         let layer = 'deptos_vt2';
+        let layer2 = 'mpios_vt2';
 
         if (evt.cod_dane === '00') {
+            setSelectedOption2(0)
             variables.deptoSelected = undefined;
             variables.deptoSelectedFilter = undefined;
             variables.deptoVariable = undefined;
@@ -94,6 +97,8 @@ const Filter = (props) => {
             // variables.map.getView().setCenter(transform([-74.1083125, 4.663437], 'EPSG:4326', 'EPSG:3857'));
             // variables.map.getView().setZoom(6);
             clearHightlightFeature(layer);
+            clearHightlightFeature(layer2);
+            
         } else {
             // console.log(evt)
             variables.deptoSelected = evt.cod_dane;
@@ -190,9 +195,10 @@ const Filter = (props) => {
             variables.changeDonuChartData(nivel, evt.cod_dane);
         }
 
-        let layer = variables.capas['mpios_vt2'];
+        // let layer = variables.capas['mpios_vt2'];
+        let layer = 'mpios_vt2';
         // let layer2 = variables.capas['mpios_vt2'];
-        // hightlightFeature(layer, evt.cod_dane, 'id', 'mpios')
+        hightlightFeature(layer, evt.cod_dane, 'id', 'mpios')
         // if (variables.changeBarChartData != null) {
         //     variables.changeBarChartData(nivel,evt.cod_dane);
         // }
