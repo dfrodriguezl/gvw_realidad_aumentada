@@ -75,20 +75,37 @@ const Upload = () => {
         setActivePanelCapas(true);
         let url = document.getElementById("enlaceWms").value;
         let capa = document.getElementById("nombreWms").value;
-        let wmsLyrExternal = new TileLayer({
-            source: new TileWMS({
-                url: url,
-                params: {
-                    'LAYERS': capa,
-                    transparent: 'true',
-                    FORMAT: 'image/png'
-                },
-                crossOrigin: 'anonymous'
-            })
 
+        variables.map.addSource(capa,{
+            type: 'raster',
+            tiles: [
+                url + '?bbox={bbox-epsg-3857}&format=image/png&service=WMS&request=GetMap&srs=EPSG:3857&transparent=true&width=256&height=256&layers=' + capa
+            ],
+            tileSize: 256
         })
 
-        variables.map.addLayer(wmsLyrExternal)
+        variables.map.addLayer({
+            id: capa,
+            type: 'raster',
+            source: capa
+        })
+
+        let wmsLyrExternal = variables.map.getLayer(capa);
+
+        // let wmsLyrExternal = new TileLayer({
+        //     source: new TileWMS({
+        //         url: url,
+        //         params: {
+        //             'LAYERS': capa,
+        //             transparent: 'true',
+        //             FORMAT: 'image/png'
+        //         },
+        //         crossOrigin: 'anonymous'
+        //     })
+
+        // })
+
+        // variables.map.addLayer(wmsLyrExternal)
         // let layerExtent = wmsLyrExternal.getSource().getExtent();
 
         // if (layerExtent) {
@@ -171,8 +188,7 @@ const Upload = () => {
 
 function loadLayer(text, fileName) {
 
-    // console.log("TEXT", text);
-    // console.log("TEXT 2", toGeoJSON.kml(text));
+
     let featuresGeoJSON = toGeoJSON.kml((new DOMParser()).parseFromString(text, 'text/xml'));
 
     variables.map.addSource(fileName, {
@@ -191,28 +207,6 @@ function loadLayer(text, fileName) {
     })
 
     let KMLvector = variables.map.getLayer(fileName);
-
-    variables.map.getSource(fileName).
-
-    // let features = new KML().readFeatures(text, {
-    //     dataProjection: 'EPSG:4326',
-    //     featureProjection: 'EPSG:3857'
-    // })
-
-
-    // let KMLvectorSource = new VectorSource({
-    //     features: features
-    // });
-
-    // let KMLvector = new Vector({ source: KMLvectorSource });
-
-    // variables.map.addLayer(KMLvector)
-
-    // let layerExtent = KMLvector.getSource().getExtent();
-
-    // if (layerExtent) {
-    //     variables.map.getView().fit(layerExtent);
-    // }
 
 
     variables.layers[fileName] = {
