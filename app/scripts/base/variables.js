@@ -5,6 +5,7 @@ export const variables = {
     description: 'Geoportal DANE - Geovisor variables temáticas MGN',
     country: 'Colombia',
     place: ' Todos los departamentos ',
+    fuente: "Variables temáticas MGN",
     year: ' 2021 ',
     map: null,
     urlTemas: 'https://geoportal.dane.gov.co/laboratorio/serviciosjson/visores/temas.php',
@@ -12,8 +13,8 @@ export const variables = {
     urlVariables: 'https://geoportal.dane.gov.co/laboratorio/serviciosjson/visores/variables8.php',//enlace/servicio  que trae los datos de la variable seleccionada
     urlVariablesProductos: 'https://geoportal.dane.gov.co/laboratorio/serviciosjson/sipsa/productos.php',//enlace/servicio  que trae los datos de la variable seleccionada
     // urlVariables: 'https://nowsoft.app/geoportal/laboratorio/serviciosjson/visores/variables8_upper.php',
-    codVisor: "49", //Ponga el codigo que corresponde a SU VISOR
-    varVariable: "32101001", //Ponga el codigo de la CATEGORIA que corresponda a su visor
+    codVisor: "56", //Ponga el codigo que corresponde a SU VISOR
+    varVariable: "38201001", //Ponga el codigo de la CATEGORIA que corresponda a su visor
     series: [0, 0, 0, 0, 0],
     urlUE: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/censo_economico/unidades2_segment.php?min=y&codigo_municipio=",
     urlCount: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/censo_economico/unidades2_segment.php?count=y&codigo_municipio=",
@@ -37,6 +38,36 @@ export const variables = {
     },
     baseMapCheck: "Noche",  // Ponga el MAPA BASE que quiere por defecto
     layers: {
+        manzanas: {
+            tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
+            id: "manzanas",
+            url: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/vector-tiles/vectortile3.php?params=capas_geovisores/mgn2022_mzn/MGN_2018_URB_MANZANA/cod_dane-viviendas/{z}/{x}/{y}",
+            title: 'Manzanas',
+            visible: true,
+            checked: true,
+            minZoom: 4,
+            maxZoom: 21,
+            style: {
+                'fill-extrusion-color': [
+                    "step",
+                    ["to-number", ["get", "viviendas"]],
+                    "#fff5f0",
+                    25,
+                    "#fdbea5",
+                    79,
+                    "#fc7050",
+                    250,
+                    "#d42020",
+                    667,
+                    "#67000d"
+                ],
+                'fill-extrusion-height': 0,
+            },
+            ol: null,
+            layer: "MGN_2018_URB_MANZANA",
+            typeLayer: "fill-extrusion",
+            altura: 5
+        },
         municipiosSel: {
             tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
             id: "mpios_vt2",
@@ -122,8 +153,8 @@ export const variables = {
             layer: "mgn_2020_dpto_politico",
             typeLayer: "line"
         },
-        
-        
+
+
         // secciones: {
         //     tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
         //     id: "secc_vt",

@@ -57,6 +57,7 @@ const Mapa = () => {
   // const [hideVisualizationSwitch, setHideVisualizationSwitch] = useState("show");
 
   const mapRef = useRef(null);
+  const ciudadInicial = "05001";
 
   const Accordion = ({ title, children, data }) => {
     const [isOpen, setOpen] = React.useState(data);
@@ -160,6 +161,9 @@ const Mapa = () => {
     });
 
     loadLayers();
+    const municipio = municipios.filter((o) => o.cod_dane === ciudadInicial)[0];
+    bboxExtent(municipio.bextent);
+    // variables.changeTheme("DPTO", "00", "DPTO", "y");
 
   }, []);
 
@@ -253,17 +257,19 @@ const Mapa = () => {
   //     variables.deptoSelectedFilter = undefined;
   //   }
 
-  //   if (newZoom < 7) {
-  //     // addClusterDepto();
-  //     // variables.loadDeptoCentroids();
-  //     // variables.loadDeptoCentroids();
-  //     // variables.loadMpioCentroids();
-  //     variables.changeTheme("MPIO", 0, "MPIO", "y");
-  //     // if (variables.deptoSelected == undefined) {
-  //     //   // variables.changeTheme("MPIO", null, null, "n");
-  //     //   variables.changeTheme("MPIO", 0, "MPIO", "y");
-  //     // }
-  //   }
+
+
+  // if (newZoom < 7) {
+  //   // addClusterDepto();
+  //   // variables.loadDeptoCentroids();
+  //   // variables.loadDeptoCentroids();
+  //   // variables.loadMpioCentroids();
+  //   variables.changeTheme("MPIO", 0, "MPIO", "y");
+  //   // if (variables.deptoSelected == undefined) {
+  //   //   // variables.changeTheme("MPIO", null, null, "n");
+  //   //   variables.changeTheme("MPIO", 0, "MPIO", "y");
+  //   // }
+  // }
 
   //   if (newZoom >= 7 && newZoom <= 11) {
   //     // variables.loadMpioCentroids();
@@ -379,10 +385,16 @@ const Mapa = () => {
     bbox = bbox.split(",")
     let bbox1 = bbox[0].split(" ")
     let bbox2 = bbox[1].split(" ")
-    var ext = boundingExtent([[bbox1[0], bbox1[1]], [bbox2[0], bbox2[1]]]);
-    ext = transformExtent(ext, 'EPSG:4326', 'EPSG:3857');
-    variables.map.getView().fit(ext, variables.map.getSize());
+    let boundary = [[bbox1[0], bbox1[1]], [bbox2[0], bbox2[1]]];
+    variables.map.flyTo({
+        center: [-74, 4],
+        zoom: 10,
+        essential: false // this animation is considered essential with respect to prefers-reduced-motion
+    });
+    variables.map.fitBounds(boundary);
+    variables.map.fire('flystart');
   }
+
 
   // display popup on click
   // variables.map.on('click', function (evt) {

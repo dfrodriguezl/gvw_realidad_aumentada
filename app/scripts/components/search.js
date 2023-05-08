@@ -63,7 +63,7 @@ function getColorArray(categoria) {
 const Search = ({ filterSearch, placeholder }) => {
     const [term, setTerm] = useState("");
     const [termDos, setTermDos] = useState("");
-    const [btn, setBtn] = useState("321");
+    const [btn, setBtn] = useState("382");
     const [tematica, setTematica] = useState(variables.tematica);
     const [btnDos, setBtnDos] = useState(variables.varVariable);
     const [visualList, setVisualList] = useState(true);
@@ -98,9 +98,12 @@ const Search = ({ filterSearch, placeholder }) => {
 
         } else {
 
-            if (variables.periodos === null) {
-                getPeriodos(nivel, campo);
-            }
+            // if (variables.periodos === null) {
+            //     getPeriodos(nivel, campo);
+            // }
+            console.log("VARIABLE", variables.varVariable);
+            console.log("ARRAY DATOS", variables.dataArrayDatos);
+            console.log("ARRAY DATOS 2", variables.dataArrayDatos[variables.varVariable.substring(0, 5)]);
 
             if (variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel] !== undefined) {
 
@@ -159,11 +162,11 @@ const Search = ({ filterSearch, placeholder }) => {
                     }
                 }
                 else {
-                    let urlData = variables.urlVariablesProductos + "?codigo_subgrupo=" + variables.varVariable.substring(0, 5)
+                    let urlData = variables.urlVariables + "?codigo_subgrupo=" + variables.varVariable.substring(0, 5)
 
-                    if (variables.periodoSeleccionado) {
-                        urlData += "&anio=" + variables.periodoSeleccionado.value
-                    }
+                    // if (variables.periodoSeleccionado) {
+                    //     urlData += "&anio=" + variables.periodoSeleccionado.value
+                    // }
 
                     axios({ method: "GET", url: urlData })
                         .then(function (response) {
@@ -176,7 +179,7 @@ const Search = ({ filterSearch, placeholder }) => {
                                 }
                             }
 
-                            variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value] = JSON.parse(response.data.replace("Array", "")).resultado;
+                            variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel] = JSON.parse(response.data.replace("Array", "")).resultado;
                             variables.changeMap(nivel, dpto, table);
                             if (variables.deptoSelected == undefined && variables.deptoVariable != undefined) {
                                 variables.filterGeo("DPTO", variables.deptoVariable)
@@ -286,15 +289,9 @@ const Search = ({ filterSearch, placeholder }) => {
 
                 Object.keys(consultaDosFin).map((subgrupo) => {
                     variables.dataArrayDatos[subgrupo] = {
-                        ["DPTO"]: {
-                            [variables.periodoSeleccionado.value]: {}
-                        },
-                        ["MNZN"]: {
-                            [variables.periodoSeleccionado.value]: {}
-                        },
-                        ["MPIO"]: {
-                            [variables.periodoSeleccionado.value]: {}
-                        },
+                        ["DPTO"]: {},
+                        ["MNZN"]: {},
+                        ["MPIO"]: {},
                     }
                 }, [])
 
@@ -356,15 +353,9 @@ const Search = ({ filterSearch, placeholder }) => {
                 if (Object.keys(variables.dataArrayDatos).length === 0) {
                     Object.keys(variables.tematica["SUBGRUPOS"]).map((subgrupo) => {
                         variables.dataArrayDatos[subgrupo] = {
-                            ["DPTO"]: {
-                                [variables.periodoSeleccionado.value]: {}
-                            },
-                            ["MPIO"]: {
-                                [variables.periodoSeleccionado.value]: {}
-                            },
-                            ["MNZN"]: {
-                                [variables.periodoSeleccionado.value]: {}
-                            },
+                            ["DPTO"]: {},
+                            ["MPIO"]: {},
+                            ["MNZN"]: {},
                         }
                     }, [])
                 }
@@ -381,9 +372,11 @@ const Search = ({ filterSearch, placeholder }) => {
                 }
             } else if (zoom < 7) {
 
-                if (Object.keys(variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["MPIO"][variables.periodoSeleccionado.value]).length === 0) {
-                    variables.legenTheme();
-                }
+                // if (Object.keys(variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"]).length === 0) {
+                //     variables.legenTheme();
+                // }
+
+                variables.changeTheme("DPTO", null, null, "y");
             }
         };
 

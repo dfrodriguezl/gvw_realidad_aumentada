@@ -71,7 +71,7 @@ const ProportionalSymbol = () => {
           });
           vectorContext.setStyle(newStyle);
           // vectorContext.drawGeometry(new Point([150, 60 - (2 + radius)]));
-          vectorContext.drawGeometry(new Point([150, 150 - (2 + radius)]));
+          vectorContext.drawGeometry(new Point([80, 150 - (2 + radius)]));
         }
 
 

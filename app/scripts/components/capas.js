@@ -34,6 +34,17 @@ const Capas = () => {
 
   }
 
+  // Función para cambiar transparencia de la capa, y guardar su estado
+  const changeAltura3D = (e) => {
+    let value = e.target.value;
+    let name = e.target.name;
+    let altura = value / 10;
+
+    variables.map.setPaintProperty(name, 'fill-extrusion-height', ["*", Number(altura), ["get", "viviendas"]]);
+    setActives(variables.layers);
+
+  }
+
   return (
     <div className="tools__panel">
       <h3 className="tools__title"> Capas de referencia</h3>
@@ -49,6 +60,7 @@ const Capas = () => {
                 let transparency = layers[layer].transparency == undefined ? 10 : layers[layer].transparency;
                 let idx = 4 + index;
                 let check = "check" + idx;
+                let altura = layers[layer].altura == undefined ? 0 : layers[layer].altura;
 
                 return <li className="layers__list__item" key={id}>
                   <div className="layers__check">
@@ -62,6 +74,12 @@ const Capas = () => {
                     <p className="layers__slider__text" >0%</p>
                     <input type="range" className="layers__scroll" min="1" max="10" step="1" defaultValue={transparency} name={id} onChange={changeSlider} />
                     <p className="layers__slider__text" >100%</p>
+                  </div >
+                  <div className="layers__slider">
+                    <p className="layers__slider__text" >Altura 3D</p>
+                    <p className="layers__slider__text" >Min.</p>
+                    <input type="range" className="layers__scroll" min="1" max="10" step="1" defaultValue={altura} name={id} onChange={changeAltura3D} />
+                    <p className="layers__slider__text" >Max.</p>
                   </div >
                 </li>
               }
