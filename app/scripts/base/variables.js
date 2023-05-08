@@ -46,6 +46,7 @@ export const variables = {
             title: 'Municipios sel',
             visible: true,
             checked: false,
+            hideToc: true,
             minZoom: 4,
             maxZoom: 21,
             style: {

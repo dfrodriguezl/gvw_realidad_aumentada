@@ -11,6 +11,7 @@ import axios from 'axios'
 import TileLayer from 'ol/layer/Tile';
 import TileWMS from 'ol/source/TileWMS';
 import { variables } from '../base/variables'
+import toGeoJSON from '@mapbox/togeojson';
 
 const Upload = () => {
 
@@ -170,25 +171,48 @@ const Upload = () => {
 
 function loadLayer(text, fileName) {
 
-    let features = new KML().readFeatures(text, {
-        dataProjection: 'EPSG:4326',
-        featureProjection: 'EPSG:3857'
+    // console.log("TEXT", text);
+    // console.log("TEXT 2", toGeoJSON.kml(text));
+    let featuresGeoJSON = toGeoJSON.kml((new DOMParser()).parseFromString(text, 'text/xml'));
+
+    variables.map.addSource(fileName, {
+        type: 'geojson',
+        data: featuresGeoJSON
     })
 
+    variables.map.addLayer({
+        id: fileName,
+        type: 'line',
+        source: fileName,
+        paint: {
+            'line-color': '#931127',
+            'line-width': 1
+        }
+    })
 
-    let KMLvectorSource = new VectorSource({
-        features: features
-    });
+    let KMLvector = variables.map.getLayer(fileName);
 
-    let KMLvector = new Vector({ source: KMLvectorSource });
+    variables.map.getSource(fileName).
 
-    variables.map.addLayer(KMLvector)
+    // let features = new KML().readFeatures(text, {
+    //     dataProjection: 'EPSG:4326',
+    //     featureProjection: 'EPSG:3857'
+    // })
 
-    let layerExtent = KMLvector.getSource().getExtent();
 
-    if (layerExtent) {
-        variables.map.getView().fit(layerExtent);
-    }
+    // let KMLvectorSource = new VectorSource({
+    //     features: features
+    // });
+
+    // let KMLvector = new Vector({ source: KMLvectorSource });
+
+    // variables.map.addLayer(KMLvector)
+
+    // let layerExtent = KMLvector.getSource().getExtent();
+
+    // if (layerExtent) {
+    //     variables.map.getView().fit(layerExtent);
+    // }
 
 
     variables.layers[fileName] = {
@@ -201,10 +225,8 @@ function loadLayer(text, fileName) {
         minZoom: 9,
         maxZoom: 13,
         style: {
-            stroke: {
-                color: '#931127',
-                width: 1
-            }
+                'line-color': '#931127',
+                'line-width': 1
         },
         ol: null
     }
