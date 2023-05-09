@@ -41,6 +41,7 @@ import 'react-toastify/dist/ReactToastify.css';
 //Libreria MapLibre
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
+import { RulerControl } from 'mapbox-gl-controls';
 
 var container = document.getElementById('popup');
 var content = document.getElementById('popup-content');
@@ -136,8 +137,6 @@ const Mapa = () => {
       zoom: 5 // starting zoom
     });
 
-    
-
     Object.keys(variables.baseMaps).map((basemap) => {
       variables.map.addSource(basemap, {
         type: "raster",
@@ -167,7 +166,22 @@ const Mapa = () => {
     const municipio = municipios.filter((o) => o.cod_dane === ciudadInicial)[0];
     bboxExtent(municipio.bextent);
     variables.map.addControl(new maplibregl.NavigationControl());
-    // variables.changeTheme("DPTO", "00", "DPTO", "y");
+    variables.map.addControl(new maplibregl.ScaleControl({
+      position: 'bottom-left',
+      unit: 'metric',
+      maxWidth: 500
+    }));
+
+    // change mouse cursor when over marker
+    variables.map.on('mousemove', function (e) {
+      if (e.dragging) {
+        return;
+      }
+
+      let coordinates = e.lngLat.wrap();
+      coordinates = "Lat: " + coordinates.lat.toFixed(4) + " N," + "Long: " + coordinates.lng.toFixed(4) + " W";
+      document.getElementById("coordenates__panel").innerHTML = coordinates;
+    });
 
   }, []);
 
@@ -391,9 +405,9 @@ const Mapa = () => {
     let bbox2 = bbox[1].split(" ")
     let boundary = [[bbox1[0], bbox1[1]], [bbox2[0], bbox2[1]]];
     variables.map.flyTo({
-        center: [-74, 4],
-        zoom: 10,
-        essential: false // this animation is considered essential with respect to prefers-reduced-motion
+      center: [-74, 4],
+      zoom: 10,
+      essential: false // this animation is considered essential with respect to prefers-reduced-motion
     });
     variables.map.fitBounds(boundary);
     variables.map.fire('flystart');
