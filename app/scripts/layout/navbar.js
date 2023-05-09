@@ -43,7 +43,7 @@ const TabsComponent = () => {
               <div className="navBar__icon">
                 <span className="DANE__Geovisor__icon__searchGeo"></span>
               </div>
-              <p className="navBar__iconName">Periodo y Ubicación</p>
+              <p className="navBar__iconName">Ubicación</p>
             </Tab>
             <Tab>
               <div className="navBar__icon">

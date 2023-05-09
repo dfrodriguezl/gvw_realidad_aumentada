@@ -65,6 +65,11 @@
   @include calc(left, "20% + 114px");
 }
 
+.mapboxgl-ctrl-top-right .mapboxgl-ctrl, .maplibregl-ctrl-top-right .maplibregl-ctrl {
+  margin-right: 370px !important;
+}
+
+
 .ol-zoom-out,
 .ol-zoom-in {
   background-color: $white !important;
@@ -129,5 +134,10 @@
   .street-view-control {
     @include calc(right, "20% + 10px");;
   }
+
+  .mapboxgl-ctrl-top-right .mapboxgl-ctrl, .maplibregl-ctrl-top-right .maplibregl-ctrl {
+    margin-right: 100px !important;
+  }
 }
+
 

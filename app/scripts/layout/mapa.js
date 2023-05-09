@@ -40,6 +40,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 //Libreria MapLibre
 import maplibregl from 'maplibre-gl';
+import 'maplibre-gl/dist/maplibre-gl.css';
 
 var container = document.getElementById('popup');
 var content = document.getElementById('popup-content');
@@ -135,6 +136,8 @@ const Mapa = () => {
       zoom: 5 // starting zoom
     });
 
+    
+
     Object.keys(variables.baseMaps).map((basemap) => {
       variables.map.addSource(basemap, {
         type: "raster",
@@ -163,6 +166,7 @@ const Mapa = () => {
     loadLayers();
     const municipio = municipios.filter((o) => o.cod_dane === ciudadInicial)[0];
     bboxExtent(municipio.bextent);
+    variables.map.addControl(new maplibregl.NavigationControl());
     // variables.changeTheme("DPTO", "00", "DPTO", "y");
 
   }, []);
