@@ -28,8 +28,16 @@ const Capas = () => {
     let value = e.target.value;
     let name = e.target.name;
     let transparencia = value / 10;
+    const layer = Object.values(layers).filter((o) => o.id === name)[0]
+    const typeLayer = layer.typeLayer;
+    
 
-    variables.map.setPaintProperty(name, 'line-opacity', transparencia);
+    if(typeLayer === "fill-extrusion"){
+      variables.map.setPaintProperty(name, 'fill-extrusion-opacity', transparencia);
+    } else if (typeLayer === "line"){
+      variables.map.setPaintProperty(name, 'line-opacity', transparencia);
+    }
+
     setActives(variables.layers);
 
   }

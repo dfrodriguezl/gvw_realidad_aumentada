@@ -26,7 +26,7 @@ const AccordionItem = ({
         {categoria.CATEGORIA}
       </p>
         <div id={categoria.COD_CATEGORIA} key={categoria.COD_CATEGORIA} 
-          className="filter__thematicVariable__icon" style={{ background: "rgba" + categoria.COLOR }} >s
+          className="filter__thematicVariable__icon" style={{ background: "rgba" + categoria.COLOR }} >
         <span className={variables.tematica["GRUPOS"][variables.varVariable.substring(0, 3)][0]["CLASE_ICONO"]} ></span>
       </div>
     </li>

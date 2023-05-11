@@ -101,9 +101,6 @@ const Search = ({ filterSearch, placeholder }) => {
             // if (variables.periodos === null) {
             //     getPeriodos(nivel, campo);
             // }
-            console.log("VARIABLE", variables.varVariable);
-            console.log("ARRAY DATOS", variables.dataArrayDatos);
-            console.log("ARRAY DATOS 2", variables.dataArrayDatos[variables.varVariable.substring(0, 5)]);
 
             if (variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel] !== undefined) {
 

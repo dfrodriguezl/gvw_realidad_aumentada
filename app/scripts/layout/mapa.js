@@ -41,7 +41,6 @@ import 'react-toastify/dist/ReactToastify.css';
 //Libreria MapLibre
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
-import { RulerControl } from 'mapbox-gl-controls';
 
 var container = document.getElementById('popup');
 var content = document.getElementById('popup-content');
@@ -115,14 +114,14 @@ const Mapa = () => {
   //     })],
   // });
 
-  var controlEsca = new ScaleLine({
-    className: 'map__scale',
-    units: 'metric',
-    bar: true,
-    steps: 4,
-    text: true,
-    minWidth: 140,
-  });
+  // var controlEsca = new ScaleLine({
+  //   className: 'map__scale',
+  //   units: 'metric',
+  //   bar: true,
+  //   steps: 4,
+  //   text: true,
+  //   minWidth: 140,
+  // });
 
   // variables.map = new maplibregl.Map({
   //   container: "mapa",
@@ -163,6 +162,7 @@ const Mapa = () => {
     });
 
     loadLayers();
+    loadPopups();
     const municipio = municipios.filter((o) => o.cod_dane === ciudadInicial)[0];
     bboxExtent(municipio.bextent);
     variables.map.addControl(new maplibregl.NavigationControl());
@@ -182,6 +182,8 @@ const Mapa = () => {
       coordinates = "Lat: " + coordinates.lat.toFixed(4) + " N," + "Long: " + coordinates.lng.toFixed(4) + " W";
       document.getElementById("coordenates__panel").innerHTML = coordinates;
     });
+
+    
 
   }, []);
 
@@ -889,7 +891,7 @@ function loadLayers2() {
 function loadLayers() {
   let layers = variables.layers;
   // console.log(layers);
-  Object.keys(layers).map((layer, idx) => {
+  Object.keys(layers).map((layer) => {
     let infoLayer = layers[layer];
     if (infoLayer.tipo == 'vt') {
       variables.map.addSource(infoLayer.id, {
@@ -919,51 +921,61 @@ function loadLayers() {
       elementLyr[ident] = variables.capas[infoLayer.id];
       variables.layersInMap.push(elementLyr);
 
-
-      // let styles = styleLayer(infoLayer.style);
-      // let styleFill = styles[0];
-      // let styleStroke = styles[1];
-      // let styleLyr = new Style({
-      //   stroke: styleStroke,
-      //   fill: styleFill
-      // });
-      // const tileUrl = (tileCoord) => {
-      //   return (
-      //     infoLayer.url
-      //   )
-      //     .replace('{z}', String(tileCoord[0] * 2 - 1))
-      //     .replace('{x}', String(tileCoord[1]))
-      //     .replace('{y}', String(tileCoord[2]))
-      //     .replace(
-      //       '{a-d}',
-      //       'abcd'.substr(((tileCoord[1] << tileCoord[0]) + tileCoord[2]) % 4, 1)
-      //     );
-      // }
-      // variables.capas[infoLayer.id] = addVtLayer3(infoLayer.maxZoom, infoLayer.minZoom, tileUrl);
-      // variables.map.addLayer(variables.capas[infoLayer.id]);
-      // variables.capas[infoLayer.id].set('id', infoLayer.id);
-      // if (!infoLayer.visible) {
-      //   // variables.capas[infoLayer.id].setVisible(false);
-      //   variables.map.removeLayer(variables.capas[infoLayer.id]);
-      // }
-
-      // variables.capas[infoLayer.id].setStyle(styleLyr);
-
-      // let ident = infoLayer.id;
-      // let elementLyr = {};
-      // elementLyr[ident] = variables.capas[infoLayer.id];
-      // variables.layersInMap.push(elementLyr);
     } else if (infoLayer.tipo == 'wms') {
-      // console.log(infoLayer)
-      // let wmsCapa = addLayerWms(infoLayer.url, infoLayer.layer)
-      // let ident = infoLayer.id;
-      // variables.map.addLayer(wmsCapa);
-      // let elementLyr = {};
-      // elementLyr[ident] = wmsCapa;
-      // variables.layersInMap.push(elementLyr);
-      // if (infoLayer.checked == false) {
-      //   variables.map.removeLayer(wmsCapa);
-      // }
+      //TO-DO
+    }
+  })
+}
+
+// Nueva función carga de popups MapLibre
+function loadPopups() {
+  let layers = variables.layers;
+  // console.log(layers);
+  Object.keys(layers).map((layer) => {
+    let infoLayer = layers[layer];
+    if (infoLayer.tipo == 'vt' && infoLayer.clickable) {
+
+      variables.map.on('click', infoLayer.id, (e) => {
+        // let popup = overlay;
+        console.log("EE", e.lngLat.lat);
+        const feature = e.features[0];
+        const coordinates = e.lngLat;
+        const viviendas = e.features[0].properties.viviendas;
+        const deptoCodigo = feature.properties.id.substring(0,2);
+        const mpioCodigo = feature.properties.id.substring(2,5);
+        console.log("MPIO CODIGO", mpioCodigo);
+        const departamentosFilter = (departamentos).filter(result => (result.cod_dane == deptoCodigo));
+        const municipiosFilter = (municipios).filter(result => (result.cod_dane == deptoCodigo + mpioCodigo));
+        const dataSubgrupo = variables.tematica["CATEGORIAS"][variables.varVariable][0]["SUBGRUPO"];
+        const dataUnidades = variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"];
+        const dataCategorias = variables.tematica["CATEGORIAS"][variables.varVariable][0]["CATEGORIA"];
+        const tipoVariable = variables.tematica["CATEGORIAS"][variables.varVariable][0]["TIPO_VARIABLE"];
+        let HTML = "";
+        HTML = '<p class="popup__list"><span class="popup__title">' + dataSubgrupo + '</span></p>';
+        HTML += '<p class="popup__list"><span class="popup__subtitle">' + dataCategorias + '</span> ' + '</p>';
+        HTML += '<p class="popup__list"><span class="popup__subtitle">Viviendas: </span><span class="popup__subtitle">' + viviendas + '</span></p>';
+        HTML += '<hr>' + '</hr>';
+        HTML += '<p class="popup__list"><span class="popup__thirdtitle"> Departamento:</span> ' + departamentosFilter[0].name + '</p>';
+
+        if (municipiosFilter.length != 0) {
+          HTML += '<p class="popup__list"><span class="popup__thirdtitle"> Municipio:</span> ' + municipiosFilter[0].name + '</p>';
+        }
+
+        HTML += '<p class="popup__list"><span class="popup__thirdtitle"> Cod. DANE:</span> ' + feature.properties.id + '</p>';
+
+        new maplibregl.Popup()
+          .setLngLat(coordinates)
+          .setHTML(HTML)
+          .addTo(variables.map);
+
+        // content.innerHTML = HTML;
+        // variables.map.addOverlay(popup);
+        // popup.setPosition(annoCoord);
+        // HTML += '<p class="popup__list"><span class="popup__subtitle">Tendencia: </span><span class="popup__subtitle">' + dataPopup[0]["TENDENCIA"] + '</span></p>';
+        // HTML += '<p class="popup__list"><span class="popup__subtitle">Variación: </span><span class="popup__subtitle">' + parseFloat(dataPopup[0]["VARIACION_PP"].replace(",", ".")).toFixed(2).toLocaleString("de-De") + ' %</span></p>';
+        // console.log("CLICK", e.features);
+      })
+
     }
   })
 }
