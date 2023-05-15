@@ -8,11 +8,7 @@ const Leyenda = () => {
   const [legend, setLegend] = useState([]);
   const [categoria, setCategoria] = useState("");
   const [unidad, setUnidad] = useState("");
-  const [transparency, setTransparency] = useState(variables.tansparency);
-
-
-  // console.log(legend)
-  // console.log(variables.tematica)
+  const [transparencyGeneral, settransparencyGeneral] = useState(variables.transparencyGeneral);
 
   const leyenda = (legend)
     .map((item, index) => {
@@ -28,6 +24,8 @@ const Leyenda = () => {
     // console.log(variables.coloresLeyend)
     // setTema(variables.tematica["GRUPOS"][variables.varVariable.substring(0, 3)][0]["GRUPO"]);
     // setSubtema(variables.tematica["SUBGRUPOS"][variables.varVariable.substring(0, 5)][0]["SUBGRUPO"]);
+    setCategoria(variables.tematica["CATEGORIAS"][variables.varVariable][0]["CATEGORIA"])
+    setUnidad(variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"])
     const tipoVariable = variables.tematica["CATEGORIAS"][variables.varVariable][0]["TIPO_VARIABLE"];
     if(tipoVariable === "DV"){
       const divergentes = variables.coloresLeyend[variables.varVariable][nivel].map((obj, i) => {
@@ -38,23 +36,24 @@ const Leyenda = () => {
     } else {
       setLegend(variables.coloresLeyend[variables.varVariable][nivel])
     }
-    
-    setCategoria(variables.tematica["CATEGORIAS"][variables.varVariable][0]["CATEGORIA"])
-    setUnidad(variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"])
+   
   }
 
-  // Función para cambiar transparencia de la capa, y guardar su estado
+  // Función para cambiar transparencia de la capas, y guardar su estado
   function changeSlider(e) {
     let value = e.target.value;
     let transparencia = value / 10;
-    // console.log(transparencia)
-    let layerdpto = variables.capas['deptos_vt'];
-    let layermpios = variables.capas['mpios_vt'];
-    // let layermzn = variables.capas["mzn_vt"];
-    layerdpto.setOpacity(transparencia);
-    layermpios.setOpacity(transparencia);
-    variables.tansparency = transparencia
-    setTransparency(transparencia)
+    let layers = variables.layers;
+    settransparencyGeneral(value);
+
+    const layerManzanas = Object.values(layers).filter((o) => o.id === "manzanas")[0];
+    const layerDeptos = Object.values(layers).filter((o) => o.id === "deptos_vt")[0];
+    const layerMpios = Object.values(layers).filter((o) => o.id === "mpios_vt")[0];
+    
+    variables.map.setPaintProperty(layerManzanas.id, 'fill-extrusion-opacity', transparencia);
+    variables.map.setPaintProperty(layerDeptos.id, 'line-opacity', transparencia);
+    variables.map.setPaintProperty(layerMpios.id, 'line-opacity', transparencia);
+
   }
 
   return (
@@ -71,7 +70,7 @@ const Leyenda = () => {
         <div className="legend__slider__content">
           <p className="legend__slider__num" >0%</p>
           <label className="legend__scrollMain" htmlFor="scroll">
-            <input id="scroll" type="range" className="legend__scroll" min="1" max="10" step="1" defaultValue={transparency} onChange={changeSlider}></input>
+            <input id="scroll" type="range" className="legend__scroll" min="1" max="10" step="1" defaultValue={transparencyGeneral} onChange={changeSlider}></input>
           </label>
           <p className="legend__slider__num" >100%</p>
         </div>

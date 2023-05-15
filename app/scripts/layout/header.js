@@ -72,7 +72,7 @@ const Header = () => {
                 <div className="Header__textBox">
                     <h1 className="Header__textBox__title">{variables.title}</h1>
                     <h2 className="Header__textBox__place">
-                        <span className="Header__textBox__value">Periodo: {periodoActual.label}</span>
+                        {/* <span className="Header__textBox__value">Periodo: {periodoActual.label}</span> */}
                         {/* <span className="Header__textBox__value">-</span>
                         <span className="Header__textBox__value">{variables.place}</span>
                         <span className="Header__textBox__value">-</span>

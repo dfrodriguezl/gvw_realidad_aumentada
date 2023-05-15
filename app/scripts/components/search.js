@@ -374,6 +374,7 @@ const Search = ({ filterSearch, placeholder }) => {
                 // }
 
                 variables.changeTheme("DPTO", null, null, "y");
+                variables.changeLegend("DPTO");
             }
         };
 

@@ -427,6 +427,7 @@ export const variables = {
     closer: null,
     updateToProps: null,
     updateProductoResult: null,
-    updateProductotabla: null
+    updateProductotabla: null,
+    transparencyGeneral: 10
 }
 export const urlDeploy = 'http://localhost:3000/'

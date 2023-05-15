@@ -1008,6 +1008,7 @@ variables.changeMap = function (nivel, dpto, table) {
   // let campos1 = ((variables.queryText[variables.varVariable.substring(0, 5)]).replace('SELECT', '')).split("FROM")
   // let campos = campos1[0].split(",")
   let tipoVariable = variables.tematica["CATEGORIAS"][variables.varVariable][0]["TIPO_VARIABLE"];
+  // variables.changeLegend(nivel);
 
   // for (let index = 0; index < campos.length; index++) {
   //   if (tipoVariable === "VC") {
@@ -1746,7 +1747,7 @@ variables.changeMap = function (nivel, dpto, table) {
 
     }, []);
 
-    // variables.changeLegend(nivel);
+    variables.changeLegend(nivel);
 
     // console.log(variables.coloresLeyend[variables.varVariable]["MPIO"])
     // variables.changeChart();
