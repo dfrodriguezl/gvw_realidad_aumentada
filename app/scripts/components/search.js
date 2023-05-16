@@ -76,7 +76,6 @@ const Search = ({ filterSearch, placeholder }) => {
 
         if (nivel == "MNZN") {
             if (variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][dpto] != undefined) {
-
                 variables.changeMap(nivel, dpto);
             } else {
                 variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][dpto] = {};
@@ -102,13 +101,14 @@ const Search = ({ filterSearch, placeholder }) => {
             //     getPeriodos(nivel, campo);
             // }
 
+            // console.log("ARRAY DATOS", variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel]);
             if (variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel] !== undefined) {
 
-                if (!variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value]) {
-                    variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value] = [];
+                if (!variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel]) {
+                    variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel] = [];
                 }
 
-                if (Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value]).length > 0) {
+                if (Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel]).length > 0) {
 
                     variables.changeMap(nivel, dpto, table);
 
@@ -159,7 +159,7 @@ const Search = ({ filterSearch, placeholder }) => {
                     }
                 }
                 else {
-                    let urlData = variables.urlVariables + "?codigo_subgrupo=" + variables.varVariable.substring(0, 5)
+                    let urlData = variables.urlVariables + "?codigo_subgrupo=" + variables.varVariable.substring(0, 5) + "&nivel_geografico=MNZN&campo=NM&filtro_geografico=05001"
 
                     // if (variables.periodoSeleccionado) {
                     //     urlData += "&anio=" + variables.periodoSeleccionado.value
@@ -167,16 +167,17 @@ const Search = ({ filterSearch, placeholder }) => {
 
                     axios({ method: "GET", url: urlData })
                         .then(function (response) {
-                            const jsonResult = JSON.parse(response.data.replace("Array", ""));
-                            if (jsonResult) {
-                                if (jsonResult.resultado.length === 0) {
-                                    toast.warn("La periodicidad de este producto no es mensual, por favor consulte el mes correspondiente.",{
-                                        toastId: 'warn1',
-                                    })
-                                }
-                            }
+                            // console.log("RESPONSE DATA", response.data);
+                            // const jsonResult = JSON.parse(response.data.replace("Array", ""));
+                            // if (jsonResult) {
+                            //     if (jsonResult.resultado.length === 0) {
+                            //         toast.warn("La periodicidad de este producto no es mensual, por favor consulte el mes correspondiente.",{
+                            //             toastId: 'warn1',
+                            //         })
+                            //     }
+                            // }
 
-                            variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel] = JSON.parse(response.data.replace("Array", "")).resultado;
+                            variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["MNZN"]["05001"] = response.data.resultado;
                             variables.changeMap(nivel, dpto, table);
                             if (variables.deptoSelected == undefined && variables.deptoVariable != undefined) {
                                 variables.filterGeo("DPTO", variables.deptoVariable)
@@ -372,9 +373,10 @@ const Search = ({ filterSearch, placeholder }) => {
                 // if (Object.keys(variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"]).length === 0) {
                 //     variables.legenTheme();
                 // }
-
-                variables.changeTheme("DPTO", null, null, "y");
-                variables.changeLegend("DPTO");
+                // variables.changeTheme("", dpto, campo, table)
+                // variables.changeTheme("DPTO", null, null, "y");
+                variables.changeTheme("MNZN", "05001", "NM", "n");
+                // variables.changeLegend("DPTO");
             }
         };
 

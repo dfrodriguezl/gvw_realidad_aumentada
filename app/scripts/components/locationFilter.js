@@ -124,15 +124,15 @@ const Filter = (props) => {
                 variables.changeDepto(evt.cod_dane + " - " + evt.name)
             }
 
-            let nivel = 'DPTO';
+            // let nivel = 'DPTO';
 
-            if (variables.changePieChartData != null) {
-                variables.changePieChartData(nivel, evt.cod_dane);
-            }
-            // console.log(variables.changeDonuChartData);
-            if (variables.changeDonuChartData != null) {
-                variables.changeDonuChartData(nivel, evt.cod_dane);
-            }
+            // if (variables.changePieChartData != null) {
+            //     variables.changePieChartData(nivel, evt.cod_dane);
+            // }
+            // // console.log(variables.changeDonuChartData);
+            // if (variables.changeDonuChartData != null) {
+            //     variables.changeDonuChartData(nivel, evt.cod_dane);
+            // }
             // if (variables.changeBarChartData != null) {
             //     variables.changeBarChartData(nivel,evt.cod_dane);
             // }
@@ -185,15 +185,15 @@ const Filter = (props) => {
         bboxExtent(filter[0].bextent, "mpio")
 
 
-        let nivel = 'MPIO';
+        // let nivel = 'MPIO';
 
-        if (variables.changePieChartData != null) {
-            variables.changePieChartData(nivel, evt.cod_dane);
-        }
-        // console.log(variables.changeDonuChartData);
-        if (variables.changeDonuChartData != null) {
-            variables.changeDonuChartData(nivel, evt.cod_dane);
-        }
+        // if (variables.changePieChartData != null) {
+        //     variables.changePieChartData(nivel, evt.cod_dane);
+        // }
+        // // console.log(variables.changeDonuChartData);
+        // if (variables.changeDonuChartData != null) {
+        //     variables.changeDonuChartData(nivel, evt.cod_dane);
+        // }
 
         // let layer = variables.capas['mpios_vt2'];
         let layer = 'mpios_vt2';
@@ -205,9 +205,10 @@ const Filter = (props) => {
 
 
 
-        // nivel = 'MNZN';
+        let nivel = 'MNZN';
 
-        // variables.changeTheme(nivel, selectedOption.cod_dane, "NM", "N");
+        variables.changeTheme(nivel, evt.cod_dane, "NM", "N");
+        // variables.changeLegend(nivel);
 
         // nivel = 'SECC';
 

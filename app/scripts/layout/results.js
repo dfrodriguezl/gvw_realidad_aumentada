@@ -6,6 +6,7 @@ import LeyendaCluster from '../components/legendaCluster';
 import TematicCharts from '../layout/tematicCharts';
 import ProportionalSymbol from "../components/proportionalSymbol";
 import { useDetectOutsideClick } from "./useDetectOutsideClick";
+import Capas from '../components/capas';
 
 const Accordion = ({ title, icon, children, data }) => {
   const [isOpen, setOpen] = React.useState(data);
@@ -83,13 +84,16 @@ const Results = () => {
             {/* <h4 className="results__top__thirdtitle result__locationDpto">{periodo.label}</h4>
             <h4 className="results__top__thirdtitle result__locationDpto">{producto && producto.label}</h4> */}
           </div>
-          
+
           <ul className='results__item'>
             <Accordion title="Leyenda" icon="DANE__Geovisor__icon__layers" data={true}> <Leyenda /> </Accordion>
-            
-            {!propSymbol ?
+            <Accordion title="Capas" icon="DANE__Geovisor__icon__layers" data={true}>
+              <Capas />
+            </ Accordion>
+
+            {/* {!propSymbol ?
             <Accordion title="Leyenda Símbolos" icon="DANE__Geovisor__icon__radioButtonFilled" data={true}> <ProportionalSymbol /> </Accordion>
-            : null}
+            : null} */}
 
             {/* <Accordion title="Resultado Temático" icon="DANE__Geovisor__icon__graphBarVertical" data={true}> <TematicCharts /> </Accordion> */}
 

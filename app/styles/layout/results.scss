@@ -60,7 +60,11 @@
     padding: 0;
 }
 
-.results__itemList:not(:nth-child(2)){
+// .results__itemList:not(:nth-child(2)){
+//     background: $white;
+// }
+
+.results__itemList{
     background: $white;
 }
 

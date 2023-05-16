@@ -3,7 +3,7 @@ import { variables } from '../base/variables';
 
 const LeyendaCluster = () => {
 
-  variables.changeLegend = function (nivel) {}
+  // variables.changeLegend = function (nivel) {}
 
   return (
     <div className="legend">
