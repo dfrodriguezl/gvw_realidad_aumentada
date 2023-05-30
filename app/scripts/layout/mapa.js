@@ -937,13 +937,13 @@ function loadPopups() {
 
       variables.map.on('click', infoLayer.id, (e) => {
         // let popup = overlay;
-        console.log("EE", e.lngLat.lat);
+        // console.log("EE", e.lngLat.lat);
         const feature = e.features[0];
         const coordinates = e.lngLat;
-        const viviendas = e.features[0].properties.viviendas;
+        const viviendas = variables.versionMGN === "MGN2021" ? e.features[0].properties.viv : e.features[0].properties.viviendas;
         const deptoCodigo = feature.properties.id.substring(0, 2);
         const mpioCodigo = feature.properties.id.substring(2, 5);
-        console.log("MPIO CODIGO", mpioCodigo);
+        // console.log("MPIO CODIGO", mpioCodigo);
         const departamentosFilter = (departamentos).filter(result => (result.cod_dane == deptoCodigo));
         const municipiosFilter = (municipios).filter(result => (result.cod_dane == deptoCodigo + mpioCodigo));
         const dataSubgrupo = variables.tematica["CATEGORIAS"][variables.varVariable][0]["SUBGRUPO"];
@@ -967,13 +967,6 @@ function loadPopups() {
           .setLngLat(coordinates)
           .setHTML(HTML)
           .addTo(variables.map);
-
-        // content.innerHTML = HTML;
-        // variables.map.addOverlay(popup);
-        // popup.setPosition(annoCoord);
-        // HTML += '<p class="popup__list"><span class="popup__subtitle">Tendencia: </span><span class="popup__subtitle">' + dataPopup[0]["TENDENCIA"] + '</span></p>';
-        // HTML += '<p class="popup__list"><span class="popup__subtitle">Variación: </span><span class="popup__subtitle">' + parseFloat(dataPopup[0]["VARIACION_PP"].replace(",", ".")).toFixed(2).toLocaleString("de-De") + ' %</span></p>';
-        // console.log("CLICK", e.features);
       })
 
     }
@@ -1964,39 +1957,44 @@ variables.changeMap = function (nivel, dpto, table) {
       // console.log("AAAA", a);
       // if (a != undefined) {
 
-        // integrado_mnzn = Object.values(a).map((value, b) => {
-          // console.log("ALIAS", variables.alias);
-          // console.log("VALUE", value[variables.alias]);
+      // integrado_mnzn = Object.values(a).map((value, b) => {
+      // console.log("ALIAS", variables.alias);
+      // console.log("VALUE", value[variables.alias]);
 
-          let valor = parseFloat(value[variables.alias].replace(",", "."))
+      let valor = parseFloat(value[variables.alias].replace(",", "."))
 
-          if (valor != undefined && !isNaN(valor)) {
+      if (valor != undefined && !isNaN(valor)) {
 
-            return valor;
+        return valor;
 
-          } else {
+      } else {
 
-            return 0;
+        return 0;
 
-          }
+      }
 
-        // }, [])
+      // }, [])
 
       // }
 
-    },[]);
+    }, []);
 
     // console.log("INTEGRADO MNZN", integrado_mnzn);
 
     let list = integrado_mnzn.filter((x, i, a) => a.indexOf(x) == i)
 
-    
+
 
     var serie = new geostats(list);
 
     let paintPropertyRanges = [];
     paintPropertyRanges.push("step");
-    paintPropertyRanges.push(["to-number", ["get", "viviendas"]]);
+    if (variables.versionMGN === "MGN2021") {
+      paintPropertyRanges.push(["to-number", ["get", "viv"]]);
+    } else if (variables.versionMGN === "MGN2022") {
+      paintPropertyRanges.push(["to-number", ["get", "viviendas"]]);
+    }
+
 
     if (serie.getClassJenks(5) != undefined) {
       // console.log("SERIE RANGES", serie.ranges);
@@ -2015,19 +2013,19 @@ variables.changeMap = function (nivel, dpto, table) {
 
         variables.coloresLeyend[variables.varVariable]["MNZN"][index][2] = rango;
         variables.coloresLeyend[variables.varVariable]["MNZN"][index][3] = "visible";
-        
-        
+
+
         // variables.coloresLeyend[variables.varVariable]["DPTO"][index][2] = rango;
 
       }
 
-    }    
+    }
 
     const coloresCopy = [...variables.coloresLeyend[variables.varVariable]["MNZN"]];
 
     coloresCopy.reverse().forEach((color, index) => {
       let maxNumberRange = Number(color[2].split("-")[1]);
-      if(index === 4){
+      if (index === 4) {
         paintPropertyRanges.push(color[0]);
       } else {
         paintPropertyRanges.push(color[0]);
@@ -2040,9 +2038,11 @@ variables.changeMap = function (nivel, dpto, table) {
     variables.changeLegend(nivel);
     // let layer = variables.capas["mzn_vt"];
 
-    variables.map.setPaintProperty("manzanas", "fill-extrusion-color", paintPropertyRanges);
+    const capa = variables.versionMGN === "MGN2021" ? "manzanas" : "manzanas2022";
 
-    
+    variables.map.setPaintProperty(capa, "fill-extrusion-color", paintPropertyRanges);
+
+
 
     // variables.map.setPaintProperty("manzanas", "fill-extrusion-color", [
     //   "step",
@@ -3061,6 +3061,27 @@ variables.changeStyleMpio = () => {
 
 variables.changeVisualization = (tipo) => {
 
+}
+
+// Nueva función actualizacion visualización de capas MapLibre
+const updateLayers = () => {
+  let layers = variables.layers;
+  // console.log(layers);
+  Object.keys(layers).map((layer) => {
+    let infoLayer = layers[layer];
+    if (infoLayer.tipo == 'vt') {
+      if (!infoLayer.visible) {
+        variables.map.setLayoutProperty(infoLayer.id, 'visibility', 'none');
+      } else {
+        variables.map.setLayoutProperty(infoLayer.id, 'visibility', 'visible');
+      }
+
+    }
+  })
+}
+
+variables.updateLayers = () => {
+  updateLayers();
 }
 
 

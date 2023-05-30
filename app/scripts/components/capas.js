@@ -1,7 +1,7 @@
 // Componente para el manejo de capas (on/off y transparencias), se muestran aquellas capas 
 // que estan incluidas en el archivo de configuración (variables.js)
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { variables } from '../base/variables';
 
 let layers = variables.layers;
@@ -9,6 +9,10 @@ let layers = variables.layers;
 const Capas = () => {
 
   const [actives, setActives] = useState(variables.layers);
+
+  useEffect(() => {
+    
+  },[actives])
 
   // Función para prender/apagar capa, y guardar su estado
   function handleChange(e) {
@@ -48,9 +52,18 @@ const Capas = () => {
     let name = e.target.name;
     let altura = value / 10;
 
-    variables.map.setPaintProperty(name, 'fill-extrusion-height', ["*", Number(altura), ["get", "viviendas"]]);
+    if(variables.versionMGN === "MGN2021"){
+      variables.map.setPaintProperty(name, 'fill-extrusion-height', ["*", Number(altura), ["get", "viv"]]);
+    } else if(variables.versionMGN === "MGN2022"){
+      variables.map.setPaintProperty(name, 'fill-extrusion-height', ["*", Number(altura), ["get", "viviendas"]]);
+    }
+    
     setActives(variables.layers);
 
+  }
+
+  variables.updateActives = () => {
+    setActives(Math.random());
   }
 
   return (

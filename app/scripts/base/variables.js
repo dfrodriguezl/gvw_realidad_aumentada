@@ -41,10 +41,41 @@ export const variables = {
         manzanas: {
             tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
             id: "manzanas",
-            url: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/vector-tiles/vectortile3.php?params=capas_geovisores/mgn2022_mzn/MGN_2018_URB_MANZANA/cod_dane-viviendas/{z}/{x}/{y}",
+            url: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/vector-tiles/vectortile3.php?params=capas_geovisores/mgn2021_mzn1/MGN_2018_URB_MANZANA/cod_dane-viv/{z}/{x}/{y}",
             title: 'Manzanas',
             visible: true,
             checked: true,
+            minZoom: 4,
+            maxZoom: 21,
+            style: {
+                'fill-extrusion-color': [
+                    "step",
+                    ["to-number", ["get", "viv"]],
+                    "#fff5f0",
+                    25,
+                    "#fdbea5",
+                    79,
+                    "#fc7050",
+                    250,
+                    "#d42020",
+                    667,
+                    "#67000d"
+                ],
+                'fill-extrusion-height': 0,
+            },
+            ol: null,
+            layer: "MGN_2018_URB_MANZANA",
+            typeLayer: "fill-extrusion",
+            clickable: true
+        },
+        manzanas2022: {
+            tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
+            id: "manzanas2022",
+            url: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/vector-tiles/vectortile3.php?params=capas_geovisores/mgn2022_mzn/MGN_2018_URB_MANZANA/cod_dane-viviendas/{z}/{x}/{y}",
+            title: 'Manzanas 2022',
+            visible: false,
+            hideToc: true,
+            checked: false,
             minZoom: 4,
             maxZoom: 21,
             style: {
@@ -428,6 +459,9 @@ export const variables = {
     updateToProps: null,
     updateProductoResult: null,
     updateProductotabla: null,
-    transparencyGeneral: 10
+    transparencyGeneral: 10,
+    versionMGN: "MGN2021",
+    updateActives: null,
+    updateLayers: null
 }
 export const urlDeploy = 'http://localhost:3000/'

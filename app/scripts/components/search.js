@@ -13,6 +13,7 @@ import chroma from 'chroma-js';
 import { scaleLinear } from "d3-scale";
 import { Fragment } from "react";
 import { toast } from 'react-toastify';
+import CambioMGN from "./cambioMarco";
 
 function bboxExtent(bbox) {
     bbox = bbox.replace('BOX(', '').replace(')', '')
@@ -520,9 +521,11 @@ const Search = ({ filterSearch, placeholder }) => {
 
     return (
         <Fragment>
-            {!filterSearch && <NavButton temaTematica={tematica} click={handleChangeBtn} btn={btn} />}
+            {!filterSearch && <Fragment><CambioMGN /><NavButton temaTematica={tematica} click={handleChangeBtn} btn={btn} /></Fragment> }
+            
             {visualList && <div className="searchBox">
                 {placeholder !== "Escriba un indicador" && <div className="search">
+                    
                     <input
                         className="search__input"
                         placeholder={placeholder}
