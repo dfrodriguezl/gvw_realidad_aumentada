@@ -2040,6 +2040,8 @@ variables.changeMap = function (nivel, dpto, table) {
 
     const capa = variables.versionMGN === "MGN2021" ? "manzanas" : "manzanas2022";
 
+    console.log("PAINT PROPERTY", paintPropertyRanges);
+
     variables.map.setPaintProperty(capa, "fill-extrusion-color", paintPropertyRanges);
 
 

@@ -419,13 +419,14 @@ const Search = ({ filterSearch, placeholder }) => {
         }
 
         variables.varVariable = event.currentTarget.id;
-        let zoom = variables.map.getView().getZoom();
+        // let zoom = variables.map.getView().getZoom();
+        let zoom = 5;
 
         if (zoom < 7) {
             if (!variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"][variables.periodoSeleccionado.value]) {
                 variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"][variables.periodoSeleccionado.value] = {};
             }
-            variables.getProductosByPeriodo("MPIO", "MPIO", variables.periodoSeleccionado.value);
+            // variables.getProductosByPeriodo("MPIO", "MPIO", variables.periodoSeleccionado.value);
             variables.changeTheme("MPIO", 0, "MPIO", "y");
         } else if (zoom >= 7 && zoom <= 11) {
             if (!variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"][variables.periodoSeleccionado.value]) {
@@ -439,7 +440,7 @@ const Search = ({ filterSearch, placeholder }) => {
             if (variables.deptoSelected == undefined && variables.deptoVariable != undefined) {
                 variables.filterGeo("DPTO", variables.deptoVariable)
             }
-            variables.changeStyleDepto();
+            // variables.changeStyleDepto();
         }
         else if (zoom > 11) {
             if (variables.municipioSeleccionado != null) {
@@ -448,8 +449,8 @@ const Search = ({ filterSearch, placeholder }) => {
             }
 
             variables.changeTheme("SECC", null, "NSC", "n");
-            variables.changeStyleDepto();
-            variables.changeStyleMpio();
+            // variables.changeStyleDepto();
+            // variables.changeStyleMpio();
         }
 
         variables.baseMapCheck = "Gris";
@@ -465,7 +466,39 @@ const Search = ({ filterSearch, placeholder }) => {
         }
 
         variables.closer.click();
+
+        cambiarCapa(event.currentTarget.id)
     };
+
+    const cambiarCapa = (id) => {
+        
+        // console.log("MGN VERSION", variables.versionMGN);
+        let layers = variables.layers;
+        if (id === '39501001') {
+            layers["manzanas2022"].hideToc = false;
+            layers["manzanas2022"].visible = true;
+            layers["manzanas2022"].checked = true;
+            layers["manzanas"].hideToc = true;
+            layers["manzanas"].visible = false;
+            layers["manzanas"].checked = false;
+            variables.versionMGN = 'MGN2022';
+        } else if (id === '38201001') {
+            layers["manzanas2022"].hideToc = true;
+            layers["manzanas2022"].visible = false;
+            layers["manzanas2022"].checked = false;
+            layers["manzanas"].hideToc = false;
+            layers["manzanas"].visible = true;
+            layers["manzanas"].checked = true;
+            variables.versionMGN = 'MGN2021';
+        }
+
+        if(variables.updateActives != null){
+            variables.updateActives();
+        }
+      
+        variables.updateLayers();
+        variables.changeTheme("MNZN", "05001", "NM", "n");
+    }
 
     const results = municipios.concat(departamentos, centros);
     const searchResultsMapped = results.filter(result => ((result.name).toLowerCase()).includes(term.toLowerCase()) && term.length >= 3).map(filteredResult => {
@@ -521,11 +554,11 @@ const Search = ({ filterSearch, placeholder }) => {
 
     return (
         <Fragment>
-            {!filterSearch && <Fragment><CambioMGN /><NavButton temaTematica={tematica} click={handleChangeBtn} btn={btn} /></Fragment> }
-            
+            {!filterSearch && <NavButton temaTematica={tematica} click={handleChangeBtn} btn={btn} />}
+
             {visualList && <div className="searchBox">
                 {placeholder !== "Escriba un indicador" && <div className="search">
-                    
+
                     <input
                         className="search__input"
                         placeholder={placeholder}
