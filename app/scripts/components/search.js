@@ -393,9 +393,9 @@ const Search = ({ filterSearch, placeholder }) => {
         }
     }
     const handleChange = event => {
-        console.log(event)
+        // console.log(event)
         if (!filterSearch) {
-            console.log("EVENT", event);
+            // console.log("EVENT", event);
             setTermDos(event)
         } else {
             setTerm(event)

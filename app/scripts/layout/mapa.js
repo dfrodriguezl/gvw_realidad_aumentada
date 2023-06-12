@@ -1020,7 +1020,7 @@ variables.changeMap = function (nivel, dpto, table) {
       else if (campos[index].indexOf(variables.tematica["CATEGORIAS"][variables.varVariable][0]["CAMPO_TABLA"]) != "-1") {
         let arrField = (campos[index]).split(" ")
         arrField = cleanArray(arrField)
-        console.log("ARR FIELD 2", arrField);
+        // console.log("ARR FIELD 2", arrField);
         if ((variables.tematica["CATEGORIAS"][variables.varVariable][0]["CAMPO_TABLA"]).trim() == arrField[0].trim()) {
           variables.alias2 = (arrField[arrField.length - 1]).trim() //definir el tipo de variable que se debe previsualizar
           variables.valorTotal = variables.alias2.replace('V', 'PP')
@@ -1432,7 +1432,7 @@ variables.changeMap = function (nivel, dpto, table) {
       // console.log("LIST", list)
       const rangeNumber = list.length < 5 ? list.length : 5;
       var serie = new geostats(list);
-      console.log("LIST", list);
+      // console.log("LIST", list);
       if (list.length > 3) {
         let classes = 5;
 
@@ -2040,7 +2040,7 @@ variables.changeMap = function (nivel, dpto, table) {
 
     const capa = variables.versionMGN === "MGN2021" ? "manzanas" : "manzanas2022";
 
-    console.log("PAINT PROPERTY", paintPropertyRanges);
+    // console.log("PAINT PROPERTY", paintPropertyRanges);
 
     variables.map.setPaintProperty(capa, "fill-extrusion-color", paintPropertyRanges);
 
@@ -2983,7 +2983,7 @@ variables.loadMzCentroids = (depto) => {
 
   getDataCentroids(depto).then((centroids) => {
     const resultado = centroids.data[0].geojson;
-    console.log(JSON.parse(resultado));
+    // console.log(JSON.parse(resultado));
 
     let vectorSourceCluster = new VectorSource({
       features: new GeoJSON({ featureProjection: 'EPSG:3857' }).readFeatures(JSON.parse(resultado))
