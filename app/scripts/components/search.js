@@ -481,6 +481,12 @@ const Search = ({ filterSearch, placeholder }) => {
             layers["manzanas"].hideToc = true;
             layers["manzanas"].visible = false;
             layers["manzanas"].checked = false;
+            layers["seccionesRurales"].hideToc = true;
+            layers["seccionesRurales"].visible = false;
+            layers["seccionesRurales"].checked = false;
+            layers["seccionesRurales2022"].hideToc = true;
+            layers["seccionesRurales2022"].visible = false;
+            layers["seccionesRurales2022"].checked = false;
             variables.versionMGN = 'MGN2022';
         } else if (id === '38201001') {
             layers["manzanas2022"].hideToc = true;
@@ -489,7 +495,41 @@ const Search = ({ filterSearch, placeholder }) => {
             layers["manzanas"].hideToc = false;
             layers["manzanas"].visible = true;
             layers["manzanas"].checked = true;
+            layers["seccionesRurales"].hideToc = true;
+            layers["seccionesRurales"].visible = false;
+            layers["seccionesRurales"].checked = false;
+            layers["seccionesRurales2022"].hideToc = true;
+            layers["seccionesRurales2022"].visible = false;
+            layers["seccionesRurales2022"].checked = false;
             variables.versionMGN = 'MGN2021';
+        } else if (id === '38201003') {
+            layers["manzanas2022"].hideToc = true;
+            layers["manzanas2022"].visible = false;
+            layers["manzanas2022"].checked = false;
+            layers["manzanas"].hideToc = true;
+            layers["manzanas"].visible = false;
+            layers["manzanas"].checked = false;
+            layers["seccionesRurales"].hideToc = false;
+            layers["seccionesRurales"].visible = true;
+            layers["seccionesRurales"].checked = true;
+            layers["seccionesRurales2022"].hideToc = true;
+            layers["seccionesRurales2022"].visible = false;
+            layers["seccionesRurales2022"].checked = false;
+            variables.versionMGN = 'MGN2021';
+        } else if (id === '39501003') {
+            layers["manzanas2022"].hideToc = true;
+            layers["manzanas2022"].visible = false;
+            layers["manzanas2022"].checked = false;
+            layers["manzanas"].hideToc = true;
+            layers["manzanas"].visible = false;
+            layers["manzanas"].checked = false;
+            layers["seccionesRurales"].hideToc = true;
+            layers["seccionesRurales"].visible = false;
+            layers["seccionesRurales"].checked = false;
+            layers["seccionesRurales2022"].hideToc = false;
+            layers["seccionesRurales2022"].visible = true;
+            layers["seccionesRurales2022"].checked = true;
+            variables.versionMGN = 'MGN2022';
         }
 
         if(variables.updateActives != null){

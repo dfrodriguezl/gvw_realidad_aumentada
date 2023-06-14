@@ -52,10 +52,12 @@ const Capas = () => {
     let name = e.target.name;
     let altura = value / 10;
 
-    if(variables.versionMGN === "MGN2021"){
+    if(variables.varVariable === "38201001"){
       variables.map.setPaintProperty(name, 'fill-extrusion-height', ["*", Number(altura), ["get", "viv"]]);
-    } else if(variables.versionMGN === "MGN2022"){
+    } else if(variables.varVariable === "39501001"){
       variables.map.setPaintProperty(name, 'fill-extrusion-height', ["*", Number(altura), ["get", "viviendas"]]);
+    } else if(variables.varVariable === "38201003" || variables.varVariable === "39501003"){
+      variables.map.setPaintProperty(name, 'fill-extrusion-height', ["*", Number(altura), ["get", "secr_viv"]]);
     }
     
     setActives(variables.layers);

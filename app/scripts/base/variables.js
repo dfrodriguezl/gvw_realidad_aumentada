@@ -99,6 +99,68 @@ export const variables = {
             typeLayer: "fill-extrusion",
             clickable: true
         },
+        seccionesRurales: {
+            tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
+            id: "secciones",
+            url: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/vector-tiles/vectortile3.php?params=capas_geovisores/mgn2021_rursecc1/MGN_2018_URB_MANZANA/secr_ccnct-secr_viv/{z}/{x}/{y}",
+            title: 'Secciones rurales',
+            visible: false,
+            checked: false,
+            hideToc: true,
+            minZoom: 4,
+            maxZoom: 21,
+            style: {
+                'fill-extrusion-color': [
+                    "step",
+                    ["to-number", ["get", "secr_viv"]],
+                    "#fff5f0",
+                    25,
+                    "#fdbea5",
+                    79,
+                    "#fc7050",
+                    250,
+                    "#d42020",
+                    667,
+                    "#67000d"
+                ],
+                'fill-extrusion-height': 0,
+            },
+            ol: null,
+            layer: "MGN_2018_URB_MANZANA",
+            typeLayer: "fill-extrusion",
+            clickable: true
+        },
+        seccionesRurales2022: {
+            tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
+            id: "secciones2022",
+            url: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/vector-tiles/vectortile3.php?params=capas_geovisores/mgn2022_rursecc/MGN_2018_URB_MANZANA/secr_ccnct-secr_viv/{z}/{x}/{y}",
+            title: 'Secciones 2022',
+            visible: false,
+            checked: false,
+            hideToc: true,
+            minZoom: 4,
+            maxZoom: 21,
+            style: {
+                'fill-extrusion-color': [
+                    "step",
+                    ["to-number", ["get", "secr_viv"]],
+                    "#fff5f0",
+                    25,
+                    "#fdbea5",
+                    79,
+                    "#fc7050",
+                    250,
+                    "#d42020",
+                    667,
+                    "#67000d"
+                ],
+                'fill-extrusion-height': 0,
+            },
+            ol: null,
+            layer: "MGN_2018_URB_MANZANA",
+            typeLayer: "fill-extrusion",
+            clickable: true
+        },
         municipiosSel: {
             tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
             id: "mpios_vt2",
@@ -175,6 +237,7 @@ export const variables = {
             typeLayer: "line",
             clickable: false
         },
+        
 
 
         // secciones: {

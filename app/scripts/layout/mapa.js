@@ -940,7 +940,10 @@ function loadPopups() {
         // console.log("EE", e.lngLat.lat);
         const feature = e.features[0];
         const coordinates = e.lngLat;
-        const viviendas = variables.versionMGN === "MGN2021" ? e.features[0].properties.viv : e.features[0].properties.viviendas;
+        // const viviendas = variables.versionMGN === "MGN2021" ? e.features[0].properties.viv : e.features[0].properties.viviendas;
+        const viviendas = variables.varVariable === '38201001' ? e.features[0].properties.viv :
+                          variables.varVariable === '39501001' ? e.features[0].properties.viviendas :
+                          variables.varVariable === '38201003' || variables.varVariable === '39501003' ? e.features[0].properties.secr_viv : "";
         const deptoCodigo = feature.properties.id.substring(0, 2);
         const mpioCodigo = feature.properties.id.substring(2, 5);
         // console.log("MPIO CODIGO", mpioCodigo);
@@ -1989,10 +1992,18 @@ variables.changeMap = function (nivel, dpto, table) {
 
     let paintPropertyRanges = [];
     paintPropertyRanges.push("step");
-    if (variables.versionMGN === "MGN2021") {
+    // if (variables.versionMGN === "MGN2021") {
+    //   paintPropertyRanges.push(["to-number", ["get", "viv"]]);
+    // } else if (variables.versionMGN === "MGN2022") {
+    //   paintPropertyRanges.push(["to-number", ["get", "viviendas"]]);
+    // }
+
+    if (variables.varVariable === "38201001") {
       paintPropertyRanges.push(["to-number", ["get", "viv"]]);
-    } else if (variables.versionMGN === "MGN2022") {
+    } else if (variables.varVariable === "39501001") {
       paintPropertyRanges.push(["to-number", ["get", "viviendas"]]);
+    } else if (variables.varVariable === "39501003" || variables.varVariable === "38201003") {
+      paintPropertyRanges.push(["to-number", ["get", "secr_viv"]]);
     }
 
 
@@ -2038,7 +2049,11 @@ variables.changeMap = function (nivel, dpto, table) {
     variables.changeLegend(nivel);
     // let layer = variables.capas["mzn_vt"];
 
-    const capa = variables.versionMGN === "MGN2021" ? "manzanas" : "manzanas2022";
+    // const capa = variables.versionMGN === "MGN2021" ? "manzanas" : "manzanas2022";
+    const capa = variables.varVariable === "38201001" ? "manzanas" : 
+                  variables.varVariable === "39501001" ? "manzanas2022" :
+                  variables.varVariable === "38201003" ? "secciones" :
+                  variables.varVariable === "39501003" ? "secciones2022" :
 
     // console.log("PAINT PROPERTY", paintPropertyRanges);
 
