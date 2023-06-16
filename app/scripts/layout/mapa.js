@@ -2006,6 +2006,8 @@ variables.changeMap = function (nivel, dpto, table) {
       paintPropertyRanges.push(["to-number", ["get", "secr_viv"]]);
     }
 
+    console.log("PAINT PROPERTY", paintPropertyRanges);
+
 
     if (serie.getClassJenks(5) != undefined) {
       // console.log("SERIE RANGES", serie.ranges);
@@ -2055,7 +2057,7 @@ variables.changeMap = function (nivel, dpto, table) {
                   variables.varVariable === "38201003" ? "secciones" :
                   variables.varVariable === "39501003" ? "secciones2022" :
 
-    // console.log("PAINT PROPERTY", paintPropertyRanges);
+    console.log("CAPA", capa);
 
     variables.map.setPaintProperty(capa, "fill-extrusion-color", paintPropertyRanges);
 
