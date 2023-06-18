@@ -58,6 +58,8 @@ const Capas = () => {
       variables.map.setPaintProperty(name, 'fill-extrusion-height', ["*", Number(altura), ["get", "viviendas"]]);
     } else if(variables.varVariable === "38201003" || variables.varVariable === "39501003"){
       variables.map.setPaintProperty(name, 'fill-extrusion-height', ["*", Number(altura), ["get", "secr_viv"]]);
+    } else if(variables.varVariable === "38201002"){
+      variables.map.setPaintProperty(name, 'fill-extrusion-height', ["*", Number(altura), ["get", "variacion"]]);
     }
     
     setActives(variables.layers);

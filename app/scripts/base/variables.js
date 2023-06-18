@@ -68,6 +68,37 @@ export const variables = {
             typeLayer: "fill-extrusion",
             clickable: true
         },
+        manzanasVariacion: {
+            tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
+            id: "manzanasVariacion",
+            url: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/vector-tiles/vectortile3.php?params=capas_geovisores/mgn2021_mzn1/MGN_2018_URB_MANZANA/cod_dane-variacion/{z}/{x}/{y}",
+            title: 'Variación manzanas MGN 2021',
+            visible: false,
+            checked: false,
+            hideToc: true,
+            minZoom: 4,
+            maxZoom: 21,
+            style: {
+                'fill-extrusion-color': [
+                    "step",
+                    ["to-number", ["get", "variacion"]],
+                    "#fff5f0",
+                    25,
+                    "#fdbea5",
+                    79,
+                    "#fc7050",
+                    250,
+                    "#d42020",
+                    667,
+                    "#67000d"
+                ],
+                'fill-extrusion-height': 0,
+            },
+            ol: null,
+            layer: "MGN_2018_URB_MANZANA",
+            typeLayer: "fill-extrusion",
+            clickable: true
+        },
         manzanas2022: {
             tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
             id: "manzanas2022",
