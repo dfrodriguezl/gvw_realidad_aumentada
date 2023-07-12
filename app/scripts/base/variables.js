@@ -14,7 +14,7 @@ export const variables = {
     urlVariablesProductos: 'https://geoportal.dane.gov.co/laboratorio/serviciosjson/sipsa/productos.php',//enlace/servicio  que trae los datos de la variable seleccionada
     // urlVariables: 'https://nowsoft.app/geoportal/laboratorio/serviciosjson/visores/variables8_upper.php',
     codVisor: "56", //Ponga el codigo que corresponde a SU VISOR
-    varVariable: "38201001", //Ponga el codigo de la CATEGORIA que corresponda a su visor
+    varVariable: "39501001", //Ponga el codigo de la CATEGORIA que corresponda a su visor
     series: [0, 0, 0, 0, 0],
     urlUE: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/censo_economico/unidades2_segment.php?min=y&codigo_municipio=",
     urlCount: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/censo_economico/unidades2_segment.php?count=y&codigo_municipio=",
@@ -41,10 +41,11 @@ export const variables = {
         manzanas: {
             tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
             id: "manzanas",
-            url: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/vector-tiles/vectortile3v2.php?params=capas_geovisores/mgn2021_mzn1/MGN_2018_URB_MANZANA/cod_dane-viv/{z}/{x}/{y}",
+            url: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/vector-tiles/vectortile3.php?params=capas_geovisores/mgn2021_mzn1/MGN_2018_URB_MANZANA/cod_dane-viv/{z}/{x}/{y}",
             title: 'Manzanas',
-            visible: true,
-            checked: true,
+            visible: false,
+            checked: false,
+            hideToc: true,
             minZoom: 4,
             maxZoom: 21,
             style: {
@@ -71,7 +72,7 @@ export const variables = {
         manzanasVariacion: {
             tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
             id: "manzanasVariacion",
-            url: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/vector-tiles/vectortile3v2.php?params=capas_geovisores/mgn2021_mzn1/MGN_2018_URB_MANZANA/cod_dane-variacion/{z}/{x}/{y}",
+            url: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/vector-tiles/vectortile3.php?params=capas_geovisores/mgn2021_mzn1/MGN_2018_URB_MANZANA/cod_dane-variacion/{z}/{x}/{y}",
             title: 'Variación manzanas MGN 2021',
             visible: false,
             checked: false,
@@ -102,11 +103,11 @@ export const variables = {
         manzanas2022: {
             tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
             id: "manzanas2022",
-            url: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/vector-tiles/vectortile3v2.php?params=capas_geovisores/mgn2022_mzn/MGN_2018_URB_MANZANA/cod_dane-viviendas/{z}/{x}/{y}",
+            url: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/vector-tiles/vectortile3.php?params=capas_geovisores/mgn2022_mzn/MGN_2018_URB_MANZANA/cod_dane-viviendas/{z}/{x}/{y}",
             title: 'Manzanas 2022',
-            visible: false,
-            hideToc: true,
-            checked: false,
+            visible: true,
+            hideToc: false,
+            checked: true,
             minZoom: 4,
             maxZoom: 21,
             style: {
@@ -133,7 +134,7 @@ export const variables = {
         seccionesRurales: {
             tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
             id: "secciones",
-            url: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/vector-tiles/vectortile3v2.php?params=capas_geovisores/mgn2021_rursecc1/MGN_2018_URB_MANZANA/secr_ccnct-secr_viv/{z}/{x}/{y}",
+            url: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/vector-tiles/vectortile3.php?params=capas_geovisores/mgn2021_rursecc1/MGN_2018_URB_MANZANA/secr_ccnct-secr_viv/{z}/{x}/{y}",
             title: 'Secciones rurales',
             visible: false,
             checked: false,
@@ -164,7 +165,7 @@ export const variables = {
         seccionesRurales2022: {
             tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
             id: "secciones2022",
-            url: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/vector-tiles/vectortile3v2.php?params=capas_geovisores/mgn2022_rursecc/MGN_2018_URB_MANZANA/secr_ccnct-secr_viv/{z}/{x}/{y}",
+            url: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/vector-tiles/vectortile3.php?params=capas_geovisores/mgn2022_rursecc/MGN_2018_URB_MANZANA/secr_ccnct-secr_viv/{z}/{x}/{y}",
             title: 'Secciones 2022',
             visible: false,
             checked: false,
@@ -195,7 +196,7 @@ export const variables = {
         municipiosSel: {
             tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
             id: "mpios_vt2",
-            url: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/vector-tiles/vectortilev2.php?params=capas_geovisores/mgn2020_mpio/mgn_2020_mpio_politico/mpio_ccnct/{z}/{x}/{y}",
+            url: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/vector-tiles/vectortile.php?params=capas_geovisores/mgn2020_mpio/mgn_2020_mpio_politico/mpio_ccnct/{z}/{x}/{y}",
             title: 'Municipios sel',
             visible: true,
             checked: false,
@@ -215,7 +216,7 @@ export const variables = {
         municipios: {
             tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
             id: "mpios_vt",
-            url: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/vector-tiles/vectortilev2.php?params=capas_geovisores/mgn2020_mpio/mgn_2020_mpio_politico/mpio_ccnct/{z}/{x}/{y}",
+            url: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/vector-tiles/vectortile.php?params=capas_geovisores/mgn2020_mpio/mgn_2020_mpio_politico/mpio_ccnct/{z}/{x}/{y}",
             title: 'Municipios',
             visible: true,
             checked: true,
@@ -233,7 +234,7 @@ export const variables = {
         departamentos: {
             tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
             id: "deptos_vt",
-            url: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/vector-tiles/vectortilev2.php?params=capas_geovisores/mgn2020_dpto/mgn_2020_dpto_politico/dpto_ccdgo/{z}/{x}/{y}",
+            url: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/vector-tiles/vectortile.php?params=capas_geovisores/mgn2020_dpto/mgn_2020_dpto_politico/dpto_ccdgo/{z}/{x}/{y}",
             title: 'Departamentos',
             visible: true,
             checked: true,
@@ -251,7 +252,7 @@ export const variables = {
         departamentoSel: {
             tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
             id: "deptos_vt2",
-            url: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/vector-tiles/vectortilev2.php?params=capas_geovisores/mgn2020_dpto/mgn_2020_dpto_politico/dpto_ccdgo/{z}/{x}/{y}",
+            url: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/vector-tiles/vectortile.php?params=capas_geovisores/mgn2020_dpto/mgn_2020_dpto_politico/dpto_ccdgo/{z}/{x}/{y}",
             title: 'Departamentos sel',
             visible: true,
             checked: false,
@@ -554,8 +555,9 @@ export const variables = {
     updateProductoResult: null,
     updateProductotabla: null,
     transparencyGeneral: 10,
-    versionMGN: "MGN2021",
+    versionMGN: "MGN 2022",
     updateActives: null,
-    updateLayers: null
+    updateLayers: null,
+    updateMGNHeader: null
 }
 export const urlDeploy = 'http://localhost:3000/'

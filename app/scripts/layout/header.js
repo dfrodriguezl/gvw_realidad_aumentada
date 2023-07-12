@@ -7,9 +7,14 @@ import Search from '../components/search';
 const Header = () => {
     const resultados = true;
     const [periodoActual, setPeriodoActual] = useState(variables.periodoSeleccionado);
+    const [MGN, setMGN] = useState(variables.versionMGN);
 
     variables.updatePeriodoHeader = (nuevoPeriodo) => {
         setPeriodoActual(nuevoPeriodo)
+    }
+
+    variables.updateMGNHeader = (versionMGN) => {
+        setMGN(versionMGN)
     }
 
     return (
@@ -72,6 +77,7 @@ const Header = () => {
                 <div className="Header__textBox">
                     <h1 className="Header__textBox__title">{variables.title}</h1>
                     <h2 className="Header__textBox__place">
+                        <span className="Header__textBox__value">{MGN}</span>
                         {/* <span className="Header__textBox__value">Periodo: {periodoActual.label}</span> */}
                         {/* <span className="Header__textBox__value">-</span>
                         <span className="Header__textBox__value">{variables.place}</span>

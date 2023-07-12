@@ -64,7 +64,7 @@ function getColorArray(categoria) {
 const Search = ({ filterSearch, placeholder }) => {
     const [term, setTerm] = useState("");
     const [termDos, setTermDos] = useState("");
-    const [btn, setBtn] = useState("382");
+    const [btn, setBtn] = useState("395");
     const [tematica, setTematica] = useState(variables.tematica);
     const [btnDos, setBtnDos] = useState(variables.varVariable);
     const [visualList, setVisualList] = useState(true);
@@ -490,7 +490,7 @@ const Search = ({ filterSearch, placeholder }) => {
             layers["manzanasVariacion"].hideToc = true;
             layers["manzanasVariacion"].visible = false;
             layers["manzanasVariacion"].checked = false;
-            variables.versionMGN = 'MGN2022';
+            variables.versionMGN = 'MGN 2022';
         } else if (id === '38201001') {
             layers["manzanas2022"].hideToc = true;
             layers["manzanas2022"].visible = false;
@@ -507,7 +507,7 @@ const Search = ({ filterSearch, placeholder }) => {
             layers["manzanasVariacion"].hideToc = true;
             layers["manzanasVariacion"].visible = false;
             layers["manzanasVariacion"].checked = false;
-            variables.versionMGN = 'MGN2021';
+            variables.versionMGN = 'MGN 2021';
         } else if (id === '38201003') {
             layers["manzanas2022"].hideToc = true;
             layers["manzanas2022"].visible = false;
@@ -524,7 +524,7 @@ const Search = ({ filterSearch, placeholder }) => {
             layers["manzanasVariacion"].hideToc = true;
             layers["manzanasVariacion"].visible = false;
             layers["manzanasVariacion"].checked = false;
-            variables.versionMGN = 'MGN2021';
+            variables.versionMGN = 'MGN 2021';
         } else if (id === '39501003') {
             layers["manzanas2022"].hideToc = true;
             layers["manzanas2022"].visible = false;
@@ -541,7 +541,7 @@ const Search = ({ filterSearch, placeholder }) => {
             layers["manzanasVariacion"].hideToc = true;
             layers["manzanasVariacion"].visible = false;
             layers["manzanasVariacion"].checked = false;
-            variables.versionMGN = 'MGN2022';
+            variables.versionMGN = 'MGN 2022';
         } else if (id === '38201002') {
             layers["manzanas2022"].hideToc = true;
             layers["manzanas2022"].visible = false;
@@ -558,11 +558,15 @@ const Search = ({ filterSearch, placeholder }) => {
             layers["manzanasVariacion"].hideToc = false;
             layers["manzanasVariacion"].visible = true;
             layers["manzanasVariacion"].checked = true;
-            variables.versionMGN = 'MGN2021';
+            variables.versionMGN = 'MGN 2021';
         }
 
         if(variables.updateActives != null){
             variables.updateActives();
+        }
+
+        if(variables.updateMGNHeader != null){
+            variables.updateMGNHeader(variables.versionMGN);
         }
       
         variables.updateLayers();
