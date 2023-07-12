@@ -6,6 +6,7 @@ import Capas from '../components/capas';
 import Custom from '../components/custom';
 import Upload from "../components/upload";
 import Table from './table';
+import Descarga from '../components/download';
 // import TipoVisualizacion from '../components/tipoVisualizacion';
 
 const cn = (...args) => args.filter(Boolean).join(' ')
@@ -55,6 +56,9 @@ const TabsComponent = () => {
           </div>
           <p className="tools__iconName">Cargar</p>
         </Tab>
+        <Tab>
+          <Descarga />
+        </Tab>
       </ul>
 
       <Panel><BaseMap /></Panel>
@@ -68,6 +72,7 @@ const TabsComponent = () => {
         {/* <TipoVisualizacion /> */}
       </Panel>
       <Panel><Upload /></Panel>
+      <Panel></Panel>
     </Tabs>
 
   );

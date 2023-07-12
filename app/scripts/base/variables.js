@@ -124,7 +124,7 @@ export const variables = {
                     667,
                     "#67000d"
                 ],
-                'fill-extrusion-height': 0,
+                'fill-extrusion-height': ["*", 1, ["get", "viviendas"]],
             },
             ol: null,
             layer: "MGN_2018_URB_MANZANA",
@@ -224,7 +224,7 @@ export const variables = {
             maxZoom: 21,
             style: {
                 "line-color": '#ffffff',
-                "line-width": 0.1
+                "line-width": 1
             },
             ol: null,
             layer: "mgn_2020_mpio_politico",

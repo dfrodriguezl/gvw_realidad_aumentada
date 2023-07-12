@@ -263,7 +263,7 @@ const Filter = (props) => {
     return (
         <div className="tools__panel">
             {/* <h3 className="tools__title"> Filtrar </h3> */}
-            <p className="tools__text">Realice la selección geográfica que desea ver en el mapa</p>
+            <p className="tools__text">Realice zoom a la ubicación que desea ver en el mapa</p>
             <div className="selectBox">
                 <p className="selectBox__name">Departamento:</p>
                 <Select

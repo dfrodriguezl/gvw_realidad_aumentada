@@ -133,7 +133,8 @@ const Mapa = () => {
     variables.map = new maplibregl.Map({
       container: mapRef.current,
       center: [-74.1083125, 4.663437], // starting position [lng, lat]
-      zoom: 5 // starting zoom
+      zoom: 5, // starting zoom,
+      pitch: 60
     });
 
     Object.keys(variables.baseMaps).map((basemap) => {
@@ -955,7 +956,7 @@ function loadPopups() {
         const dataCategorias = variables.tematica["CATEGORIAS"][variables.varVariable][0]["CATEGORIA"];
         const tipoVariable = variables.tematica["CATEGORIAS"][variables.varVariable][0]["TIPO_VARIABLE"];
         let HTML = "";
-        HTML = '<p class="popup__list"><span class="popup__title">' + dataSubgrupo + '</span></p>';
+        HTML = '<p class="popup__list"><span class="popup__title">' + dataSubgrupo + ' (' + variables.versionMGN + ')</span></p>';
         HTML += '<p class="popup__list"><span class="popup__subtitle">' + dataCategorias + '</span> ' + '</p>';
         HTML += '<p class="popup__list"><span class="popup__subtitle">Viviendas: </span><span class="popup__subtitle">' + viviendas + '</span></p>';
         HTML += '<hr>' + '</hr>';
