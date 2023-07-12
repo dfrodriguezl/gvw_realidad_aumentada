@@ -11,15 +11,15 @@ const Capas = () => {
   const [actives, setActives] = useState(variables.layers);
 
   useEffect(() => {
-    
-  },[actives])
+
+  }, [actives])
 
   // Función para prender/apagar capa, y guardar su estado
   function handleChange(e) {
     let check = e.target.checked;
     let layer = e.target.value;
 
-    if(check){
+    if (check) {
       variables.map.setLayoutProperty(layer, 'visibility', 'visible');
     } else {
       variables.map.setLayoutProperty(layer, 'visibility', 'none');
@@ -34,11 +34,11 @@ const Capas = () => {
     let transparencia = value / 10;
     const layer = Object.values(layers).filter((o) => o.id === name)[0]
     const typeLayer = layer.typeLayer;
-    
 
-    if(typeLayer === "fill-extrusion"){
+
+    if (typeLayer === "fill-extrusion") {
       variables.map.setPaintProperty(name, 'fill-extrusion-opacity', transparencia);
-    } else if (typeLayer === "line"){
+    } else if (typeLayer === "line") {
       variables.map.setPaintProperty(name, 'line-opacity', transparencia);
     }
 
@@ -52,16 +52,16 @@ const Capas = () => {
     let name = e.target.name;
     let altura = value / 10;
 
-    if(variables.varVariable === "38201001"){
+    if (variables.varVariable === "38201001") {
       variables.map.setPaintProperty(name, 'fill-extrusion-height', ["*", Number(altura), ["get", "viv"]]);
-    } else if(variables.varVariable === "39501001"){
+    } else if (variables.varVariable === "39501001") {
       variables.map.setPaintProperty(name, 'fill-extrusion-height', ["*", Number(altura), ["get", "viviendas"]]);
-    } else if(variables.varVariable === "38201003" || variables.varVariable === "39501003"){
+    } else if (variables.varVariable === "38201003" || variables.varVariable === "39501003") {
       variables.map.setPaintProperty(name, 'fill-extrusion-height', ["*", Number(altura), ["get", "secr_viv"]]);
-    } else if(variables.varVariable === "38201002"){
+    } else if (variables.varVariable === "38201002") {
       variables.map.setPaintProperty(name, 'fill-extrusion-height', ["*", Number(altura), ["get", "variacion"]]);
     }
-    
+
     setActives(variables.layers);
 
   }
@@ -88,6 +88,7 @@ const Capas = () => {
                 let altura = layers[layer].altura == undefined ? 0 : layers[layer].altura;
 
                 return <li className="layers__list__item" key={id}>
+                  <hr />
                   <div className="layers__check">
                     <label className="layers__checkBox" htmlFor={check}></label>
                     <input type="checkbox" value={id} className="layer__item" id={check} layer={id} name="radio" defaultChecked={checked} onChange={handleChange} />
