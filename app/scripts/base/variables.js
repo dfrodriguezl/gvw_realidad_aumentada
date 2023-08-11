@@ -19,6 +19,7 @@ export const variables = {
     urlUE: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/censo_economico/unidades2_segment.php?min=y&codigo_municipio=",
     urlCount: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/censo_economico/unidades2_segment.php?count=y&codigo_municipio=",
     urlCentroids: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/licencias-construccion/centroides_elic.php?depto=",
+    urlDivipolaV2: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/equipamientos/table-list-extent.php",
     // urlCentroidsGeneral: "https://nowsoft.app/geoportal/laboratorio/serviciosjson/licencias-construccion/centroides.php?", 
     urlCentroidsGeneral: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/licencias-construccion/centroides.php?",
     key: "pk.eyJ1IjoiYXBwbW92aWxkYW5lIiwiYSI6ImNrbzY4b2tiajFxN2cyb3F3YnR1NDF6eWkifQ.mVlSJXQZVl4CNmQpZ1pXNA",
@@ -38,6 +39,26 @@ export const variables = {
     },
     baseMapCheck: "Noche",  // Ponga el MAPA BASE que quiere por defecto
     layers: {
+        mgn2022: {
+            tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
+            id: "mgn2022",
+            url: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/cache_leaflet/vectortile-tres.php?params=visores-capas_geovisores-mgn2022/id-mpio_ccnct/none/none/{z}/{x}/{y}",
+            // url: "http://localhost/servicios/serviciosphp/vectortile_tres.php?params=visores-capas_geovisores-mgn2020/id-mpio_ccnct/none/none/{z}/{x}/{y}",
+            title: 'mgn2022',
+            visible: false,
+            checked: false,
+            opacidad: 0.5,
+            minZoom: 5,
+            maxZoom: 20,
+            style: {
+                "line-color": '#ffffff',
+                "line-width": 1
+            },
+            ol: null,
+            layer: "mgn_2020_mpio_politico",
+            typeLayer: "line",
+            clickable: false
+        },
         manzanas: {
             tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
             id: "manzanas",
