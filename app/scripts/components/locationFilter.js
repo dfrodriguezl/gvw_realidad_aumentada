@@ -55,6 +55,8 @@ const Filter = (props) => {
     const [listSetU, setListSetU] = useState([]);
     const [listSeccU, setListSeccU] = useState([]);
     const [listManzana, setListManzana] = useState([]);
+    const [listSetR, setListSetR] = useState([]);
+    const [listSeccR, setListSeccR] = useState([]);
     const [selectedOption3, setSelectedOption3] = useState(0);
     const [selectedOption2, setSelectedOption2] = useState(0);
     const [selectedOption, setSelectedOption] = useState(0);
@@ -62,6 +64,8 @@ const Filter = (props) => {
     const [selectedOption5, setSelectedOption5] = useState(0);
     const [selectedOption6, setSelectedOption6] = useState(0);
     const [selectedOption7, setSelectedOption7] = useState(0);
+    const [selectedOption8, setSelectedOption8] = useState(0);
+    const [selectedOption9, setSelectedOption9] = useState(0);
 
     let filteredOptions = options2.filter((o) => (o.cod_dane).substring(0, 2) === selectedOption.cod_dane)
 
@@ -183,12 +187,21 @@ const Filter = (props) => {
         } else if (evt.value == 2) {
             options4 = cps.filter((o) => o.cod_dane.substring(0, 5) === selectedOption2.cod_dane);
             setListCp(options4)
+        } else if (evt.value == 3) {
+            getDataSectoresRurales(selectedOption.cod_dane, selectedOption2.cod_dane.substr(2, 3), evt.value)
+                .then(function (res) {
+                    res.data.resultado.forEach((r) => {
+                        options.push({ ref: "Sectores", name: "Sectores", cod_dane: r.setr_ccdgo, short: r.setr_ccdgo, bbox: r.bextent });
+                    })
+                    setListSetR(options);
+                });
         }
 
         setSelectedOption4(0);
         setSelectedOption5(0);
         setSelectedOption6(0);
         setSelectedOption7(0);
+        setSelectedOption8(0);
 
     }
 
@@ -260,11 +273,39 @@ const Filter = (props) => {
         }
 
         setSelectedOption7(0);
+        setSelectedOption8(0);
+        setSelectedOption9(0);
 
     }
 
     const handleChange7 = (evt) => {
         setSelectedOption7(evt);
+        let bbox = evt.bbox
+        bboxExtent(bbox, "mpio")
+    }
+
+    const handleChange8 = (evt) => {
+        setSelectedOption8(evt);
+        let bbox = evt.bbox
+        bboxExtent(bbox, "mpio")
+        let options = [];
+        getDataSeccionesRurales(selectedOption.cod_dane, selectedOption2.cod_dane.substr(2, 3), selectedOption3.value, evt.short)
+            .then((res) => {
+                // console.log(res)
+                if (res.data.resultado) {
+                    res.data.resultado.forEach((r) => {
+                        options.push({ ref: "Secciones", name: "Secciones", cod_dane: r.secr_ccdgo, short: r.secr_ccdgo, bbox: r.bextent });
+                    })
+                }
+
+                setListSeccR(options);
+            })
+
+        setSelectedOption9(0);
+    }
+
+    const handleChange9 = (evt) => {
+        setSelectedOption9(evt);
         let bbox = evt.bbox
         bboxExtent(bbox, "mpio")
     }
@@ -314,6 +355,13 @@ const Filter = (props) => {
         return servidorQuery(variables.urlDivipolaV2 + "?params=visores-capas_geovisores-mgn2021_urbsecc/ST_Extent(geom)%20as%20bextent-gid-cod_secc-substring(cod_secc,19,2)/cod_cpob-substring(cod_sect,15,4)/" + cpob + "-" + setu + "/true");
     }
 
+    const getDataSectoresRurales = (depto, mcipio, clase) => {
+        return servidorQuery(variables.urlDivipolaV2 + "?params=visores-capas_geovisores-mgn2021_rursect/ST_Extent(geom)%20as%20bextent-gid-setr_ccdgo/dpto_ccdgo-mpio_ccdgo-clas_ccdgo/" + depto + "-" + mcipio + "-" + clase + "/true");
+    }
+
+    function getDataSeccionesRurales(depto, mcipio, clase, setu) {
+        return servidorQuery(variables.urlDivipolaV2 + "?params=visores-capas_geovisores-mgn2021_rursecc/ST_Extent(geom)%20as%20bextent-gid-secr_ccdgo/setr_ccnct/" + depto + mcipio + clase + setu + "/true");
+    }
 
     return (
         <div className="tools__panel">
@@ -391,6 +439,20 @@ const Filter = (props) => {
                 </div> : null
             }
 
+            {selectedOption3.value == 3 ?
+                <div className="selectBox">
+                    <p className="selectBox__name">Sector rural:</p>
+                    <Select
+                        name="form-field-name"
+                        value={selectedOption8}
+                        onChange={handleChange8}
+                        className="select2-container" options={listSetR}
+                        getOptionValue={(option) => option.cod_dane}
+                        getOptionLabel={(option) => option.cod_dane + " - " + option.short}
+                    />
+                </div> : null
+            }
+
             {selectedOption5 != 0 && (selectedOption3.value == 1 || (selectedOption3.value == 2 && selectedOption4 != 0)) ?
                 <div className="selectBox">
                     <p className="selectBox__name">Sección urbana:</p>
@@ -401,6 +463,20 @@ const Filter = (props) => {
                         className="select2-container" options={listSeccU}
                         getOptionValue={(option) => option.cod_dane}
                         getOptionLabel={(option) => option.short + " - " + option.short}
+                    />
+                </div> : null
+            }
+
+            {selectedOption8 != 0 && selectedOption3.value == 3 ?
+                <div className="selectBox">
+                    <p className="selectBox__name">Sección rural:</p>
+                    <Select
+                        name="form-field-name"
+                        value={selectedOption9}
+                        onChange={handleChange9}
+                        className="select2-container" options={listSeccR}
+                        getOptionValue={(option) => option.cod_dane}
+                        getOptionLabel={(option) => option.cod_dane + " - " + option.short}
                     />
                 </div> : null
             }
