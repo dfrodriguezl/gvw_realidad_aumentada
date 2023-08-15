@@ -1,6 +1,6 @@
 // FUNCIONALIDAD Y MAQUETA PARA FILTRO DE UBICACION (GROGRAFICO)
 
-import React, { Component, useState } from 'react';
+import React, { Component, Fragment, useRef, useState } from 'react';
 import municipios from '../../json/mpio-extent.json'
 import departamentos from '../../json/dpto-extent.json'
 import clase from '../../json/clase-extent.json'
@@ -12,6 +12,8 @@ import { variables } from '../base/variables';
 import { Stroke, Style } from 'ol/style';
 import { getCenter } from 'ol/extent';
 import { servidorQuery } from '../base/request';
+import { Tabs, useTabState, usePanelState } from "@bumaga/tabs";
+import { useDetectOutsideClick } from '../layout/useDetectOutsideClick';
 
 function bboxExtent(bbox, tipo) {
     bbox = bbox.replace('BOX(', '').replace(')', '')
@@ -38,6 +40,14 @@ function bboxExtent(bbox, tipo) {
 }
 
 const Filter = (props) => {
+
+    const [activePanel, setActivePanel] = useState("filtros");
+    const [inactivePanel, setInactivePanel] = useState("codigo");
+    let claseActiva = "upload__item --active";
+    let claseInactiva = "upload__item";
+    let claseActivaPanel = "upload__panel --active";
+    let claseInactivaPanel = "upload__panel";
+    const [manzanaCodigo, setManzanaCodigo] = useState("");
 
     const options1 = departamentos
 
@@ -80,6 +90,7 @@ const Filter = (props) => {
     }
 
     const handleChange1 = (evt) => {
+        // e.preventDefault();
         setSelectedOption(evt);
 
         let bbox = evt.bextent
@@ -135,6 +146,9 @@ const Filter = (props) => {
             let layer = "deptos_vt2";
             hightlightFeature(layer, evt.cod_dane, 'id', 'dptos')
         }
+
+
+
 
 
     };
@@ -359,145 +373,198 @@ const Filter = (props) => {
         return servidorQuery(variables.urlDivipolaV2 + "?params=visores-capas_geovisores-mgn2021_rursect/ST_Extent(geom)%20as%20bextent-gid-setr_ccdgo/dpto_ccdgo-mpio_ccdgo-clas_ccdgo/" + depto + "-" + mcipio + "-" + clase + "/true");
     }
 
-    function getDataSeccionesRurales(depto, mcipio, clase, setu) {
+    const getDataSeccionesRurales = (depto, mcipio, clase, setu) => {
         return servidorQuery(variables.urlDivipolaV2 + "?params=visores-capas_geovisores-mgn2021_rursecc/ST_Extent(geom)%20as%20bextent-gid-secr_ccdgo/setr_ccnct/" + depto + mcipio + clase + setu + "/true");
+    }
+
+    const cn = (...args) => args.filter(Boolean).join(' ')
+
+    const Tab = ({ children }) => {
+        const { isActive, onClick } = useTabState();
+
+        return <li className={cn("help__listTabItem", isActive && '--active')} onClick={onClick}>{children}
+        </li>;
+    };
+
+    const Panel = ({ children }) => {
+        const isActive = usePanelState();
+
+        return isActive ? <div className="help__panel" >{children}</div> : null;
+    };
+
+    const handleClickPanel = (e) => {
+        let target = e.currentTarget.id;
+
+        if (target == "upload__kml") {
+            setActivePanel("filtros");
+            setInactivePanel("codigo");
+        } else if (target == "upload__wms") {
+            setActivePanel("codigo");
+            setInactivePanel("filtros");
+        }
+    }
+
+    const onChangeHandler = (e) => {
+        setManzanaCodigo(e.target.value);
+    }
+
+    const buscarManzana = () => {
+        servidorQuery(variables.urlDivipolaV2 + "?params=visores-capas_geovisores-mgn2021_mzn/ST_Extent(geom)%20as%20bextent-gid-cod_dane-substring(cod_dane,21,2)/cod_dane/" + manzanaCodigo + "/true")
+            .then((res) => {
+                console.log(res.data.resultado);
+                const resultado = res.data.resultado[0];
+                let bbox = resultado.bextent;
+                bboxExtent(bbox, "mpio")
+            });
     }
 
     return (
         <div className="tools__panel">
-            {/* <h3 className="tools__title"> Filtrar </h3> */}
-            <p className="tools__text">Realice zoom a la ubicación que desea ver en el mapa</p>
-            <div className="selectBox">
-                <p className="selectBox__name">Departamento:</p>
-                <Select
-                    styles={{
-                        navBar: provided => ({ zIndex: 9999 })
-                    }}
-                    name="form-field-name"
-                    value={selectedOption.value}
-                    onChange={handleChange1}
-                    className="select2-container" placeholder="Seleccione un departamento" options={options1}
-                    // isClearable={true}
-                    getOptionValue={(option) => option.cod_dane}
-                    getOptionLabel={(option) => option.cod_dane + " - " + option.name}
-                />
-            </div>
-            <div className="selectBox">
-                <p className="selectBox__name">Municipio:</p>
-                <Select
-                    // styles={{
-                    //     navBar: provided => ({ zIndex: 9999 })
-                    // }}
-                    name="form-field-name"
-                    value={selectedOption2.value}
-                    onChange={handleChange2}
-                    className="select2-container" placeholder="Seleccione un municipio" options={filteredOptions}
-                    // isClearable={true}
-                    getOptionValue={(option) => option.cod_dane}
-                    getOptionLabel={(option) => option.cod_dane + " - " + option.name}
-                />
-            </div>
-
-            <div className="selectBox">
-                <p className="selectBox__name">Clase:</p>
-                <Select
-                    name="form-field-name"
-                    value={selectedOption3}
-                    onChange={handleChange3}
-                    className="select2-container" placeholder="Seleccione una clase" options={options3}
-                    getOptionLabel={(option) => option.label}
-                    getOptionValue={(option) => option.value}
-                />
-            </div>
-
-            {selectedOption3.value == 2 ?
+            <ul className="upload__list">
+                <li className={activePanel === 'filtros' ? claseActiva : claseInactiva} id="upload__kml" onClick={handleClickPanel}>
+                    <p className="upload__item__name"> Búsqueda niveles MGN </p>
+                </li>
+                <li className={activePanel === 'codigo' ? claseActiva : claseInactiva} id="upload__wms" onClick={handleClickPanel}>
+                    <p className="upload__item__name"> Código MGN </p>
+                </li>
+            </ul>
+            <div className={activePanel === 'filtros' ? claseActivaPanel : claseInactivaPanel} id="upload__kml">
+                <p className="tools__text">Realice zoom a la ubicación que desea ver en el mapa</p>
                 <div className="selectBox">
-                    <p className="selectBox__name">Centro poblado:</p>
+                    <p className="selectBox__name">Departamento:</p>
                     <Select
+                        styles={{
+                            navBar: provided => ({ zIndex: 9999 })
+                        }}
                         name="form-field-name"
-                        value={selectedOption4}
-                        onChange={handleChange4}
-                        className="select2-container" options={listCp}
-                        placeholder="Seleccione una centro poblado"
+                        value={selectedOption.value}
+                        onChange={handleChange1}
+                        className="select2-container" placeholder="Seleccione un departamento" options={options1}
+                        // isClearable={true}
+                        getOptionValue={(option) => option.cod_dane}
+                        getOptionLabel={(option) => option.cod_dane + " - " + option.name}
+                    // onClick={() => {}}
+                    />
+                </div>
+                <div className="selectBox">
+                    <p className="selectBox__name">Municipio:</p>
+                    <Select
+                        // styles={{
+                        //     navBar: provided => ({ zIndex: 9999 })
+                        // }}
+                        name="form-field-name"
+                        value={selectedOption2.value}
+                        onChange={handleChange2}
+                        className="select2-container" placeholder="Seleccione un municipio" options={filteredOptions}
+                        // isClearable={true}
                         getOptionValue={(option) => option.cod_dane}
                         getOptionLabel={(option) => option.cod_dane + " - " + option.name}
                     />
-                </div> : null
-            }
+                </div>
 
-            {selectedOption3.value == 1 || (selectedOption3.value == 2 && selectedOption4 != 0) ?
                 <div className="selectBox">
-                    <p className="selectBox__name">Sector urbano:</p>
+                    <p className="selectBox__name">Clase:</p>
                     <Select
                         name="form-field-name"
-                        value={selectedOption5}
-                        onChange={handleChange5}
-                        className="select2-container" options={listSetU}
-                        getOptionValue={(option) => option.cod_dane}
-                        getOptionLabel={(option) => option.cod_dane + " - " + option.short}
+                        value={selectedOption3}
+                        onChange={handleChange3}
+                        className="select2-container" placeholder="Seleccione una clase" options={options3}
+                        getOptionLabel={(option) => option.label}
+                        getOptionValue={(option) => option.value}
                     />
-                </div> : null
-            }
+                </div>
 
-            {selectedOption3.value == 3 ?
-                <div className="selectBox">
-                    <p className="selectBox__name">Sector rural:</p>
-                    <Select
-                        name="form-field-name"
-                        value={selectedOption8}
-                        onChange={handleChange8}
-                        className="select2-container" options={listSetR}
-                        getOptionValue={(option) => option.cod_dane}
-                        getOptionLabel={(option) => option.cod_dane + " - " + option.short}
-                    />
-                </div> : null
-            }
+                {selectedOption3.value == 2 ?
+                    <div className="selectBox">
+                        <p className="selectBox__name">Centro poblado:</p>
+                        <Select
+                            name="form-field-name"
+                            value={selectedOption4}
+                            onChange={handleChange4}
+                            className="select2-container" options={listCp}
+                            placeholder="Seleccione una centro poblado"
+                            getOptionValue={(option) => option.cod_dane}
+                            getOptionLabel={(option) => option.cod_dane + " - " + option.name}
+                        />
+                    </div> : null
+                }
 
-            {selectedOption5 != 0 && (selectedOption3.value == 1 || (selectedOption3.value == 2 && selectedOption4 != 0)) ?
-                <div className="selectBox">
-                    <p className="selectBox__name">Sección urbana:</p>
-                    <Select
-                        name="form-field-name"
-                        value={selectedOption6}
-                        onChange={handleChange6}
-                        className="select2-container" options={listSeccU}
-                        getOptionValue={(option) => option.cod_dane}
-                        getOptionLabel={(option) => option.short + " - " + option.short}
-                    />
-                </div> : null
-            }
+                {selectedOption3.value == 1 || (selectedOption3.value == 2 && selectedOption4 != 0) ?
+                    <div className="selectBox">
+                        <p className="selectBox__name">Sector urbano:</p>
+                        <Select
+                            name="form-field-name"
+                            value={selectedOption5}
+                            onChange={handleChange5}
+                            className="select2-container" options={listSetU}
+                            getOptionValue={(option) => option.cod_dane}
+                            getOptionLabel={(option) => option.cod_dane + " - " + option.short}
+                        />
+                    </div> : null
+                }
 
-            {selectedOption8 != 0 && selectedOption3.value == 3 ?
-                <div className="selectBox">
-                    <p className="selectBox__name">Sección rural:</p>
-                    <Select
-                        name="form-field-name"
-                        value={selectedOption9}
-                        onChange={handleChange9}
-                        className="select2-container" options={listSeccR}
-                        getOptionValue={(option) => option.cod_dane}
-                        getOptionLabel={(option) => option.cod_dane + " - " + option.short}
-                    />
-                </div> : null
-            }
+                {selectedOption3.value == 3 ?
+                    <div className="selectBox">
+                        <p className="selectBox__name">Sector rural:</p>
+                        <Select
+                            name="form-field-name"
+                            value={selectedOption8}
+                            onChange={handleChange8}
+                            className="select2-container" options={listSetR}
+                            getOptionValue={(option) => option.cod_dane}
+                            getOptionLabel={(option) => option.cod_dane + " - " + option.short}
+                        />
+                    </div> : null
+                }
 
-            {selectedOption5 != 0 && selectedOption6 != 0 && (selectedOption3.value == 1 || (selectedOption3.value == 2 && selectedOption4 != 0)) ?
-                <div className="selectBox">
-                    <p className="selectBox__name">Manzana:</p>
-                    <Select
-                        name="form-field-name"
-                        value={selectedOption7}
-                        onChange={handleChange7}
-                        className="select2-container" options={listManzana}
-                        getOptionValue={(option) => option.cod_dane}
-                        getOptionLabel={(option) => option.short + " - " + option.short}
-                    />
-                </div> : null
-            }
+                {selectedOption5 != 0 && (selectedOption3.value == 1 || (selectedOption3.value == 2 && selectedOption4 != 0)) ?
+                    <div className="selectBox">
+                        <p className="selectBox__name">Sección urbana:</p>
+                        <Select
+                            name="form-field-name"
+                            value={selectedOption6}
+                            onChange={handleChange6}
+                            className="select2-container" options={listSeccU}
+                            getOptionValue={(option) => option.cod_dane}
+                            getOptionLabel={(option) => option.short + " - " + option.short}
+                        />
+                    </div> : null
+                }
 
+                {selectedOption8 != 0 && selectedOption3.value == 3 ?
+                    <div className="selectBox">
+                        <p className="selectBox__name">Sección rural:</p>
+                        <Select
+                            name="form-field-name"
+                            value={selectedOption9}
+                            onChange={handleChange9}
+                            className="select2-container" options={listSeccR}
+                            getOptionValue={(option) => option.cod_dane}
+                            getOptionLabel={(option) => option.cod_dane + " - " + option.short}
+                        />
+                    </div> : null
+                }
 
-
-
+                {selectedOption5 != 0 && selectedOption6 != 0 && (selectedOption3.value == 1 || (selectedOption3.value == 2 && selectedOption4 != 0)) ?
+                    <div className="selectBox">
+                        <p className="selectBox__name">Manzana:</p>
+                        <Select
+                            name="form-field-name"
+                            value={selectedOption7}
+                            onChange={handleChange7}
+                            className="select2-container" options={listManzana}
+                            getOptionValue={(option) => option.cod_dane}
+                            getOptionLabel={(option) => option.short + " - " + option.short}
+                        />
+                    </div> : null
+                }
+            </div>
+            <div className={activePanel === 'codigo' ? claseActivaPanel : claseInactivaPanel} id="upload__wms">
+                <p className="tools__text">Escriba el código MGN de la manzana</p>
+                <p>Código DANE:</p>
+                <input type="text" name="manzana_codigo" value={manzanaCodigo} onChange={onChangeHandler}></input>
+                <button onClick={buscarManzana}>Buscar</button>
+            </div>
         </div>
     );
 }
