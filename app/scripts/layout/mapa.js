@@ -770,10 +770,9 @@ const Mapa = () => {
   // variables.loadMpioCentroids();
   return (
     <Fragment>
-      {/* <ul className='switch'>
+      <ul className='switch'>
         <li id="switch_visualization"><TipoVisualizacion /></li>
-        <li id="switch_productos"><FiltroProductos /></li>
-      </ul> */}
+      </ul>
 
       <div ref={mapRef} className="mapa"></div>
 
@@ -781,7 +780,6 @@ const Mapa = () => {
         <div id="coordenates__panel"></div>
         <ToastContainer
           position="top-center" />
-        {/* <TipoVisualizacion /> */}
 
       </div>
     </Fragment>
@@ -943,9 +941,9 @@ function loadPopups() {
         const coordinates = e.lngLat;
         // const viviendas = variables.versionMGN === "MGN2021" ? e.features[0].properties.viv : e.features[0].properties.viviendas;
         const viviendas = variables.varVariable === '38201001' ? e.features[0].properties.viv :
-                          variables.varVariable === '39501001' ? e.features[0].properties.viviendas :
-                          variables.varVariable === '38201003' || variables.varVariable === '39501003' ? e.features[0].properties.secr_viv :
-                          variables.varVariable === '38201002' ? e.features[0].properties.variacion : "";
+          variables.varVariable === '39501001' ? e.features[0].properties.viviendas :
+            variables.varVariable === '38201003' || variables.varVariable === '39501003' ? e.features[0].properties.secr_viv :
+              variables.varVariable === '38201002' ? e.features[0].properties.variacion : "";
         const deptoCodigo = feature.properties.id.substring(0, 2);
         const mpioCodigo = feature.properties.id.substring(2, 5);
         // console.log("MPIO CODIGO", mpioCodigo);
@@ -2056,11 +2054,11 @@ variables.changeMap = function (nivel, dpto, table) {
     // let layer = variables.capas["mzn_vt"];
 
     // const capa = variables.versionMGN === "MGN2021" ? "manzanas" : "manzanas2022";
-    const capa = variables.varVariable === "38201001" ? "manzanas" : 
-                  variables.varVariable === "39501001" ? "manzanas2022" :
-                  variables.varVariable === "38201003" ? "secciones" :
-                  variables.varVariable === "39501003" ? "secciones2022" : 
-                  variables.varVariable === "38201002" ? "manzanasVariacion" : null;
+    const capa = variables.varVariable === "38201001" ? "manzanas" :
+      variables.varVariable === "39501001" ? "manzanas2022" :
+        variables.varVariable === "38201003" ? "secciones" :
+          variables.varVariable === "39501003" ? "secciones2022" :
+            variables.varVariable === "38201002" ? "manzanasVariacion" : null;
 
     // console.log("CAPA", capa);
 

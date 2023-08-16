@@ -10,72 +10,65 @@ const TipoVisualizacion = () => {
 
   useEffect(() => {
     if (!checked) {
-      change2Symbols();
+      change3D();
     } else {
-      change2Chropleths();
+      change2D();
     }
   }, []);
 
   const toggleThemeChange = () => {
     if (!checked) {
-      change2Chropleths();
+      change2D();
       setChecked(true);
       setTextActive(1);
     } else {
-      change2Symbols();
+      change3D();
       setChecked(false);
       setTextActive(0);
     }
   }
 
-  const change2Chropleths = () => {
-    localStorage.setItem("visualization", "choropleth");
-    let layer_2 = variables.capas['mpios_vt'];
-    layer_2.setVisible(true);
-    variables.layers["municipios"]["visible"] = true;
-    variables.layers["municipios"]["checked"] = true;
-    variables.unidadesMpio.setVisible(false);
-    variables.layers["centroides_mpio"]["visible"] = false;
-    variables.layers["centroides_mpio"]["checked"] = false;
-    if(variables.hideProportionalSymbols !== null){
-      variables.hideProportionalSymbols(true);
+  const change2D = () => {
+    if(variables.map != null){
+      variables.map.setPaintProperty('manzanas', 'fill-extrusion-height', ["*", 0, ["get", "viv"]]);
+      variables.map.setPaintProperty('manzanas2022', 'fill-extrusion-height', ["*", 0, ["get", "viviendas"]]);
+      variables.map.setPaintProperty('secciones', 'fill-extrusion-height', ["*", 0, ["get", "secr_viv"]]);
+      variables.map.setPaintProperty('manzanasVariacion', 'fill-extrusion-height', ["*", 0, ["get", "variacion"]]);
+      variables.map.setPaintProperty('secciones2022', 'fill-extrusion-height', ["*", 0, ["get", "secr_viv"]]);
     }
   }
 
-  const change2Symbols = () => {
-    localStorage.setItem("visualization", "symbols");
-    let layer_2 = variables.capas['mpios_vt'];
-    layer_2.setVisible(false);
-    variables.layers["municipios"]["visible"] = false;
-    variables.layers["municipios"]["checked"] = false;
-    variables.unidadesMpio.setVisible(true);
-    variables.layers["centroides_mpio"]["visible"] = true;
-    variables.layers["centroides_mpio"]["checked"] = true;
-    if(variables.hideProportionalSymbols !== null){
-      variables.hideProportionalSymbols(false);
+  const change3D = () => {
+    if(variables.map != null){
+      variables.map.setPaintProperty('manzanas', 'fill-extrusion-height', ["*", 1, ["get", "viv"]]);
+      variables.map.setPaintProperty('manzanas2022', 'fill-extrusion-height', ["*", 1, ["get", "viviendas"]]);
+      variables.map.setPaintProperty('secciones', 'fill-extrusion-height', ["*", 1, ["get", "secr_viv"]]);
+      variables.map.setPaintProperty('manzanasVariacion', 'fill-extrusion-height', ["*", 1, ["get", "variacion"]]);
+      variables.map.setPaintProperty('secciones2022', 'fill-extrusion-height', ["*", 1, ["get", "secr_viv"]]);
     }
   }
 
-  variables.updateSymbols = () => {
-    setChecked(true);
-    setTextActive(1);
-    change2Chropleths();
-    setDisabledSlide(true);    
-  }
 
-  variables.updateToProps = () => {
-    setChecked(false);
-    setTextActive(0);
-    change2Symbols();
-    setDisabledSlide(false);    
-  }
+  // variables.updateSymbols = () => {
+  //   // setChecked(true);
+  //   setTextActive(1);
+  //   change3D();
+  //   setDisabledSlide(true);    
+  // }
+
+  // variables.updateToProps = () => {
+  //   // setChecked(false);
+  //   setTextActive(0);
+  //   change2D();
+  //   setDisabledSlide(false);    
+  // }
 
   return (
     <div className="tools__panel">
       <div className="custom__panel">
-        <p className="tools__text">Tipo de simbología a visualizar</p>
+        <p className="tools__text">Tipo de visualización</p>
         <div className="custom">
-          <p className={textActive === 0 ? "custom__text_big custom__activeText" : "custom__text_big"}> Símbolos proporcionales </p>
+          <p className={textActive === 0 ? "custom__text_big custom__activeText" : "custom__text_big"}> 3D </p>
           <label className="custom__content">
             <input
               className="custom__input"
@@ -86,7 +79,7 @@ const TipoVisualizacion = () => {
             />
             <span className="custom__slider" />
           </label>
-          <p className={textActive === 1 ? "custom__text_big custom__activeText" : "custom__text_big"}> Coropletas </p>
+          <p className={textActive === 1 ? "custom__text_big custom__activeText" : "custom__text_big"}> 2D </p>
         </div>
       </div>
     </div>

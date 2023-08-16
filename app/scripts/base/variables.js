@@ -39,26 +39,26 @@ export const variables = {
     },
     baseMapCheck: "Noche",  // Ponga el MAPA BASE que quiere por defecto
     layers: {
-        mgn2022: {
-            tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
-            id: "mgn2022",
-            url: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/cache_leaflet/vectortile-tres.php?params=visores-capas_geovisores-mgn2022/id-mpio_ccnct/none/none/{z}/{x}/{y}",
-            // url: "http://localhost/servicios/serviciosphp/vectortile_tres.php?params=visores-capas_geovisores-mgn2020/id-mpio_ccnct/none/none/{z}/{x}/{y}",
-            title: 'mgn2022',
-            visible: false,
-            checked: false,
-            opacidad: 0.5,
-            minZoom: 5,
-            maxZoom: 20,
-            style: {
-                "line-color": '#ffffff',
-                "line-width": 1
-            },
-            ol: null,
-            layer: "mgn_2020_mpio_politico",
-            typeLayer: "line",
-            clickable: false
-        },
+        // mgn2022: {
+        //     tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
+        //     id: "mgn2022",
+        //     url: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/cache_leaflet/vectortile-tres.php?params=visores-capas_geovisores-mgn2022/id-mpio_ccnct/none/none/{z}/{x}/{y}",
+        //     // url: "http://localhost/servicios/serviciosphp/vectortile_tres.php?params=visores-capas_geovisores-mgn2020/id-mpio_ccnct/none/none/{z}/{x}/{y}",
+        //     title: 'mgn2022',
+        //     visible: false,
+        //     checked: false,
+        //     opacidad: 0.5,
+        //     minZoom: 5,
+        //     maxZoom: 20,
+        //     style: {
+        //         "line-color": '#ffffff',
+        //         "line-width": 1
+        //     },
+        //     ol: null,
+        //     layer: "mgn_2020_mpio_politico",
+        //     typeLayer: "line",
+        //     clickable: false
+        // },
         manzanas: {
             tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
             id: "manzanas",
@@ -83,7 +83,7 @@ export const variables = {
                     667,
                     "#67000d"
                 ],
-                'fill-extrusion-height': 0,
+                'fill-extrusion-height': ["*", 1, ["get", "viv"]],
             },
             ol: null,
             layer: "MGN_2018_URB_MANZANA",
@@ -114,7 +114,7 @@ export const variables = {
                     667,
                     "#67000d"
                 ],
-                'fill-extrusion-height': 0,
+                'fill-extrusion-height': ["*", 1, ["get", "variacion"]],
             },
             ol: null,
             layer: "MGN_2018_URB_MANZANA",
@@ -176,7 +176,7 @@ export const variables = {
                     667,
                     "#67000d"
                 ],
-                'fill-extrusion-height': 0,
+                'fill-extrusion-height': ["*", 1, ["get", "secr_viv"]],
             },
             ol: null,
             layer: "MGN_2018_URB_MANZANA",
@@ -207,7 +207,7 @@ export const variables = {
                     667,
                     "#67000d"
                 ],
-                'fill-extrusion-height': 0,
+                'fill-extrusion-height': ["*", 1, ["get", "secr_viv"]],
             },
             ol: null,
             layer: "MGN_2018_URB_MANZANA",
