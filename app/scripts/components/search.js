@@ -490,6 +490,9 @@ const Search = ({ filterSearch, placeholder }) => {
             layers["manzanasVariacion"].hideToc = true;
             layers["manzanasVariacion"].visible = false;
             layers["manzanasVariacion"].checked = false;
+            layers["manzanasVariacion2022"].hideToc = true;
+            layers["manzanasVariacion2022"].visible = false;
+            layers["manzanasVariacion2022"].checked = false;
             variables.versionMGN = 'MGN 2022';
         } else if (id === '38201001') {
             layers["manzanas2022"].hideToc = true;
@@ -507,6 +510,9 @@ const Search = ({ filterSearch, placeholder }) => {
             layers["manzanasVariacion"].hideToc = true;
             layers["manzanasVariacion"].visible = false;
             layers["manzanasVariacion"].checked = false;
+            layers["manzanasVariacion2022"].hideToc = true;
+            layers["manzanasVariacion2022"].visible = false;
+            layers["manzanasVariacion2022"].checked = false;
             variables.versionMGN = 'MGN 2021';
         } else if (id === '38201003') {
             layers["manzanas2022"].hideToc = true;
@@ -524,6 +530,9 @@ const Search = ({ filterSearch, placeholder }) => {
             layers["manzanasVariacion"].hideToc = true;
             layers["manzanasVariacion"].visible = false;
             layers["manzanasVariacion"].checked = false;
+            layers["manzanasVariacion2022"].hideToc = true;
+            layers["manzanasVariacion2022"].visible = false;
+            layers["manzanasVariacion2022"].checked = false;
             variables.versionMGN = 'MGN 2021';
         } else if (id === '39501003') {
             layers["manzanas2022"].hideToc = true;
@@ -541,6 +550,9 @@ const Search = ({ filterSearch, placeholder }) => {
             layers["manzanasVariacion"].hideToc = true;
             layers["manzanasVariacion"].visible = false;
             layers["manzanasVariacion"].checked = false;
+            layers["manzanasVariacion2022"].hideToc = true;
+            layers["manzanasVariacion2022"].visible = false;
+            layers["manzanasVariacion2022"].checked = false;
             variables.versionMGN = 'MGN 2022';
         } else if (id === '38201002') {
             layers["manzanas2022"].hideToc = true;
@@ -558,9 +570,32 @@ const Search = ({ filterSearch, placeholder }) => {
             layers["manzanasVariacion"].hideToc = false;
             layers["manzanasVariacion"].visible = true;
             layers["manzanasVariacion"].checked = true;
+            layers["manzanasVariacion2022"].hideToc = true;
+            layers["manzanasVariacion2022"].visible = false;
+            layers["manzanasVariacion2022"].checked = false;
             variables.versionMGN = 'MGN 2021';
+        } else if (id === '39501002') {
+            layers["manzanas2022"].hideToc = true;
+            layers["manzanas2022"].visible = false;
+            layers["manzanas2022"].checked = false;
+            layers["manzanas"].hideToc = true;
+            layers["manzanas"].visible = false;
+            layers["manzanas"].checked = false;
+            layers["seccionesRurales"].hideToc = true;
+            layers["seccionesRurales"].visible = false;
+            layers["seccionesRurales"].checked = false;
+            layers["seccionesRurales2022"].hideToc = true;
+            layers["seccionesRurales2022"].visible = false;
+            layers["seccionesRurales2022"].checked = false;
+            layers["manzanasVariacion"].hideToc = true;
+            layers["manzanasVariacion"].visible = false;
+            layers["manzanasVariacion"].checked = false;
+            layers["manzanasVariacion2022"].hideToc = false;
+            layers["manzanasVariacion2022"].visible = true;
+            layers["manzanasVariacion2022"].checked = true;
+            variables.versionMGN = 'MGN 2022';
         }
-
+ 
         if(variables.updateActives != null){
             variables.updateActives();
         }

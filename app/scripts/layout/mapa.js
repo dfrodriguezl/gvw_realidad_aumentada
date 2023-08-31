@@ -943,7 +943,7 @@ function loadPopups() {
         const viviendas = variables.varVariable === '38201001' ? e.features[0].properties.viv :
           variables.varVariable === '39501001' ? e.features[0].properties.viviendas :
             variables.varVariable === '38201003' || variables.varVariable === '39501003' ? e.features[0].properties.secr_viv :
-              variables.varVariable === '38201002' ? e.features[0].properties.variacion : "";
+              variables.varVariable === '38201002' || variables.varVariable === '39501002' ? e.features[0].properties.variacion : "";
         const deptoCodigo = feature.properties.id.substring(0, 2);
         const mpioCodigo = feature.properties.id.substring(2, 5);
         // console.log("MPIO CODIGO", mpioCodigo);
@@ -2004,9 +2004,9 @@ variables.changeMap = function (nivel, dpto, table) {
       paintPropertyRanges.push(["to-number", ["get", "viviendas"]]);
     } else if (variables.varVariable === "39501003" || variables.varVariable === "38201003") {
       paintPropertyRanges.push(["to-number", ["get", "secr_viv"]]);
-    } else if (variables.varVariable === "38201002") {
+    } else if (variables.varVariable === "38201002" || variables.varVariable === "39501002") {
       paintPropertyRanges.push(["to-number", ["get", "variacion"]]);
-    }
+    } 
 
     console.log("PAINT PROPERTY", paintPropertyRanges);
 
@@ -2058,7 +2058,8 @@ variables.changeMap = function (nivel, dpto, table) {
       variables.varVariable === "39501001" ? "manzanas2022" :
         variables.varVariable === "38201003" ? "secciones" :
           variables.varVariable === "39501003" ? "secciones2022" :
-            variables.varVariable === "38201002" ? "manzanasVariacion" : null;
+            variables.varVariable === "38201002" ? "manzanasVariacion" :
+              variables.varVariable === "39501002" ? "manzanasVariacion2022" : null;
 
     // console.log("CAPA", capa);
 
