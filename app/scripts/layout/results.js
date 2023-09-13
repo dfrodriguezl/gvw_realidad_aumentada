@@ -100,7 +100,7 @@ const Results = () => {
           </ul>
 
           <div className="results__panel__source">
-            <p className="results__panel__source__name">Fuente: <a rel="noreferrer" href="https://www.dane.gov.co/index.php/estadisticas-por-tema/precios-y-costos/sistema-de-informacion-de-precios-sipsa" target="_blank" className="results__source__link">{variables.fuente}</a></p>
+            <p className="results__panel__source__name">Fuente: <a rel="noreferrer" href="https://www.dane.gov.co/index.php/actualidad-dane/5454-el-dane-actualizo-el-marco-geoestadistico-nacional-a-2018" target="_blank" className="results__source__link">{variables.fuente}</a></p>
           </div>
         </div>
       </Fragment>

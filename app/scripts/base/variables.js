@@ -281,7 +281,8 @@ export const variables = {
             ol: null,
             layer: "mgn_2020_mpio_politico",
             typeLayer: "line",
-            clickable: false
+            clickable: false,
+            hideToc: true
         },
         departamentos: {
             tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
@@ -299,7 +300,8 @@ export const variables = {
             ol: null,
             layer: "mgn_2020_dpto_politico",
             typeLayer: "line",
-            clickable: false
+            clickable: false,
+            hideToc: true
         },
         departamentoSel: {
             tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs

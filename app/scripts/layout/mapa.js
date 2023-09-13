@@ -1954,6 +1954,10 @@ variables.changeMap = function (nivel, dpto, table) {
     // console.log(layer)
   } else if (nivel == "MNZN") {
 
+    let dataTable = []
+    let colsTable = []
+    let data = []
+
     let integrado_mnzn;
 
     integrado_mnzn = Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][dpto]).map(function (value) {
@@ -1966,7 +1970,11 @@ variables.changeMap = function (nivel, dpto, table) {
 
       let valor = parseFloat(value[variables.alias].replace(",", "."))
 
+      let mpio = (municipios).filter(result => (result.cod_dane == value["MPIO"]));
+      dataTable.push({ cod_dane: value["NM"], mpio: mpio[0].name, codigo: mpio[0].cod_dane, valor: valor});
+
       if (valor != undefined && !isNaN(valor)) {
+        
 
         return valor;
 
@@ -1975,6 +1983,9 @@ variables.changeMap = function (nivel, dpto, table) {
         return 0;
 
       }
+
+      
+      // dataTable.push({ depto: depto[0].name, codigo: depto[0].cod_dane, valor: valor, valor2: valor2, valorGraf: (parseFloat(valor) * 100) / max });
 
       // }, [])
 
@@ -2064,6 +2075,25 @@ variables.changeMap = function (nivel, dpto, table) {
     // console.log("CAPA", capa);
 
     variables.map.setPaintProperty(capa, "fill-extrusion-color", paintPropertyRanges);
+
+    // if(table == "y"){
+      colsTable = [
+        { title: "Cód. DANE", field: "cod_dane", hozAlign: "right", width: "150", headerSort: true, headerFilter: true, headerFilterPlaceholder: "Cód. DANE..." },
+        { title: "Municipio", field: "mpio", width: "150", headerFilter: true, headerSort: true, headerFilterPlaceholder: "Municipio..." },
+        { title: "Cantidad (Viviendas)", field: "valor", hozAlign: "right", width: "300", headerFilter: true, headerSort: true, headerFilterPlaceholder: "Cantidad..." }
+      ];
+
+      let orderData = dataTable.sort((a, b) => {
+        if (parseFloat(a.valor) > parseFloat(b.valor)) {
+          return -1;
+        } else if (parseFloat(a.valor) < parseFloat(b.valor)) {
+          return 1;
+        }
+        return 0;
+      })
+
+      variables.updateData(orderData, colsTable);
+    // }
 
 
 
