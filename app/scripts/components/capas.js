@@ -101,12 +101,12 @@ const Capas = () => {
                     <input type="range" className="layers__scroll" min="1" max="10" step="1" defaultValue={transparency} name={id} onChange={changeSlider} />
                     <p className="layers__slider__text" >100%</p>
                   </div >
-                  <div className="layers__slider">
+                  {/* <div className="layers__slider">
                     <p className="layers__slider__text" >Altura 3D</p>
                     <p className="layers__slider__text" >Min.</p>
                     <input type="range" className="layers__scroll" min="1" max="10" step="1" defaultValue={altura} name={id} onChange={changeAltura3D} />
                     <p className="layers__slider__text" >Max.</p>
-                  </div >
+                  </div > */}
                 </li>
               }
 

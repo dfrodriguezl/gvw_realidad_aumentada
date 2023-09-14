@@ -95,7 +95,7 @@ const Results = () => {
             <Accordion title="Leyenda Símbolos" icon="DANE__Geovisor__icon__radioButtonFilled" data={true}> <ProportionalSymbol /> </Accordion>
             : null} */}
 
-            {/* <Accordion title="Resultado Temático" icon="DANE__Geovisor__icon__graphBarVertical" data={true}> <TematicCharts /> </Accordion> */}
+            <Accordion title="Resultado Temático" icon="DANE__Geovisor__icon__graphBarVertical" data={true}> <TematicCharts /> </Accordion>
 
           </ul>
 

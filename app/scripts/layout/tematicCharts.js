@@ -23,7 +23,7 @@ const Panel = ({ children }) => {
 };
 
 const Charts = () => {
-  const [tipoVariable, settipoVariable] = useState("")
+  const [tipoVariable, settipoVariable] = useState("VC")
 
   variables.changeChart = function () {
     settipoVariable(variables.tematica["CATEGORIAS"][variables.varVariable][0]["TIPO_VARIABLE"])
@@ -31,24 +31,28 @@ const Charts = () => {
 
 
   return (
-
+    
     tipoVariable === "VC" ?
       <div className="results__btnCharts">
+        {console.log("VARIAB", tipoVariable)}
         <Tabs>
           <ul className="results__btnTabs" >
-            <Tab><p className="results__btnTabsName">Dona</p></Tab>
-            <Tab><p className="results__btnTabsName">Torta</p></Tab>
+            {/* <Tab><p className="results__btnTabsName">Dona</p></Tab>
+            <Tab><p className="results__btnTabsName">Torta</p></Tab> */}
+            <Tab><p className="results__btnTabsName">Barras horizontales</p></Tab>
           </ul>
-          <Panel><DonuChart /></Panel>
-          <Panel><PieChart /></Panel>
+          {/* <Panel><DonuChart /></Panel>
+          <Panel><PieChart /></Panel> */}
+          <Panel><BarHData /></Panel>
         </Tabs>
       </div> :
       tipoVariable === "" ?
         null :
         <div className="results__btnCharts">
+          {console.log("VARIAB2", tipoVariable)}
           <Tabs>
             <ul className="results__btnTabs" >
-              <Tab><p className="results__btnTabsName">Valor</p></Tab>
+              <Tab><p className="results__btnTabsName">Barras horizontales</p></Tab>
               {/* <Tab><p className="results__btnTabsName">Gráfico de Indicador</p></Tab> */}
 
               {/* <Tab><p className="results__btnTabsName">Gauge1</p></Tab> */}

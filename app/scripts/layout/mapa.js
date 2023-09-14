@@ -1957,6 +1957,8 @@ variables.changeMap = function (nivel, dpto, table) {
     let dataTable = []
     let colsTable = []
     let data = []
+    let labelsChart = [];
+    let colorsChart = [];
 
     let integrado_mnzn;
 
@@ -2019,12 +2021,12 @@ variables.changeMap = function (nivel, dpto, table) {
       paintPropertyRanges.push(["to-number", ["get", "variacion"]]);
     } 
 
-    console.log("PAINT PROPERTY", paintPropertyRanges);
+    // console.log("PAINT PROPERTY", paintPropertyRanges);
 
 
     if (serie.getClassJenks(5) != undefined) {
       // console.log("SERIE RANGES", serie.ranges);
-
+      // console.log("SERIE RANGES", serie.sum());
       for (let index = 0; index < (serie.ranges).length; index++) {
 
         let rango = serie.ranges[(serie.ranges).length - (index + 1)]
@@ -2039,7 +2041,9 @@ variables.changeMap = function (nivel, dpto, table) {
 
         variables.coloresLeyend[variables.varVariable]["MNZN"][index][2] = rango;
         variables.coloresLeyend[variables.varVariable]["MNZN"][index][3] = "visible";
-
+        labelsChart.push(rango);
+        colorsChart.push(variables.coloresLeyend[variables.varVariable]["MNZN"][index][0]);
+        
 
         // variables.coloresLeyend[variables.varVariable]["DPTO"][index][2] = rango;
 
@@ -2093,6 +2097,8 @@ variables.changeMap = function (nivel, dpto, table) {
       })
 
       variables.updateData(orderData, colsTable);
+
+      variables.changeBarChartData(labelsChart, colorsChart, orderData, nivel);
     // }
 
 

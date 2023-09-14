@@ -1,87 +1,100 @@
 import React, { useState, useEffect } from 'react';
 import { variables } from '../../base/variables';
+import { HorizontalBar } from 'react-chartjs-2';
 
 const BarHData = () => {
   let labelsData = []
   let dataFirst = []
 
   const [categoria, setCategoria] = useState("");
-  const [data, setData] = useState("");
+  const [data, setData] = useState([]);
   const dataUnidades = variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"];
+  const [subgrupo, setSubgrupo] = useState("");
+  const [labelsChart, setLabelsChart] = useState([]);
+  const [colorsChart, setColorsChart] = useState([]);
+  let rangos = {};
+  let rangosLista = [];
 
-  variables.changeBarChartData = function (nivel, dpto) {
+  variables.changeBarChartData = function (labels, colors, datos, nivel) {
 
-    setCategoria(variables.tematica["CATEGORIAS"][variables.varVariable][0]["CATEGORIA"])
+    setCategoria(variables.tematica["CATEGORIAS"][variables.varVariable][0]["CATEGORIA"]);
+    setLabelsChart(labels);
+    setColorsChart(colors);
 
-    let valor = 0;
+    if (datos) {
+      datos.map((dato) => {
+        const valorCampo = dato.valor;
 
-    if (variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel] != undefined) {
-      // console.log(variables.dataArrayDatos[variables.varVariable.substring(0, 5)])
-      // console.log("NIVEL DATA", nivel)
-
-      if (dpto == undefined) {
-        // console.log("INTEGRADO", variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel]);
-        var integrado = Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value]).map(function (a, b) {
-
-          let valor = parseFloat(a[variables.alias])
-          
-          if (valor != undefined && !isNaN(valor)) {
-            return valor;
+        for (let index = 0; index < variables.coloresLeyend[variables.varVariable][nivel].length; index++) {
+          const obj = variables.coloresLeyend[variables.varVariable][nivel][index];
+          // if (obj[3] === "visible") {
+          let element = obj[2];
+          // console.log("ELEMENT");
+          element = String(element).split(' - ');
+          if (element.length == 1) {
+            if (parseFloat(valorCampo).toFixed(2)
+              >= parseFloat(element[0].replace(">", "").replaceAll('.', '').replace("($)", "").trim())) {
+                rangos[obj[2]] = !rangos[obj[2]] ? 1 : rangos[obj[2]] + 1
+              break;
+            }
           } else {
-            return 0
+            if (parseFloat(valorCampo).toFixed(2) >= parseFloat(element[0].replaceAll('.', '').replace("%", ""))
+              && parseFloat(valorCampo).toFixed(2) <= parseFloat(element[1].replaceAll('.', '').replace("%", ""))) {
+                rangos[obj[2]] = !rangos[obj[2]] ? 1 : rangos[obj[2]] + 1
+              break;
+            }
           }
-
-        }, {});
-        
-        const reducer = (accumulator, curr) => accumulator + curr;
-        dataFirst = parseFloat(integrado.reduce(reducer)).toLocaleString('es')
-      } else if (nivel === "DPTO") {
-        const dataNivel = Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value]).filter((v) => {
-          return v.ND === dpto;
-        }, [])
-
-        valor = parseFloat(dataNivel[0][variables.alias])
-        dataFirst = valor.toLocaleString('de-DE');
-
-      } else if (nivel === "MPIO") {
-        const dataNivel = Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value]).filter((v) => {
-          return v.COD_MPIO === dpto && v.PRODUCTOS_ESPECIE_PUBLI === variables.productoSeleccionado.value;
-        }, [])
-
-        if (dataNivel[0] != undefined) {
-          valor = parseFloat(dataNivel[0][variables.alias])
-          dataFirst = valor.toLocaleString('de-DE');
+          // }
         }
+      }, [])
+    }
+    console.log("RANGOS", rangos);
 
-      } else if (nivel === "SECC") {
-        const dataNivel = Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value]).filter((v) => {
-          return v.NSC === dpto;
-        }, [])
-        valor = parseFloat(dataNivel[0][variables.alias])
-        dataFirst = valor.toLocaleString('de-DE');
-      }
-
-
+    console.log("LABELS", labels)
+    if(labels.length > 0 && labels != "MPIO"){
+      labels.map((label) => {
+        rangosLista.push(rangos[label])
+      })
     }
 
-    // console.log("DATA FIRST", dataFirst)
-
-    if (dataFirst.length > 0) {
-      setData(dataFirst)
-    }
-
-
-    // console.log(labelsData, dataFirst, "datos")
+    setData(rangosLista);
   }
 
   useEffect(() => {
     variables.changeBarChartData('MPIO');
   }, [])
 
+  const datasets = [
+    {
+      axis: 'y',
+      label: '',
+      data: data,
+      borderColor: 'rgb(255, 99, 132)',
+      backgroundColor: colorsChart,
+    }
+  ];
+
+
   return (
     <div className="charts">
-      <h2 className="charts__subtitle" id="title">{categoria + " (" + dataUnidades + ")"}</h2>
-      <p className="charts__item">{data}</p>
+      {/* {console.log(data)} */}
+      <h2 className="charts__subtitle" id="title">{categoria}</h2>
+      <HorizontalBar
+        data={{
+          labels: labelsChart,
+          datasets: datasets
+        }}
+        width={180}
+        height={100}
+        options={{
+          elements: {
+            bar: {
+              borderWidth: 2,
+            },
+          },
+          indexAxis: 'y',
+        }}
+      />
     </div>
   );
 }
