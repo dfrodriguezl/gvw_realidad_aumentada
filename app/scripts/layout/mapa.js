@@ -897,7 +897,8 @@ function loadLayers() {
         type: "vector",
         tiles: [
           infoLayer.url
-        ]
+        ],
+        promoteId: 'id'
       })
 
       variables.map.addLayer({
@@ -937,12 +938,14 @@ function loadPopups() {
       variables.map.on('click', infoLayer.id, (e) => {
         // let popup = overlay;
         // console.log("EE", e.lngLat.lat);
+        // console.log("STATE", variables.map.getFeatureState(value["NM"], capa, 'MGN_2018_URB_MANZANA'));
+        console.log("E", e.features[0]);
         const feature = e.features[0];
         const coordinates = e.lngLat;
         // const viviendas = variables.versionMGN === "MGN2021" ? e.features[0].properties.viv : e.features[0].properties.viviendas;
         const viviendas = variables.varVariable === '38201001' ? e.features[0].properties.viv :
           variables.varVariable === '39501001' ? e.features[0].properties.viviendas :
-            variables.varVariable === '38201003' || variables.varVariable === '39501003' ? e.features[0].properties.secr_viv :
+            variables.varVariable === '38202001' || variables.varVariable === '39502001' ? e.features[0].properties.secr_viv :
               variables.varVariable === '38201002' || variables.varVariable === '39501002' ? e.features[0].properties.variacion : "";
         const deptoCodigo = feature.properties.id.substring(0, 2);
         const mpioCodigo = feature.properties.id.substring(2, 5);
@@ -1962,6 +1965,13 @@ variables.changeMap = function (nivel, dpto, table) {
 
     let integrado_mnzn;
 
+    const capa = variables.varVariable === "38201001" ? "manzanas" :
+      variables.varVariable === "39501001" ? "manzanas2022" :
+        variables.varVariable === "38202001" ? "secciones" :
+          variables.varVariable === "39502001" ? "secciones2022" :
+            variables.varVariable === "38201002" ? "manzanasVariacion" :
+              variables.varVariable === "39501002" ? "manzanasVariacion2022" : null;
+
     integrado_mnzn = Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][dpto]).map(function (value) {
       // console.log("AAAA", a);
       // if (a != undefined) {
@@ -1975,8 +1985,18 @@ variables.changeMap = function (nivel, dpto, table) {
       let mpio = (municipios).filter(result => (result.cod_dane == value["MPIO"]));
       dataTable.push({ cod_dane: value["NM"], mpio: mpio[0].name, codigo: mpio[0].cod_dane, valor: valor});
 
+      // console.log("VALUE", value);
+      // console.log("VALOR", valor);
+
       if (valor != undefined && !isNaN(valor)) {
         
+        variables.map.setFeatureState({
+          source: capa,
+          sourceLayer: 'MGN_2018_URB_MANZANA' ,
+          id: String(value["NM"])
+        }, {
+          viviendas: valor
+        })
 
         return valor;
 
@@ -2011,15 +2031,17 @@ variables.changeMap = function (nivel, dpto, table) {
     //   paintPropertyRanges.push(["to-number", ["get", "viviendas"]]);
     // }
 
-    if (variables.varVariable === "38201001") {
-      paintPropertyRanges.push(["to-number", ["get", "viv"]]);
-    } else if (variables.varVariable === "39501001") {
-      paintPropertyRanges.push(["to-number", ["get", "viviendas"]]);
-    } else if (variables.varVariable === "39501003" || variables.varVariable === "38201003") {
-      paintPropertyRanges.push(["to-number", ["get", "secr_viv"]]);
-    } else if (variables.varVariable === "38201002" || variables.varVariable === "39501002") {
-      paintPropertyRanges.push(["to-number", ["get", "variacion"]]);
-    } 
+    paintPropertyRanges.push(["to-number", ["feature-state", "viviendas"]]);
+
+    // if (variables.varVariable === "38201001") {
+    //   paintPropertyRanges.push(["to-number", ["get", "viv"]]);
+    // } else if (variables.varVariable === "39501001") {
+    //   paintPropertyRanges.push(["to-number", ["get", "viviendas"]]);
+    // } else if (variables.varVariable === "39501003" || variables.varVariable === "38201003") {
+    //   paintPropertyRanges.push(["to-number", ["get", "secr_viv"]]);
+    // } else if (variables.varVariable === "38201002" || variables.varVariable === "39501002") {
+    //   paintPropertyRanges.push(["to-number", ["get", "variacion"]]);
+    // } 
 
     // console.log("PAINT PROPERTY", paintPropertyRanges);
 
@@ -2069,14 +2091,11 @@ variables.changeMap = function (nivel, dpto, table) {
     // let layer = variables.capas["mzn_vt"];
 
     // const capa = variables.versionMGN === "MGN2021" ? "manzanas" : "manzanas2022";
-    const capa = variables.varVariable === "38201001" ? "manzanas" :
-      variables.varVariable === "39501001" ? "manzanas2022" :
-        variables.varVariable === "38201003" ? "secciones" :
-          variables.varVariable === "39501003" ? "secciones2022" :
-            variables.varVariable === "38201002" ? "manzanasVariacion" :
-              variables.varVariable === "39501002" ? "manzanasVariacion2022" : null;
+    
 
     // console.log("CAPA", capa);
+
+    
 
     variables.map.setPaintProperty(capa, "fill-extrusion-color", paintPropertyRanges);
 

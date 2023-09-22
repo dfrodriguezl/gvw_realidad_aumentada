@@ -74,7 +74,7 @@ const Search = ({ filterSearch, placeholder }) => {
     }
 
     variables.changeTheme = function (nivel, dpto, campo, table) {
-
+            console.log("NIVEL", nivel);
         if (nivel == "MNZN") {
             if (variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][dpto] != undefined) {
                 variables.changeMap(nivel, dpto);
@@ -420,50 +420,50 @@ const Search = ({ filterSearch, placeholder }) => {
 
         variables.varVariable = event.currentTarget.id;
         // let zoom = variables.map.getView().getZoom();
-        let zoom = 5;
+        // let zoom = 5;
 
-        if (zoom < 7) {
-            if (!variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"][variables.periodoSeleccionado.value]) {
-                variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"][variables.periodoSeleccionado.value] = {};
-            }
-            // variables.getProductosByPeriodo("MPIO", "MPIO", variables.periodoSeleccionado.value);
-            variables.changeTheme("MPIO", 0, "MPIO", "y");
-        } else if (zoom >= 7 && zoom <= 11) {
-            if (!variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"][variables.periodoSeleccionado.value]) {
-                variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"][variables.periodoSeleccionado.value] = {};
-            }
-            if (!variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["MPIO"][variables.periodoSeleccionado.value]) {
-                variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["MPIO"][variables.periodoSeleccionado.value] = {};
-            }
-            variables.changeTheme("MPIO", 0, "MPIO", "y");
-            variables.changeTheme("MPIO", null, null, "y");
-            if (variables.deptoSelected == undefined && variables.deptoVariable != undefined) {
-                variables.filterGeo("DPTO", variables.deptoVariable)
-            }
-            // variables.changeStyleDepto();
-        }
-        else if (zoom > 11) {
-            if (variables.municipioSeleccionado != null) {
-                variables.changeTheme("MPIO", 0, "MPIO", "n");
-                variables.changeTheme("MPIO", variables.municipioSeleccionado, null, "y");
-            }
+        // if (zoom < 7) {
+        //     if (!variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"][variables.periodoSeleccionado.value]) {
+        //         variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"][variables.periodoSeleccionado.value] = {};
+        //     }
+        //     // variables.getProductosByPeriodo("MPIO", "MPIO", variables.periodoSeleccionado.value);
+        //     variables.changeTheme("MPIO", 0, "MPIO", "y");
+        // } else if (zoom >= 7 && zoom <= 11) {
+        //     if (!variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"][variables.periodoSeleccionado.value]) {
+        //         variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"][variables.periodoSeleccionado.value] = {};
+        //     }
+        //     if (!variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["MPIO"][variables.periodoSeleccionado.value]) {
+        //         variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["MPIO"][variables.periodoSeleccionado.value] = {};
+        //     }
+        //     variables.changeTheme("MPIO", 0, "MPIO", "y");
+        //     variables.changeTheme("MPIO", null, null, "y");
+        //     if (variables.deptoSelected == undefined && variables.deptoVariable != undefined) {
+        //         variables.filterGeo("DPTO", variables.deptoVariable)
+        //     }
+        //     // variables.changeStyleDepto();
+        // }
+        // else if (zoom > 11) {
+        //     if (variables.municipioSeleccionado != null) {
+        //         variables.changeTheme("MPIO", 0, "MPIO", "n");
+        //         variables.changeTheme("MPIO", variables.municipioSeleccionado, null, "y");
+        //     }
 
-            variables.changeTheme("SECC", null, "NSC", "n");
-            // variables.changeStyleDepto();
-            // variables.changeStyleMpio();
-        }
+        //     variables.changeTheme("SECC", null, "NSC", "n");
+        //     // variables.changeStyleDepto();
+        //     // variables.changeStyleMpio();
+        // }
 
-        variables.baseMapCheck = "Gris";
+        // variables.baseMapCheck = "Gris";
 
-        if (variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"] === "%") {
-            if (variables.updateSymbols != null) {
-                variables.updateSymbols();
-            }
-        } else if (variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"] === "$") {
-            if (variables.updateToProps != null) {
-                variables.updateToProps();
-            }
-        }
+        // if (variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"] === "%") {
+        //     if (variables.updateSymbols != null) {
+        //         variables.updateSymbols();
+        //     }
+        // } else if (variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"] === "$") {
+        //     if (variables.updateToProps != null) {
+        //         variables.updateToProps();
+        //     }
+        // }
 
         variables.closer.click();
 
@@ -514,7 +514,7 @@ const Search = ({ filterSearch, placeholder }) => {
             layers["manzanasVariacion2022"].visible = false;
             layers["manzanasVariacion2022"].checked = false;
             variables.versionMGN = 'MGN 2021';
-        } else if (id === '38201003') {
+        } else if (id === '38202001') {
             layers["manzanas2022"].hideToc = true;
             layers["manzanas2022"].visible = false;
             layers["manzanas2022"].checked = false;
@@ -534,7 +534,7 @@ const Search = ({ filterSearch, placeholder }) => {
             layers["manzanasVariacion2022"].visible = false;
             layers["manzanasVariacion2022"].checked = false;
             variables.versionMGN = 'MGN 2021';
-        } else if (id === '39501003') {
+        } else if (id === '39502001') {
             layers["manzanas2022"].hideToc = true;
             layers["manzanas2022"].visible = false;
             layers["manzanas2022"].checked = false;
