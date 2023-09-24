@@ -938,15 +938,16 @@ function loadPopups() {
       variables.map.on('click', infoLayer.id, (e) => {
         // let popup = overlay;
         // console.log("EE", e.lngLat.lat);
-        // console.log("STATE", variables.map.getFeatureState(value["NM"], capa, 'MGN_2018_URB_MANZANA'));
-        console.log("E", e.features[0]);
+        console.log("STATE", variables.map.getFeatureState(e.features[0].id, e.features[0].layer.id, 'MGN_2018_URB_MANZANA'));
+        console.log("E", e.features[0].state.viviendas);
         const feature = e.features[0];
         const coordinates = e.lngLat;
         // const viviendas = variables.versionMGN === "MGN2021" ? e.features[0].properties.viv : e.features[0].properties.viviendas;
-        const viviendas = variables.varVariable === '38201001' ? e.features[0].properties.viv :
-          variables.varVariable === '39501001' ? e.features[0].properties.viviendas :
-            variables.varVariable === '38202001' || variables.varVariable === '39502001' ? e.features[0].properties.secr_viv :
-              variables.varVariable === '38201002' || variables.varVariable === '39501002' ? e.features[0].properties.variacion : "";
+        // const viviendas = variables.varVariable === '38201001' ? e.features[0].properties.viv :
+        //   variables.varVariable === '39501001' ? e.features[0].properties.viviendas :
+        //     variables.varVariable === '38202001' || variables.varVariable === '39502001' ? e.features[0].properties.secr_viv :
+        //       variables.varVariable === '38201002' || variables.varVariable === '39501002' ? e.features[0].properties.variacion : "";
+        const viviendas = e.features[0].state.viviendas;
         const deptoCodigo = feature.properties.id.substring(0, 2);
         const mpioCodigo = feature.properties.id.substring(2, 5);
         // console.log("MPIO CODIGO", mpioCodigo);
