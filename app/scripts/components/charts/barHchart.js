@@ -8,7 +8,7 @@ const BarHData = () => {
 
   const [categoria, setCategoria] = useState("");
   const [data, setData] = useState([]);
-  const dataUnidades = variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"];
+  const dataUnidades = variables.tematica["CATEGORIAS"][variables.varVariable] ? variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"] : "";
   const [subgrupo, setSubgrupo] = useState("");
   const [labelsChart, setLabelsChart] = useState([]);
   const [colorsChart, setColorsChart] = useState([]);
@@ -17,7 +17,7 @@ const BarHData = () => {
 
   variables.changeBarChartData = function (labels, colors, datos, nivel) {
 
-    setCategoria(variables.tematica["CATEGORIAS"][variables.varVariable][0]["CATEGORIA"]);
+    setCategoria(variables.tematica["CATEGORIAS"][variables.varVariable] ? variables.tematica["CATEGORIAS"][variables.varVariable][0]["CATEGORIA"] : "");
     setLabelsChart(labels);
     setColorsChart(colors);
 
