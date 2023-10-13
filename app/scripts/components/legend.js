@@ -8,11 +8,11 @@ const Leyenda = () => {
   const [unidad, setUnidad] = useState("");
   const [transparencyGeneral, settransparencyGeneral] = useState(variables.transparencyGeneral);
 
-  // useEffect(() => {
-  //   if (variables.coloresLeyend[variables.varVariable] != undefined) {
-  //     setLegend(variables.coloresLeyend[variables.varVariable]["MNZN"])
-  //   }
-  // }, [legend])
+  useEffect(() => {
+    if (variables.coloresLeyend[variables.varVariable] != undefined) {
+      setLegend(variables.coloresLeyend[variables.varVariable]["MNZN"])
+    }
+  }, [legend])
 
   // const leyenda = (legend)
   //   .map((item, index) => {
@@ -27,20 +27,20 @@ const Leyenda = () => {
   variables.changeLegend = function (nivel) {
     setCategoria(variables.tematica["CATEGORIAS"][variables.varVariable][0]["CATEGORIA"])
     setUnidad(variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"])
-    const tipoVariable = variables.tematica["CATEGORIAS"][variables.varVariable][0]["TIPO_VARIABLE"];
+    // const tipoVariable = variables.tematica["CATEGORIAS"][variables.varVariable][0]["TIPO_VARIABLE"];
 
-    if (tipoVariable === "DV") {
-      const divergentes = variables.coloresLeyend[variables.varVariable][nivel].map((obj, i) => {
-        obj[0] = variables.coloresDivergentes[i];
-        return obj;
-      }, [])
-      setLegend(divergentes)
-    } else {
+    // if (tipoVariable === "DV") {
+    //   const divergentes = variables.coloresLeyend[variables.varVariable][nivel].map((obj, i) => {
+    //     obj[0] = variables.coloresDivergentes[i];
+    //     return obj;
+    //   }, [])
+    //   setLegend(divergentes)
+    // } else {
       if (variables.coloresLeyend[variables.varVariable] != undefined) {
-        setLegend(variables.coloresLeyend[variables.varVariable][nivel])
+        setLegend(prevState => [...variables.coloresLeyend[variables.varVariable][nivel]])
       }
 
-    }
+    // }
 
   }
 

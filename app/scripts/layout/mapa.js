@@ -2088,7 +2088,8 @@ variables.changeMap = function (nivel, dpto, table) {
 
 
 
-    variables.changeLegend(nivel);
+    
+    // variables.changeLegend(nivel);
     // let layer = variables.capas["mzn_vt"];
 
     // const capa = variables.versionMGN === "MGN2021" ? "manzanas" : "manzanas2022";
@@ -2181,6 +2182,8 @@ variables.changeMap = function (nivel, dpto, table) {
 
 
   // variables.changeLoader(true);
+  variables.changeLegend(nivel);
+  variables.legenTheme();
 }
 
 const updateRangeSimbology = (valorCampo, nivel, colorInput) => {
