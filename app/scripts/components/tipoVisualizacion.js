@@ -36,6 +36,7 @@ const TipoVisualizacion = () => {
       variables.map.setPaintProperty('manzanasVariacion', 'fill-extrusion-height', ["*", 0, ["get", "variacion"]]);
       variables.map.setPaintProperty('manzanasVariacion2022', 'fill-extrusion-height', ["*", 0, ["get", "variacion"]]);
       variables.map.setPaintProperty('secciones2022', 'fill-extrusion-height', ["*", 0, ["get", "secr_viv"]]);
+      variables.map.setPitch(0);
     }
   }
 
@@ -47,6 +48,7 @@ const TipoVisualizacion = () => {
       variables.map.setPaintProperty('manzanasVariacion', 'fill-extrusion-height', ["*", 1, ["get", "variacion"]]);
       variables.map.setPaintProperty('manzanasVariacion2022', 'fill-extrusion-height', ["*", 0, ["get", "variacion"]]);
       variables.map.setPaintProperty('secciones2022', 'fill-extrusion-height', ["*", 1, ["get", "secr_viv"]]);
+      variables.map.setPitch(60);
     }
   }
 
