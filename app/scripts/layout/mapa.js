@@ -938,8 +938,8 @@ function loadPopups() {
       variables.map.on('click', infoLayer.id, (e) => {
         // let popup = overlay;
         // console.log("EE", e.lngLat.lat);
-        console.log("STATE", variables.map.getFeatureState(e.features[0].id, e.features[0].layer.id, 'MGN_2018_URB_MANZANA'));
-        console.log("E", e.features[0].state.viviendas);
+        // console.log("STATE", variables.map.getFeatureState(e.features[0].id, e.features[0].layer.id, 'MGN_2018_URB_MANZANA'));
+        // console.log("E", e.features[0].state.viviendas);
         const feature = e.features[0];
         const coordinates = e.lngLat;
         // const viviendas = variables.versionMGN === "MGN2021" ? e.features[0].properties.viv : e.features[0].properties.viviendas;
@@ -960,7 +960,15 @@ function loadPopups() {
         let HTML = "";
         HTML = '<p class="popup__list"><span class="popup__title">' + dataSubgrupo + ' (' + variables.versionMGN + ')</span></p>';
         HTML += '<p class="popup__list"><span class="popup__subtitle">' + dataCategorias + '</span> ' + '</p>';
-        HTML += '<p class="popup__list"><span class="popup__subtitle">Viviendas: </span><span class="popup__subtitle">' + viviendas + '</span></p>';
+
+        console.log("VARIABLES", variables.varVariable);
+
+        if(variables.varVariable === "39501002" || variables.varVariable === "38201002"){
+          HTML += '<p class="popup__list"><span class="popup__subtitle">Variación (porcentaje): </span><span class="popup__subtitle">' + viviendas + '</span></p>';
+        } else {
+          HTML += '<p class="popup__list"><span class="popup__subtitle">Viviendas: </span><span class="popup__subtitle">' + viviendas + '</span></p>';
+        }
+        
         HTML += '<hr>' + '</hr>';
         HTML += '<p class="popup__list"><span class="popup__thirdtitle"> Departamento:</span> ' + departamentosFilter[0].name + '</p>';
 
@@ -1050,6 +1058,8 @@ variables.changeMap = function (nivel, dpto, table) {
   // variables.alias = variables.variablesCampos[variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"]];
   // console.log("ME FUI POR CHANGE MAP");
   // console.log("LEVEL", nivel);
+
+  // console.log("VARIABLES ALIAS", variables.alias);
   if (nivel == "DPTO") {
     let valor2Array = [];
     var integrado = Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value]).map(function (a, b) {
@@ -2016,10 +2026,11 @@ variables.changeMap = function (nivel, dpto, table) {
 
     }, []);
 
-    // console.log("INTEGRADO MNZN", integrado_mnzn);
+    
 
     let list = integrado_mnzn.filter((x, i, a) => a.indexOf(x) == i)
 
+    console.log("INTEGRADO MNZN", list);
 
 
     var serie = new geostats(list);
