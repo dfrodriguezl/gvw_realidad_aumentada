@@ -1,6 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { variables } from '../../base/variables';
-import { HorizontalBar } from 'react-chartjs-2';
+import { Bar } from 'react-chartjs-2';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+} from 'chart.js';
 
 const BarHData = () => {
   const [categoria, setCategoria] = useState("");
@@ -56,6 +65,15 @@ const BarHData = () => {
     variables.changeBarChartData('MPIO');
   }, [])
 
+  ChartJS.register(
+    CategoryScale,
+    LinearScale,
+    BarElement,
+    Title,
+    Tooltip,
+    Legend
+  );
+
   const datasets = [
     {
       axis: 'y',
@@ -67,10 +85,11 @@ const BarHData = () => {
   ];
 
 
+
   return (
     <div className="charts">
       <h2 className="charts__subtitle" id="title">{categoria}</h2>
-      <HorizontalBar
+      <Bar
         data={{
           labels: labelsChart,
           datasets: datasets

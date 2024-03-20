@@ -12,8 +12,6 @@ import NavButton from './thematicFilter/group';
 import chroma from 'chroma-js';
 import { scaleLinear } from "d3-scale";
 import { Fragment } from "react";
-import { toast } from 'react-toastify';
-import CambioMGN from "./cambioMarco";
 
 function bboxExtent(bbox) {
     bbox = bbox.replace('BOX(', '').replace(')', '')
