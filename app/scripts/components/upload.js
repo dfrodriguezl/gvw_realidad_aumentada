@@ -2,14 +2,8 @@
 // Diego Rodriguez
 // 30/03/2021
 
-import React, { Component, Fragment, useState } from 'react';
-import { KML } from 'ol/format'
-import { Vector } from 'ol/layer'
-import { Vector as VectorSource } from 'ol/source'
+import React, { Fragment, useState } from 'react';
 import JSZip from 'jszip'
-import axios from 'axios'
-import TileLayer from 'ol/layer/Tile';
-import TileWMS from 'ol/source/TileWMS';
 import { variables } from '../base/variables'
 import toGeoJSON from '@mapbox/togeojson';
 
@@ -70,13 +64,11 @@ const Upload = () => {
     }
 
     const getLayersfromWMS = (e) => {
-        let target = e.currentTarget;
-        // console.log(target);
         setActivePanelCapas(true);
         let url = document.getElementById("enlaceWms").value;
         let capa = document.getElementById("nombreWms").value;
 
-        variables.map.addSource(capa,{
+        variables.map.addSource(capa, {
             type: 'raster',
             tiles: [
                 url + '?bbox={bbox-epsg-3857}&format=image/png&service=WMS&request=GetMap&srs=EPSG:3857&transparent=true&width=256&height=256&layers=' + capa
@@ -91,28 +83,6 @@ const Upload = () => {
         })
 
         let wmsLyrExternal = variables.map.getLayer(capa);
-
-        // let wmsLyrExternal = new TileLayer({
-        //     source: new TileWMS({
-        //         url: url,
-        //         params: {
-        //             'LAYERS': capa,
-        //             transparent: 'true',
-        //             FORMAT: 'image/png'
-        //         },
-        //         crossOrigin: 'anonymous'
-        //     })
-
-        // })
-
-        // variables.map.addLayer(wmsLyrExternal)
-        // let layerExtent = wmsLyrExternal.getSource().getExtent();
-
-        // if (layerExtent) {
-        //     variables.map.getView().fit(layerExtent);
-        // }
-
-
         variables.layers[capa] = {
 
             tipo: "wms",  // Tipos vt: Vector Tile, wms, wfs
@@ -219,8 +189,8 @@ function loadLayer(text, fileName) {
         minZoom: 9,
         maxZoom: 13,
         style: {
-                'line-color': '#931127',
-                'line-width': 1
+            'line-color': '#931127',
+            'line-width': 1
         },
         ol: null
     }

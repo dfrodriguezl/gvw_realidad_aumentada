@@ -29,7 +29,7 @@ const TipoVisualizacion = () => {
   }
 
   const change2D = () => {
-    if(variables.map != null){
+    if (variables.map != null) {
       variables.map.setPaintProperty('manzanas', 'fill-extrusion-height', ["*", 0, ["get", "viv"]]);
       variables.map.setPaintProperty('manzanas2022', 'fill-extrusion-height', ["*", 0, ["get", "viviendas"]]);
       variables.map.setPaintProperty('secciones', 'fill-extrusion-height', ["*", 0, ["get", "secr_viv"]]);
@@ -41,7 +41,7 @@ const TipoVisualizacion = () => {
   }
 
   const change3D = () => {
-    if(variables.map != null){
+    if (variables.map != null) {
       variables.map.setPaintProperty('manzanas', 'fill-extrusion-height', ["*", 1, ["get", "viv"]]);
       variables.map.setPaintProperty('manzanas2022', 'fill-extrusion-height', ["*", 1, ["get", "viviendas"]]);
       variables.map.setPaintProperty('secciones', 'fill-extrusion-height', ["*", 1, ["get", "secr_viv"]]);
@@ -51,21 +51,6 @@ const TipoVisualizacion = () => {
       variables.map.setPitch(60);
     }
   }
-
-
-  // variables.updateSymbols = () => {
-  //   // setChecked(true);
-  //   setTextActive(1);
-  //   change3D();
-  //   setDisabledSlide(true);    
-  // }
-
-  // variables.updateToProps = () => {
-  //   // setChecked(false);
-  //   setTextActive(0);
-  //   change2D();
-  //   setDisabledSlide(false);    
-  // }
 
   return (
     <div className="tools__panel">

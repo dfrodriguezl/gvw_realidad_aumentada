@@ -15,19 +15,22 @@ const Load = () => {
    }
 
    return (
-      <div className="loader" style={visible}>
-         <div className="loader__content">
-            <div className="loader__content__icon">
-               <span className="DANE__Geovisor__icon__DANE__D"></span>
-            </div>
-            <div className="loader__content__ballsContent">
-               <div className="loader__content__ballsContent__ball"></div>
-               <div className="loader__content__ballsContent__ball"></div>
-               <div className="loader__content__ballsContent__ball"></div>
-               <div className="loader__content__ballsContent__ball"></div>
+      <div id="loader">
+         <div className="loader" style={visible}>
+            <div className="loader__content">
+               <div className="loader__content__icon">
+                  <span className="DANE__Geovisor__icon__DANE__D"></span>
+               </div>
+               <div className="loader__content__ballsContent">
+                  <div className="loader__content__ballsContent__ball"></div>
+                  <div className="loader__content__ballsContent__ball"></div>
+                  <div className="loader__content__ballsContent__ball"></div>
+                  <div className="loader__content__ballsContent__ball"></div>
+               </div>
             </div>
          </div>
       </div>
+
    );
 }
 

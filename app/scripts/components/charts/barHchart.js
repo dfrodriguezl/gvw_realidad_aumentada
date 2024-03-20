@@ -3,13 +3,8 @@ import { variables } from '../../base/variables';
 import { HorizontalBar } from 'react-chartjs-2';
 
 const BarHData = () => {
-  let labelsData = []
-  let dataFirst = []
-
   const [categoria, setCategoria] = useState("");
   const [data, setData] = useState([]);
-  const dataUnidades = variables.tematica["CATEGORIAS"][variables.varVariable] ? variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"] : "";
-  const [subgrupo, setSubgrupo] = useState("");
   const [labelsChart, setLabelsChart] = useState([]);
   const [colorsChart, setColorsChart] = useState([]);
   let rangos = {};
@@ -27,9 +22,9 @@ const BarHData = () => {
 
         for (let index = 0; index < variables.coloresLeyend[variables.varVariable][nivel].length; index++) {
           const obj = variables.coloresLeyend[variables.varVariable][nivel][index];
-          // if (obj[3] === "visible") {
+         
           let element = obj[2];
-          // console.log("ELEMENT");
+          
           element = String(element).split(' - ');
           if (element.length == 1) {
             if (parseFloat(valorCampo).toFixed(2)
@@ -44,13 +39,10 @@ const BarHData = () => {
               break;
             }
           }
-          // }
         }
       }, [])
     }
-    console.log("RANGOS", rangos);
 
-    console.log("LABELS", labels)
     if(labels.length > 0 && labels != "MPIO"){
       labels.map((label) => {
         rangosLista.push(rangos[label])
@@ -77,7 +69,6 @@ const BarHData = () => {
 
   return (
     <div className="charts">
-      {/* {console.log(data)} */}
       <h2 className="charts__subtitle" id="title">{categoria}</h2>
       <HorizontalBar
         data={{

@@ -21,8 +21,6 @@ const ProportionalSymbol = () => {
     const min = variables.min ? variables.min : 0;
     const max = variables.max !== null ? variables.max : 500;
     const unidad = variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"];
-    // console.log("MIN 2", min);
-    // console.log("MAX 2", max);
 
     const fillCircle = variables.tematica["CATEGORIAS"][variables.varVariable] ? new Fill({
       color: 'rgb' + variables.tematica["CATEGORIAS"][variables.varVariable][0]['COLOR']
@@ -33,17 +31,13 @@ const ProportionalSymbol = () => {
       size: [300, 200]
     });
 
-    // console.log("MIN", min);
-    // console.log("MAX", max);
 
     [min, min + ((max - min) / 4), min + (((max - min) / 4) * 2), min + (((max - min) / 4) * 3), max]
       .slice(0)
       .reverse()
       .forEach(val => {
-        // console.log("VAL", val);
         if (val !== min) {
           const radius = ((val - min) / (max - min)) * 35;
-          // console.log("RADIUS", radius);
           const text = new Text({
             offsetX: 80,
             offsetY: -radius,
@@ -70,7 +64,6 @@ const ProportionalSymbol = () => {
             text: text
           });
           vectorContext.setStyle(newStyle);
-          // vectorContext.drawGeometry(new Point([150, 60 - (2 + radius)]));
           vectorContext.drawGeometry(new Point([80, 150 - (2 + radius)]));
         }
 

@@ -10,7 +10,6 @@ const DonutChart = () => {
 
   const [data, setData] = useState(variables.state);
   const [subgrupo, setSubgrupo] = useState("");
-  const [total, setTotal] = useState("");
   const [dark, setDark] = useState(localStorage.getItem("theme") === "light" ? true : false);
 
   variables.updateCharTheme = () => {
@@ -48,8 +47,6 @@ const DonutChart = () => {
       let contador = dataNivel.length;
       let porcentaje = "PP" + b;
 
-      // console.log(porcentaje, "porcentaje")
-
       const groupBy = dataNivel.reduce((objectsByKeyValue, obj) => {
         const value = obj[porcentaje];
         objectsByKeyValue[porcentaje] = (objectsByKeyValue[porcentaje] || 0) + parseFloat(value);
@@ -66,35 +63,25 @@ const DonutChart = () => {
       datasets: [
         {
           label: 'Total',
-          // labels: myLabels,
           backgroundColor: colors,
           data: dataFirst
         }
       ]
     }
 
-    // console.log(dataFirst)
-
     setData(dataD)
 
-
-
-    // console.log(data)
-    // setData(variables.state)
   }
 
 
   useEffect(() => {
-    // console.log("DPTO CHART")
     variables.changeDonuChartData('DPTO', '97');
     variables.updateCharTheme();
   }, [])
 
 
-  // console.log("veo", dataFirst, labelsData, colors)
   return (
     <div className="charts">
-      {/* {console.log(data)} */}
       <h2 className="charts__subtitle" id="title">{subgrupo}</h2>
       <Doughnut
         data={data}
@@ -106,7 +93,6 @@ const DonutChart = () => {
             align: 'start',
             fullWidth: true,
             labels: {
-              // boxWidth: 20,
               fontColor: dark ? 'black' : 'white',
               fontSize: 14
             }

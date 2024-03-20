@@ -10,7 +10,7 @@ const Accordion = (tematica) => {
   let liTemas = tematica.liTemas;
 
   const ariaExpanded = item[0].COD_SUBGRUPO === activeIndex ? "--collapse" : "";
-  // console.log(ariaExpanded)
+  
   return (
     <li
       className={`filter__thematic__item ${item[0].COD_SUBGRUPO} ${ariaExpanded}`}

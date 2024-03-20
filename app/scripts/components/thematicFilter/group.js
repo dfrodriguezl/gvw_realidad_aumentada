@@ -1,6 +1,5 @@
 // ACORDION GRUPO - CONFIGURACION Y MAQUETA DE ACORDION PARA QUE MUESTRE LOS GRUPOS DEL VISOR DESDE BASE DE DATOS
 import React, { useState } from "react";
-import { Fragment } from "react";
 import { variables } from "../../base/variables";
 
 const NavButton = ({ temaTematica, click, btn }) => {
@@ -19,11 +18,6 @@ const NavButton = ({ temaTematica, click, btn }) => {
       variables.visualGroup(true);
       setVerMas(true);
     }
-  }
-
-  function handleClickPanel(e) {
-    let target = e.currentTarget.id;
-    variables.visualThematic(target);
   }
 
   const [verMas, setVerMas] = useState(true);
@@ -45,45 +39,17 @@ const NavButton = ({ temaTematica, click, btn }) => {
     )
   });
 
-  const Plus = () => {
-    let claseActiva = "filter__thematicGroup__moreText --seemore";
-    let claseInactiva = "filter__thematicGroup__moreText";
-
-    return (
-      <>
-        {verMas && <div className="filter__thematicGroup__more" id="ver__mas" onClick={handleClickPanel}>
-          <div className="filter__thematicGroup__moreIcon" >
-            <span className="filter__thematicGroup__moreLine"></span>
-            <span className="filter__thematicGroup__moreLine"></span>
-            <span className="filter__thematicGroup__moreLine"></span>
-          </div>
-          <p className={claseActiva} id="ver__mas">Ver más</p>
-        </div>}
-        {!verMas && <div className="filter__thematicGroup__more" id="ver__menos" onClick={handleClickPanel}>
-          <div className="filter__thematicGroup__moreIcon">
-            <span className="filter__thematicGroup__moreLine"></span>
-            <span className="filter__thematicGroup__moreLine"></span>
-            <span className="filter__thematicGroup__moreLine"></span>
-          </div>
-          <p className={claseInactiva} >Volver</p>
-        </div>}
-      </>
-    )
-  }
-
   return (
     <div className="filter__thematic">
       {verMas && <div className="filter__thematicGroup">
         <ul className="filter__thematicGroup__list">
           {botones}
         </ul>
-        {/* <Plus></Plus> */}
       </div>}
       {!verMas && <div className="filter__thematicGroup --filtros  --visibleGroupPrincipal">
         <ul className="filter__thematicGroup__list">
           {botones}
         </ul>
-        {/* <Plus></Plus> */}
       </div>}
     </div>
   );

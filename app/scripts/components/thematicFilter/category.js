@@ -1,5 +1,5 @@
 // ACORDION VARIABLES - CONFIGURACION Y MAQUETA DE ACORDION PARA QUE MUESTRE LAS VARIABLES DEL SUBGRUPO DESDE BASE DE DATOS
-import React, { useState } from "react";
+import React from "react";
 import { variables } from "../../base/variables";
 
 const AccordionItem = ({
@@ -9,9 +9,6 @@ const AccordionItem = ({
   click,
   btn
 }) => {
-  const [activeIndex, setActiveIndex] = useState(variables.varVariable);
-  // const [activeIndex, setActiveIndex] = useState(variables.varVariable);
-  // console.log(categoria.COD_CATEGORIA, "categoria")
 
   return (
     <li id={categoria.COD_CATEGORIA}

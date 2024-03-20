@@ -1,19 +1,16 @@
 // FUNCIONALIDAD Y MAQUETA PARA FILTRO DE UBICACION (GROGRAFICO)
 
-import React, { Component, Fragment, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import municipios from '../../json/mpio-extent.json'
 import departamentos from '../../json/dpto-extent.json'
 import clase from '../../json/clase-extent.json'
 import cps from '../../json/centros_poblados-extent.json'
 import Select from 'react-select'
 import { boundingExtent } from 'ol/extent';
-import { transform, transformExtent } from 'ol/proj';
+import { transformExtent } from 'ol/proj';
 import { variables } from '../base/variables';
-import { Stroke, Style } from 'ol/style';
-import { getCenter } from 'ol/extent';
 import { servidorQuery } from '../base/request';
-import { Tabs, useTabState, usePanelState } from "@bumaga/tabs";
-import { useDetectOutsideClick } from '../layout/useDetectOutsideClick';
+import { useTabState, usePanelState } from "@bumaga/tabs";
 
 function bboxExtent(bbox, tipo) {
     bbox = bbox.replace('BOX(', '').replace(')', '')
@@ -30,12 +27,6 @@ function bboxExtent(bbox, tipo) {
     variables.map.fire('flystart');
     var ext = boundingExtent([[bbox1[0], bbox1[1]], [bbox2[0], bbox2[1]]]);
     ext = transformExtent(ext, 'EPSG:4326', 'EPSG:3857');
-    // if (tipo === "mpio") {
-    //     // variables.map.getView().fit(ext, variables.map.getSize());
-    //     variables.map.getView().animate({ center: getCenter(ext) })
-    // } else {
-    //     variables.map.getView().fit(ext, variables.map.getSize());
-    // }
 
 }
 
@@ -90,12 +81,10 @@ const Filter = (props) => {
     }
 
     const handleChange1 = (evt) => {
-        // e.preventDefault();
         setSelectedOption(evt);
 
         let bbox = evt.bextent
         bboxExtent(bbox, "dpto")
-        // let layer = variables.capas['deptos_vt2'];
         let layer = 'deptos_vt2';
         let layer2 = 'mpios_vt2';
 
@@ -110,26 +99,13 @@ const Filter = (props) => {
                 essential: false // this animation is considered essential with respect to prefers-reduced-motion
             });
             variables.map.fire('flystart');
-            // variables.map.getView().setCenter(transform([-74.1083125, 4.663437], 'EPSG:4326', 'EPSG:3857'));
-            // variables.map.getView().setZoom(6);
             clearHightlightFeature(layer);
             clearHightlightFeature(layer2);
 
         } else {
-            // console.log(evt)
             variables.deptoSelected = evt.cod_dane;
             variables.deptoSelectedFilter = evt.cod_dane;
             variables.deptoVariable = evt.cod_dane;
-
-            // variables.filterGeo("DPTO",evt.cod_dane)     
-
-
-            // let currZoom = variables.map.getView().getZoom();
-            // if(currZoom < 9){
-            //     variables.map.getView().setZoom(9.1) 
-            // }  
-
-            // variables.currentZoom = variables.map.getView().getZoom();
             filteredOptions = [];
 
             setSelectedOption2(0);
@@ -160,7 +136,6 @@ const Filter = (props) => {
         let bbox = evt.bextent
         bboxExtent(bbox, "mpio")
         variables.municipioSeleccionado = evt.cod_dane;
-        // setSelectedOption3(0);
         variables.baseMapPrev = variables.baseMapCheck;
         variables.baseMapCheck = "Satelital";
         if (variables.changeDepto != null) {
@@ -305,7 +280,6 @@ const Filter = (props) => {
         let options = [];
         getDataSeccionesRurales(selectedOption.cod_dane, selectedOption2.cod_dane.substr(2, 3), selectedOption3.value, evt.short)
             .then((res) => {
-                // console.log(res)
                 if (res.data.resultado) {
                     res.data.resultado.forEach((r) => {
                         options.push({ ref: "Secciones", name: "Secciones", cod_dane: r.secr_ccdgo, short: r.secr_ccdgo, bbox: r.bextent });
@@ -386,12 +360,6 @@ const Filter = (props) => {
         </li>;
     };
 
-    const Panel = ({ children }) => {
-        const isActive = usePanelState();
-
-        return isActive ? <div className="help__panel" >{children}</div> : null;
-    };
-
     const handleClickPanel = (e) => {
         let target = e.currentTarget.id;
 
@@ -440,23 +408,17 @@ const Filter = (props) => {
                         value={selectedOption.value}
                         onChange={handleChange1}
                         className="select2-container" placeholder="Seleccione un departamento" options={options1}
-                        // isClearable={true}
                         getOptionValue={(option) => option.cod_dane}
                         getOptionLabel={(option) => option.cod_dane + " - " + option.name}
-                    // onClick={() => {}}
                     />
                 </div>
                 <div className="selectBox">
                     <p className="selectBox__name">Municipio:</p>
                     <Select
-                        // styles={{
-                        //     navBar: provided => ({ zIndex: 9999 })
-                        // }}
                         name="form-field-name"
                         value={selectedOption2.value}
                         onChange={handleChange2}
                         className="select2-container" placeholder="Seleccione un municipio" options={filteredOptions}
-                        // isClearable={true}
                         getOptionValue={(option) => option.cod_dane}
                         getOptionLabel={(option) => option.cod_dane + " - " + option.name}
                     />

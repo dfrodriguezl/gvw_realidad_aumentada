@@ -74,7 +74,6 @@ const Search = ({ filterSearch, placeholder }) => {
     }
 
     variables.changeTheme = function (nivel, dpto, campo, table) {
-            console.log("NIVEL", nivel);
         if (nivel == "MNZN") {
             if (variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][dpto] != undefined) {
                 variables.changeMap(nivel, dpto);
@@ -94,15 +93,8 @@ const Search = ({ filterSearch, placeholder }) => {
                         variables.changeMap(nivel, dpto);
                     });
             }
-            // }
 
         } else {
-
-            // if (variables.periodos === null) {
-            //     getPeriodos(nivel, campo);
-            // }
-
-            // console.log("ARRAY DATOS", variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel]);
             if (variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel] !== undefined) {
 
                 if (!variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel]) {
@@ -162,21 +154,8 @@ const Search = ({ filterSearch, placeholder }) => {
                 else {
                     let urlData = variables.urlVariables + "?codigo_subgrupo=" + variables.varVariable.substring(0, 5) + "&nivel_geografico=MNZN&campo=NM&filtro_geografico=05001"
 
-                    // if (variables.periodoSeleccionado) {
-                    //     urlData += "&anio=" + variables.periodoSeleccionado.value
-                    // }
-
                     axios({ method: "GET", url: urlData })
                         .then(function (response) {
-                            // console.log("RESPONSE DATA", response.data);
-                            // const jsonResult = JSON.parse(response.data.replace("Array", ""));
-                            // if (jsonResult) {
-                            //     if (jsonResult.resultado.length === 0) {
-                            //         toast.warn("La periodicidad de este producto no es mensual, por favor consulte el mes correspondiente.",{
-                            //             toastId: 'warn1',
-                            //         })
-                            //     }
-                            // }
 
                             variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["MNZN"]["05001"] = response.data.resultado;
                             variables.changeMap(nivel, dpto, table);
@@ -222,32 +201,6 @@ const Search = ({ filterSearch, placeholder }) => {
 
         }
 
-    }
-
-    const getPeriodos = (nivel, campo) => {
-        let urlData = variables.urlVariables + "?codigo_subgrupo=" + variables.varVariable.substring(0, 5) + "&nivel_geografico=" + nivel
-        if (campo != undefined) {
-            urlData += "&campo=" + campo
-        }
-
-        let listaPeriodos = [];
-        let periodos = [];
-        axios({ method: "GET", url: urlData })
-            .then(function (response) {
-                Object.values(response.data.resultado).map((item) => {
-                    listaPeriodos.push(item.G);
-                })
-                const result = Array.from(new Set(listaPeriodos));
-                result.sort().reverse().map((res) => {
-                    periodos.push({ value: res, label: res })
-                })
-                variables.periodos = periodos;
-                variables.periodoSeleccionado = periodos[0];
-                variables.updatePeriodoHeader(periodos[0]);
-                variables.updatePeriodoTabla(periodos[0]);
-                variables.updatePeriodoResult(periodos[0])
-                variables.getProductosByPeriodo(nivel, campo, periodos[0].value)
-            });
     }
 
     variables.getProductosByPeriodo = (nivel, campo, periodo) => {
@@ -308,7 +261,6 @@ const Search = ({ filterSearch, placeholder }) => {
                     let punto = 0;
 
                     if ((variables.dataRangos)[datos] != undefined) {
-                        let dominiosRange = groupByFunct((variables.dataRangos)[datos], "NIVEL_GEOGRAFICO");
 
                         variables.coloresLeyend[datos] = {
                             ["MPIO"]: [],
@@ -361,7 +313,6 @@ const Search = ({ filterSearch, placeholder }) => {
             }
             setTematica(variables.tematica);
 
-            // let zoom = variables.map.getView().getZoom();
             let zoom = 5;
 
             if (zoom >= 7) {
@@ -370,14 +321,7 @@ const Search = ({ filterSearch, placeholder }) => {
                     variables.filterGeo("DPTO", variables.deptoVariable)
                 }
             } else if (zoom < 7) {
-
-                // if (Object.keys(variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"]).length === 0) {
-                //     variables.legenTheme();
-                // }
-                // variables.changeTheme("", dpto, campo, table)
-                // variables.changeTheme("DPTO", null, null, "y");
                 variables.changeTheme("MNZN", "05001", "NM", "n");
-                // variables.changeLegend("DPTO");
             }
         };
 
@@ -393,9 +337,7 @@ const Search = ({ filterSearch, placeholder }) => {
         }
     }
     const handleChange = event => {
-        // console.log(event)
         if (!filterSearch) {
-            // console.log("EVENT", event);
             setTermDos(event)
         } else {
             setTerm(event)
@@ -419,60 +361,12 @@ const Search = ({ filterSearch, placeholder }) => {
         }
 
         variables.varVariable = event.currentTarget.id;
-        // let zoom = variables.map.getView().getZoom();
-        // let zoom = 5;
-
-        // if (zoom < 7) {
-        //     if (!variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"][variables.periodoSeleccionado.value]) {
-        //         variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"][variables.periodoSeleccionado.value] = {};
-        //     }
-        //     // variables.getProductosByPeriodo("MPIO", "MPIO", variables.periodoSeleccionado.value);
-        //     variables.changeTheme("MPIO", 0, "MPIO", "y");
-        // } else if (zoom >= 7 && zoom <= 11) {
-        //     if (!variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"][variables.periodoSeleccionado.value]) {
-        //         variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"][variables.periodoSeleccionado.value] = {};
-        //     }
-        //     if (!variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["MPIO"][variables.periodoSeleccionado.value]) {
-        //         variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["MPIO"][variables.periodoSeleccionado.value] = {};
-        //     }
-        //     variables.changeTheme("MPIO", 0, "MPIO", "y");
-        //     variables.changeTheme("MPIO", null, null, "y");
-        //     if (variables.deptoSelected == undefined && variables.deptoVariable != undefined) {
-        //         variables.filterGeo("DPTO", variables.deptoVariable)
-        //     }
-        //     // variables.changeStyleDepto();
-        // }
-        // else if (zoom > 11) {
-        //     if (variables.municipioSeleccionado != null) {
-        //         variables.changeTheme("MPIO", 0, "MPIO", "n");
-        //         variables.changeTheme("MPIO", variables.municipioSeleccionado, null, "y");
-        //     }
-
-        //     variables.changeTheme("SECC", null, "NSC", "n");
-        //     // variables.changeStyleDepto();
-        //     // variables.changeStyleMpio();
-        // }
-
-        // variables.baseMapCheck = "Gris";
-
-        // if (variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"] === "%") {
-        //     if (variables.updateSymbols != null) {
-        //         variables.updateSymbols();
-        //     }
-        // } else if (variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"] === "$") {
-        //     if (variables.updateToProps != null) {
-        //         variables.updateToProps();
-        //     }
-        // }
-
         variables.closer.click();
 
         cambiarCapa(event.currentTarget.id)
     };
 
     const cambiarCapa = (id) => {
-        
-        // console.log("MGN VERSION", variables.versionMGN);
         let layers = variables.layers;
         if (id === '39501001') {
             layers["manzanas2022"].hideToc = false;
@@ -595,15 +489,15 @@ const Search = ({ filterSearch, placeholder }) => {
             layers["manzanasVariacion2022"].checked = true;
             variables.versionMGN = 'MGN 2022';
         }
- 
-        if(variables.updateActives != null){
+
+        if (variables.updateActives != null) {
             variables.updateActives();
         }
 
-        if(variables.updateMGNHeader != null){
+        if (variables.updateMGNHeader != null) {
             variables.updateMGNHeader(variables.versionMGN);
         }
-      
+
         variables.updateLayers();
         variables.changeTheme("MNZN", "05001", "NM", "n");
     }
@@ -640,25 +534,6 @@ const Search = ({ filterSearch, placeholder }) => {
                 <Accordion tematica={tematica} item={item} index={index} liTemas={liTemas(item[0].COD_SUBGRUPO)} key={index} />
             )
         });
-
-
-    const toUpperCaseJSON = (obj) => {
-
-        for (var i = 0; i < obj.length; i++) {
-
-            var a = obj[i];
-            for (var key in a) {
-                if (a.hasOwnProperty(key)) {
-                    a[key.toUpperCase()] = a[key];
-                    delete a[key];
-                }
-            }
-            obj[i] = a;
-        }
-
-        return obj;
-
-    }
 
     return (
         <Fragment>

@@ -7,7 +7,6 @@ import Custom from '../components/custom';
 import Upload from "../components/upload";
 import Table from './table';
 import Descarga from '../components/download';
-// import TipoVisualizacion from '../components/tipoVisualizacion';
 
 const cn = (...args) => args.filter(Boolean).join(' ')
 
@@ -64,12 +63,9 @@ const TabsComponent = () => {
       <Panel><BaseMap /></Panel>
       <Panel><Capas /></Panel>
       <Panel>
-        {/* <div style display="none"/> */}
       </Panel>
       <Panel>
         <Custom />
-        {/* Swithc para cambiar mapa simbolos o coropletas */}
-        {/* <TipoVisualizacion /> */}
       </Panel>
       <Panel><Upload /></Panel>
       <Panel></Panel>

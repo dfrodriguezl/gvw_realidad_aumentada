@@ -14,33 +14,13 @@ const Leyenda = () => {
     }
   }, [legend])
 
-  // const leyenda = (legend)
-  //   .map((item, index) => {
-  //     return (
-  //       item[3] === "visible" ? <li className="legend__panel__list__item" key={index}>
-  //         <canvas className="legend__panel__list__item__square" style={{ background: item[0] }}></canvas>
-  //         <p className="legend__panel__list__item__name"> {item[2]}</p>
-  //       </li> : null
-  //     )
-  //   });
-
   variables.changeLegend = function (nivel) {
     setCategoria(variables.tematica["CATEGORIAS"][variables.varVariable][0]["CATEGORIA"])
     setUnidad(variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"])
-    // const tipoVariable = variables.tematica["CATEGORIAS"][variables.varVariable][0]["TIPO_VARIABLE"];
+    if (variables.coloresLeyend[variables.varVariable] != undefined) {
+      setLegend(prevState => [...variables.coloresLeyend[variables.varVariable][nivel]])
+    }
 
-    // if (tipoVariable === "DV") {
-    //   const divergentes = variables.coloresLeyend[variables.varVariable][nivel].map((obj, i) => {
-    //     obj[0] = variables.coloresDivergentes[i];
-    //     return obj;
-    //   }, [])
-    //   setLegend(divergentes)
-    // } else {
-      if (variables.coloresLeyend[variables.varVariable] != undefined) {
-        setLegend(prevState => [...variables.coloresLeyend[variables.varVariable][nivel]])
-      }
-
-    // }
 
   }
 

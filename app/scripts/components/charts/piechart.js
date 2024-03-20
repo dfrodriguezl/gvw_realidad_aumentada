@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Pie } from 'react-chartjs-2';
 import { variables } from '../../base/variables';
 
@@ -40,7 +40,7 @@ const PieChart = () => {
         dataNivel = Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value]).filter((v) => {
           return v.ND === dpto;
         });
-        // console.log(dataNivel)
+       
       }
 
       let contador = dataNivel.length;
@@ -56,29 +56,25 @@ const PieChart = () => {
       dataFirst.push(parseFloat(groupBy[porcentaje] / contador).toFixed(2));
 
     }, {})
-    // console.log("veo", dataFirst, labelsData, colors)
+    
     let dataP = {
       labels: labelsData,
       datasets: [
         {
           label: 'Total',
-          // labels: myLabels,
           backgroundColor: colors,
           data: dataFirst
         }
       ]
     }
 
-    // console.log(variables.state)
-
     setData(dataP)
-    // setData(variables.state)
+    
   }
 
   useEffect(() => {
     variables.changePieChartData('DPTO', '97');
     variables.updateCharTheme();
-    // variables.changePieChartData('MPIO');
   }, [])
 
 

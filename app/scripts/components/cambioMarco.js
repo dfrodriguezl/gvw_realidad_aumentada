@@ -7,14 +7,14 @@ const CambioMGN = () => {
     let value = e.target.value;
     variables.versionMGN = value;
     let layers = variables.layers;
-    if(value === "MGN 2022"){
+    if (value === "MGN 2022") {
       layers["manzanas2022"].hideToc = false;
       layers["manzanas2022"].visible = true;
       layers["manzanas2022"].checked = true;
       layers["manzanas"].hideToc = true;
       layers["manzanas"].visible = false;
       layers["manzanas"].checked = false;
-    } else if (value === "MGN 2021"){
+    } else if (value === "MGN 2021") {
       layers["manzanas2022"].hideToc = true;
       layers["manzanas2022"].visible = false;
       layers["manzanas2022"].checked = false;
@@ -23,7 +23,7 @@ const CambioMGN = () => {
       layers["manzanas"].checked = true;
     }
 
-    if(variables.updateActives != null){
+    if (variables.updateActives != null) {
       variables.updateActives();
     }
 

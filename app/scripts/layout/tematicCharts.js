@@ -1,12 +1,8 @@
 // Layout componentes de navegacion inicial 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Tabs, useTabState, usePanelState } from "@bumaga/tabs";
 import { variables } from "../base/variables";
-import Treemap from '../components/charts/treemap';
-import DonuChart from '../components/charts/donuchart';
-import PieChart from '../components/charts/piechart';
 import BarHData from '../components/charts/barHchart';
-import VeloChart from "../components/charts/gaugechart";
 
 const cn = (...args) => args.filter(Boolean).join(' ')
   ;
@@ -31,36 +27,24 @@ const Charts = () => {
 
 
   return (
-    
+
     tipoVariable === "VC" ?
       <div className="results__btnCharts">
-        {console.log("VARIAB", tipoVariable)}
         <Tabs>
           <ul className="results__btnTabs" >
-            {/* <Tab><p className="results__btnTabsName">Dona</p></Tab>
-            <Tab><p className="results__btnTabsName">Torta</p></Tab> */}
             <Tab><p className="results__btnTabsName">Barras horizontales</p></Tab>
           </ul>
-          {/* <Panel><DonuChart /></Panel>
-          <Panel><PieChart /></Panel> */}
           <Panel><BarHData /></Panel>
         </Tabs>
       </div> :
       tipoVariable === "" ?
         null :
         <div className="results__btnCharts">
-          {console.log("VARIAB2", tipoVariable)}
           <Tabs>
             <ul className="results__btnTabs" >
               <Tab><p className="results__btnTabsName">Barras horizontales</p></Tab>
-              {/* <Tab><p className="results__btnTabsName">Gráfico de Indicador</p></Tab> */}
-
-              {/* <Tab><p className="results__btnTabsName">Gauge1</p></Tab> */}
             </ul>
             <Panel><BarHData /> </Panel>
-            {/* <Panel><VeloChart /> </Panel> */}
-
-            {/* <Panel><GaugeChart1 /> </Panel> */}
           </Tabs>
         </div>
   )

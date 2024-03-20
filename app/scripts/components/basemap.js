@@ -11,13 +11,10 @@ const BaseMap = () => {
   const [checked, setChecked] = useState(variables.baseMapCheck);
 
   function handleClick(e) {
-    // variables.map.on("load", () => {
-      variables.map.setLayoutProperty(variables.baseMapCheck, 'visibility', 'none');
-      variables.baseMapCheck = e;
-      variables.map.setLayoutProperty(variables.baseMapCheck, 'visibility', 'visible');
-      setChecked(e);
-    // })
-
+    variables.map.setLayoutProperty(variables.baseMapCheck, 'visibility', 'none');
+    variables.baseMapCheck = e;
+    variables.map.setLayoutProperty(variables.baseMapCheck, 'visibility', 'visible');
+    setChecked(e);
   }
 
   variables.changeBaseMap = () => {
@@ -33,7 +30,6 @@ const BaseMap = () => {
       <ul className="basemap__list">
         {
           Object.keys(variables.baseMaps).map((values, index) => {
-            // console.log(values, index);
             return <li key={'cajaBaseMap' + `${index + 1}`} className="basemap__list__item" onClick={() => handleClick(values)}>
               <input type="radio" id={'switch' + `${index + 1}`} name='radioBaseMap' value={values} defaultChecked={values == checked} />
               <label htmlFor={'switch' + `${index + 1}`}>

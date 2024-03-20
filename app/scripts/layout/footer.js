@@ -1,9 +1,10 @@
-import React, { Component, Fragment } from 'react';
+import React from 'react';
 
 const Footer = () => {
-    const resultados = true
     return (
-        <div className="footer__content"></div>
+        <footer className="footer" id="footer">
+            <div className="footer__content"></div>
+        </footer>
     );
 }
 export default Footer;

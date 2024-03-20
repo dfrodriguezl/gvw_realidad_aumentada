@@ -9,10 +9,8 @@ export const variables = {
     year: ' 2021 ',
     map: null,
     urlTemas: 'https://geoportal.dane.gov.co/laboratorio/serviciosjson/visores/temas.php',
-    // urlTemas: 'https://nowsoft.app/geoportal/laboratorio/serviciosjson/visores/temas_upper.php', //enlace/servicio  que trae el servicio de las tematicas por visor
     urlVariables: 'https://geoportal.dane.gov.co/laboratorio/serviciosjson/visores/variables8.php',//enlace/servicio  que trae los datos de la variable seleccionada
     urlVariablesProductos: 'https://geoportal.dane.gov.co/laboratorio/serviciosjson/sipsa/productos.php',//enlace/servicio  que trae los datos de la variable seleccionada
-    // urlVariables: 'https://nowsoft.app/geoportal/laboratorio/serviciosjson/visores/variables8_upper.php',
     codVisor: "56", //Ponga el codigo que corresponde a SU VISOR
     varVariable: "39501001", //Ponga el codigo de la CATEGORIA que corresponda a su visor
     series: [0, 0, 0, 0, 0],
@@ -20,17 +18,9 @@ export const variables = {
     urlCount: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/censo_economico/unidades2_segment.php?count=y&codigo_municipio=",
     urlCentroids: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/licencias-construccion/centroides_elic.php?depto=",
     urlDivipolaV2: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/equipamientos/table-list-extent.php",
-    // urlCentroidsGeneral: "https://nowsoft.app/geoportal/laboratorio/serviciosjson/licencias-construccion/centroides.php?", 
     urlCentroidsGeneral: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/licencias-construccion/centroides.php?",
     key: "pk.eyJ1IjoiYXBwbW92aWxkYW5lIiwiYSI6ImNrbzY4b2tiajFxN2cyb3F3YnR1NDF6eWkifQ.mVlSJXQZVl4CNmQpZ1pXNA",
     key: "",
-    // baseMaps: {
-    //     'Gris': 'https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/256/{z}/{x}/{y}?access_token=',
-    //     'Noche': 'https://api.mapbox.com/styles/v1/mapbox/dark-v10/tiles/256/{z}/{x}/{y}?access_token=',
-    //     'OSM': 'https://api.mapbox.com/styles/v1/mapbox/streets-v11/tiles/256/{z}/{x}/{y}?access_token=',
-    //     'Satelital': 'https://api.mapbox.com/styles/v1/mapbox/satellite-v9/tiles/256/{z}/{x}/{y}?access_token=',
-    // },
-
     baseMaps: {
         'Gris': 'https://a.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
         'Noche': 'https://a.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
@@ -39,26 +29,6 @@ export const variables = {
     },
     baseMapCheck: "Noche",  // Ponga el MAPA BASE que quiere por defecto
     layers: {
-        // mgn2022: {
-        //     tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
-        //     id: "mgn2022",
-        //     url: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/cache_leaflet/vectortile-tres.php?params=visores-capas_geovisores-mgn2022/id-mpio_ccnct/none/none/{z}/{x}/{y}",
-        //     // url: "http://localhost/servicios/serviciosphp/vectortile_tres.php?params=visores-capas_geovisores-mgn2020/id-mpio_ccnct/none/none/{z}/{x}/{y}",
-        //     title: 'mgn2022',
-        //     visible: false,
-        //     checked: false,
-        //     opacidad: 0.5,
-        //     minZoom: 5,
-        //     maxZoom: 20,
-        //     style: {
-        //         "line-color": '#ffffff',
-        //         "line-width": 1
-        //     },
-        //     ol: null,
-        //     layer: "mgn_2020_mpio_politico",
-        //     typeLayer: "line",
-        //     clickable: false
-        // },
         manzanas: {
             tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
             id: "manzanas",
@@ -323,158 +293,7 @@ export const variables = {
             typeLayer: "line",
             clickable: false
         },
-        
-
-
-        // secciones: {
-        //     tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
-        //     id: "secc_vt",
-        //     url: "https://geoportal.dane.gov.co/vector-tiles/mgn_2018/secu_ccnct/mgn_2018_urb_seccion/{z}/{x}/{y}.pbf",
-        //     title: 'secciones',
-        //     visible: true,
-        //     minZoom: 11,
-        //     maxZoom: 21,
-        //     style: {
-        //         stroke: {
-        //             color: '#c086f0',
-        //             width: 2
-        //         }
-        //     },
-        //     ol: null
-        // },
-        // manzanas: {
-        //     tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
-        //     id: "mzn_vt",
-        //     url: "https://geoportal.dane.gov.co/vector-tiles/dbDos/MGN_2018_URB_MANZANA/manz_ccnct/{z}/{x}/{y}.pbf",
-        //     title: 'manzanas',
-        //     visible: true,
-        //     minZoom: 12,
-        //     maxZoom: 21,
-        //     style: {
-        //         stroke: {
-        //             color: '#c086f0',
-        //             width: 1
-        //         }
-        //     },
-        //     ol: null
-        // },
-        // clase: {
-        //     tipo: "wms",  // Tipos vt: Vector Tile, wms, wfs
-        //     id: "clase_wms",
-        //     url: "https://geoserverportal.dane.gov.co/geoserver2/postgis/wms",
-        //     layer: 'postgis:V2020_MGN_URB_AREA_CENSAL',
-        //     title: 'Area censal',
-        //     visible: true,
-        //     checked: true,
-        //     minZoom: 9,
-        //     maxZoom: 13,
-        //     ol: null
-        // },
-        // vial: {
-        //     tipo: "wms",  // Tipos vt: Vector Tile, wms, wfs
-        //     id: "vial_wms",
-        //     url: "https://geoserverportal.dane.gov.co/geoserver2/postgis/wms",
-        //     layer: 'postgis:RED_VIAL',
-        //     title: 'Red Vial Nacional (INVIAS)',
-        //     visible: false,
-        //     checked: false,
-        //     minZoom: 9,
-        //     maxZoom: 13,
-        //     ol: null
-        // },
-        // resguardos: {
-        //     tipo: "wms",  // Tipos vt: Vector Tile, wms, wfs
-        //     id: "resguardos_wms",
-        //     url: "https://geoserverportal.dane.gov.co/geoserver2/postgis/wms",
-        //     layer: 'postgis:RESGU_CNPV2018',
-        //     title: 'Resguardos indígenas',
-        //     visible: false,
-        //     checked: false,
-        //     minZoom: 9,
-        //     maxZoom: 13,
-        //     style: {
-        //         stroke: {
-        //             color: '#7F3872',
-        //             width: 1
-        //         }
-        //     },
-        //     ol: null
-        // },
-        // pnn: {
-        //     tipo: "wms",  // Tipos vt: Vector Tile, wms, wfs
-        //     id: "pnn_wms",
-        //     url: "https://geoserverportal.dane.gov.co/geoserver2/dig/wms",
-        //     layer: 'dig:PARQUES_NATURALES',
-        //     title: 'Parques nacionales naturales',
-        //     visible: false,
-        //     checked: false,
-        //     minZoom: 9,
-        //     maxZoom: 13,
-        //     style: {
-        //         stroke: {
-        //             color: '#7F3872',
-        //             width: 1
-        //         }
-        //     },
-        //     ol: null
-        // },
-        // cmn: {
-        //     tipo: "wms",  // Tipos vt: Vector Tile, wms, wfs
-        //     id: "cmn_wms",
-        //     url: "https://geoserverportal.dane.gov.co/geoserver2/dig/wms",
-        //     layer: 'dig:CONSEJOS_COM_NEGROS',
-        //     title: 'Territorios colectivos de comunidades negras',
-        //     visible: false,
-        //     checked: false,
-        //     minZoom: 9,
-        //     maxZoom: 13,
-        //     style: {
-        //         stroke: {
-        //             color: '#7F3872',
-        //             width: 1
-        //         }
-        //     },
-        //     ol: null
-        // },
-        // zrc: {
-        //     tipo: "wms",  // Tipos vt: Vector Tile, wms, wfs
-        //     id: "zrc_wms",
-        //     url: "https://geoserverportal.dane.gov.co/geoserver2/dig/wms",
-        //     layer: 'dig:ZONAS_RESERVA_CAMPESINA',
-        //     title: 'Zonas de reserva campesina',
-        //     visible: false,
-        //     checked: false,
-        //     minZoom: 9,
-        //     maxZoom: 13,
-        //     style: {
-        //         stroke: {
-        //             color: '#7F3872',
-        //             width: 1
-        //         }
-        //     },
-        //     ol: null
-        // },
-        // veredas: {
-        //     tipo: "wms",  // Tipos vt: Vector Tile, wms, wfs
-        //     id: "veredas_wms",
-        //     url: "https://geoserverportal.dane.gov.co/geoserver2/postgis/wms",
-        //     layer: 'postgis:VEREDAS_2017',
-        //     title: 'Nivel de referencia de veredas',
-        //     visible: false,
-        //     checked: false,
-        //     minZoom: 9,
-        //     maxZoom: 13,
-        //     style: {
-        //         stroke: {
-        //             color: '#7F3872',
-        //             width: 1
-        //         }
-        //     },
-        //     ol: null
-        // },
     },
-    // checkedLayers :{},
-    // changeLoader: null,
     layersInMap: [],
     consulta: "as",
     tematica: JSON.parse(localStorage.getItem('tematica')) != null ? JSON.parse(localStorage.getItem('tematica')) : {

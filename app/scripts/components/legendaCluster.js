@@ -1,9 +1,6 @@
-import React, { useState, useEffect, useContext, useLayoutEffect } from "react";
-import { variables } from '../base/variables';
+import React from "react";
 
 const LeyendaCluster = () => {
-
-  // variables.changeLegend = function (nivel) {}
 
   return (
     <div className="legend">
