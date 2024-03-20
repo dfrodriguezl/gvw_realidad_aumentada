@@ -1,74 +1,103 @@
 // Layout componentes menu de navegación secundario (Herramientas)
 import React, { useState } from 'react';
-import { Tabs, useTabState, usePanelState } from "@bumaga/tabs";
 import BaseMap from '../components/basemap';
 import Capas from '../components/capas';
 import Custom from '../components/custom';
 import Upload from "../components/upload";
 import Table from './table';
 import Descarga from '../components/download';
+import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 
-const cn = (...args) => args.filter(Boolean).join(' ')
-
-const Tab = ({ children }) => {
-  const { isActive, onClick } = useTabState();
-
-  return <li className="tools__list__item">
-    <button className={cn("tools__list__item__btn", isActive && '--active')} onClick={onClick}>{children}</button>
-  </li>;
-};
-
-const Panel = ({ children }) => {
-  const isActive = usePanelState();
-
-  return isActive ? <div className="tools__container">{children}</div> : null;
-};
 
 const TabsComponent = () => {
-  const state = useState(null);
+  const [state, setState] = useState(-1);
 
   return (
-    <Tabs state={state}>
-      <ul className="tools__list">
+    <Tabs selectedIndex={state} onSelect={(index) => setState(index)}>
+      <TabList className="tools__list">
         <Tab>
-          <div className="tools__icon">
-            <span className="DANE__Geovisor__icon__baseMap"></span>
+          <div className="tools__list__item">
+            <button className={state === 0 ? "tools__list__item__btn --active" : "tools__list__item__btn"}>
+              <div className="tools__icon">
+                <span className="DANE__Geovisor__icon__baseMap"></span>
+              </div>
+              <p className="tools__iconName">Mapa Base</p>
+            </button>
           </div>
-          <p className="tools__iconName">Mapa Base</p>
         </Tab>
         <Tab>
-          <div className="tools__icon">
-            <span className="DANE__Geovisor__icon__layers"></span>
+          <div className="tools__list__item">
+            <button className={state === 1 ? "tools__list__item__btn --active" : "tools__list__item__btn"}>
+              <div className="tools__icon">
+                <span className="DANE__Geovisor__icon__layers"></span>
+              </div>
+              <p className="tools__iconName">Capas</p>
+            </button>
           </div>
-          <p className="tools__iconName">Capas</p>
         </Tab>
-        <Tab><Table /></Tab>
         <Tab>
-          <div className="tools__icon">
-            <span className="DANE__Geovisor__icon__palette"></span>
+          <div className="tools__list__item">
+            <button className={state === 2 ? "tools__list__item__btn --active" : "tools__list__item__btn"}>
+              <Table />
+            </button>
           </div>
-          <p className="tools__iconName">Personalizar</p>
         </Tab>
         <Tab>
-          <div className="tools__icon">
-            <span className="DANE__Geovisor__icon__uploadCloud"></span>
+          <div className="tools__list__item">
+            <button className={state === 3 ? "tools__list__item__btn --active" : "tools__list__item__btn"}>
+              <div className="tools__icon">
+                <span className="DANE__Geovisor__icon__palette"></span>
+              </div>
+              <p className="tools__iconName">Personalizar</p>
+            </button>
           </div>
-          <p className="tools__iconName">Cargar</p>
         </Tab>
         <Tab>
-          <Descarga />
+          <div className="tools__list__item">
+            <button className={state === 4 ? "tools__list__item__btn --active" : "tools__list__item__btn"}>
+              <div className="tools__icon">
+                <span className="DANE__Geovisor__icon__uploadCloud"></span>
+              </div>
+              <p className="tools__iconName">Cargar</p>
+            </button>
+          </div>
         </Tab>
-      </ul>
+        <Tab>
+          <div className="tools__list__item">
+            <button className={state === 5 ? "tools__list__item__btn --active" : "tools__list__item__btn"}>
+              <Descarga />
+            </button>
+          </div>
+        </Tab>
+      </TabList>
 
-      <Panel><BaseMap /></Panel>
-      <Panel><Capas /></Panel>
-      <Panel>
-      </Panel>
-      <Panel>
-        <Custom />
-      </Panel>
-      <Panel><Upload /></Panel>
-      <Panel></Panel>
+      <TabPanel>
+        <div className="tools__container">
+          <BaseMap />
+        </div>
+      </TabPanel>
+      <TabPanel>
+        <div className="tools__container">
+          <Capas />
+        </div>
+      </TabPanel>
+      <TabPanel>
+        <div className="tools__container"></div>
+      </TabPanel>
+      <TabPanel>
+        <div className="tools__container">
+          <Custom />
+        </div>
+      </TabPanel>
+      <TabPanel>
+        <div className="tools__container">
+          <Upload />
+        </div>
+      </TabPanel>
+      <TabPanel>
+        <div className="tools__container">
+        </div>
+      </TabPanel>
     </Tabs>
 
   );

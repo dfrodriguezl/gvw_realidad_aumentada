@@ -1118,8 +1118,6 @@ variables.changeMap = function (nivel, dpto, table) {
 
     let list = integrado_mnzn.filter((x, i, a) => a.indexOf(x) == i)
 
-    console.log("INTEGRADO MNZN", list);
-
 
     var serie = new geostats(list);
 

@@ -10,7 +10,6 @@ import { boundingExtent } from 'ol/extent';
 import { transformExtent } from 'ol/proj';
 import { variables } from '../base/variables';
 import { servidorQuery } from '../base/request';
-import { useTabState, usePanelState } from "@bumaga/tabs";
 
 function bboxExtent(bbox, tipo) {
     bbox = bbox.replace('BOX(', '').replace(')', '')
@@ -350,15 +349,6 @@ const Filter = (props) => {
     const getDataSeccionesRurales = (depto, mcipio, clase, setu) => {
         return servidorQuery(variables.urlDivipolaV2 + "?params=visores-capas_geovisores-mgn2021_rursecc/ST_Extent(geom)%20as%20bextent-gid-secr_ccdgo/setr_ccnct/" + depto + mcipio + clase + setu + "/true");
     }
-
-    const cn = (...args) => args.filter(Boolean).join(' ')
-
-    const Tab = ({ children }) => {
-        const { isActive, onClick } = useTabState();
-
-        return <li className={cn("help__listTabItem", isActive && '--active')} onClick={onClick}>{children}
-        </li>;
-    };
 
     const handleClickPanel = (e) => {
         let target = e.currentTarget.id;
