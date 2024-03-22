@@ -1,6 +1,6 @@
 // Layout componentes de navegacion inicial 
 
-import React, { useState, useRef, Fragment } from "react";
+import React, { useState, useRef } from "react";
 import Filter from '../components/locationFilter';
 import Help from './help';
 import Tools from './tools';
