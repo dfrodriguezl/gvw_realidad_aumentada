@@ -68,9 +68,9 @@ class mglStreetViewControl {
         _map.setZoom(14);
 
       //show mapillary imagery points and lines
-      _mapillaryLayers.forEach(l => {
-        _map.setLayoutProperty(l.id, "visibility", "visible");
-      });
+      // _mapillaryLayers.forEach(l => {
+      //   _map.setLayoutProperty(l.id, "visibility", "visible");
+      // });
 
       //show toast, spectre css only
       if (!document.getElementById("streetviewControlToast")) {
@@ -113,7 +113,8 @@ class mglStreetViewControl {
           [point.x + bboxClickTargetSize / 2, point.y + bboxClickTargetSize / 2]
         ]
         const mapillaryLayerIds = _mapillaryLayers.reduce((i, l) => [...i, l.id], []);
-        const mapillaryImages = _map.queryRenderedFeatures(bbox, { layers: mapillaryLayerIds });
+        // const mapillaryImages = _map.queryRenderedFeatures(bbox, { layers: mapillaryLayerIds });
+        const mapillaryImages = [];
         const mapillaryExists = (!mapillaryImages.length) ? false : true;
 
         const urls = ["https://www.google.com/maps/@?api=1&map_action=pano&viewpoint=".concat(lngLat.lat, ",").concat(lngLat.lng)]
