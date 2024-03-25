@@ -33,6 +33,7 @@ import 'react-toastify/dist/ReactToastify.css';
 //Libreria MapLibre
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
+import { mglStreetViewControl } from '../util/mglStreetViewControl.js'
 
 let container, content;
 let zoomActual;
@@ -104,6 +105,14 @@ const Mapa = () => {
         variables.map.setLayoutProperty(basemap, 'visibility', 'visible');
       }
     });
+
+    variables.map.addControl(new mglStreetViewControl({
+      mapillaryAlias: "COZ",
+      mapillaryLayerOptions: {
+        userKey: false,
+        pano: 1
+      }
+    }), 'top-right');
 
     loadLayers();
     loadPopups();
