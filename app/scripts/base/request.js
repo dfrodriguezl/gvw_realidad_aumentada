@@ -62,5 +62,9 @@ export function getData(uri) {
 
 }
 
+export function servidorQuery2(uri) {
+    return axios.get(uri);
+}
+
 
 

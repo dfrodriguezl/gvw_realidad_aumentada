@@ -12,6 +12,7 @@ import NavButton from './thematicFilter/group';
 import chroma from 'chroma-js';
 import { scaleLinear } from "d3-scale";
 import { Fragment } from "react";
+import SearchPlace from "./searchPlace";
 
 function bboxExtent(bbox) {
     bbox = bbox.replace('BOX(', '').replace(')', '')
@@ -551,7 +552,7 @@ const Search = ({ filterSearch, placeholder }) => {
                     </button>
                     <div className="search__erase"></div>
                     <p className="search__errorMessage">Lo sentimos, no encontramos nada relacionado.</p>
-                    {filterSearch && <ul className="search__list">{searchResultsMapped}</ul>}
+                    {filterSearch && <ul className="search__list"><SearchPlace texto={term} /></ul>}
                 </div>}
                 {!filterSearch && <div className="filter__thematic">
                     <ul className="filter__thematic__list">

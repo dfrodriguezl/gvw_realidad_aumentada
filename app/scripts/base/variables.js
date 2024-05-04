@@ -1,12 +1,12 @@
 // Geovisor - OpenLayers | Variables Globales
 export const variables = {
 
-    title: 'Geoportal DANE - Geovisor variables temáticas MGN ', //Cambielo por el título de su geovisor
-    description: 'Geoportal DANE - Geovisor variables temáticas MGN',
+    title: 'Geoportal DANE - Geovisor integrado de estadísticas sociodemográficas', //Cambielo por el título de su geovisor
+    description: 'Geoportal DANE - Geovisor integrado de estadísticas sociodemográficas',
     country: 'Colombia',
     place: ' Todos los departamentos ',
     fuente: "Variables temáticas MGN",
-    year: ' 2021 ',
+    year: ' 2023',
     map: null,
     urlTemas: 'https://geoportal.dane.gov.co/laboratorio/serviciosjson/visores/temas.php',
     urlVariables: 'https://geoportal.dane.gov.co/laboratorio/serviciosjson/visores/variables8.php',//enlace/servicio  que trae los datos de la variable seleccionada
@@ -19,6 +19,7 @@ export const variables = {
     urlCentroids: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/licencias-construccion/centroides_elic.php?depto=",
     urlDivipolaV2: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/equipamientos/table-list-extent.php",
     urlCentroidsGeneral: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/licencias-construccion/centroides.php?",
+    urlPlacesGoogle: "https://maps.googleapis.com/maps/api/place/findplacefromtext/json",
     key: "pk.eyJ1IjoiYXBwbW92aWxkYW5lIiwiYSI6ImNrbzY4b2tiajFxN2cyb3F3YnR1NDF6eWkifQ.mVlSJXQZVl4CNmQpZ1pXNA",
     key: "",
     baseMaps: {
