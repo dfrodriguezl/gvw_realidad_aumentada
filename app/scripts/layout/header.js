@@ -2,6 +2,7 @@ import React, { Fragment, useState } from 'react';
 import { variables } from '../base/variables';
 import AccessibilityTool from '../components/accessibility';
 import Search from '../components/search';
+import SearchGoogle from '../components/searchGoogle';
 
 
 const Header = () => {
@@ -84,7 +85,8 @@ const Header = () => {
                     <div className="accessibility --visible">
                         <AccessibilityTool />
                     </div>
-                    <Search filterSearch={resultados} placeholder={"Búsqueda por lugar de Interés"} />
+                    {/* <Search filterSearch={resultados} placeholder={"Búsqueda por lugar de Interés"} /> */}
+                    <SearchGoogle/>
                 </div>
             </header>
 

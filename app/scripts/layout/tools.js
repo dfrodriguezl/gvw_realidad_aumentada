@@ -7,6 +7,7 @@ import Upload from "../components/upload";
 import Table from './table';
 import Descarga from '../components/download';
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
+import RouterGoogle from '../components/routerGoogle';
 
 
 const TabsComponent = () => {
@@ -65,6 +66,16 @@ const TabsComponent = () => {
         <Tab>
           <div className="tools__list__item">
             <button className={state === 5 ? "tools__list__item__btn --active" : "tools__list__item__btn"}>
+              <div className="tools__icon">
+                <span className="DANE__Geovisor__icon__route"></span>
+              </div>
+              <p className="tools__iconName">Rutas</p>
+            </button>
+          </div>
+        </Tab>
+        <Tab>
+          <div className="tools__list__item">
+            <button className={state === 6 ? "tools__list__item__btn --active" : "tools__list__item__btn"}>
               <Descarga />
             </button>
           </div>
@@ -92,6 +103,11 @@ const TabsComponent = () => {
       <TabPanel>
         <div className="tools__container">
           <Upload />
+        </div>
+      </TabPanel>
+      <TabPanel>
+        <div className="tools__container">
+        <RouterGoogle/>
         </div>
       </TabPanel>
       <TabPanel>
