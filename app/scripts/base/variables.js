@@ -432,6 +432,13 @@ export const variables = {
     versionMGN: "MGN 2022",
     updateActives: null,
     updateLayers: null,
-    updateMGNHeader: null
+    updateMGNHeader: null,
+    ///herramientas de google//////
+    marker: null,
+    router: {
+        line: null,
+        start: null,
+        finsih: null
+    },
 }
 export const urlDeploy = 'http://localhost:3000/'

@@ -1,0 +1,258 @@
+.toolBar__container__panel__functionBox__step.--active {
+    display: inherit;
+}
+
+.toolBar__container__panel__functionBox__step {
+    margin: 0 0 15px 0;
+    padding: 0 8px;
+    display: none;
+}
+
+.toolBar__container__panel__functionBox__textCenter {
+    margin: 15px auto;
+    font-size: 0.8em;
+    font-weight: 500;
+    color: #262626;
+}
+
+.toolBar__container__panel__functionBox__step__buttonList {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: box;
+    display: flex;
+    -webkit-box-flex-wrap: wrap;
+    -moz-box-flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+
+.toolBar__container__panel__functionBox__step__buttonList__item {
+    margin: 0 3px 3px 6px;
+}
+
+.toolBar__container__panel__functionBox__inputContainer {
+    width: 100%;
+    margin: 8px 0;
+    position: relative;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: box;
+    display: flex;
+    -webkit-box-flex-wrap: wrap;
+    -moz-box-flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+}
+
+.toolBar__container__panel__functionBox__inputConainer__textInput {
+    border-radius: 4px;
+    border: 1px solid #B5B5B5;
+    padding: 8px 20px 8px 5px;
+    font-size: 0.8em;
+    width: -moz-calc(100% - 55px);
+    width: -webkit-calc(100% - 55px);
+    width: calc(100% - 55px);
+    -webkit-transition: all ease-in-out 0.2s;
+    -moz-transition: all ease-in-out 0.2s;
+    -ms-transition: all ease-in-out 0.2s;
+    -o-transition: all ease-in-out 0.2s;
+    transition: all ease-in-out 0.2s;
+}
+
+.toolBar__container__panel__functionBox__inputContainer__addPointButton {
+    position: absolute;
+    right: 13px;
+    top: 5px;
+    width: 20px;
+    height: 20px;
+    background: #fff;
+    border: none;
+    color: #666;
+    font-size: 1.3em;
+    -webkit-transition: all ease-in-out 0.2s;
+    -moz-transition: all ease-in-out 0.2s;
+    -ms-transition: all ease-in-out 0.2s;
+    -o-transition: all ease-in-out 0.2s;
+    transition: all ease-in-out 0.2s;
+}
+
+.toolBar__container__panel__functionBox__inputContainer__icon {
+    width: 25px;
+    text-align: center;
+    margin: 7px 0 0 0;
+    font-size: 1.2em;
+    color: #B91450;
+}
+
+.toolBar__container__panel__functionBox__inputContainer__errorMessage {
+    opacity: 0;
+    visibility: hidden;
+    height: 0;
+    font-size: 0.85em;
+    margin: 0;
+    color: #BD0B4E;
+    width: 100%;
+    word-wrap: break-word;
+    -webkit-transition: all ease-in-out 0.2s;
+    -moz-transition: all ease-in-out 0.2s;
+    -ms-transition: all ease-in-out 0.2s;
+    -o-transition: all ease-in-out 0.2s;
+    transition: all ease-in-out 0.2s;
+}
+
+.toolBar__container__panel__functionBox__step__addbtn.--visible {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: box;
+    display: flex;
+}
+
+.toolBar__container__panel__functionBox__step__addbtn {
+    background: white;
+    border: none;
+    cursor: pointer;
+    display: none;
+    -webkit-box-flex-wrap: wrap;
+    -moz-box-flex-wrap: wrap;
+    -webkit-flex-wrap: wrap;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -webkit-transition: all ease-in-out 0.2s;
+    -moz-transition: all ease-in-out 0.2s;
+    -ms-transition: all ease-in-out 0.2s;
+    -o-transition: all ease-in-out 0.2s;
+    transition: all ease-in-out 0.2s;
+}
+
+.toolBar__container__panel__functionBox__step__addbtn__icon {
+    line-height: 0;
+    color: #B91450;
+    font-size: 1em;
+    cursor: pointer;
+}
+
+.toolBar__container__panel__functionBox__step__addbtn__name {
+    margin: 0 8px;
+    font-size: 0.8em;
+    color: #666;
+    cursor: pointer;
+}
+
+.toolBar__container__panel__functionBox__step__errorMessage {
+    display: none;
+    font-size: 0.8em;
+    color: #B91450;
+    margin: 5px 0;
+    text-align: center;
+    -webkit-transition: all ease-in-out 0.2s;
+    -moz-transition: all ease-in-out 0.2s;
+    -ms-transition: all ease-in-out 0.2s;
+    -o-transition: all ease-in-out 0.2s;
+    transition: all ease-in-out 0.2s;
+}
+
+.toolBar__container__panel__functionBox__XY__btn.--invisible {
+    display: none;
+}
+
+.toolBar__container__panel__functionBox__XY__btn {
+    width: 100%;
+    margin: 5px 0;
+    color: #3D3D3D;
+    font-size: 0.8em;
+    border: 1px solid #B5B5B5;
+    border-radius: 4px;
+    padding: 5px;
+    background: #fff;
+    cursor: pointer;
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    display: box;
+    display: flex;
+    -webkit-box-justify-content: center;
+    -moz-box-justify-content: center;
+    -webkit-justify-content: center;
+    -ms-justify-content: center;
+    justify-content: center;
+    -webkit-transition: all ease-in-out 0.2s;
+    -moz-transition: all ease-in-out 0.2s;
+    -ms-transition: all ease-in-out 0.2s;
+    -o-transition: all ease-in-out 0.2s;
+    transition: all ease-in-out 0.2s;
+}
+
+.toolBar__container__panel__functionBox__XY__btn__icon {
+    margin: 3px 0;
+    font-size: 1.2em;
+    line-height: 0;
+}
+
+.toolBar__container__panel__functionBox__XY__btn__name {
+    margin: 3px;
+}
+
+.toolBar__container__panel__functionBox__XY__btn#ruteoBtn__Borrar {
+    margin: 20px 0;
+}
+
+.toolBar__container__panel__functionBox__step__buttonList__item__btn {
+    background: #fff;
+    border: 1px solid #D8D8D8;
+    border-radius: 4px;
+    width: 75px;
+    padding: 8px;
+    margin: 0 2px;
+    font-size: 0.8em;
+    color: #262626;
+    -webkit-transition: all ease-in-out 0.2s;
+    -moz-transition: all ease-in-out 0.2s;
+    -ms-transition: all ease-in-out 0.2s;
+    -o-transition: all ease-in-out 0.2s;
+    transition: all ease-in-out 0.2s;
+}
+
+.rdt_Table {
+    border: solid 1px #7F7F7F;
+}
+
+.rdt_TableHead {
+    border: solid 1px #7F7F7F;
+}
+
+.ant-modal-wrap {
+    position: relative !important;
+}
+
+.ant-modal {
+    right: 2em !important;
+    left: auto !important;
+}
+
+.ant-modal-content {
+    height: 56em;
+    overflow-y: scroll;
+}
+
+//Estilos modo oscuro
+html[data-theme="dark"] {
+    .legend {
+        background: $blackboard;
+    }
+
+    .map__legend__list__item.--manzana .map__legend__list__item__square {
+        border: 1px solid #000;
+    }
+}
