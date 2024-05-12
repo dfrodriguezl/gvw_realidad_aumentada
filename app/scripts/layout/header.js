@@ -85,8 +85,8 @@ const Header = () => {
                     <div className="accessibility --visible">
                         <AccessibilityTool />
                     </div>
-                    {/* <Search filterSearch={resultados} placeholder={"Búsqueda por lugar de Interés"} /> */}
-                    <SearchGoogle/>
+                    <Search filterSearch={resultados} placeholder={"Búsqueda por lugar de Interés"} />
+                    {/* <SearchGoogle/> */}
                 </div>
             </header>
 
