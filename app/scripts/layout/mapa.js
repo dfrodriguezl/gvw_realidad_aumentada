@@ -581,7 +581,7 @@ variables.changeMap = function (nivel, dpto, table) {
         return 0;
       })
 
-      variables.updateData(orderData, colsTable);
+      // variables.updateData(orderData, colsTable);
     }
 
     if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined) {
@@ -922,7 +922,7 @@ variables.changeMap = function (nivel, dpto, table) {
     variables.legenTheme();
 
     if (table == "y") {
-      variables.updateData(dataTable, colsTable);
+      // variables.updateData(dataTable, colsTable);
     }
 
     variables.changeLegend(nivel);
@@ -1176,7 +1176,7 @@ variables.changeMap = function (nivel, dpto, table) {
       return 0;
     })
 
-    variables.updateData(orderData, colsTable);
+    // variables.updateData(orderData, colsTable);
 
     variables.changeBarChartData(labelsChart, colorsChart, orderData, nivel);
 

@@ -552,7 +552,7 @@ const Search = ({ filterSearch, placeholder }) => {
                     </button>
                     <div className="search__erase"></div>
                     <p className="search__errorMessage">Lo sentimos, no encontramos nada relacionado.</p>
-                    {filterSearch && <ul className="search__list"><SearchPlace texto={term} /></ul>}
+                    {filterSearch && term.length > 3 && <ul className="search__list"><SearchPlace texto={term} /></ul>}
                 </div>}
                 {!filterSearch && <div className="filter__thematic">
                     <ul className="filter__thematic__list">

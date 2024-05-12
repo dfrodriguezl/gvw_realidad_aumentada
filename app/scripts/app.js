@@ -19,7 +19,7 @@ const App = () => {
                     <Mapa />
                     <Results />
                 </div>
-                <TableContent />
+                {/* <TableContent /> */}
                 <div id="popup" className="ol-popup">
                     <a href="#" id="popup-closer" className="ol-popup-closer"></a>
                     <div id="popup-content"></div>
