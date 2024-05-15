@@ -60,6 +60,7 @@
     "geostats": "^2.0.0",
     "jszip": "^3.5.0",
     "maplibre-gl": "^2.4.0",
+    "material-ui": "^0.20.2",
     "modali": "^1.2.0",
     "ol": "^6.3.1",
     "ol-street-view": "^1.1.5",

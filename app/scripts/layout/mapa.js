@@ -170,6 +170,7 @@ const Mapa = () => {
   }
 
   return (
+    <div>
     <div id="map">
       <ul className='switch'>
         <li id="switch_visualization"><TipoVisualizacion /></li>
@@ -184,6 +185,8 @@ const Mapa = () => {
 
       </div>
     </div>
+      <div id="map2">Soy el panel del dashboard</div>
+      </div>
   )
 }
 var buttons = document.querySelectorAll(".toggle-button");
