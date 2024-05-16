@@ -185,7 +185,6 @@ const Mapa = () => {
 
       </div>
     </div>
-      <div id="map2">Soy el panel del dashboard</div>
       </div>
   )
 }

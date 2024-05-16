@@ -1,11 +1,11 @@
 // Geovisor - OpenLayers | Variables Globales
 export const variables = {
 
-    title: 'Geoportal DANE - Geovisor variables temáticas MGN ', //Cambielo por el título de su geovisor
-    description: 'Geoportal DANE - Geovisor variables temáticas MGN',
+    title: 'Geoportal DANE -Geovisor Integrado de Estadísticas Sociodemográficas ', //Cambielo por el título de su geovisor
+    description: 'Geoportal DANE - Geovisor Integrado de Estadísticas Sociodemográficas',
     country: 'Colombia',
     place: ' Todos los departamentos ',
-    fuente: "Variables temáticas MGN",
+    fuente: "Geovisor Integrado de Estadísticas Sociodemográficas",
     year: ' 2021 ',
     map: null,
     urlTemas: 'https://geoportal.dane.gov.co/laboratorio/serviciosjson/visores/temas.php',
