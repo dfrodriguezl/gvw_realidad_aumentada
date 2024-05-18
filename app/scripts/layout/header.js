@@ -24,7 +24,7 @@ const Header = () => {
                 <div className="Header__container">
                     <div className="Header__container__logo">
                         <a rel="noreferrer" title="Geoportal DANE Logo" href="https://www.dane.gov.co/" className="Header__container__logo__link" target="_blank">
-                        <img class="DANE__Geovisor__icon__logoDANE__01" src="https://geoportal.dane.gov.co/src/images/general/LogoDANE_Nuevo.svg" id="logo" alt="logo-dane" />
+                        <img className="DANE__Geovisor__icon__logoDANE__01" src="https://geoportal.dane.gov.co/src/images/general/LogoDANE_Nuevo.svg" id="logo" alt="logo-dane" />
                         </a>
                     </div>
                     <h3 className="Header__container__geoportal">

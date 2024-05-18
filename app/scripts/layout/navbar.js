@@ -27,14 +27,14 @@ const Accordion = ({ title, icon, children, data }) => {
 };
 
 const TabsComponent = ({ activeTab, setActiveTab }) => {
-  const [state, setState] = useState(2);
+  const [state, setState] = useState(1);
   const dropdownRef = useRef(null);
   const [isActive, setIsActive] = useDetectOutsideClick(dropdownRef, false);
   const onClick = () => setIsActive(!isActive);
 
   const handleTabSelect = (index) => {
     setState(index);
-    setActiveTab(index);
+    // setActiveTab(index);
   };
 
   return (
@@ -51,7 +51,7 @@ const TabsComponent = ({ activeTab, setActiveTab }) => {
             </Tab>
             <Tab>
               <div className="navBar__list__item">
-                <button className={state === 2 ? "navBar__list__item__btn --active" : "navBar__list__item__btn"}>
+                <button className={state === 1 ? "navBar__list__item__btn --active" : "navBar__list__item__btn"}>
                   <div className="navBar__icon">
                     <span className="DANE__Geovisor__icon__searchTheme"></span>
                   </div>
@@ -61,7 +61,7 @@ const TabsComponent = ({ activeTab, setActiveTab }) => {
             </Tab>
             <Tab>
               <div className="navBar__list__item">
-                <button className={state === 3 ? "navBar__list__item__btn --active" : "navBar__list__item__btn"}>
+                <button className={state === 2 ? "navBar__list__item__btn --active" : "navBar__list__item__btn"}>
                   <div className="navBar__icon">
                     <span className="DANE__Geovisor__icon__settings"></span>
                   </div>
@@ -72,11 +72,6 @@ const TabsComponent = ({ activeTab, setActiveTab }) => {
           </TabList>
           <TabPanel>
             <div className="navbar__panel"></div>
-          </TabPanel>
-          <TabPanel>
-            <div className="navbar__panel">
-              <Filter />
-            </div>
           </TabPanel>
           <TabPanel>
             <div className="navbar__panel">

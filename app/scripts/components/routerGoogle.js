@@ -598,7 +598,7 @@ const RouterGoogle = () => {
                                 </Button>,
                             ]
                     }
-                    visible={visible}
+                    open={visible}
                     onOk={handleOk}
                     onCancel={handleCancel}
                     modalRender={(modal) => (
@@ -647,8 +647,7 @@ const RouterGoogle = () => {
                     </div>
                     <input type="text" id="ruteoPunto0" name="ruteoPunto0"
                         placeholder="Escriba el punto de partida o realice clic en el mapa"
-                        className="toolBar__container__panel__functionBox__inputConainer__textInput pac-target-input"
-                        autocomplete="off" />
+                        className="toolBar__container__panel__functionBox__inputConainer__textInput pac-target-input" />
                     <button className="toolBar__container__panel__functionBox__inputContainer__addPointButton" name="ruteoPunto0" onClick={() => handleClickDos("measure__drawPoint", "ruteoPunto0")}>
                         <span className="DANE__Geovisor__icon__targetPoint"></span>
                     </button>
