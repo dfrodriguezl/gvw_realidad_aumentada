@@ -1,0 +1,91 @@
+
+.dashboard__container{
+  overflow: hidden;
+    display: flex;
+    height: calc(100vh - 100px);
+    flex-direction: column;
+    align-items: center;
+}
+
+.dashboard_title{
+  align-items: flex-end;
+  display: flex;
+}
+
+.dashboard_h1{
+  color: $fifthColor;
+  font-size: 1.2em;
+}
+
+.dashboard_h2{
+  color: $gray8;
+  font-size: 1em;
+  padding: 0 8px;
+}
+
+.dashboard_containerBlocks{
+  display: flex;
+  justify-content: flex-end
+}
+
+.dashboard_blocks{
+  display: flex;
+  list-style-type: none;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    gap: 20px;
+    width: 80%;
+    max-width: 1200px;
+}
+
+.block {
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
+  font-size: 1.2em;
+  color: #333333;
+  flex: 1 1 calc(50% - 40px); /* 50% width minus gap */
+  box-sizing: border-box;
+}
+
+.widgets__container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .widget{
+    margin: 10px;
+    padding: 10px;
+    height: 100px;
+    width: 200px;
+    h2{
+      font-size: 12px;
+      color: $gray8;
+      padding: 0;
+    }
+    p{
+      font-size: 35px;
+    }
+  }
+  }
+
+  .summary__container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .cards__container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    .card{
+      width: calc(40% - 15px);
+      height: 10rem;
+      margin: 10px;
+      padding: 10px;
+    }
+  }

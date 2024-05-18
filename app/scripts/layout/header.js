@@ -24,32 +24,7 @@ const Header = () => {
                 <div className="Header__container">
                     <div className="Header__container__logo">
                         <a rel="noreferrer" title="Geoportal DANE Logo" href="https://www.dane.gov.co/" className="Header__container__logo__link" target="_blank">
-                            <span className="DANE__Geovisor__icon__logoDANE__01">
-                                <span className="path1"></span>
-                                <span className="path2"></span>
-                                <span className="path3"></span>
-                                <span className="path4"></span>
-                                <span className="path5"></span>
-                                <span className="path6"></span>
-                                <span className="path7"></span>
-                                <span className="path8"></span>
-                                <span className="path9"></span>
-                                <span className="path10"></span>
-                                <span className="path11"></span>
-                                <span className="path12"></span>
-                                <span className="path13"></span>
-                                <span className="path14"></span>
-                                <span className="path15"></span>
-                                <span className="path16"></span>
-                                <span className="path17"></span>
-                                <span className="path18"></span>
-                                <span className="path19"></span>
-                                <span className="path20"></span>
-                                <span className="path21"></span>
-                                <span className="path22"></span>
-                                <span className="path23"></span>
-                                <span className="path24"></span>
-                            </span>
+                        <img class="DANE__Geovisor__icon__logoDANE__01" src="https://geoportal.dane.gov.co/src/images/general/LogoDANE_Nuevo.svg" id="logo" alt="logo-dane" />
                         </a>
                     </div>
                     <h3 className="Header__container__geoportal">
@@ -78,9 +53,7 @@ const Header = () => {
                     </h3>
                     <div className="Header__textBox">
                         <h1 className="Header__textBox__title">{variables.title}</h1>
-                        <h2 className="Header__textBox__place">
-                            <span className="Header__textBox__value">{MGN}</span>
-                        </h2>
+               
                     </div>
                     <div className="accessibility --visible">
                         <AccessibilityTool />

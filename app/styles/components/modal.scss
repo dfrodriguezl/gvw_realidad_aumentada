@@ -1,0 +1,367 @@
+@import '../base/variables.scss';
+@import '../base/mixins.scss';
+
+
+.Users{
+    margin: 0 auto;
+}
+.Users__content{
+    @include flex;
+    @include flex-wrap(wrap);
+    @include justify-content(space-between);
+}
+.login{
+    width: 100%;
+    min-height: 800px;
+    position: relative;
+    // background-image: url(img/loginBackground.webp) repeat;
+    background: url(https://geoportal.dane.gov.co/src/images/users/loginBackground.jpg) repeat;
+
+    &.--invisible{
+        display: none;
+    }
+}
+.login__container{
+    width: 40%;
+    margin: 5% auto;
+}
+.login__container__top{
+    text-align: center;
+}
+.login__container__top__iconLogin{
+    font-size: 3em;
+    width: 50px;
+    height: 50px;
+    padding: 20px;
+    border-radius: 100%;
+    margin: 0 auto;
+    color: $white;
+    @include transition(all ease-in-out 0.8s);
+    &.--animate{
+        opacity: 1;
+        @include transform(rotateY(360deg));
+    }
+}
+.login__container__top__name{
+    margin: 10px 0;
+    font-size: 1.8em;
+    color: $gray1;
+    font-weight: 300;
+}
+.login__container__top__description{
+    margin: 0;
+    font-size: 1.2em;
+    color: $gray2;
+    font-weight: 300;
+}
+.login__container__formContainer{
+    margin: 20px 0;
+    padding: 30px;
+    border-radius: 10px;
+    background: $magentaTransparency2;
+}
+.login__container__formContainer__form__inputContainer{
+    &.--error{
+        .login__container__formContainer__form__inputContainer__input{
+            border:2px solid $principalColor;
+        }
+        .login__container__formContainer__form__errorMessage{
+            @include flex;
+        }
+    }
+}
+.login__container__formContainer__form__inputContainer__textDescription{
+    margin: 5px 0;
+    color: $gray1;
+    font-weight: 300;
+    font-size: 0.9em;
+}
+.login__container__formContainer__form__inputContainer__input{
+    height: 30px;
+    padding: 5px 10px;
+    border-radius: 10px;
+    border:2px solid $fifthColor;
+    font-size: 0.9em;
+    color: $gray6;
+    @include calc(width,'100% - 20px');
+    &:focus{
+        border: 2px solid $thirdColor;
+        border-radius: 10px;
+        outline: none;
+    }
+}
+.login__container__formContainer__form__errorMessage{
+    display: none;
+    background: $whiteTransparency;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 4px;
+}
+.login__container__formContainer__form__errorMessage__iconError{
+    background: $sevenColor;
+    width: 23px;
+    height: 24px;
+    border-radius: 100%;
+    position: relative;
+    &:after{
+        content: '';
+        background: $white;
+        position: absolute;
+        top: 11px;
+        left: 5px;
+        width: 13px;
+        height: 2px;
+        border-radius: 1px;
+        @include transform(rotate(45deg));
+    }
+    &:before{
+        content: '';
+        background: $white;
+        position: absolute;
+        top: 11px;
+        right: 4px;
+        width: 13px;
+        height: 2px;
+        border-radius: 1px;
+        @include transform(rotate(-45deg));
+    }
+}
+.login__container__formContainer__form__errorMessage__text{
+    margin: 3px 8px;
+    font-size: 0.9em;
+    color: $principalColor;
+}
+.login__container__formContainer__form__buttonContainer{
+    margin: 10px 0;
+    text-align: right;
+}
+.login__container__formContainer__form__buttonContainer__submitButton{
+    background: $white;
+    padding: 8px 25px;
+    border-radius: 8px;
+    color: $gray4;
+    font-weight: 500;
+    font-size: 0.9em;
+    border:2px solid $gray10;
+    @include transition(all ease-in-out 0.2s);
+    &:hover{
+        border:2px solid $principalColor;
+        @include box-shadow(1px 1px 5px $principalColor);
+    }
+}
+.login__container__bottom{
+    @include flex;
+    @include flex-wrap(wrap);
+    @include justify-content(flex-end);
+}
+.login__container__bottom__description{
+    color: $gray5;
+    margin: 10px 8px;
+    font-size: 0.8em;
+    font-weight: 400;
+}
+.login__container__bottom__iconGeoportal{
+    font-size: 2.5em;
+    margin: 0 5px;
+    line-height: 0;
+    color:$gray1;
+}
+.login__container__bottom__iconDANE{
+    font-size: 2.5em;
+    margin: 0px;
+    line-height: 0;
+    color:$gray1;
+}
+.Users__admin{
+    display: none;
+    @include flex-wrap(wrap);
+    &.--visible{
+        @include flex;
+    }
+}
+.aboutUser{
+    margin: 15px 0;
+    width: 100%;
+    padding: 5px 30px;
+    @include flex;
+    @include flex-wrap(wrap);
+    @include justify-content(space-between);
+}
+.aboutUser__title{
+    margin: 10px 0;
+    @include flex;
+}
+.aboutUser__title__icon{
+    color: $gray7;
+    font-size: 2em;
+}
+.aboutUser__title__name{
+    color: $gray6;
+    font-size: 0.9em;
+    font-weight: 400;
+    margin: 5px 8px;
+}
+.aboutUser__userInfo{
+    @include flex;
+    @include flex-wrap(wrap);
+    @include justify-content(center);
+}
+.aboutUser__userInfoContainer{
+    margin: 10px 0;
+}
+.aboutUser__userInfo__icon{
+    background: $alternativeColor001;
+    color: $white;
+    width: 20px;
+    height: 20px;
+    padding:10px;
+    margin: 0 auto;
+    border-radius: 100%;
+    font-size: 1.3em;
+    text-align: center;
+}
+.aboutUser__userInfo__name{
+    margin: 10px 8px;
+    font-size: 1em;
+    text-align: center;
+    color:$gray11;
+}
+.aboutUser__userInfo__email{
+    margin: 10px 8px;
+    font-size: 1em;
+    text-align: center;
+    color:$gray8;
+    text-transform: lowercase;
+}
+.Users__apps{
+    padding: 5px 0;
+    @include calc(width,'100%');
+}
+.logOut{
+    text-align: right;
+    padding: 10px 0px;
+}
+.logOut__button{
+    background: $white;
+    border-radius: 8px;
+    padding: 5px 15px;
+    border:1px solid $gray10;
+    @include box-shadow(1px 1px 5px $gray7);
+    @include transition(all ease-in-out 0.2s);
+    &:hover{
+        background: $alternativeColor001;
+        border:1px solid $alternativeColor001;
+        @include box-shadow(1px 1px 5px $alternativeColor001);
+        .logOut__button__text{
+            color: $gray1;
+        }
+    }
+    &:focus{
+        outline: none;
+    }
+}
+.logOut__button__text{
+    margin:3px 12px;
+    color:$gray6;
+    font-size: 0.9em;
+}
+.Users__apps__listContainer{
+    margin:0;
+    min-height: 500px;
+}
+.Users__apps__listContainer__list{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    @include flex;
+    @include flex-wrap(wrap);
+}
+.Users__apps__listContainer__list__item{
+    padding:  0 10px;
+    margin: 10px 0;
+    @include calc(width,'20% - 20px');
+}
+.Users__apps__listContainer__list__item__container{
+    background: $white;
+    border-radius: 10px;
+    overflow: hidden;
+    @include box-shadow(1px 1px 3px $gray7);
+}
+.Users__apps__listContainer__list__item__container__textBox{
+    padding: 10px 15px;
+}
+.Users__apps__listContainer__list__item__container__textBox__title{
+    font-size: 1.1em;
+    font-weight: 500;
+    margin: 5px 0;
+    color:$gray11;
+    min-height: 40px;
+}
+.Users__apps__listContainer__list__item__container__textBox__type{
+    margin: 3px 0;
+    font-size: 0.9em;
+    font-weight: 400;
+}
+.Users__apps__listContainer__list__item__container__textBox__buttonBox{
+    margin: 5px 0;
+}
+.Users__apps__listContainer__list__item__container__textBox__buttonBox__button{
+    text-decoration: none;
+}
+.Users__apps__listContainer__list__item__container__textBox__buttonBox__button{
+    text-decoration: none;
+    &:hover{
+        .Users__apps__listContainer__list__item__container__textBox__buttonBox__button__name{
+            background: $alternativeColor001;
+            border:1px solid $alternativeColor001;
+            color:$white;
+            border-radius:10px;
+            @include box-shadow(1px 1px 3px $alternativeColor001);
+        }
+    }
+}
+.Users__apps__listContainer__list__item__container__textBox__buttonBox__button__name{
+    border:1px solid $gray9;
+    border-radius: 8px;
+    text-align: center;
+    padding:7px 5px;
+    margin: 10px 0;
+    width: 120px;
+    font-size: 0.8em;
+    font-weight: 500;
+    color:$gray4;
+    background: $white;
+    @include box-shadow(1px 1px 3px $gray2);
+    @include transition(all ease-in-out 0.2s);
+}
+.Users__apps__listContainer__noApps{
+    text-align: center;
+    display: none;
+    &.--visible{
+        display: inherit;
+    }
+}
+.Users__apps__listContainer__noApps__text{
+    font-size: 1.5em;
+    color: $gray6;
+    font-weight: 500;
+}
+@media screen and (max-width:$sizeTabletLandScape){
+    .login__container {
+        width: 80%;
+    }
+    .Users__apps__listContainer__list__item{
+        @include calc(width,'33% - 20px');
+    }
+}
+@media screen and (max-width:$sizePhone){
+    .login__container {
+        width: 90%;
+    }
+    .aboutUser{
+        @include justify-content(center);
+    }
+    .Users__apps__listContainer__list__item{
+        @include calc(width,'100% - 20px');
+    }
+}

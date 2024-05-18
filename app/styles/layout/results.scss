@@ -79,7 +79,7 @@
     border-radius: 2px;
     align-items: left;
     background: $gray1;
-    @include calc(width,'100%');
+    @include calc(width,'94%');
     @include flex;
     // @include justify-content(space-between);
     @include transition(all ease-in-out 0.2s);

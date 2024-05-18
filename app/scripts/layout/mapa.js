@@ -33,6 +33,7 @@ import 'react-toastify/dist/ReactToastify.css';
 //Libreria MapLibre
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
+import { mglStreetViewControl } from '../util/mglStreetViewControl.js'
 
 let container, content;
 let zoomActual;
@@ -105,6 +106,14 @@ const Mapa = () => {
       }
     });
 
+    variables.map.addControl(new mglStreetViewControl({
+      mapillaryAlias: "COZ",
+      mapillaryLayerOptions: {
+        userKey: false,
+        pano: 1
+      }
+    }), 'top-right');
+
     loadLayers();
     loadPopups();
     const municipio = municipios.filter((o) => o.cod_dane === ciudadInicial)[0];
@@ -161,6 +170,7 @@ const Mapa = () => {
   }
 
   return (
+    <div>
     <div id="map">
       <ul className='switch'>
         <li id="switch_visualization"><TipoVisualizacion /></li>
@@ -175,6 +185,7 @@ const Mapa = () => {
 
       </div>
     </div>
+      </div>
   )
 }
 var buttons = document.querySelectorAll(".toggle-button");

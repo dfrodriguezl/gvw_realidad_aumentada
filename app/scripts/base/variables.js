@@ -1,12 +1,12 @@
 // Geovisor - OpenLayers | Variables Globales
 export const variables = {
 
-    title: 'Geoportal DANE - Geovisor integrado de estadísticas sociodemográficas', //Cambielo por el título de su geovisor
-    description: 'Geoportal DANE - Geovisor integrado de estadísticas sociodemográficas',
+    title: 'Geoportal DANE -Geovisor Integrado de Estadísticas Sociodemográficas ', //Cambielo por el título de su geovisor
+    description: 'Geoportal DANE - Geovisor Integrado de Estadísticas Sociodemográficas',
     country: 'Colombia',
     place: ' Todos los departamentos ',
-    fuente: "Variables temáticas MGN",
-    year: ' 2023',
+    fuente: "Geovisor Integrado de Estadísticas Sociodemográficas",
+    year: ' 2023 ',
     map: null,
     urlTemas: 'https://geoportal.dane.gov.co/laboratorio/serviciosjson/visores/temas.php',
     urlVariables: 'https://geoportal.dane.gov.co/laboratorio/serviciosjson/visores/variables8.php',//enlace/servicio  que trae los datos de la variable seleccionada
