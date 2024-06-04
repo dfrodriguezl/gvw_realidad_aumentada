@@ -38,8 +38,8 @@ const TabsComponent = ({ activeTab, setActiveTab }) => {
   };
 
   return (
-    <div className="navBar" id="navbar">
-      <div ref={dropdownRef} className={`navBar__container ${isActive ? "inactive" : "active"} ${activeTab === 0 ? "tab-tablero-active" : ""}`}>
+    <div className={`navBar ${isActive ? "inactive" : "active"} ${activeTab === 0 ? "tab-tablero-active" : ""}`} id="navbar">
+      <div ref={dropdownRef} className="navBar__container">
         <Tabs selectedIndex={state} onSelect={handleTabSelect}>
           <TabList className="navBar__list">
             <Tab>
@@ -83,11 +83,7 @@ const TabsComponent = ({ activeTab, setActiveTab }) => {
               <Tools />
             </div>
           </TabPanel>
-        </Tabs>
-        <div className="navBar__collapseBtn" onClick={onClick}>
-          <div className="navBar__collapseBtn__triangle"></div>
-        </div>
-        <Accordion title="Visualización" icon="DANE__Geovisor__icon__layers" data={true}>
+          <Accordion title="Visualización" icon="DANE__Geovisor__icon__layers" data={true}>
           <TabList className="navBar__list">
             <Tab>
               <div className="navBar__list__item">
@@ -120,8 +116,13 @@ const TabsComponent = ({ activeTab, setActiveTab }) => {
               {activeTab === 0 && <DashboardPanel />}
             </div>
           </TabPanel>
-        </Accordion>
+          </Accordion>
+        </Tabs>
+        <div className="navBar__collapseBtn" onClick={onClick}>
+          <div className="navBar__collapseBtn__triangle"></div>
+        </div>  
       </div>
+      
     </div>
   );
 }

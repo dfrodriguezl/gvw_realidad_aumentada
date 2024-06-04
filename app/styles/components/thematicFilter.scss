@@ -116,6 +116,7 @@
         
         //* Estilos de grupos  para filtros *//
 .filter__thematicGroup__list {
+    width: 100%;
     list-style: none;
     margin: 5px 0;
     padding: 0;
@@ -155,6 +156,7 @@
     }
 }
 .filter__thematicGroup__item {
+    width: 31%;
     cursor: pointer;
     margin: 3px;
     display: none;
@@ -457,7 +459,7 @@
 
 @media screen and (max-width: $sizePhone) {
     .filter__thematicGroup__item {
-        width: calc(57% - 70px);
+        width: 30%;
     }
     .filter__thematicGroup__name{
         font-size: 0.8em;

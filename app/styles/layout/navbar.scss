@@ -47,10 +47,10 @@
 }
 
 .react-tabs{
-    height: 70%;
+    overflow: auto;
 }
 
-.navBar__container.active {
+.navBar.active {
     background: $white;
     // @include transition(all ease-in-out 0.2s);
     .navBar__list{
@@ -67,6 +67,11 @@
         left: auto;
     }
 }
+
+.navBar.inactive{
+    width: 0;
+}
+
 
 .navBar__resize {
     background: $gray12;
