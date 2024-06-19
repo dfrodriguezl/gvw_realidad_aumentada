@@ -11,8 +11,8 @@ export const variables = {
     urlTemas: 'https://geoportal.dane.gov.co/laboratorio/serviciosjson/visores/temas.php',
     urlVariables: 'https://geoportal.dane.gov.co/laboratorio/serviciosjson/visores/variables8.php',//enlace/servicio  que trae los datos de la variable seleccionada
     urlVariablesProductos: 'https://geoportal.dane.gov.co/laboratorio/serviciosjson/sipsa/productos.php',//enlace/servicio  que trae los datos de la variable seleccionada
-    codVisor: "56", //Ponga el codigo que corresponde a SU VISOR
-    varVariable: "39501001", //Ponga el codigo de la CATEGORIA que corresponda a su visor
+    codVisor: "28", //Ponga el codigo que corresponde a SU VISOR
+    varVariable: "01219001", //Ponga el codigo de la CATEGORIA que corresponda a su visor
     series: [0, 0, 0, 0, 0],
     urlUE: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/censo_economico/unidades2_segment.php?min=y&codigo_municipio=",
     urlCount: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/censo_economico/unidades2_segment.php?count=y&codigo_municipio=",

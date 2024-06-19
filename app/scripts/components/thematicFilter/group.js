@@ -20,7 +20,13 @@ const NavButton = ({ temaTematica, click, btn }) => {
     }
   }
 
+  const handleClickPanel = (e) => {
+    const target = e.currentTarget.id;
+    variables.visualThematic(target);
+  }
+
   const [verMas, setVerMas] = useState(true);
+
   const botones = Object.values(temaTematica.GRUPOS).map((result, index) => {
     const ariaExpanded = result[0].COD_GRUPO === btn ? "--active" : "";
 
@@ -39,17 +45,45 @@ const NavButton = ({ temaTematica, click, btn }) => {
     )
   });
 
+  const Plus = () => {
+    let claseActiva = "filter__thematicGroup__moreText --seemore";
+    let claseInactiva = "filter__thematicGroup__moreText";
+
+    return (
+      <>
+        {verMas && <div className="filter__thematicGroup__more" id="ver__mas" onClick={handleClickPanel}>
+          <div className="filter__thematicGroup__moreIcon" >
+            <span className="filter__thematicGroup__moreLine"></span>
+            <span className="filter__thematicGroup__moreLine"></span>
+            <span className="filter__thematicGroup__moreLine"></span>
+          </div>
+          <p className={claseActiva} id="ver__mas">Ver más</p>
+        </div>}
+        {!verMas && <div className="filter__thematicGroup__more" id="ver__menos" onClick={handleClickPanel}>
+          <div className="filter__thematicGroup__moreIcon">
+            <span className="filter__thematicGroup__moreLine"></span>
+            <span className="filter__thematicGroup__moreLine"></span>
+            <span className="filter__thematicGroup__moreLine"></span>
+          </div>
+          <p className={claseInactiva} >Volver</p>
+        </div>}
+      </>
+    )
+  }
+
   return (
     <div className="filter__thematic">
       {verMas && <div className="filter__thematicGroup">
         <ul className="filter__thematicGroup__list">
           {botones}
         </ul>
+        <Plus />
       </div>}
       {!verMas && <div className="filter__thematicGroup --filtros  --visibleGroupPrincipal">
         <ul className="filter__thematicGroup__list">
           {botones}
         </ul>
+        <Plus />
       </div>}
     </div>
   );

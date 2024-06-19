@@ -90,7 +90,7 @@
             .filter__thematicGroup__item,
             .filter__thematicGroup__item__link {
                 @include flex;
-                // @include calc(width, "100% - 10px");
+                @include calc(width, "100% - 10px");
             }
             .filter__thematicGroup__dos {
                 @include flex;
@@ -160,7 +160,7 @@
     cursor: pointer;
     margin: 3px;
     display: none;
-    // @include calc(width, "33% - 10px");
+    @include calc(width, "33% - 10px");
     &:hover {
         opacity: 0.7;
     }
