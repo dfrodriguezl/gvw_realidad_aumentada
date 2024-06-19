@@ -55,7 +55,6 @@ const TipoVisualizacion = () => {
   return (
     <div className="tools__panel">
       <div className="custom__panel">
-        <p className="tools__text">Tipo de visualización</p>
         <div className="custom">
           <p className={textActive === 0 ? "custom__text_big custom__activeText" : "custom__text_big"}> 3D </p>
           <label className="custom__content">

@@ -2,6 +2,8 @@
 import React, { useState } from 'react';
 import BarChartNivo from '../components/charts/barNivo';
 import PieChartNivo from '../components/charts/pieNivo';
+import ChordChartNivo from '../components/charts/chordNivo';
+import RadialBarNivo from '../components/charts/radialBarNivo';
 
 
 const DashboardPanel = () => {
@@ -17,7 +19,7 @@ const DashboardPanel = () => {
 					<li className="block"><BarChartNivo /></li>
 					<li className="block"><PieChartNivo /></li>
 					<li className="block"><BarChartNivo /></li>
-					<li className="block"><PieChartNivo /></li>
+					<li className="block"><RadialBarNivo /></li>
 				</ul>
       </div>
     </div>
