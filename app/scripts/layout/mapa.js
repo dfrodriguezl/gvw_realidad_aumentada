@@ -8,23 +8,15 @@ import Overlay from 'ol/Overlay';
 import TileLayer from 'ol/layer/Tile';
 import XYZ from 'ol/source/XYZ';
 import { Zoom } from 'ol/control.js';
-import { get as getProjection } from 'ol/proj';
-import { Style, Fill, Stroke, Circle as CircleStyle, Icon, Text } from 'ol/style';
-import MVT from 'ol/format/MVT';
-import VectorTileLayer from 'ol/layer/VectorTile';
-import VectorTileSource from 'ol/source/VectorTile';
-import TileWMS from 'ol/source/TileWMS';
-import TileGrid from 'ol/tilegrid/TileGrid';
+import { Style, Fill, Stroke, Circle as CircleStyle } from 'ol/style';
 
 import { Cluster, Vector as VectorSource } from 'ol/source';
-import { Vector as VectorLayer } from 'ol/layer';
 import GeoJSON from 'ol/format/GeoJSON';
 import { variables } from '../base/variables'
 import geostats from 'geostats';
 import municipios from '../../json/mpio-extent.json'
 import departamentos from '../../json/dpto-extent.json'
 import { servidorQuery } from '../base/request'
-import gps_cyan from '../../img/gps-cyan.png'
 import 'ol-street-view/dist/css/ol-street-view.min.css';
 import TipoVisualizacion from '../components/tipoVisualizacion';
 import { ToastContainer } from 'react-toastify';
@@ -116,8 +108,8 @@ const Mapa = () => {
 
     loadLayers();
     loadPopups();
-    const municipio = municipios.filter((o) => o.cod_dane === ciudadInicial)[0];
-    bboxExtent(municipio.bextent);
+    // const municipio = municipios.filter((o) => o.cod_dane === ciudadInicial)[0];
+    // bboxExtent(municipio.bextent);
     variables.map.addControl(new maplibregl.NavigationControl());
     variables.map.addControl(new maplibregl.ScaleControl({
       position: 'bottom-left',
@@ -135,18 +127,6 @@ const Mapa = () => {
       coordinates = "Lat: " + coordinates.lat.toFixed(4) + " N," + "Long: " + coordinates.lng.toFixed(4) + " W";
       document.getElementById("coordenates__panel").innerHTML = coordinates;
     });
-
-    container = document.getElementById('popup');
-    content = document.getElementById('popup-content');
-    variables.closer = document.getElementById('popup-closer');
-
-    variables.closer.onclick = function () {
-      overlay.setPosition(undefined);
-      variables.closer.blur();
-      return false;
-    };
-
-
 
   }, []);
 
@@ -171,21 +151,21 @@ const Mapa = () => {
 
   return (
     <div>
-    <div id="map">
-      <ul className='switch'>
-        <li id="switch_visualization"><TipoVisualizacion /></li>
-      </ul>
+      <div id="map">
+        <ul className='switch'>
+          <li id="switch_visualization"><TipoVisualizacion /></li>
+        </ul>
 
-      <div ref={mapRef} className="mapa"></div>
+        <div ref={mapRef} className="mapa"></div>
 
-      <div className="coordenates">
-        <div id="coordenates__panel"></div>
-        <ToastContainer
-          position="top-center" />
+        <div className="coordenates">
+          <div id="coordenates__panel"></div>
+          <ToastContainer
+            position="top-center" />
 
+        </div>
       </div>
     </div>
-      </div>
   )
 }
 var buttons = document.querySelectorAll(".toggle-button");
@@ -198,95 +178,6 @@ var modal = document.querySelector("#modal");
     modal.classList.toggle("off");
   })
 });
-
-function addVtLayer3(maxZoom, minZoom, tileUrl) {
-  return new VectorTileLayer({
-    source: new VectorTileSource({
-      format: new MVT(),
-      tileGrid: new TileGrid({
-        extent: getProjection('EPSG:3857').getExtent(),
-        resolutions: resolutions,
-        tileSize: 512,
-      }),
-      tileUrlFunction: tileUrl,
-    }),
-    maxZoom: maxZoom,
-    minZoom: minZoom
-  });
-}
-
-function styleLayer(style) {
-  let fill = null;
-  let stroke = null;
-
-  if (style.fill) {
-    fill = new Fill({
-      color: style.fill.color
-    });
-  }
-
-  if (style.stroke) {
-    stroke = new Stroke({
-      color: style.stroke.color,
-      width: style.stroke.width
-    })
-  }
-  return [fill, stroke];
-}
-
-function loadLayers2() {
-  let layers = variables.layers;
-  // console.log(layers);
-  Object.keys(layers).map((layer, idx) => {
-    let infoLayer = layers[layer];
-    if (infoLayer.tipo == 'vt') {
-      let styles = styleLayer(infoLayer.style);
-      let styleFill = styles[0];
-      let styleStroke = styles[1];
-      let styleLyr = new Style({
-        stroke: styleStroke,
-        fill: styleFill
-      });
-      const tileUrl = (tileCoord) => {
-        return (
-          infoLayer.url
-        )
-          .replace('{z}', String(tileCoord[0] * 2 - 1))
-          .replace('{x}', String(tileCoord[1]))
-          .replace('{y}', String(tileCoord[2]))
-          .replace(
-            '{a-d}',
-            'abcd'.substr(((tileCoord[1] << tileCoord[0]) + tileCoord[2]) % 4, 1)
-          );
-      }
-      variables.capas[infoLayer.id] = addVtLayer3(infoLayer.maxZoom, infoLayer.minZoom, tileUrl);
-      variables.map.addLayer(variables.capas[infoLayer.id]);
-      variables.capas[infoLayer.id].set('id', infoLayer.id);
-      if (!infoLayer.visible) {
-        // variables.capas[infoLayer.id].setVisible(false);
-        variables.map.removeLayer(variables.capas[infoLayer.id]);
-      }
-
-      variables.capas[infoLayer.id].setStyle(styleLyr);
-
-      let ident = infoLayer.id;
-      let elementLyr = {};
-      elementLyr[ident] = variables.capas[infoLayer.id];
-      variables.layersInMap.push(elementLyr);
-    } else if (infoLayer.tipo == 'wms') {
-      // console.log(infoLayer)
-      let wmsCapa = addLayerWms(infoLayer.url, infoLayer.layer)
-      let ident = infoLayer.id;
-      variables.map.addLayer(wmsCapa);
-      let elementLyr = {};
-      elementLyr[ident] = wmsCapa;
-      variables.layersInMap.push(elementLyr);
-      if (infoLayer.checked == false) {
-        variables.map.removeLayer(wmsCapa);
-      }
-    }
-  })
-}
 
 // Nueva función carga de capas MapLibre
 function loadLayers() {
@@ -378,23 +269,6 @@ function loadPopups() {
   })
 }
 
-function addLayerWms(url, layer) {
-  let wmsLyr = new TileLayer({
-    source: new TileWMS({
-      url: url,
-      params: {
-        'LAYERS': layer,
-        transparent: 'true',
-        FORMAT: 'image/png'
-      },
-      crossOrigin: 'anonymous'
-    })
-
-  })
-
-  return wmsLyr
-}
-
 //VARIABLES PARA PINTAR MAPA
 variables.changeMap = function (nivel, dpto, table) {
   unidadesAbsolutas = variables.varVariable.includes("284") ? "m<sup>2</sup>" : variables.varVariable.includes("292") ? "licencias" : "$";
@@ -436,42 +310,66 @@ variables.changeMap = function (nivel, dpto, table) {
 
 
   if (nivel == "DPTO") {
+    const capa = "deptos_vt";
     let valor2Array = [];
-    var integrado = Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value]).map(function (a, b) {
+    var integrado = Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel]).map(function (a, b) {
       let valor, valor2
-      c
-      if (a["G"] === variables.periodoSeleccionado.value) {
-        if (a[variables.alias].includes(",")) {
-          valor = parseFloat(a[variables.alias]).toFixed(2).toLocaleString("de-De").replace(",", ".")
-        } else {
-          valor = parseFloat(a[variables.alias]).toFixed(2)
-        }
-
-
-        if (a[variables.alias2] != undefined) {
-          if (a[variables.alias2].includes(",")) {
-            valor2 = parseFloat(a[variables.alias2]).toFixed(2).toLocaleString("de-De").replace(",", ".")
-          } else {
-            valor2 = parseFloat(a[variables.alias2])
-          }
-
-          if (!isNaN(valor2)) {
-            valor2Array.push(valor2);
-          }
-
-        }
-
-
-
-
-        if (valor != undefined && !isNaN(valor)) {
-          return valor
-        } else if (valor2 != undefined && !isNaN(valor2)) {
-          return valor2
-        } else {
-          return 0
-        }
+      // if (a["G"] === variables.periodoSeleccionado.value) {
+      if (a[variables.alias].includes(",")) {
+        valor = parseFloat(a[variables.alias]).toFixed(2).toLocaleString("de-De").replace(",", ".")
+      } else {
+        valor = parseFloat(a[variables.alias]).toFixed(2)
       }
+
+
+      if (a[variables.alias2] != undefined) {
+        if (a[variables.alias2].includes(",")) {
+          valor2 = parseFloat(a[variables.alias2]).toFixed(2).toLocaleString("de-De").replace(",", ".")
+        } else {
+          valor2 = parseFloat(a[variables.alias2])
+        }
+
+        if (!isNaN(valor2)) {
+          valor2Array.push(valor2);
+        }
+
+      }
+
+
+
+
+      if (valor != undefined && !isNaN(valor)) {
+        variables.map.setFeatureState({
+          source: capa,
+          sourceLayer: 'mgn_2020_dpto_politico',
+          id: String(a["ND"])
+        }, {
+          valor: valor
+        })
+
+        return valor
+      } else if (valor2 != undefined && !isNaN(valor2)) {
+        variables.map.setFeatureState({
+          source: capa,
+          sourceLayer: 'mgn_2020_dpto_politico',
+          id: String(a["ND"])
+        }, {
+          valor: valor2
+        })
+
+        return valor2
+      } else {
+        variables.map.setFeatureState({
+          source: capa,
+          sourceLayer: 'mgn_2020_dpto_politico',
+          id: String(a["ND"])
+        }, {
+          valor: 0
+        })
+
+        return 0
+      }
+      // }
 
     }, []);
 
@@ -485,6 +383,10 @@ variables.changeMap = function (nivel, dpto, table) {
     // LEYENDA NIVEL DPTO
     var serie = new geostats(list);
     let dataUnidades = variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"];
+
+    let paintPropertyRanges = [];
+    paintPropertyRanges.push("step");
+    paintPropertyRanges.push(["to-number", ["feature-state", "valor"]]);
 
     if (serie.getClassJenks(5) != undefined) {
 
@@ -501,6 +403,27 @@ variables.changeMap = function (nivel, dpto, table) {
         variables.coloresLeyend[variables.varVariable]["DPTO"][index][3] = "visible";
       }
     }
+
+    const coloresCopy = [...variables.coloresLeyend[variables.varVariable]["DPTO"]];
+
+    coloresCopy.reverse().forEach((color, index) => {
+      let maxNumberRange = color[2].split("-")[1];
+      if (maxNumberRange != undefined) {
+        console.log("COLOR", Number(maxNumberRange.split(" (")[0]));
+        maxNumberRange = Number(maxNumberRange.split(" (")[0].replaceAll(".", ""));
+      }
+
+      if (index === 4) {
+        paintPropertyRanges.push(color[0]);
+      } else {
+        paintPropertyRanges.push(color[0]);
+        paintPropertyRanges.push(maxNumberRange);
+      }
+    })
+
+    variables.map.setPaintProperty(capa, "fill-extrusion-color", paintPropertyRanges);
+
+    variables.map.setPaintProperty(capa, 'fill-extrusion-height', ["*", 0.1, ["to-number", ["feature-state", "valor"]]]);
 
     // DATOS TABLA POR DEPARTAMENTO
     let labelsData = []
@@ -533,7 +456,8 @@ variables.changeMap = function (nivel, dpto, table) {
         }
       ]
     }
-    var labels = Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value]).map(function (a, b) {
+
+    var labels = Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel]).map(function (a, b) {
 
       let valor = parseFloat(a[variables.alias]).toFixed(2).replace(".", ",");
       let valor2 = parseFloat(a[variables.alias2]).toLocaleString("de-De").replace(",", ".")
@@ -582,36 +506,37 @@ variables.changeMap = function (nivel, dpto, table) {
 
     variables.changeLegend(nivel);
     variables.legenTheme();
-    if (table == "y") {
-      let orderData = dataTable.sort((a, b) => {
-        if (parseFloat(a.valor) > parseFloat(b.valor)) {
-          return -1;
-        } else if (parseFloat(a.valor) < parseFloat(b.valor)) {
-          return 1;
-        }
-        return 0;
-      })
+    // if (table == "y") {
+    //   let orderData = dataTable.sort((a, b) => {
+    //     if (parseFloat(a.valor) > parseFloat(b.valor)) {
+    //       return -1;
+    //     } else if (parseFloat(a.valor) < parseFloat(b.valor)) {
+    //       return 1;
+    //     }
+    //     return 0;
+    //   })
 
-      // variables.updateData(orderData, colsTable);
-    }
+    //   // variables.updateData(orderData, colsTable);
+    // }
 
-    if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined) {
-      variables.filterGeo("DPTO", variables.deptoSelectedFilter)
-    } else {
-      let layer = variables.capas['deptos_vt'];
-      layer.setStyle(function (feature) {
-        var layer = feature.get("id");
-        return changeSymbologi(layer, nivel, feature)
-      })
+    // if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined) {
+    //   variables.filterGeo("DPTO", variables.deptoSelectedFilter)
+    // } else {
+    //   const capa = "deptos_vt";
+    //   let layer = variables.capas['deptos_vt'];
+    //   layer.setStyle(function (feature) {
+    //     var layer = feature.get("id");
+    //     return changeSymbologi(layer, nivel, feature)
+    //   })
 
-      localStorage.getItem("visualization") === "symbols" ? layer.setVisible(false) : layer.setVisible(true);
+    //   localStorage.getItem("visualization") === "symbols" ? layer.setVisible(false) : layer.setVisible(true);
 
 
-      variables.unidadesDepto.setStyle(function (feature) {
-        const id = feature.values_.features[0].values_.cod_dane;
-        return changeSymbologiCluster(id, nivel, min, max, max2);
-      })
-    }
+    //   variables.unidadesDepto.setStyle(function (feature) {
+    //     const id = feature.values_.features[0].values_.cod_dane;
+    //     return changeSymbologiCluster(id, nivel, min, max, max2);
+    //   })
+    // }
 
   }
   else if (nivel == "MPIO") {
@@ -1171,6 +1096,8 @@ variables.changeMap = function (nivel, dpto, table) {
 
 
     variables.map.setPaintProperty(capa, "fill-extrusion-color", paintPropertyRanges);
+
+
 
     colsTable = [
       { title: "Cód. DANE", field: "cod_dane", hozAlign: "right", width: "150", headerSort: true, headerFilter: true, headerFilterPlaceholder: "Cód. DANE..." },

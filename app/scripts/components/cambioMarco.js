@@ -28,7 +28,7 @@ const CambioMGN = () => {
     }
 
     variables.updateLayers();
-    variables.changeTheme("MNZN", "05001", "NM", "n");
+    // variables.changeTheme("MNZN", "05001", "NM", "n");
   }
 
   return (

@@ -27,10 +27,6 @@ const App = () => {
                     {activeTab === 0 && <DashboardPanel />}
                 </div>
                 {/* <TableContent />*/}
-                <div id="popup" className="ol-popup">
-                    <a href="#" id="popup-closer" className="ol-popup-closer"></a>
-                    <div id="popup-content"></div>
-                </div>
             </section>
             <Footer />
         </Fragment>

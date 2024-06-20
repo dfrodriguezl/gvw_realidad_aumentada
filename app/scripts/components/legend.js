@@ -10,7 +10,7 @@ const Leyenda = () => {
 
   useEffect(() => {
     if (variables.coloresLeyend[variables.varVariable] != undefined) {
-      setLegend(variables.coloresLeyend[variables.varVariable]["MNZN"])
+      setLegend(variables.coloresLeyend[variables.varVariable]["DPTO"])
     }
   }, [legend])
 

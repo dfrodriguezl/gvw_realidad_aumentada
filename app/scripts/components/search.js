@@ -60,10 +60,11 @@ function getColorArray(categoria) {
     color = [chroma(colorPrincipal).set('hsl.l', arrayColores[0]).hex(), chroma(colorPrincipal).set('hsl.l', arrayColores[1]).hex(), chroma(colorPrincipal).set('hsl.l', arrayColores[2]).hex(), chroma(colorPrincipal).set('hsl.l', arrayColores[3]).hex(), chroma(colorPrincipal).hex(), chroma(colorPrincipal).set('hsl.l', arrayColores[5]).hex(), chroma(colorPrincipal).set('hsl.l', arrayColores[6]).hex(), chroma(colorPrincipal).set('hsl.l', arrayColores[7]).hex(), chroma(colorPrincipal).set('hsl.l', arrayColores[8]).hex()];
     return color;
 }
+
 const Search = ({ filterSearch, placeholder }) => {
     const [term, setTerm] = useState("");
     const [termDos, setTermDos] = useState("");
-    const [btn, setBtn] = useState("012");
+    const [btn, setBtn] = useState("011");
     const [tematica, setTematica] = useState(variables.tematica);
     const [btnDos, setBtnDos] = useState(variables.varVariable);
     const [visualList, setVisualList] = useState(true);
@@ -151,12 +152,14 @@ const Search = ({ filterSearch, placeholder }) => {
                     }
                 }
                 else {
-                    let urlData = variables.urlVariables + "?codigo_subgrupo=" + variables.varVariable.substring(0, 5) + "&nivel_geografico=MNZN&campo=NM&filtro_geografico=05001"
+                    // let urlData = variables.urlVariables + "?codigo_subgrupo=" + variables.varVariable.substring(0, 5) + "&nivel_geografico=" + nivel + "&campo=NM&filtro_geografico=05001"
+                    let urlData = variables.urlVariables + "?codigo_subgrupo=" + variables.varVariable.substring(0, 5) + "&nivel_geografico=" + nivel + "&campo=ND&clase=0";
 
                     axios({ method: "GET", url: urlData })
                         .then(function (response) {
 
-                            variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["MNZN"]["05001"] = response.data.resultado;
+                            variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel] = response.data.resultado;
+                            variables.queryText[variables.varVariable.substring(0, 5)] = response.data.consulta
                             variables.changeMap(nivel, dpto, table);
                             if (variables.deptoSelected == undefined && variables.deptoVariable != undefined) {
                                 variables.filterGeo("DPTO", variables.deptoVariable)
@@ -314,13 +317,15 @@ const Search = ({ filterSearch, placeholder }) => {
 
             let zoom = 5;
 
+
             if (zoom >= 7) {
                 variables.changeTheme("MPIO", null, "MPIO", "y");
                 if (variables.deptoSelected == undefined && variables.deptoVariable != undefined) {
                     variables.filterGeo("DPTO", variables.deptoVariable)
                 }
             } else if (zoom < 7) {
-                variables.changeTheme("MNZN", "05001", "NM", "n");
+                // variables.changeTheme("MNZN", "05001", "NM", "n");
+                variables.changeTheme("DPTO", "00", null, "n");
             }
         };
 
@@ -360,9 +365,22 @@ const Search = ({ filterSearch, placeholder }) => {
         }
 
         variables.varVariable = event.currentTarget.id;
-        variables.closer.click();
 
-        cambiarCapa(event.currentTarget.id)
+        // cambiarCapa(event.currentTarget.id)
+
+        let zoom = variables.map.getZoom();
+
+        // variables.changeTheme("MPIO");
+        // variables.changeTheme("DPTO", 0, "ND");
+
+        if (zoom < 7) {
+            if (!variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"]) {
+                variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"] = {};
+            }
+
+            variables.changeTheme("DPTO", "00", null, "n");
+        }
+
     };
 
     const cambiarCapa = (id) => {
@@ -498,7 +516,7 @@ const Search = ({ filterSearch, placeholder }) => {
         }
 
         variables.updateLayers();
-        variables.changeTheme("MNZN", "05001", "NM", "n");
+        // variables.changeTheme("MNZN", "05001", "NM", "n");
     }
 
     const results = municipios.concat(departamentos, centros);

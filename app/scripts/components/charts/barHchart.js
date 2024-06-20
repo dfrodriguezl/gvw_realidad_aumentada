@@ -52,11 +52,11 @@ const BarHData = () => {
       }, [])
     }
 
-    if(labels.length > 0 && labels != "MPIO"){
-      labels.map((label) => {
-        rangosLista.push(rangos[label])
-      })
-    }
+    // if(labels.length > 0 && labels != "MPIO"){
+    //   labels.map((label) => {
+    //     rangosLista.push(rangos[label])
+    //   })
+    // }
 
     setData(rangosLista);
   }
