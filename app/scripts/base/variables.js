@@ -271,7 +271,7 @@ export const variables = {
             ol: null,
             layer: "mgn_2020_dpto_politico",
             typeLayer: "fill-extrusion",
-            clickable: false,
+            clickable: true,
             hideToc: true
         },
         departamentoSel: {

@@ -229,7 +229,7 @@ function loadPopups() {
       variables.map.on('click', infoLayer.id, (e) => {
         const feature = e.features[0];
         const coordinates = e.lngLat;
-        const viviendas = e.features[0].state.viviendas;
+        const valor = e.features[0].state.valor;
         const deptoCodigo = feature.properties.id.substring(0, 2);
         const mpioCodigo = feature.properties.id.substring(2, 5);
         const departamentosFilter = (departamentos).filter(result => (result.cod_dane == deptoCodigo));
@@ -238,16 +238,18 @@ function loadPopups() {
         const dataUnidades = variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"];
         const dataCategorias = variables.tematica["CATEGORIAS"][variables.varVariable][0]["CATEGORIA"];
         const tipoVariable = variables.tematica["CATEGORIAS"][variables.varVariable][0]["TIPO_VARIABLE"];
+        const nfObject = new Intl.NumberFormat("es-ES");
+        const valorFormateado = nfObject.format(valor);
         let HTML = "";
         HTML = '<p class="popup__list"><span class="popup__title">' + dataSubgrupo + ' (' + variables.versionMGN + ')</span></p>';
         HTML += '<p class="popup__list"><span class="popup__subtitle">' + dataCategorias + '</span> ' + '</p>';
 
-        console.log("VARIABLES", variables.varVariable);
+        // console.log("VARIABLES", variables.varVariable);
 
         if (variables.varVariable === "39501002" || variables.varVariable === "38201002") {
-          HTML += '<p class="popup__list"><span class="popup__subtitle">Variación (porcentaje): </span><span class="popup__subtitle">' + viviendas + '</span></p>';
+          HTML += '<p class="popup__list"><span class="popup__subtitle">Variación (porcentaje): </span><span class="popup__subtitle">' + valorFormateado + '</span></p>';
         } else {
-          HTML += '<p class="popup__list"><span class="popup__subtitle">Viviendas: </span><span class="popup__subtitle">' + viviendas + '</span></p>';
+          HTML += '<p class="popup__list"><span class="popup__subtitle">Valor: </span><span class="popup__subtitle">' + valorFormateado + ' ' + dataUnidades + '</span></p>';
         }
 
         HTML += '<hr>' + '</hr>';
