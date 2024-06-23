@@ -216,26 +216,7 @@ export const variables = {
             typeLayer: "fill-extrusion",
             clickable: true
         },
-        municipiosSel: {
-            tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
-            id: "mpios_vt2",
-            url: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/vector-tiles/vectortile.php?params=capas_geovisores/mgn2020_mpio/mgn_2020_mpio_politico/mpio_ccnct/{z}/{x}/{y}",
-            title: 'Municipios sel',
-            visible: true,
-            checked: false,
-            hideToc: true,
-            minZoom: 4,
-            maxZoom: 21,
-            style: {
-                "line-color": '#ffffff',
-                "line-width": 0,
-                "line-opacity": 0
-            },
-            ol: null,
-            layer: "mgn_2020_mpio_politico",
-            typeLayer: "line",
-            clickable: false
-        },
+        
         municipios: {
             tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
             id: "mpios_vt",
@@ -243,16 +224,16 @@ export const variables = {
             title: 'Municipios',
             visible: true,
             checked: true,
-            minZoom: 8,
+            minZoom: 7,
             maxZoom: 21,
             style: {
-                "line-color": '#ffffff',
-                "line-width": 1
+                // "line-color": '#ffffff',
+                // "line-width": 1
             },
             ol: null,
             layer: "mgn_2020_mpio_politico",
-            typeLayer: "line",
-            clickable: false,
+            typeLayer: "fill-extrusion",
+            clickable: true,
             hideToc: true
         },
         departamentos: {
@@ -263,7 +244,7 @@ export const variables = {
             visible: true,
             checked: true,
             minZoom: 3,
-            maxZoom: 21,
+            maxZoom: 7,
             style: {
                 // "line-color": '#7F3872',
                 // "line-width": 1
@@ -273,6 +254,26 @@ export const variables = {
             typeLayer: "fill-extrusion",
             clickable: true,
             hideToc: true
+        },
+        municipiosSel: {
+            tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
+            id: "mpios_vt2",
+            url: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/vector-tiles/vectortile.php?params=capas_geovisores/mgn2020_mpio/mgn_2020_mpio_politico/mpio_ccnct/{z}/{x}/{y}",
+            title: 'Municipios sel',
+            visible: true,
+            checked: false,
+            hideToc: true,
+            minZoom: 7,
+            maxZoom: 21,
+            style: {
+                "line-color": '#95172A',
+                "line-width": 1,
+                "line-opacity": 1
+            },
+            ol: null,
+            layer: "mgn_2020_mpio_politico",
+            typeLayer: "line",
+            clickable: false
         },
         departamentoSel: {
             tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
@@ -285,15 +286,16 @@ export const variables = {
             maxZoom: 12,
             hideToc: true,
             style: {
-                "line-color": '#ffffff',
-                "line-width": 0,
-                "line-opacity": 0
+                "line-color": '#DC7AFA',
+                "line-width": 2,
+                "line-opacity": 1
             },
             ol: null,
             layer: "mgn_2020_dpto_politico",
             typeLayer: "line",
             clickable: false
         },
+        
     },
     layersInMap: [],
     consulta: "as",

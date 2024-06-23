@@ -153,7 +153,11 @@ const Search = ({ filterSearch, placeholder }) => {
                 }
                 else {
                     // let urlData = variables.urlVariables + "?codigo_subgrupo=" + variables.varVariable.substring(0, 5) + "&nivel_geografico=" + nivel + "&campo=NM&filtro_geografico=05001"
-                    let urlData = variables.urlVariables + "?codigo_subgrupo=" + variables.varVariable.substring(0, 5) + "&nivel_geografico=" + nivel + "&campo=ND&clase=0";
+                    let urlData = variables.urlVariables + "?codigo_subgrupo=" + variables.varVariable.substring(0, 5) + "&nivel_geografico=" + nivel + "&clase=0";
+
+                    if(campo != null){
+                        urlData = urlData + "&campo=" + campo
+                    }
 
                     axios({ method: "GET", url: urlData })
                         .then(function (response) {
@@ -319,13 +323,13 @@ const Search = ({ filterSearch, placeholder }) => {
 
 
             if (zoom >= 7) {
-                variables.changeTheme("MPIO", null, "MPIO", "y");
+                variables.changeTheme("MPIO", null, null, "y");
                 if (variables.deptoSelected == undefined && variables.deptoVariable != undefined) {
                     variables.filterGeo("DPTO", variables.deptoVariable)
                 }
             } else if (zoom < 7) {
                 // variables.changeTheme("MNZN", "05001", "NM", "n");
-                variables.changeTheme("DPTO", "00", null, "n");
+                variables.changeTheme("DPTO", "00", "ND", "n");
             }
         };
 
@@ -379,6 +383,12 @@ const Search = ({ filterSearch, placeholder }) => {
             }
 
             variables.changeTheme("DPTO", "00", null, "n");
+        } else if (zoom >= 7 && zoom < 13){
+            if (!variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["MPIO"]) {
+                variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["MPIO"] = {};
+            }
+
+            variables.changeTheme("MPIO", "00", null, "n");
         }
 
     };

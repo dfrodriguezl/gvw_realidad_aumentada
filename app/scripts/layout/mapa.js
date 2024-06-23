@@ -108,6 +108,7 @@ const Mapa = () => {
 
     loadLayers();
     loadPopups();
+    loadMapEvents();
     // const municipio = municipios.filter((o) => o.cod_dane === ciudadInicial)[0];
     // bboxExtent(municipio.bextent);
     variables.map.addControl(new maplibregl.NavigationControl());
@@ -215,6 +216,17 @@ function loadLayers() {
 
     } else if (infoLayer.tipo == 'wms') {
       //TO-DO
+    }
+  })
+}
+
+const loadMapEvents = () => {
+  variables.map.on("zoomend", (e) => {
+    const zoom = variables.map.getZoom();
+    if (zoom >= 7) {
+      variables.changeTheme("MPIO", null, null, "y");
+    } else if (zoom < 7) {
+      variables.changeTheme("DPTO", "00", "ND", "n");
     }
   })
 }
@@ -411,7 +423,6 @@ variables.changeMap = function (nivel, dpto, table) {
     coloresCopy.reverse().forEach((color, index) => {
       let maxNumberRange = color[2].split("-")[1];
       if (maxNumberRange != undefined) {
-        console.log("COLOR", Number(maxNumberRange.split(" (")[0]));
         maxNumberRange = Number(maxNumberRange.split(" (")[0].replaceAll(".", ""));
       }
 
@@ -508,144 +519,186 @@ variables.changeMap = function (nivel, dpto, table) {
 
     variables.changeLegend(nivel);
     variables.legenTheme();
-    // if (table == "y") {
-    //   let orderData = dataTable.sort((a, b) => {
-    //     if (parseFloat(a.valor) > parseFloat(b.valor)) {
-    //       return -1;
-    //     } else if (parseFloat(a.valor) < parseFloat(b.valor)) {
-    //       return 1;
-    //     }
-    //     return 0;
-    //   })
-
-    //   // variables.updateData(orderData, colsTable);
-    // }
-
-    // if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined) {
-    //   variables.filterGeo("DPTO", variables.deptoSelectedFilter)
-    // } else {
-    //   const capa = "deptos_vt";
-    //   let layer = variables.capas['deptos_vt'];
-    //   layer.setStyle(function (feature) {
-    //     var layer = feature.get("id");
-    //     return changeSymbologi(layer, nivel, feature)
-    //   })
-
-    //   localStorage.getItem("visualization") === "symbols" ? layer.setVisible(false) : layer.setVisible(true);
-
-
-    //   variables.unidadesDepto.setStyle(function (feature) {
-    //     const id = feature.values_.features[0].values_.cod_dane;
-    //     return changeSymbologiCluster(id, nivel, min, max, max2);
-    //   })
-    // }
 
   }
   else if (nivel == "MPIO") {
     let valor2Array = [];
+    const capa = "mpios_vt";
 
-    var integrado = Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value]).map(function (a, b) {
+    var integrado = Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel]).map(function (a, b) {
       let valor, valor2;
 
       if (dpto !== 0) {
-        if (a["FECHA"] === variables.periodoSeleccionado.value && a["PRODUCTOS_ESPECIE_PUBLI"] === variables.productoSeleccionado.value && a["COD_DPTO"] === dpto) {
-          if (a[variables.alias].includes(",")) {
-            valor = parseFloat(a[variables.alias].replace(",", ".")).toFixed(2).toLocaleString("de-De")
+        if (a[variables.alias].includes(",")) {
+          valor = parseFloat(a[variables.alias].replace(",", ".")).toFixed(2).toLocaleString("de-De")
+        } else {
+          valor = parseFloat(a[variables.alias]).toFixed(2)
+        }
+
+
+        if (a[variables.alias2] != undefined) {
+
+          if (a[variables.alias2].includes(",")) {
+            valor2 = parseFloat(a[variables.alias2]).toFixed(2).toLocaleString("de-De").replace(",", ".")
           } else {
-            valor = parseFloat(a[variables.alias]).toFixed(2)
+            valor2 = parseFloat(a[variables.alias2])
           }
 
-
-          if (a[variables.alias2] != undefined) {
-
-            if (a[variables.alias2].includes(",")) {
-              valor2 = parseFloat(a[variables.alias2]).toFixed(2).toLocaleString("de-De").replace(",", ".")
-            } else {
-              valor2 = parseFloat(a[variables.alias2])
-            }
-
-            if (!isNaN(valor2)) {
-              if (variables.deptoSelectedFilter != undefined) {
-                if (a[nivel].substring(0, 2) === variables.deptoSelectedFilter) {
-                  valor2Array.push(valor2);
-                }
-              } else {
-                valor2Array.push(valor2);
-              }
-
-            }
-
-          }
-
-
-          if (valor != undefined && !isNaN(valor)) {
-            return valor;
-          } else if (valor2 != undefined && !isNaN(valor2)) {
+          if (!isNaN(valor2)) {
             if (variables.deptoSelectedFilter != undefined) {
               if (a[nivel].substring(0, 2) === variables.deptoSelectedFilter) {
-                return valor2
-              } else {
-                return 0;
+                valor2Array.push(valor2);
               }
             } else {
-              return valor2
+              valor2Array.push(valor2);
             }
 
-          } else {
-            return 0
           }
+
+        }
+
+
+        if (valor != undefined && !isNaN(valor)) {
+          variables.map.setFeatureState({
+            source: capa,
+            sourceLayer: 'mgn_2020_mpio_politico',
+            id: String(a["MPIO"])
+          }, {
+            valor: valor
+          })
+
+          return valor;
+        } else if (valor2 != undefined && !isNaN(valor2)) {
+          if (variables.deptoSelectedFilter != undefined) {
+            if (a[nivel].substring(0, 2) === variables.deptoSelectedFilter) {
+              variables.map.setFeatureState({
+                source: capa,
+                sourceLayer: 'mgn_2020_mpio_politico',
+                id: String(a["MPIO"])
+              }, {
+                valor: valor2
+              })
+
+              return valor2
+            } else {
+              variables.map.setFeatureState({
+                source: capa,
+                sourceLayer: 'mgn_2020_mpio_politico',
+                id: String(a["MPIO"])
+              }, {
+                valor: 0
+              })
+
+              return 0;
+            }
+          } else {
+            variables.map.setFeatureState({
+              source: capa,
+              sourceLayer: 'mgn_2020_mpio_politico',
+              id: String(a["MPIO"])
+            }, {
+              valor: valor2
+            })
+
+            return valor2
+          }
+
         } else {
-          return 0;
+          variables.map.setFeatureState({
+            source: capa,
+            sourceLayer: 'mgn_2020_mpio_politico',
+            id: String(a["MPIO"])
+          }, {
+            valor: 0
+          })
+
+          return 0
         }
       } else {
-        if (a["FECHA"] === variables.periodoSeleccionado.value && a["PRODUCTOS_ESPECIE_PUBLI"] === variables.productoSeleccionado.value) {
-          if (a[variables.alias].includes(",")) {
-            valor = parseFloat(a[variables.alias].replace(",", ".")).toFixed(2).toLocaleString("de-De")
+        if (a[variables.alias].includes(",")) {
+          valor = parseFloat(a[variables.alias].replace(",", ".")).toFixed(2).toLocaleString("de-De")
+        } else {
+          valor = parseFloat(a[variables.alias]).toFixed(2)
+        }
+
+
+        if (a[variables.alias2] != undefined) {
+
+          if (a[variables.alias2].includes(",")) {
+            valor2 = parseFloat(a[variables.alias2]).toFixed(2).toLocaleString("de-De").replace(",", ".")
           } else {
-            valor = parseFloat(a[variables.alias]).toFixed(2)
+            valor2 = parseFloat(a[variables.alias2])
           }
 
-
-          if (a[variables.alias2] != undefined) {
-
-            if (a[variables.alias2].includes(",")) {
-              valor2 = parseFloat(a[variables.alias2]).toFixed(2).toLocaleString("de-De").replace(",", ".")
-            } else {
-              valor2 = parseFloat(a[variables.alias2])
-            }
-
-            if (!isNaN(valor2)) {
-              if (variables.deptoSelectedFilter != undefined) {
-                if (a[nivel].substring(0, 2) === variables.deptoSelectedFilter) {
-                  valor2Array.push(valor2);
-                }
-              } else {
-                valor2Array.push(valor2);
-              }
-
-            }
-
-          }
-
-
-          if (valor != undefined && !isNaN(valor)) {
-            return valor;
-          } else if (valor2 != undefined && !isNaN(valor2)) {
+          if (!isNaN(valor2)) {
             if (variables.deptoSelectedFilter != undefined) {
               if (a[nivel].substring(0, 2) === variables.deptoSelectedFilter) {
-                return valor2
-              } else {
-                return 0;
+                valor2Array.push(valor2);
               }
             } else {
-              return valor2
+              valor2Array.push(valor2);
             }
 
-          } else {
-            return 0
           }
+
+        }
+
+
+        if (valor != undefined && !isNaN(valor)) {
+          variables.map.setFeatureState({
+            source: capa,
+            sourceLayer: 'mgn_2020_mpio_politico',
+            id: String(a["MPIO"])
+          }, {
+            valor: valor
+          })
+
+          return valor;
+        } else if (valor2 != undefined && !isNaN(valor2)) {
+          if (variables.deptoSelectedFilter != undefined) {
+            if (a[nivel].substring(0, 2) === variables.deptoSelectedFilter) {
+              variables.map.setFeatureState({
+                source: capa,
+                sourceLayer: 'mgn_2020_mpio_politico',
+                id: String(a["MPIO"])
+              }, {
+                valor: valor2
+              })
+
+              return valor2
+            } else {
+              variables.map.setFeatureState({
+                source: capa,
+                sourceLayer: 'mgn_2020_mpio_politico',
+                id: String(a["MPIO"])
+              }, {
+                valor: 0
+              })
+
+              return 0;
+            }
+          } else {
+            variables.map.setFeatureState({
+              source: capa,
+              sourceLayer: 'mgn_2020_mpio_politico',
+              id: String(a["MPIO"])
+            }, {
+              valor: valor2
+            })
+
+            return valor2
+          }
+
         } else {
-          return 0;
+          variables.map.setFeatureState({
+            source: capa,
+            sourceLayer: 'mgn_2020_mpio_politico',
+            id: String(a["MPIO"])
+          }, {
+            valor: 0
+          })
+
+          return 0
         }
       }
 
@@ -653,6 +706,10 @@ variables.changeMap = function (nivel, dpto, table) {
     }, []);
 
     const dataUnidades = variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"];
+
+    let paintPropertyRanges = [];
+    paintPropertyRanges.push("step");
+    paintPropertyRanges.push(["to-number", ["feature-state", "valor"]]);
 
     if (tipoVariable !== "DV") {
       integrado = integrado.filter(o => o !== 0);
@@ -697,9 +754,9 @@ variables.changeMap = function (nivel, dpto, table) {
               rango = " > " + rango[0].trim() + " (" + dataUnidades + ")"
             }
 
-            if (table == "y") {
-              variables.coloresLeyend[variables.varVariable]["MPIO"][index][2] = rango;
-            }
+            // if (table == "y") {
+            variables.coloresLeyend[variables.varVariable]["MPIO"][index][2] = rango;
+            // }
 
           }
         }
@@ -772,11 +829,33 @@ variables.changeMap = function (nivel, dpto, table) {
 
     }
 
+    const coloresCopy = [...variables.coloresLeyend[variables.varVariable]["MPIO"]];
+
+    coloresCopy.reverse().forEach((color, index) => {
+      if (color[2] != 0) {
+        let maxNumberRange = color[2].split("-")[1];
+        if (maxNumberRange != undefined) {
+          maxNumberRange = Number(maxNumberRange.split(" (")[0].replaceAll(".", ""));
+        }
+
+        if (index === 4) {
+          paintPropertyRanges.push(color[0]);
+        } else {
+          paintPropertyRanges.push(color[0]);
+          paintPropertyRanges.push(maxNumberRange);
+        }
+      }
+    })
+
+    variables.map.setPaintProperty(capa, "fill-extrusion-color", paintPropertyRanges);
+
+    variables.map.setPaintProperty(capa, 'fill-extrusion-height', ["*", 0.05, ["to-number", ["feature-state", "valor"]]]);
 
 
-    let layer = variables.capas['mpios_vt'];
-    let extent = variables.map.getView().calculateExtent();
-    let f = layer.getSource().getFeaturesInExtent(extent);
+
+    // let layer = variables.capas['mpios_vt'];
+    // let extent = variables.map.getView().calculateExtent();
+    // let f = layer.getSource().getFeaturesInExtent(extent);
 
 
 
@@ -810,51 +889,51 @@ variables.changeMap = function (nivel, dpto, table) {
       ]
     }
 
-    Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value]).map(function (a, b) {
+    // Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value]).map(function (a, b) {
 
-      if (dpto !== 0) {
-        if (a["FECHA"] === variables.periodoSeleccionado.value && a["PRODUCTOS_ESPECIE_PUBLI"] === variables.productoSeleccionado.value && a["COD_DPTO"] === dpto) {
-          let valor = parseFloat(a[variables.alias]).toFixed(2)
-          let valor2 = parseFloat(a[variables.alias2])
-          let mpio = (municipios).filter(result => (result.cod_dane == a["COD_MPIO"]))
-          let depto = (departamentos).filter(result => (result.cod_dane == a["COD_MPIO"].substring(0, 2)))
+    //   if (dpto !== 0) {
+    //     if (a["FECHA"] === variables.periodoSeleccionado.value && a["PRODUCTOS_ESPECIE_PUBLI"] === variables.productoSeleccionado.value && a["COD_DPTO"] === dpto) {
+    //       let valor = parseFloat(a[variables.alias]).toFixed(2)
+    //       let valor2 = parseFloat(a[variables.alias2])
+    //       let mpio = (municipios).filter(result => (result.cod_dane == a["COD_MPIO"]))
+    //       let depto = (departamentos).filter(result => (result.cod_dane == a["COD_MPIO"].substring(0, 2)))
 
-          if (dpto != null) {
-            depto = (departamentos).filter(result => (result.cod_dane == dpto))
-            if (mpio[0].cod_dane.substring(0, 2) == dpto) {
-              dataTable.push({ depto: depto[0].name, mpio: mpio[0].name, codigo: mpio[0].cod_dane, valor: valor, valor2: valor2 });
-            }
+    //       if (dpto != null) {
+    //         depto = (departamentos).filter(result => (result.cod_dane == dpto))
+    //         if (mpio[0].cod_dane.substring(0, 2) == dpto) {
+    //           dataTable.push({ depto: depto[0].name, mpio: mpio[0].name, codigo: mpio[0].cod_dane, valor: valor, valor2: valor2 });
+    //         }
 
-          } else {
-            let shouldSkipp = false;
-            labelsData.push(mpio[0].name);
-            data.push(valor);
-            dataTable.push({ depto: depto[0].name, mpio: mpio[0].name, codigo: mpio[0].cod_dane, valor: valor });
-          }
-        }
-      } else {
-        if (a["FECHA"] === variables.periodoSeleccionado.value && a["PRODUCTOS_ESPECIE_PUBLI"] === variables.productoSeleccionado.value) {
+    //       } else {
+    //         let shouldSkipp = false;
+    //         labelsData.push(mpio[0].name);
+    //         data.push(valor);
+    //         dataTable.push({ depto: depto[0].name, mpio: mpio[0].name, codigo: mpio[0].cod_dane, valor: valor });
+    //       }
+    //     }
+    //   } else {
+    //     if (a["FECHA"] === variables.periodoSeleccionado.value && a["PRODUCTOS_ESPECIE_PUBLI"] === variables.productoSeleccionado.value) {
 
-          let valor = parseFloat(a[variables.alias]).toFixed(2)
-          let valor2 = parseFloat(a[variables.alias2])
-          let mpio = (municipios).filter(result => (result.cod_dane == a["COD_MPIO"]))
-          let depto = (departamentos).filter(result => (result.cod_dane == a["COD_MPIO"].substring(0, 2)))
-          if (dpto != 0) {
-            depto = (departamentos).filter(result => (result.cod_dane == dpto))
-            if (mpio[0].cod_dane.substring(0, 2) == dpto) {
-              dataTable.push({ depto: depto[0].name, mpio: mpio[0].name, codigo: mpio[0].cod_dane, valor: valor, valor2: valor2 });
-            }
+    //       let valor = parseFloat(a[variables.alias]).toFixed(2)
+    //       let valor2 = parseFloat(a[variables.alias2])
+    //       let mpio = (municipios).filter(result => (result.cod_dane == a["COD_MPIO"]))
+    //       let depto = (departamentos).filter(result => (result.cod_dane == a["COD_MPIO"].substring(0, 2)))
+    //       if (dpto != 0) {
+    //         depto = (departamentos).filter(result => (result.cod_dane == dpto))
+    //         if (mpio[0].cod_dane.substring(0, 2) == dpto) {
+    //           dataTable.push({ depto: depto[0].name, mpio: mpio[0].name, codigo: mpio[0].cod_dane, valor: valor, valor2: valor2 });
+    //         }
 
-          } else {
-            let shouldSkipp = false;
-            labelsData.push(mpio[0].name);
-            data.push(valor);
-            dataTable.push({ depto: depto[0].name, mpio: mpio[0].name, codigo: mpio[0].cod_dane, valor: valor });
-          }
-        }
-      }
+    //       } else {
+    //         let shouldSkipp = false;
+    //         labelsData.push(mpio[0].name);
+    //         data.push(valor);
+    //         dataTable.push({ depto: depto[0].name, mpio: mpio[0].name, codigo: mpio[0].cod_dane, valor: valor });
+    //       }
+    //     }
+    //   }
 
-    }, []);
+    // }, []);
 
     variables.changeLegend(nivel);
     variables.legenTheme();
@@ -865,29 +944,29 @@ variables.changeMap = function (nivel, dpto, table) {
 
     variables.changeLegend(nivel);
 
-    if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined) {
-      variables.filterGeo("DPTO", variables.deptoSelectedFilter)
-    } else {
-      let layer = variables.capas['mpios_vt'];
-      layer.setStyle(function (feature) {
-        var layer = feature.get("id");
-        return changeSymbologi(layer, nivel, feature)
-      })
+    // if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined) {
+    //   variables.filterGeo("DPTO", variables.deptoSelectedFilter)
+    // } else {
+    //   let layer = variables.capas['mpios_vt'];
+    //   layer.setStyle(function (feature) {
+    //     var layer = feature.get("id");
+    //     return changeSymbologi(layer, nivel, feature)
+    //   })
 
-      localStorage.getItem("visualization") === "symbols" ? layer.setVisible(false) : layer.setVisible(true);
-      variables.unidadesMpio.setStyle(function (feature) {
-        const id = feature.values_.features[0].values_.cod_dane;
-        return changeSymbologiCluster(id, nivel, min, max, max2);
-      })
-      if (dpto == null) {
-        layer.setStyle(function (feature) {
-          var layer = feature.get("id");
-          return changeSymbologi(layer, nivel, feature)
-        })
-      }
-    }
+    //   localStorage.getItem("visualization") === "symbols" ? layer.setVisible(false) : layer.setVisible(true);
+    //   variables.unidadesMpio.setStyle(function (feature) {
+    //     const id = feature.values_.features[0].values_.cod_dane;
+    //     return changeSymbologiCluster(id, nivel, min, max, max2);
+    //   })
+    //   if (dpto == null) {
+    //     layer.setStyle(function (feature) {
+    //       var layer = feature.get("id");
+    //       return changeSymbologi(layer, nivel, feature)
+    //     })
+    //   }
+    // }
 
-    localStorage.getItem("visualization") === "symbols" ? layer.setVisible(false) : layer.setVisible(true);
+    // localStorage.getItem("visualization") === "symbols" ? layer.setVisible(false) : layer.setVisible(true);
 
   } else if (nivel == "SECC") {
 
