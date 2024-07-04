@@ -19,8 +19,6 @@ const Leyenda = () => {
     setUnidad(variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"])
     
     if (variables.coloresLeyend[variables.varVariable] != undefined) {
-      console.log("NIVEL ADENTRO", nivel);
-      console.log("COLORES ADENTRO", variables.coloresLeyend[variables.varVariable][nivel]);
       setLegend(prevState => [...variables.coloresLeyend[variables.varVariable][nivel]])
     }
 
@@ -33,9 +31,6 @@ const Leyenda = () => {
     let transparencia = value / 10;
     let layers = variables.layers;
     settransparencyGeneral(value);
-
-    console.log('Transparency Value:', transparencia);
-    console.log('Layers:', layers);
     
     const layerManzanas = Object.values(layers).filter((o) => o.id === "manzanas")[0];
     const layerManzanas2022 = Object.values(layers).filter((o) => o.id === "manzanas2022")[0];

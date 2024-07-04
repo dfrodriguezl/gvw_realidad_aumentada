@@ -224,14 +224,26 @@ const loadMapEvents = () => {
   variables.map.on("zoomend", (e) => {
     const zoom = variables.map.getZoom();
     console.log("ZOOM END", zoom);
-    if (zoom >= 11) {
-      console.log("ZOOM IN", zoom);
-      variables.changeTheme("MNZN", null, null, "y");
+    if (zoom >= 10) {
+
     } else if (zoom >= 7) {
       variables.changeTheme("MPIO", null, null, "y");
     } else if (zoom < 7) {
       variables.changeTheme("DPTO", "00", "ND", "n");
     }
+  })
+
+  variables.map.on("moveend", (e) => {
+    const zoom = variables.map.getZoom();
+
+    if (zoom >= 10) {
+      const features = variables.map.queryRenderedFeatures(e.target.getCenter());
+      const depto = features[0]["id"].substring(0,2);
+      variables.changeTheme("MNZN", depto, null, "y");
+      variables.deptoCentro = depto;
+    }
+    
+    
   })
 }
 
@@ -332,7 +344,7 @@ variables.changeMap = function (nivel, dpto, table) {
     let valor2Array = [];
     var integrado = Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel]).map(function (a, b) {
       let valor, valor2
-      
+
       if (a[variables.alias].includes(",")) {
         valor = parseFloat(a[variables.alias]).toFixed(2).toLocaleString("de-De").replace(",", ".")
       } else {
@@ -1102,18 +1114,20 @@ variables.changeMap = function (nivel, dpto, table) {
 
     let integrado_mnzn;
 
-    const capa = variables.varVariable === "38201001" ? "manzanas" :
-      variables.varVariable === "39501001" ? "manzanas2022" :
-        variables.varVariable === "38202001" ? "secciones" :
-          variables.varVariable === "39502001" ? "secciones2022" :
-            variables.varVariable === "38201002" ? "manzanasVariacion" :
-              variables.varVariable === "39501002" ? "manzanasVariacion2022" : null;
+    // const capa = variables.varVariable === "38201001" ? "manzanas" :
+    //   variables.varVariable === "39501001" ? "manzanas2022" :
+    //     variables.varVariable === "38202001" ? "secciones" :
+    //       variables.varVariable === "39502001" ? "secciones2022" :
+    //         variables.varVariable === "38201002" ? "manzanasVariacion" :
+    //           variables.varVariable === "39501002" ? "manzanasVariacion2022" : null;
+
+    const capa = "manzanas2022";
 
     integrado_mnzn = Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][dpto]).map(function (value) {
       let valor = parseFloat(value[variables.alias].replace(",", "."))
 
-      let mpio = (municipios).filter(result => (result.cod_dane == value["MPIO"]));
-      dataTable.push({ cod_dane: value["NM"], mpio: mpio[0].name, codigo: mpio[0].cod_dane, valor: valor });
+      // let mpio = (municipios).filter(result => (result.cod_dane == value["MPIO"]));
+      // dataTable.push({ cod_dane: value["NM"], mpio: mpio[0].name, codigo: mpio[0].cod_dane, valor: valor });
 
       if (valor != undefined && !isNaN(valor)) {
 
@@ -1122,12 +1136,20 @@ variables.changeMap = function (nivel, dpto, table) {
           sourceLayer: 'MGN_2018_URB_MANZANA',
           id: String(value["NM"])
         }, {
-          viviendas: valor
+          valor: valor
         })
 
         return valor;
 
       } else {
+
+        variables.map.setFeatureState({
+          source: capa,
+          sourceLayer: 'MGN_2018_URB_MANZANA',
+          id: String(value["NM"])
+        }, {
+          valor: 0
+        })
 
         return 0;
 
@@ -1144,7 +1166,7 @@ variables.changeMap = function (nivel, dpto, table) {
 
     let paintPropertyRanges = [];
     paintPropertyRanges.push("step");
-    paintPropertyRanges.push(["to-number", ["feature-state", "viviendas"]]);
+    paintPropertyRanges.push(["to-number", ["feature-state", "valor"]]);
 
     if (serie.getClassJenks(5) != undefined) {
       for (let index = 0; index < (serie.ranges).length; index++) {
@@ -1179,29 +1201,32 @@ variables.changeMap = function (nivel, dpto, table) {
       }
     })
 
+    console.log("PROPERTIES PAINT", paintPropertyRanges);
+
 
     variables.map.setPaintProperty(capa, "fill-extrusion-color", paintPropertyRanges);
+    variables.map.setPaintProperty(capa, 'fill-extrusion-height', ["*", 0.1, ["to-number", ["feature-state", "valor"]]]);
 
 
 
-    colsTable = [
-      { title: "Cód. DANE", field: "cod_dane", hozAlign: "right", width: "150", headerSort: true, headerFilter: true, headerFilterPlaceholder: "Cód. DANE..." },
-      { title: "Municipio", field: "mpio", width: "150", headerFilter: true, headerSort: true, headerFilterPlaceholder: "Municipio..." },
-      { title: "Cantidad (Viviendas)", field: "valor", hozAlign: "right", width: "300", headerFilter: true, headerSort: true, headerFilterPlaceholder: "Cantidad..." }
-    ];
+    // colsTable = [
+    //   { title: "Cód. DANE", field: "cod_dane", hozAlign: "right", width: "150", headerSort: true, headerFilter: true, headerFilterPlaceholder: "Cód. DANE..." },
+    //   { title: "Municipio", field: "mpio", width: "150", headerFilter: true, headerSort: true, headerFilterPlaceholder: "Municipio..." },
+    //   { title: "Cantidad (Viviendas)", field: "valor", hozAlign: "right", width: "300", headerFilter: true, headerSort: true, headerFilterPlaceholder: "Cantidad..." }
+    // ];
 
-    let orderData = dataTable.sort((a, b) => {
-      if (parseFloat(a.valor) > parseFloat(b.valor)) {
-        return -1;
-      } else if (parseFloat(a.valor) < parseFloat(b.valor)) {
-        return 1;
-      }
-      return 0;
-    })
+    // let orderData = dataTable.sort((a, b) => {
+    //   if (parseFloat(a.valor) > parseFloat(b.valor)) {
+    //     return -1;
+    //   } else if (parseFloat(a.valor) < parseFloat(b.valor)) {
+    //     return 1;
+    //   }
+    //   return 0;
+    // })
 
     // variables.updateData(orderData, colsTable);
 
-    variables.changeBarChartData(labelsChart, colorsChart, orderData, nivel);
+    // variables.changeBarChartData(labelsChart, colorsChart, orderData, nivel);
 
   }
 

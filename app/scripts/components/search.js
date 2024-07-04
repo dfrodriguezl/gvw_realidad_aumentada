@@ -155,7 +155,7 @@ const Search = ({ filterSearch, placeholder }) => {
                     // let urlData = variables.urlVariables + "?codigo_subgrupo=" + variables.varVariable.substring(0, 5) + "&nivel_geografico=" + nivel + "&campo=NM&filtro_geografico=05001"
                     let urlData = variables.urlVariables + "?codigo_subgrupo=" + variables.varVariable.substring(0, 5) + "&nivel_geografico=" + nivel;
 
-                    if(campo != null){
+                    if (campo != null) {
                         urlData = urlData + "&campo=" + campo
                     }
 
@@ -380,19 +380,23 @@ const Search = ({ filterSearch, placeholder }) => {
         // variables.changeTheme("DPTO", 0, "ND");
 
         if (zoom < 7) {
-            console.log("VARIABLE", variables.varVariable.substring(0, 5));
-            console.log("ARRAY DATOS", variables.dataArrayDatos);
             if (!variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"]) {
                 variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"] = {};
             }
 
             variables.changeTheme("DPTO", "00", "ND", "n");
-        } else if (zoom >= 7 && zoom < 13){
+        } else if (zoom >= 7 && zoom < 10) {
             if (!variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["MPIO"]) {
                 variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["MPIO"] = {};
             }
 
             variables.changeTheme("MPIO", "00", null, "n");
+        } else if (zoom >= 10) {
+            if (!variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["MNZN"]) {
+                variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["MNZN"] = {};
+            }
+
+            variables.changeTheme("MNZN", variables.deptoCentro, "NM", "n");
         }
 
     };

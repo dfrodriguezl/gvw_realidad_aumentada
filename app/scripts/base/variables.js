@@ -32,68 +32,68 @@ export const variables = {
     },
     baseMapCheck: "Noche",  // Ponga el MAPA BASE que quiere por defecto
     layers: {
-        manzanas: {
-            tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
-            id: "manzanas",
-            url: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/vector-tiles/vectortile3.php?params=capas_geovisores/mgn2021_mzn1/MGN_2018_URB_MANZANA/cod_dane-viv/{z}/{x}/{y}",
-            title: 'Manzanas',
-            visible: false,
-            checked: false,
-            hideToc: true,
-            minZoom: 11,
-            maxZoom: 21,
-            style: {
-                'fill-extrusion-color': [
-                    "step",
-                    ["to-number", ["get", "viv"]],
-                    "#fff5f0",
-                    25,
-                    "#fdbea5",
-                    79,
-                    "#fc7050",
-                    250,
-                    "#d42020",
-                    667,
-                    "#67000d"
-                ],
-                'fill-extrusion-height': ["*", 1, ["get", "viv"]],
-            },
-            ol: null,
-            layer: "MGN_2018_URB_MANZANA",
-            typeLayer: "fill-extrusion",
-            clickable: true
-        },
-        manzanasVariacion: {
-            tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
-            id: "manzanasVariacion",
-            url: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/vector-tiles/vectortile3.php?params=capas_geovisores/mgn2021_mzn1/MGN_2018_URB_MANZANA/cod_dane-variacion/{z}/{x}/{y}",
-            title: 'Variación manzanas MGN 2021',
-            visible: false,
-            checked: false,
-            hideToc: true,
-            minZoom: 4,
-            maxZoom: 21,
-            style: {
-                'fill-extrusion-color': [
-                    "step",
-                    ["to-number", ["get", "variacion"]],
-                    "#fff5f0",
-                    25,
-                    "#fdbea5",
-                    79,
-                    "#fc7050",
-                    250,
-                    "#d42020",
-                    667,
-                    "#67000d"
-                ],
-                'fill-extrusion-height': ["*", 1, ["get", "variacion"]],
-            },
-            ol: null,
-            layer: "MGN_2018_URB_MANZANA",
-            typeLayer: "fill-extrusion",
-            clickable: true
-        },
+        // manzanas: {
+        //     tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
+        //     id: "manzanas",
+        //     url: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/vector-tiles/vectortile3.php?params=capas_geovisores/mgn2021_mzn1/MGN_2018_URB_MANZANA/cod_dane-viv/{z}/{x}/{y}",
+        //     title: 'Manzanas',
+        //     visible: true,
+        //     checked: true,
+        //     hideToc: false,
+        //     minZoom: 11,
+        //     maxZoom: 21,
+        //     style: {
+        //         // 'fill-extrusion-color': [
+        //         //     "step",
+        //         //     ["to-number", ["get", "viv"]],
+        //         //     "#fff5f0",
+        //         //     25,
+        //         //     "#fdbea5",
+        //         //     79,
+        //         //     "#fc7050",
+        //         //     250,
+        //         //     "#d42020",
+        //         //     667,
+        //         //     "#67000d"
+        //         // ],
+        //         // 'fill-extrusion-height': ["*", 1, ["get", "viv"]],
+        //     },
+        //     ol: null,
+        //     layer: "MGN_2018_URB_MANZANA",
+        //     typeLayer: "fill-extrusion",
+        //     clickable: true
+        // },
+        // manzanasVariacion: {
+        //     tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
+        //     id: "manzanasVariacion",
+        //     url: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/vector-tiles/vectortile3.php?params=capas_geovisores/mgn2021_mzn1/MGN_2018_URB_MANZANA/cod_dane-variacion/{z}/{x}/{y}",
+        //     title: 'Variación manzanas MGN 2021',
+        //     visible: false,
+        //     checked: false,
+        //     hideToc: true,
+        //     minZoom: 4,
+        //     maxZoom: 21,
+        //     style: {
+        //         'fill-extrusion-color': [
+        //             "step",
+        //             ["to-number", ["get", "variacion"]],
+        //             "#fff5f0",
+        //             25,
+        //             "#fdbea5",
+        //             79,
+        //             "#fc7050",
+        //             250,
+        //             "#d42020",
+        //             667,
+        //             "#67000d"
+        //         ],
+        //         'fill-extrusion-height': ["*", 1, ["get", "variacion"]],
+        //     },
+        //     ol: null,
+        //     layer: "MGN_2018_URB_MANZANA",
+        //     typeLayer: "fill-extrusion",
+        //     clickable: true
+        // },
         manzanas2022: {
             tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
             id: "manzanas2022",
@@ -105,119 +105,119 @@ export const variables = {
             minZoom: 8,
             maxZoom: 21,
             style: {
-                'fill-extrusion-color': [
-                    "step",
-                    ["to-number", ["get", "viviendas"]],
-                    "#fff5f0",
-                    25,
-                    "#fdbea5",
-                    79,
-                    "#fc7050",
-                    250,
-                    "#d42020",
-                    667,
-                    "#67000d"
-                ],
-                'fill-extrusion-height': ["*", 1, ["get", "viviendas"]],
+                // 'fill-extrusion-color': [
+                //     "step",
+                //     ["to-number", ["get", "viviendas"]],
+                //     "#fff5f0",
+                //     25,
+                //     "#fdbea5",
+                //     79,
+                //     "#fc7050",
+                //     250,
+                //     "#d42020",
+                //     667,
+                //     "#67000d"
+                // ],
+                // 'fill-extrusion-height': ["*", 1, ["get", "viviendas"]],
             },
             ol: null,
             layer: "MGN_2018_URB_MANZANA",
             typeLayer: "fill-extrusion",
             clickable: true
         },
-        manzanasVariacion2022: {
-            tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
-            id: "manzanasVariacion2022",
-            url: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/vector-tiles/vectortile3.php?params=capas_geovisores/mgn2022_mzn/MGN_2018_URB_MANZANA/cod_dane-variacion/{z}/{x}/{y}",
-            title: 'Variación manzanas MGN 2022',
-            visible: false,
-            checked: false,
-            hideToc: true,
-            minZoom: 4,
-            maxZoom: 21,
-            style: {
-                'fill-extrusion-color': [
-                    "step",
-                    ["to-number", ["get", "variacion"]],
-                    "#fff5f0",
-                    25,
-                    "#fdbea5",
-                    79,
-                    "#fc7050",
-                    250,
-                    "#d42020",
-                    667,
-                    "#67000d"
-                ],
-                'fill-extrusion-height': ["*", 1, ["get", "variacion"]],
-            },
-            ol: null,
-            layer: "MGN_2018_URB_MANZANA",
-            typeLayer: "fill-extrusion",
-            clickable: true
-        },
-        seccionesRurales: {
-            tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
-            id: "secciones",
-            url: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/vector-tiles/vectortile3.php?params=capas_geovisores/mgn2021_rursecc1/MGN_2018_URB_MANZANA/secr_ccnct-secr_viv/{z}/{x}/{y}",
-            title: 'Secciones rurales',
-            visible: false,
-            checked: false,
-            hideToc: true,
-            minZoom: 4,
-            maxZoom: 21,
-            style: {
-                'fill-extrusion-color': [
-                    "step",
-                    ["to-number", ["get", "secr_viv"]],
-                    "#fff5f0",
-                    25,
-                    "#fdbea5",
-                    79,
-                    "#fc7050",
-                    250,
-                    "#d42020",
-                    667,
-                    "#67000d"
-                ],
-                'fill-extrusion-height': ["*", 1, ["get", "secr_viv"]],
-            },
-            ol: null,
-            layer: "MGN_2018_URB_MANZANA",
-            typeLayer: "fill-extrusion",
-            clickable: true
-        },
-        seccionesRurales2022: {
-            tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
-            id: "secciones2022",
-            url: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/vector-tiles/vectortile3.php?params=capas_geovisores/mgn2022_rursecc/MGN_2018_URB_MANZANA/secr_ccnct-secr_viv/{z}/{x}/{y}",
-            title: 'Secciones 2022',
-            visible: false,
-            checked: false,
-            hideToc: true,
-            minZoom: 4,
-            maxZoom: 21,
-            style: {
-                'fill-extrusion-color': [
-                    "step",
-                    ["to-number", ["get", "secr_viv"]],
-                    "#fff5f0",
-                    25,
-                    "#fdbea5",
-                    79,
-                    "#fc7050",
-                    250,
-                    "#d42020",
-                    667,
-                    "#67000d"
-                ],
-                'fill-extrusion-height': ["*", 1, ["get", "secr_viv"]],
-            },
-            ol: null,
-            layer: "MGN_2018_URB_MANZANA",
-            typeLayer: "fill-extrusion",
-            clickable: true
-        },
+        // manzanasVariacion2022: {
+        //     tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
+        //     id: "manzanasVariacion2022",
+        //     url: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/vector-tiles/vectortile3.php?params=capas_geovisores/mgn2022_mzn/MGN_2018_URB_MANZANA/cod_dane-variacion/{z}/{x}/{y}",
+        //     title: 'Variación manzanas MGN 2022',
+        //     visible: false,
+        //     checked: false,
+        //     hideToc: true,
+        //     minZoom: 4,
+        //     maxZoom: 21,
+        //     style: {
+        //         'fill-extrusion-color': [
+        //             "step",
+        //             ["to-number", ["get", "variacion"]],
+        //             "#fff5f0",
+        //             25,
+        //             "#fdbea5",
+        //             79,
+        //             "#fc7050",
+        //             250,
+        //             "#d42020",
+        //             667,
+        //             "#67000d"
+        //         ],
+        //         'fill-extrusion-height': ["*", 1, ["get", "variacion"]],
+        //     },
+        //     ol: null,
+        //     layer: "MGN_2018_URB_MANZANA",
+        //     typeLayer: "fill-extrusion",
+        //     clickable: true
+        // },
+        // seccionesRurales: {
+        //     tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
+        //     id: "secciones",
+        //     url: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/vector-tiles/vectortile3.php?params=capas_geovisores/mgn2021_rursecc1/MGN_2018_URB_MANZANA/secr_ccnct-secr_viv/{z}/{x}/{y}",
+        //     title: 'Secciones rurales',
+        //     visible: false,
+        //     checked: false,
+        //     hideToc: true,
+        //     minZoom: 4,
+        //     maxZoom: 21,
+        //     style: {
+        //         'fill-extrusion-color': [
+        //             "step",
+        //             ["to-number", ["get", "secr_viv"]],
+        //             "#fff5f0",
+        //             25,
+        //             "#fdbea5",
+        //             79,
+        //             "#fc7050",
+        //             250,
+        //             "#d42020",
+        //             667,
+        //             "#67000d"
+        //         ],
+        //         'fill-extrusion-height': ["*", 1, ["get", "secr_viv"]],
+        //     },
+        //     ol: null,
+        //     layer: "MGN_2018_URB_MANZANA",
+        //     typeLayer: "fill-extrusion",
+        //     clickable: true
+        // },
+        // seccionesRurales2022: {
+        //     tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
+        //     id: "secciones2022",
+        //     url: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/vector-tiles/vectortile3.php?params=capas_geovisores/mgn2022_rursecc/MGN_2018_URB_MANZANA/secr_ccnct-secr_viv/{z}/{x}/{y}",
+        //     title: 'Secciones 2022',
+        //     visible: false,
+        //     checked: false,
+        //     hideToc: true,
+        //     minZoom: 4,
+        //     maxZoom: 21,
+        //     style: {
+        //         'fill-extrusion-color': [
+        //             "step",
+        //             ["to-number", ["get", "secr_viv"]],
+        //             "#fff5f0",
+        //             25,
+        //             "#fdbea5",
+        //             79,
+        //             "#fc7050",
+        //             250,
+        //             "#d42020",
+        //             667,
+        //             "#67000d"
+        //         ],
+        //         'fill-extrusion-height': ["*", 1, ["get", "secr_viv"]],
+        //     },
+        //     ol: null,
+        //     layer: "MGN_2018_URB_MANZANA",
+        //     typeLayer: "fill-extrusion",
+        //     clickable: true
+        // },
         
         municipios: {
             tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
@@ -444,5 +444,6 @@ export const variables = {
         start: null,
         finsih: null
     },
+    deptoCentro: null
 }
 export const urlDeploy = 'http://localhost:3000/'
