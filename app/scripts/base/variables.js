@@ -11,8 +11,10 @@ export const variables = {
     urlTemas: 'https://geoportal.dane.gov.co/laboratorio/serviciosjson/visores/temas.php',
     urlVariables: 'https://geoportal.dane.gov.co/laboratorio/serviciosjson/visores/variables8.php',//enlace/servicio  que trae los datos de la variable seleccionada
     urlVariablesProductos: 'https://geoportal.dane.gov.co/laboratorio/serviciosjson/sipsa/productos.php',//enlace/servicio  que trae los datos de la variable seleccionada
-    codVisor: "4", //Ponga el codigo que corresponde a SU VISOR
-    varVariable: "01102001", //Ponga el codigo de la CATEGORIA que corresponda a su visor
+    //codVisor: "4", //Ponga el codigo que corresponde a SU VISOR
+    //varVariable: "01102001", //Ponga el codigo de la CATEGORIA que corresponda a su visor
+    codVisor: "68",
+    varVariable: "01440001",
     series: [0, 0, 0, 0, 0],
     urlUE: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/censo_economico/unidades2_segment.php?min=y&codigo_municipio=",
     urlCount: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/censo_economico/unidades2_segment.php?count=y&codigo_municipio=",
@@ -38,7 +40,7 @@ export const variables = {
             visible: false,
             checked: false,
             hideToc: true,
-            minZoom: 4,
+            minZoom: 11,
             maxZoom: 21,
             style: {
                 'fill-extrusion-color': [
@@ -225,7 +227,7 @@ export const variables = {
             visible: true,
             checked: true,
             minZoom: 7,
-            maxZoom: 21,
+            maxZoom: 10,
             style: {
                 // "line-color": '#ffffff',
                 // "line-width": 1
@@ -255,46 +257,46 @@ export const variables = {
             clickable: true,
             hideToc: true
         },
-        municipiosSel: {
-            tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
-            id: "mpios_vt2",
-            url: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/vector-tiles/vectortile.php?params=capas_geovisores/mgn2020_mpio/mgn_2020_mpio_politico/mpio_ccnct/{z}/{x}/{y}",
-            title: 'Municipios sel',
-            visible: true,
-            checked: false,
-            hideToc: true,
-            minZoom: 7,
-            maxZoom: 21,
-            style: {
-                "line-color": '#95172A',
-                "line-width": 1,
-                "line-opacity": 1
-            },
-            ol: null,
-            layer: "mgn_2020_mpio_politico",
-            typeLayer: "line",
-            clickable: false
-        },
-        departamentoSel: {
-            tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
-            id: "deptos_vt2",
-            url: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/vector-tiles/vectortile.php?params=capas_geovisores/mgn2020_dpto/mgn_2020_dpto_politico/dpto_ccdgo/{z}/{x}/{y}",
-            title: 'Departamentos sel',
-            visible: true,
-            checked: false,
-            minZoom: 1,
-            maxZoom: 12,
-            hideToc: true,
-            style: {
-                "line-color": '#DC7AFA',
-                "line-width": 2,
-                "line-opacity": 1
-            },
-            ol: null,
-            layer: "mgn_2020_dpto_politico",
-            typeLayer: "line",
-            clickable: false
-        },
+        // municipiosSel: {
+        //     tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
+        //     id: "mpios_vt2",
+        //     url: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/vector-tiles/vectortile.php?params=capas_geovisores/mgn2020_mpio/mgn_2020_mpio_politico/mpio_ccnct/{z}/{x}/{y}",
+        //     title: 'Municipios sel',
+        //     visible: true,
+        //     checked: false,
+        //     hideToc: true,
+        //     minZoom: 7,
+        //     maxZoom: 21,
+        //     style: {
+        //         "line-color": '#95172A',
+        //         "line-width": 1,
+        //         "line-opacity": 1
+        //     },
+        //     ol: null,
+        //     layer: "mgn_2020_mpio_politico",
+        //     typeLayer: "line",
+        //     clickable: false
+        // },
+        // departamentoSel: {
+        //     tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
+        //     id: "deptos_vt2",
+        //     url: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/vector-tiles/vectortile.php?params=capas_geovisores/mgn2020_dpto/mgn_2020_dpto_politico/dpto_ccdgo/{z}/{x}/{y}",
+        //     title: 'Departamentos sel',
+        //     visible: true,
+        //     checked: false,
+        //     minZoom: 1,
+        //     maxZoom: 12,
+        //     hideToc: true,
+        //     style: {
+        //         "line-color": '#DC7AFA',
+        //         "line-width": 2,
+        //         "line-opacity": 1
+        //     },
+        //     ol: null,
+        //     layer: "mgn_2020_dpto_politico",
+        //     typeLayer: "line",
+        //     clickable: false
+        // },
         
     },
     layersInMap: [],

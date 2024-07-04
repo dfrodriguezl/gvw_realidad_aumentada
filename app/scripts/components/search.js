@@ -64,7 +64,7 @@ function getColorArray(categoria) {
 const Search = ({ filterSearch, placeholder }) => {
     const [term, setTerm] = useState("");
     const [termDos, setTermDos] = useState("");
-    const [btn, setBtn] = useState("011");
+    const [btn, setBtn] = useState("014");
     const [tematica, setTematica] = useState(variables.tematica);
     const [btnDos, setBtnDos] = useState(variables.varVariable);
     const [visualList, setVisualList] = useState(true);
@@ -153,7 +153,7 @@ const Search = ({ filterSearch, placeholder }) => {
                 }
                 else {
                     // let urlData = variables.urlVariables + "?codigo_subgrupo=" + variables.varVariable.substring(0, 5) + "&nivel_geografico=" + nivel + "&campo=NM&filtro_geografico=05001"
-                    let urlData = variables.urlVariables + "?codigo_subgrupo=" + variables.varVariable.substring(0, 5) + "&nivel_geografico=" + nivel + "&clase=0";
+                    let urlData = variables.urlVariables + "?codigo_subgrupo=" + variables.varVariable.substring(0, 5) + "&nivel_geografico=" + nivel;
 
                     if(campo != null){
                         urlData = urlData + "&campo=" + campo
@@ -244,6 +244,8 @@ const Search = ({ filterSearch, placeholder }) => {
                 const consultaUnoFin = groupByFunct(consulta.data, "COD_GRUPO")
                 const consultaDosFin = groupByFunct(consultaDos.data, "COD_SUBGRUPO")
                 const consultaTresFin = groupByFunct(consultaTres.data, "COD_CATEGORIA")
+
+                console.log("CODS_SUBGRUPO", consultaDosFin);
 
                 Object.keys(consultaDosFin).map((subgrupo) => {
                     variables.dataArrayDatos[subgrupo] = {
@@ -378,11 +380,13 @@ const Search = ({ filterSearch, placeholder }) => {
         // variables.changeTheme("DPTO", 0, "ND");
 
         if (zoom < 7) {
+            console.log("VARIABLE", variables.varVariable.substring(0, 5));
+            console.log("ARRAY DATOS", variables.dataArrayDatos);
             if (!variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"]) {
                 variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"] = {};
             }
 
-            variables.changeTheme("DPTO", "00", null, "n");
+            variables.changeTheme("DPTO", "00", "ND", "n");
         } else if (zoom >= 7 && zoom < 13){
             if (!variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["MPIO"]) {
                 variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["MPIO"] = {};

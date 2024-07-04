@@ -17,7 +17,10 @@ const Leyenda = () => {
   variables.changeLegend = function (nivel) {
     setCategoria(variables.tematica["CATEGORIAS"][variables.varVariable][0]["CATEGORIA"])
     setUnidad(variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"])
+    
     if (variables.coloresLeyend[variables.varVariable] != undefined) {
+      console.log("NIVEL ADENTRO", nivel);
+      console.log("COLORES ADENTRO", variables.coloresLeyend[variables.varVariable][nivel]);
       setLegend(prevState => [...variables.coloresLeyend[variables.varVariable][nivel]])
     }
 

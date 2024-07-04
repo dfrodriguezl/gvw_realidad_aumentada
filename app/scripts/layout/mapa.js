@@ -70,7 +70,7 @@ const Mapa = () => {
       container: mapRef.current,
       center: [-74.1083125, 4.663437], // starting position [lng, lat]
       zoom: 5, // starting zoom,
-      pitch: 60
+      pitch: 30
     });
 
     Object.keys(variables.baseMaps).map((basemap) => {
@@ -223,7 +223,11 @@ function loadLayers() {
 const loadMapEvents = () => {
   variables.map.on("zoomend", (e) => {
     const zoom = variables.map.getZoom();
-    if (zoom >= 7) {
+    console.log("ZOOM END", zoom);
+    if (zoom >= 11) {
+      console.log("ZOOM IN", zoom);
+      variables.changeTheme("MNZN", null, null, "y");
+    } else if (zoom >= 7) {
       variables.changeTheme("MPIO", null, null, "y");
     } else if (zoom < 7) {
       variables.changeTheme("DPTO", "00", "ND", "n");
@@ -292,19 +296,19 @@ variables.changeMap = function (nivel, dpto, table) {
 
   for (let index = 0; index < campos.length; index++) {
     if (tipoVariable === "VC") {
-      if (campos[index].indexOf(variables.tematica["CATEGORIAS"][variables.varVariable][0]["CAMPO_TABLA2"]) != "-1") {
+      if (campos[index].indexOf(variables.tematica["CATEGORIAS"][variables.varVariable][0]["CAMPO_TABLA"]) != "-1") {
         let arrField = (campos[index]).split(" ")
         arrField = cleanArray(arrField)
 
-        if ((variables.tematica["CATEGORIAS"][variables.varVariable][0]["CAMPO_TABLA2"]).trim() == arrField[0].trim()) {
+        if ((variables.tematica["CATEGORIAS"][variables.varVariable][0]["CAMPO_TABLA"]).trim() == arrField[0].trim()) {
           variables.alias = (arrField[arrField.length - 1]).trim() // definir el tipo de variable que se debe previsualizar
           variables.valorTotal = variables.alias.replace('PP', 'V')
         }
       }
-      else if (campos[index].indexOf(variables.tematica["CATEGORIAS"][variables.varVariable][0]["CAMPO_TABLA"]) != "-1") {
+      else if (campos[index].indexOf(variables.tematica["CATEGORIAS"][variables.varVariable][0]["CAMPO_TABLA2"]) != "-1") {
         let arrField = (campos[index]).split(" ")
         arrField = cleanArray(arrField)
-        if ((variables.tematica["CATEGORIAS"][variables.varVariable][0]["CAMPO_TABLA"]).trim() == arrField[0].trim()) {
+        if ((variables.tematica["CATEGORIAS"][variables.varVariable][0]["CAMPO_TABLA2"]).trim() == arrField[0].trim()) {
           variables.alias2 = (arrField[arrField.length - 1]).trim() //definir el tipo de variable que se debe previsualizar
           variables.valorTotal = variables.alias2.replace('V', 'PP')
         }
@@ -328,7 +332,7 @@ variables.changeMap = function (nivel, dpto, table) {
     let valor2Array = [];
     var integrado = Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel]).map(function (a, b) {
       let valor, valor2
-      // if (a["G"] === variables.periodoSeleccionado.value) {
+      
       if (a[variables.alias].includes(",")) {
         valor = parseFloat(a[variables.alias]).toFixed(2).toLocaleString("de-De").replace(",", ".")
       } else {
