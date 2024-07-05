@@ -245,8 +245,6 @@ const Search = ({ filterSearch, placeholder }) => {
                 const consultaDosFin = groupByFunct(consultaDos.data, "COD_SUBGRUPO")
                 const consultaTresFin = groupByFunct(consultaTres.data, "COD_CATEGORIA")
 
-                console.log("CODS_SUBGRUPO", consultaDosFin);
-
                 Object.keys(consultaDosFin).map((subgrupo) => {
                     variables.dataArrayDatos[subgrupo] = {
                         ["DPTO"]: {},

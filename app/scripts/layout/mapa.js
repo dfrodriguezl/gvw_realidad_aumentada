@@ -223,7 +223,6 @@ function loadLayers() {
 const loadMapEvents = () => {
   variables.map.on("zoomend", (e) => {
     const zoom = variables.map.getZoom();
-    console.log("ZOOM END", zoom);
     if (zoom >= 10) {
 
     } else if (zoom >= 7) {
@@ -868,13 +867,6 @@ variables.changeMap = function (nivel, dpto, table) {
     variables.map.setPaintProperty(capa, 'fill-extrusion-height', ["*", 0.05, ["to-number", ["feature-state", "valor"]]]);
 
 
-
-    // let layer = variables.capas['mpios_vt'];
-    // let extent = variables.map.getView().calculateExtent();
-    // let f = layer.getSource().getFeaturesInExtent(extent);
-
-
-
     // DATOS TABLA POR MUNICIPIO
     let labelsData = []
     let data = []
@@ -905,52 +897,6 @@ variables.changeMap = function (nivel, dpto, table) {
       ]
     }
 
-    // Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][variables.periodoSeleccionado.value]).map(function (a, b) {
-
-    //   if (dpto !== 0) {
-    //     if (a["FECHA"] === variables.periodoSeleccionado.value && a["PRODUCTOS_ESPECIE_PUBLI"] === variables.productoSeleccionado.value && a["COD_DPTO"] === dpto) {
-    //       let valor = parseFloat(a[variables.alias]).toFixed(2)
-    //       let valor2 = parseFloat(a[variables.alias2])
-    //       let mpio = (municipios).filter(result => (result.cod_dane == a["COD_MPIO"]))
-    //       let depto = (departamentos).filter(result => (result.cod_dane == a["COD_MPIO"].substring(0, 2)))
-
-    //       if (dpto != null) {
-    //         depto = (departamentos).filter(result => (result.cod_dane == dpto))
-    //         if (mpio[0].cod_dane.substring(0, 2) == dpto) {
-    //           dataTable.push({ depto: depto[0].name, mpio: mpio[0].name, codigo: mpio[0].cod_dane, valor: valor, valor2: valor2 });
-    //         }
-
-    //       } else {
-    //         let shouldSkipp = false;
-    //         labelsData.push(mpio[0].name);
-    //         data.push(valor);
-    //         dataTable.push({ depto: depto[0].name, mpio: mpio[0].name, codigo: mpio[0].cod_dane, valor: valor });
-    //       }
-    //     }
-    //   } else {
-    //     if (a["FECHA"] === variables.periodoSeleccionado.value && a["PRODUCTOS_ESPECIE_PUBLI"] === variables.productoSeleccionado.value) {
-
-    //       let valor = parseFloat(a[variables.alias]).toFixed(2)
-    //       let valor2 = parseFloat(a[variables.alias2])
-    //       let mpio = (municipios).filter(result => (result.cod_dane == a["COD_MPIO"]))
-    //       let depto = (departamentos).filter(result => (result.cod_dane == a["COD_MPIO"].substring(0, 2)))
-    //       if (dpto != 0) {
-    //         depto = (departamentos).filter(result => (result.cod_dane == dpto))
-    //         if (mpio[0].cod_dane.substring(0, 2) == dpto) {
-    //           dataTable.push({ depto: depto[0].name, mpio: mpio[0].name, codigo: mpio[0].cod_dane, valor: valor, valor2: valor2 });
-    //         }
-
-    //       } else {
-    //         let shouldSkipp = false;
-    //         labelsData.push(mpio[0].name);
-    //         data.push(valor);
-    //         dataTable.push({ depto: depto[0].name, mpio: mpio[0].name, codigo: mpio[0].cod_dane, valor: valor });
-    //       }
-    //     }
-    //   }
-
-    // }, []);
-
     variables.changeLegend(nivel);
     variables.legenTheme();
 
@@ -959,30 +905,6 @@ variables.changeMap = function (nivel, dpto, table) {
     }
 
     variables.changeLegend(nivel);
-
-    // if (variables.deptoSelected == undefined && variables.deptoSelectedFilter != undefined) {
-    //   variables.filterGeo("DPTO", variables.deptoSelectedFilter)
-    // } else {
-    //   let layer = variables.capas['mpios_vt'];
-    //   layer.setStyle(function (feature) {
-    //     var layer = feature.get("id");
-    //     return changeSymbologi(layer, nivel, feature)
-    //   })
-
-    //   localStorage.getItem("visualization") === "symbols" ? layer.setVisible(false) : layer.setVisible(true);
-    //   variables.unidadesMpio.setStyle(function (feature) {
-    //     const id = feature.values_.features[0].values_.cod_dane;
-    //     return changeSymbologiCluster(id, nivel, min, max, max2);
-    //   })
-    //   if (dpto == null) {
-    //     layer.setStyle(function (feature) {
-    //       var layer = feature.get("id");
-    //       return changeSymbologi(layer, nivel, feature)
-    //     })
-    //   }
-    // }
-
-    // localStorage.getItem("visualization") === "symbols" ? layer.setVisible(false) : layer.setVisible(true);
 
   } else if (nivel == "SECC") {
 
@@ -998,7 +920,7 @@ variables.changeMap = function (nivel, dpto, table) {
     let list = integrado.filter((x, i, a) => a.indexOf(x) == i)
     let dataUnidades = variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"];
     var serie = new geostats(list);
-    // console.log(serie)
+
     if (serie.getClassJenks(5) != undefined) {
       for (let index = 0; index < (serie.ranges).length; index++) {
         const searchRegExp = /\./g;
@@ -1107,27 +1029,15 @@ variables.changeMap = function (nivel, dpto, table) {
 
   } else if (nivel == "MNZN") {
 
-    let dataTable = []
-    let colsTable = []
     let labelsChart = [];
     let colorsChart = [];
 
     let integrado_mnzn;
 
-    // const capa = variables.varVariable === "38201001" ? "manzanas" :
-    //   variables.varVariable === "39501001" ? "manzanas2022" :
-    //     variables.varVariable === "38202001" ? "secciones" :
-    //       variables.varVariable === "39502001" ? "secciones2022" :
-    //         variables.varVariable === "38201002" ? "manzanasVariacion" :
-    //           variables.varVariable === "39501002" ? "manzanasVariacion2022" : null;
-
     const capa = "manzanas2022";
 
     integrado_mnzn = Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][dpto]).map(function (value) {
       let valor = parseFloat(value[variables.alias].replace(",", "."))
-
-      // let mpio = (municipios).filter(result => (result.cod_dane == value["MPIO"]));
-      // dataTable.push({ cod_dane: value["NM"], mpio: mpio[0].name, codigo: mpio[0].cod_dane, valor: valor });
 
       if (valor != undefined && !isNaN(valor)) {
 
@@ -1158,9 +1068,7 @@ variables.changeMap = function (nivel, dpto, table) {
     }, []);
 
 
-
     let list = integrado_mnzn.filter((x, i, a) => a.indexOf(x) == i)
-
 
     var serie = new geostats(list);
 
@@ -1169,6 +1077,7 @@ variables.changeMap = function (nivel, dpto, table) {
     paintPropertyRanges.push(["to-number", ["feature-state", "valor"]]);
 
     if (serie.getClassJenks(5) != undefined) {
+
       for (let index = 0; index < (serie.ranges).length; index++) {
 
         let rango = serie.ranges[(serie.ranges).length - (index + 1)]
@@ -1189,6 +1098,8 @@ variables.changeMap = function (nivel, dpto, table) {
 
     }
 
+    
+
     const coloresCopy = [...variables.coloresLeyend[variables.varVariable]["MNZN"]];
 
     coloresCopy.reverse().forEach((color, index) => {
@@ -1201,32 +1112,8 @@ variables.changeMap = function (nivel, dpto, table) {
       }
     })
 
-    console.log("PROPERTIES PAINT", paintPropertyRanges);
-
-
     variables.map.setPaintProperty(capa, "fill-extrusion-color", paintPropertyRanges);
-    variables.map.setPaintProperty(capa, 'fill-extrusion-height', ["*", 0.1, ["to-number", ["feature-state", "valor"]]]);
-
-
-
-    // colsTable = [
-    //   { title: "Cód. DANE", field: "cod_dane", hozAlign: "right", width: "150", headerSort: true, headerFilter: true, headerFilterPlaceholder: "Cód. DANE..." },
-    //   { title: "Municipio", field: "mpio", width: "150", headerFilter: true, headerSort: true, headerFilterPlaceholder: "Municipio..." },
-    //   { title: "Cantidad (Viviendas)", field: "valor", hozAlign: "right", width: "300", headerFilter: true, headerSort: true, headerFilterPlaceholder: "Cantidad..." }
-    // ];
-
-    // let orderData = dataTable.sort((a, b) => {
-    //   if (parseFloat(a.valor) > parseFloat(b.valor)) {
-    //     return -1;
-    //   } else if (parseFloat(a.valor) < parseFloat(b.valor)) {
-    //     return 1;
-    //   }
-    //   return 0;
-    // })
-
-    // variables.updateData(orderData, colsTable);
-
-    // variables.changeBarChartData(labelsChart, colorsChart, orderData, nivel);
+    variables.map.setPaintProperty(capa, 'fill-extrusion-height', ["*", 2, ["to-number", ["feature-state", "valor"]]]);
 
   }
 
