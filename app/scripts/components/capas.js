@@ -35,7 +35,6 @@ const Capas = () => {
     const layer = Object.values(layers).filter((o) => o.id === name)[0]
     const typeLayer = layer.typeLayer;
 
-
     if (typeLayer === "fill-extrusion") {
       variables.map.setPaintProperty(name, 'fill-extrusion-opacity', transparencia);
     } else if (typeLayer === "line") {

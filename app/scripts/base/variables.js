@@ -1,20 +1,20 @@
 // Geovisor - OpenLayers | Variables Globales
 export const variables = {
 
-    title: 'Geoportal DANE -Geovisor Integrado de Estadísticas Sociodemográficas ', //Cambielo por el título de su geovisor
-    description: 'Geoportal DANE - Geovisor Integrado de Estadísticas Sociodemográficas',
+    title: 'Geoportal DANE -Geovisor Realidad Aumentada CNPV 2018 ', //Cambielo por el título de su geovisor
+    description: 'Geoportal DANE - Geovisor Realidad Aumentada CNPV 2018',
     country: 'Colombia',
     place: ' Todos los departamentos ',
-    fuente: "Geovisor Integrado de Estadísticas Sociodemográficas",
+    fuente: "Geovisor Realidad Aumentada CNPV 2018",
     year: ' 2023 ',
     map: null,
     urlTemas: 'https://geoportal.dane.gov.co/laboratorio/serviciosjson/visores/temas.php',
     urlVariables: 'https://geoportal.dane.gov.co/laboratorio/serviciosjson/visores/variables8.php',//enlace/servicio  que trae los datos de la variable seleccionada
     urlVariablesProductos: 'https://geoportal.dane.gov.co/laboratorio/serviciosjson/sipsa/productos.php',//enlace/servicio  que trae los datos de la variable seleccionada
-    //codVisor: "4", //Ponga el codigo que corresponde a SU VISOR
-    //varVariable: "01102001", //Ponga el codigo de la CATEGORIA que corresponda a su visor
-    codVisor: "68",
-    varVariable: "01440001",
+    //codVisor: "68", //Ponga el codigo que corresponde a SU VISOR
+    //varVariable: "01440001", //Ponga el codigo de la CATEGORIA que corresponda a su visor
+    codVisor: "67",
+    varVariable: "43501001",
     series: [0, 0, 0, 0, 0],
     urlUE: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/censo_economico/unidades2_segment.php?min=y&codigo_municipio=",
     urlCount: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/censo_economico/unidades2_segment.php?count=y&codigo_municipio=",

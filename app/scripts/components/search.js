@@ -64,7 +64,7 @@ function getColorArray(categoria) {
 const Search = ({ filterSearch, placeholder }) => {
     const [term, setTerm] = useState("");
     const [termDos, setTermDos] = useState("");
-    const [btn, setBtn] = useState("014");
+    const [btn, setBtn] = useState("435");
     const [tematica, setTematica] = useState(variables.tematica);
     const [btnDos, setBtnDos] = useState(variables.varVariable);
     const [visualList, setVisualList] = useState(true);
@@ -321,16 +321,18 @@ const Search = ({ filterSearch, placeholder }) => {
 
             let zoom = 5;
 
+            variables.changeTheme("MNZN", "05001", "NM", "y");
 
-            if (zoom >= 7) {
-                variables.changeTheme("MPIO", null, null, "y");
-                if (variables.deptoSelected == undefined && variables.deptoVariable != undefined) {
-                    variables.filterGeo("DPTO", variables.deptoVariable)
-                }
-            } else if (zoom < 7) {
-                // variables.changeTheme("MNZN", "05001", "NM", "n");
-                variables.changeTheme("DPTO", "00", "ND", "n");
-            }
+
+            // if (zoom >= 7) {
+            //     variables.changeTheme("MPIO", null, null, "y");
+            //     if (variables.deptoSelected == undefined && variables.deptoVariable != undefined) {
+            //         variables.filterGeo("DPTO", variables.deptoVariable)
+            //     }
+            // } else if (zoom < 7) {
+            //     // variables.changeTheme("MNZN", "05001", "NM", "n");
+            //     variables.changeTheme("DPTO", "00", "ND", "n");
+            // }
         };
 
         if (!filterSearch) {
@@ -377,25 +379,28 @@ const Search = ({ filterSearch, placeholder }) => {
         // variables.changeTheme("MPIO");
         // variables.changeTheme("DPTO", 0, "ND");
 
-        if (zoom < 7) {
-            if (!variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"]) {
-                variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"] = {};
-            }
+        variables.changeTheme("MNZN", "05001", "NM", "n");
+        // variables.changeTheme("MNZN", variables.deptoCentro, "NM", "n");
 
-            variables.changeTheme("DPTO", "00", "ND", "n");
-        } else if (zoom >= 7 && zoom < 10) {
-            if (!variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["MPIO"]) {
-                variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["MPIO"] = {};
-            }
+        // if (zoom < 7) {
+        //     if (!variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"]) {
+        //         variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["DPTO"] = {};
+        //     }
 
-            variables.changeTheme("MPIO", "00", null, "n");
-        } else if (zoom >= 10) {
-            if (!variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["MNZN"]) {
-                variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["MNZN"] = {};
-            }
+        //     variables.changeTheme("DPTO", "00", "ND", "n");
+        // } else if (zoom >= 7 && zoom < 10) {
+        //     if (!variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["MPIO"]) {
+        //         variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["MPIO"] = {};
+        //     }
 
-            variables.changeTheme("MNZN", variables.deptoCentro, "NM", "n");
-        }
+        //     variables.changeTheme("MPIO", "00", null, "n");
+        // } else if (zoom >= 10) {
+        //     if (!variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["MNZN"]) {
+        //         variables.dataArrayDatos[variables.varVariable.substring(0, 5)]["MNZN"] = {};
+        //     }
+
+        //     variables.changeTheme("MNZN", variables.deptoCentro, "NM", "n");
+        // }
 
     };
 

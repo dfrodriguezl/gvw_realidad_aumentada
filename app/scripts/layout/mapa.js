@@ -109,8 +109,8 @@ const Mapa = () => {
     loadLayers();
     loadPopups();
     loadMapEvents();
-    // const municipio = municipios.filter((o) => o.cod_dane === ciudadInicial)[0];
-    // bboxExtent(municipio.bextent);
+    const municipio = municipios.filter((o) => o.cod_dane === ciudadInicial)[0];
+    bboxExtent(municipio.bextent);
     variables.map.addControl(new maplibregl.NavigationControl());
     variables.map.addControl(new maplibregl.ScaleControl({
       position: 'bottom-left',
@@ -221,29 +221,29 @@ function loadLayers() {
 }
 
 const loadMapEvents = () => {
-  variables.map.on("zoomend", (e) => {
-    const zoom = variables.map.getZoom();
-    if (zoom >= 10) {
+  // variables.map.on("zoomend", (e) => {
+  //   const zoom = variables.map.getZoom();
+  //   if (zoom >= 10) {
 
-    } else if (zoom >= 7) {
-      variables.changeTheme("MPIO", null, null, "y");
-    } else if (zoom < 7) {
-      variables.changeTheme("DPTO", "00", "ND", "n");
-    }
-  })
+  //   } else if (zoom >= 7) {
+  //     variables.changeTheme("MPIO", null, null, "y");
+  //   } else if (zoom < 7) {
+  //     variables.changeTheme("DPTO", "00", "ND", "n");
+  //   }
+  // })
 
-  variables.map.on("moveend", (e) => {
-    const zoom = variables.map.getZoom();
+  // variables.map.on("moveend", (e) => {
+  //   const zoom = variables.map.getZoom();
 
-    if (zoom >= 10) {
-      const features = variables.map.queryRenderedFeatures(e.target.getCenter());
-      const depto = features[0]["id"].substring(0,2);
-      variables.changeTheme("MNZN", depto, null, "y");
-      variables.deptoCentro = depto;
-    }
-    
-    
-  })
+  //   if (zoom >= 10) {
+  //     const features = variables.map.queryRenderedFeatures(e.target.getCenter());
+  //     const depto = features[0]["id"].substring(0,2);
+  //     variables.changeTheme("MNZN", depto, null, "y");
+  //     variables.deptoCentro = depto;
+  //   }
+
+
+  // })
 }
 
 // Nueva función carga de popups MapLibre
@@ -268,7 +268,7 @@ function loadPopups() {
         const nfObject = new Intl.NumberFormat("es-ES");
         const valorFormateado = nfObject.format(valor);
         let HTML = "";
-        HTML = '<p class="popup__list"><span class="popup__title">' + dataSubgrupo + ' (' + variables.versionMGN + ')</span></p>';
+        HTML = '<p class="popup__list"><span class="popup__title">' + dataSubgrupo + '</span></p>';
         HTML += '<p class="popup__list"><span class="popup__subtitle">' + dataCategorias + '</span> ' + '</p>';
 
         // console.log("VARIABLES", variables.varVariable);
@@ -1029,9 +1029,6 @@ variables.changeMap = function (nivel, dpto, table) {
 
   } else if (nivel == "MNZN") {
 
-    let labelsChart = [];
-    let colorsChart = [];
-
     let integrado_mnzn;
 
     const capa = "manzanas2022";
@@ -1092,13 +1089,13 @@ variables.changeMap = function (nivel, dpto, table) {
 
         variables.coloresLeyend[variables.varVariable]["MNZN"][index][2] = rango;
         variables.coloresLeyend[variables.varVariable]["MNZN"][index][3] = "visible";
-        labelsChart.push(rango);
-        colorsChart.push(variables.coloresLeyend[variables.varVariable]["MNZN"][index][0]);
+        // labelsChart.push(rango);
+        // colorsChart.push(variables.coloresLeyend[variables.varVariable]["MNZN"][index][0]);
       }
 
     }
 
-    
+
 
     const coloresCopy = [...variables.coloresLeyend[variables.varVariable]["MNZN"]];
 
@@ -1115,10 +1112,13 @@ variables.changeMap = function (nivel, dpto, table) {
     variables.map.setPaintProperty(capa, "fill-extrusion-color", paintPropertyRanges);
     variables.map.setPaintProperty(capa, 'fill-extrusion-height', ["*", 2, ["to-number", ["feature-state", "valor"]]]);
 
+    variables.changeLegend(nivel);
+    variables.legenTheme();
+
   }
 
-  variables.changeLegend(nivel);
-  variables.legenTheme();
+  // variables.changeLegend(nivel);
+  // variables.legenTheme();
 }
 
 const updateRangeSimbology = (valorCampo, nivel, colorInput) => {

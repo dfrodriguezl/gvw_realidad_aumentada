@@ -10,7 +10,7 @@ const Leyenda = () => {
 
   useEffect(() => {
     if (variables.coloresLeyend[variables.varVariable] != undefined) {
-      setLegend(variables.coloresLeyend[variables.varVariable]["DPTO"])
+      setLegend(variables.coloresLeyend[variables.varVariable]["MNZN"])
     }
   }, [legend])
 
@@ -18,13 +18,9 @@ const Leyenda = () => {
     setCategoria(variables.tematica["CATEGORIAS"][variables.varVariable][0]["CATEGORIA"])
     setUnidad(variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"])
 
-    console.log("LEGEND NIVEL", nivel);
-
-    
-    
     if (variables.coloresLeyend[variables.varVariable] != undefined) {
-      console.log("NEW LEGEND", variables.coloresLeyend[variables.varVariable][nivel]);
-      setLegend(prevState => [...variables.coloresLeyend[variables.varVariable][nivel]])
+      console.log("COLORES LEYEND NIVEL", variables.coloresLeyend[variables.varVariable][nivel]);
+      setLegend([...variables.coloresLeyend[variables.varVariable][nivel]])
     }
 
 
@@ -36,7 +32,7 @@ const Leyenda = () => {
     let transparencia = value / 10;
     let layers = variables.layers;
     settransparencyGeneral(value);
-    
+
     const layerManzanas = Object.values(layers).filter((o) => o.id === "manzanas")[0];
     const layerManzanas2022 = Object.values(layers).filter((o) => o.id === "manzanas2022")[0];
     const layerManzanasVariacion = Object.values(layers).filter((o) => o.id === "manzanasVariacion")[0];
@@ -59,7 +55,6 @@ const Leyenda = () => {
       <h2 className="legend__slider__text" id="title">{categoria}</h2>
       <h3 className="legend__value">({unidad})</h3>
       <ul className="legend__panel__list">
-        {console.log("LEGEND RENDER", legend)}
         {legend.map((item, index) => {
           return (
             item[3] === "visible" ? <li className="legend__panel__list__item" key={index}>
