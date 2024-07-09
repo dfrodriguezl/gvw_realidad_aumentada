@@ -30,28 +30,20 @@ const Leyenda = () => {
   function changeSlider(e) {
     let value = e.target.value;
     let transparencia = value / 10;
-    let layers = variables.layers;
     settransparencyGeneral(value);
 
-    const layerManzanas = Object.values(layers).filter((o) => o.id === "manzanas")[0];
-    const layerManzanas2022 = Object.values(layers).filter((o) => o.id === "manzanas2022")[0];
-    const layerManzanasVariacion = Object.values(layers).filter((o) => o.id === "manzanasVariacion")[0];
-    const layerManzanasVariacion2022 = Object.values(layers).filter((o) => o.id === "manzanasVariacion2022")[0];
-    const layerDeptos = Object.values(layers).filter((o) => o.id === "deptos_vt")[0];
-    const layerMpios = Object.values(layers).filter((o) => o.id === "mpios_vt")[0];
+    const capaManzana = "manzanas2022";
+    const capaDepto = "deptos_vt";
+    const capaMunicipio = "mpios_vt";
 
-    variables.map.setPaintProperty(layerManzanas.id, 'fill-extrusion-opacity', transparencia);
-    variables.map.setPaintProperty(layerManzanas2022.id, 'fill-extrusion-opacity', transparencia);
-    variables.map.setPaintProperty(layerManzanasVariacion.id, 'fill-extrusion-opacity', transparencia);
-    variables.map.setPaintProperty(layerManzanasVariacion2022.id, 'fill-extrusion-opacity', transparencia);
-    variables.map.setPaintProperty(layerDeptos.id, 'line-opacity', transparencia);
-    variables.map.setPaintProperty(layerMpios.id, 'line-opacity', transparencia);
+    variables.map.setPaintProperty(capaManzana, 'fill-extrusion-opacity', transparencia);
+    variables.map.setPaintProperty(capaDepto, 'fill-extrusion-opacity', transparencia);
+    variables.map.setPaintProperty(capaMunicipio, 'fill-extrusion-opacity', transparencia);
 
   }
 
   return (
     <div className="legend">
-      {/* <h2 className="result__top__title result__tema"  id="title"> {tema} - {subtema} - {categoria}</h2> */}
       <h2 className="legend__slider__text" id="title">{categoria}</h2>
       <h3 className="legend__value">({unidad})</h3>
       <ul className="legend__panel__list">
@@ -63,9 +55,7 @@ const Leyenda = () => {
             </li> : null
           )
         }, [])}
-        {/* {leyenda} */}
       </ul>
-      {/* <h5>Los colores más oscuros en la leyenda corresponden a los rangos más altos </h5> */}
       <div className="legend__slider">
         <p className="legend__slider__text" >Nivel de transparencia (Capa)</p>
         <div className="legend__slider__content">
