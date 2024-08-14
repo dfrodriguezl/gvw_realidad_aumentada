@@ -70,7 +70,7 @@ const Mapa = () => {
       container: mapRef.current,
       center: [-74.1083125, 4.663437], // starting position [lng, lat]
       zoom: 5, // starting zoom,
-      pitch: 30
+      pitch: 40
     });
 
     Object.keys(variables.baseMaps).map((basemap) => {

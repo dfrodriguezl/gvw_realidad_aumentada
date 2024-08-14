@@ -22,8 +22,6 @@ const Leyenda = () => {
       console.log("COLORES LEYEND NIVEL", variables.coloresLeyend[variables.varVariable][nivel]);
       setLegend([...variables.coloresLeyend[variables.varVariable][nivel]])
     }
-
-
   }
 
   // Función para cambiar transparencia de la capas, y guardar su estado
