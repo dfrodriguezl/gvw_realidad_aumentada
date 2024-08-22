@@ -21,6 +21,7 @@ import 'ol-street-view/dist/css/ol-street-view.min.css';
 import TipoVisualizacion from '../components/tipoVisualizacion';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import gps_cyan from '../../img/gps-cyan.png'
 
 //Libreria MapLibre
 import maplibregl from 'maplibre-gl';
@@ -109,6 +110,8 @@ const Mapa = () => {
     loadLayers();
     loadPopups();
     loadMapEvents();
+    // addCentroidesManzanas();
+    loadMarkers();
     const municipio = municipios.filter((o) => o.cod_dane === ciudadInicial)[0];
     bboxExtent(municipio.bextent);
     variables.map.addControl(new maplibregl.NavigationControl());
@@ -220,7 +223,41 @@ function loadLayers() {
   })
 }
 
+const loadMarkers = () => {
+
+  getMarkers().then((response) => {
+
+    const resultado = response.data.resultado;
+    // console.log("RESULTADO", resultado);
+    const geoJson = crearJson(resultado, "05001");
+
+    const image = variables.map.loadImage(gps_cyan,
+      (error, image) => {
+        if (error) throw error;
+        variables.map.addImage('custom-marker', image);
+      }
+    );
+
+    variables.map.addSource('markers', {
+      'type': 'geojson',
+      'data': geoJson
+    })
+
+    variables.map.addLayer({
+      'id': 'markers-layer',
+      'type': 'symbol',
+      'source': 'markers',
+      'layout': {
+        'icon-image': 'custom-marker'
+      }
+    })
+
+  })
+
+}
+
 const loadMapEvents = () => {
+
   // variables.map.on("zoomend", (e) => {
   //   const zoom = variables.map.getZoom();
   //   if (zoom >= 10) {
@@ -248,6 +285,34 @@ const loadMapEvents = () => {
 
 // Nueva función carga de popups MapLibre
 function loadPopups() {
+
+  variables.map.on('click', 'markers-layer', (e) => {
+    console.log("E", e.features);
+    const dataSubgrupo = variables.tematica["CATEGORIAS"][variables.varVariable][0]["SUBGRUPO"];
+    const dataUnidades = variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"];
+    const dataCategorias = variables.tematica["CATEGORIAS"][variables.varVariable][0]["CATEGORIA"];
+    const identificadorVariable = variables.varVariable;
+    const varCNPV = variables.variablesCNPV[identificadorVariable];
+    console.log("VAR CNPV", varCNPV);
+    const coordinates = e.lngLat;
+    console.log("FEATURES", e.features[0].properties);
+    const valor = e.features[0].properties[varCNPV];
+    const nfObject = new Intl.NumberFormat("es-ES");
+    const valorFormateado = nfObject.format(valor);
+
+    let HTML = "";
+    HTML = '<p class="popup__list"><span class="popup__title">' + dataSubgrupo + '</span></p>';
+    HTML += '<p class="popup__list"><span class="popup__subtitle">' + dataCategorias + '</span> ' + '</p>';
+    HTML += '<p class="popup__list"><span class="popup__subtitle">Valor: </span><span class="popup__subtitle">' + valorFormateado + ' ' + dataUnidades + '</span></p>';
+
+    new maplibregl.Popup()
+          .setLngLat(coordinates)
+          .setHTML(HTML)
+          .addTo(variables.map);
+
+
+  })
+
   let layers = variables.layers;
   Object.keys(layers).map((layer) => {
     let infoLayer = layers[layer];
@@ -295,6 +360,8 @@ function loadPopups() {
       })
 
     }
+
+    
   })
 }
 
@@ -1033,6 +1100,8 @@ variables.changeMap = function (nivel, dpto, table) {
 
     const capa = "manzanas2022";
 
+    console.log("INTEGRADO MNZN", variables.dataArrayDatos[variables.varVariable.substring(0, 5)])
+
     integrado_mnzn = Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][dpto]).map(function (value) {
       let valor = parseFloat(value[variables.alias].replace(",", "."))
 
@@ -1408,6 +1477,10 @@ const getDataCentroids = (depto) => {
   return servidorQuery(variables.urlCentroids + depto)
 }
 
+const getMarkers = () => {
+  return servidorQuery(variables.urlMarkers)
+}
+
 const getDataCentroidsGeneral = (capa) => {
   const idCapa = {
     "mgn2021_dpto": "dpto_ccdgo",
@@ -1417,8 +1490,9 @@ const getDataCentroidsGeneral = (capa) => {
 }
 
 const crearJson = (res, mpio) => {
-  let data = res.data.resultado;
+  let data = res;
   let largeNames = variables.structureUE;
+  let features = [];
   let geoObj = {
     'type': 'FeatureCollection',
     'crs': {
@@ -1430,55 +1504,71 @@ const crearJson = (res, mpio) => {
     'features': []
   };
 
+  console.log("DATA", data);
+
   let lat = 0.0, lon = 0.0, prevLon = 0.0, prevLat = 0.0;
   let feature, properties = {};
 
   data.forEach((row, index) => {
 
-    if (row.LT != "" && row.LG != "") {
-      properties = {};
-      lat = parseFloat(row.LT);
-      lon = parseFloat(row.LG);
-
-      if (index == 0) {
-        prevLon = lon;
-        prevLat = lat;
-        feature = {
-          "type": "Feature",
-          "properties": {},
-          "geometry": {
-            "type": "Point",
-            "coordinates": [lon, lat]
-          }
-        };
-      } else {
-        Object.entries(row).map((a) => {
-          if (a[0] == "M") {
-            return properties[largeNames[a[0]]] = mpio + a[1];
-          } else {
-            return properties[largeNames[a[0]]] = a[1];
-          }
-        })
-
-        if ((lon != prevLon) || (lat != prevLat)) {
-          prevLon = lon;
-          prevLat = lat;
-          geoObj.features.push(feature);
-          feature = {
-            "type": "Feature",
-            "properties": properties,
-            "geometry": {
-              "type": "Point",
-              "coordinates": [lon, lat]
-            }
-          };
-          feature.properties["unidad_" + row.E + "_" + row.UE] = properties;
-        } else {
-          feature.properties["unidad_" + row.E + "_" + row.UE] = properties;
-        }
+    feature = {
+      "type": "Feature",
+      "properties": {},
+      "geometry": {
+        "type": "Point",
+        "coordinates": [lon, lat]
       }
+    };
+
+    let properties = {};
+
+    Object.keys(row).map((key) => {
+      properties[key] = row[key];
+    })
+
+    feature.properties = properties;
+
+    if (row.LATITUD != "" && row.LONGITUD != "") {
+      properties = {};
+      lat = parseFloat(row.LATITUD);
+      lon = parseFloat(row.LONGITUD);
+
+      // if (index == 0) {
+      // prevLon = lon;
+      // prevLat = lat;
+      
+
+      features.push(feature);
+      // } else {
+      //   Object.entries(row).map((a) => {
+      //     if (a[0] == "M") {
+      //       return properties[largeNames[a[0]]] = mpio + a[1];
+      //     } else {
+      //       return properties[largeNames[a[0]]] = a[1];
+      //     }
+      //   })
+
+      //   if ((lon != prevLon) || (lat != prevLat)) {
+      //     prevLon = lon;
+      //     prevLat = lat;
+      //     geoObj.features.push(feature);
+      //     feature = {
+      //       "type": "Feature",
+      //       "properties": properties,
+      //       "geometry": {
+      //         "type": "Point",
+      //         "coordinates": [lon, lat]
+      //       }
+      //     };
+      //     feature.properties["unidad_" + row.E + "_" + row.UE] = properties;
+      //   } else {
+      //     feature.properties["unidad_" + row.E + "_" + row.UE] = properties;
+      //   }
+      // }
     }
   })
+
+  geoObj.features = features;
 
   return geoObj;
 
@@ -1625,6 +1715,63 @@ const updateLayers = () => {
 
 variables.updateLayers = () => {
   updateLayers();
+}
+
+const addCentroidesManzanas = () => {
+  var gpsIcon1 = new Icon({
+    anchor: [0.5, 12],
+    anchorXUnits: 'fraction',
+    anchorYUnits: 'pixels',
+    src: gps_cyan,
+    size: [200, 200],
+    scale: 0.2
+  });
+
+  variables.markersLayer = new VectorLayer({
+    title: 'Centroides manzanas',
+    maxZoom: 21,
+    minZoom: 11,
+    source: new Cluster({
+      distance: variables.distanceCluster,
+      source: new VectorSource({
+        features: []
+      }),
+    }),
+    style: function (feature) {
+
+      const style = new Style({
+        image: gpsIcon1
+      });
+
+      return style;
+    },
+  });
+
+  variables.map.addLayer(variables.unidadesCluster);
+
+  variables.layers["ue"] = {
+
+    tipo: "cluster",  // Tipos vt: Vector Tile, wms, wfs
+    id: "ue",
+    url: "",
+    title: "Unidades económicas",
+    visible: true,
+    minZoom: 9,
+    maxZoom: 13,
+    style: {
+      stroke: {
+        color: '#931127',
+        width: 1
+      }
+    },
+    ol: null
+  }
+
+  let jsonObj = {}
+  jsonObj["ue"] = variables.unidadesCluster;
+
+  variables.layersInMap.push(jsonObj)
+
 }
 
 
