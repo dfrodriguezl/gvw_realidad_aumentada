@@ -304,6 +304,7 @@ function loadPopups() {
     HTML = '<p class="popup__list"><span class="popup__title">' + dataSubgrupo + '</span></p>';
     HTML += '<p class="popup__list"><span class="popup__subtitle">' + dataCategorias + '</span> ' + '</p>';
     HTML += '<p class="popup__list"><span class="popup__subtitle">Valor: </span><span class="popup__subtitle">' + valorFormateado + ' ' + dataUnidades + '</span></p>';
+    HTML += '<p class="popup__list"><span class="popup__subtitle"><button>Ver más datos</button></span> ' + '</p>';
 
     new maplibregl.Popup()
           .setLngLat(coordinates)
