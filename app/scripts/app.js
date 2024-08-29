@@ -26,6 +26,7 @@ const App = () => {
                     </div>
                     {activeTab === 0 && <DashboardPanel />}
                 </div>
+                <div id="modal-container"></div>
                 {/* <TableContent />*/}
             </section>
             <Footer />

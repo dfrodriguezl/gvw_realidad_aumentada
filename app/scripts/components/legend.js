@@ -19,7 +19,6 @@ const Leyenda = () => {
     setUnidad(variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"])
 
     if (variables.coloresLeyend[variables.varVariable] != undefined) {
-      console.log("COLORES LEYEND NIVEL", variables.coloresLeyend[variables.varVariable][nivel]);
       setLegend([...variables.coloresLeyend[variables.varVariable][nivel]])
     }
   }

@@ -3,7 +3,7 @@
 // Fecha: 31/03/2021
 
 import 'ol/ol.css';
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Overlay from 'ol/Overlay';
 import TileLayer from 'ol/layer/Tile';
 import XYZ from 'ol/source/XYZ';
@@ -27,6 +27,8 @@ import gps_cyan from '../../img/gps-cyan.png'
 import maplibregl from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { mglStreetViewControl } from '../util/mglStreetViewControl.js'
+import { Button } from 'antd';
+import TableroResumen from '../components/tableroResumen.js';
 
 let container, content;
 let zoomActual;
@@ -45,6 +47,9 @@ const Mapa = () => {
   const ciudadInicial = "05001";
   localStorage.setItem("theme", "light");
   localStorage.setItem("visualization", "symbols");
+
+  const [openModalTablero, setOpenModalTablero] = useState(false);
+  const [dataVariables, setDataVariables] = useState({});
 
 
 
@@ -153,8 +158,120 @@ const Mapa = () => {
     variables.map.fire('flystart');
   }
 
+  // Nueva función carga de popups MapLibre
+  function loadPopups() {
+
+    variables.map.on('click', 'markers-layer', (e) => {
+      const dataSubgrupo = variables.tematica["CATEGORIAS"][variables.varVariable][0]["SUBGRUPO"];
+      const dataUnidades = variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"];
+      const dataCategorias = variables.tematica["CATEGORIAS"][variables.varVariable][0]["CATEGORIA"];
+      const identificadorVariable = variables.varVariable;
+      const varCNPV = variables.variablesCNPV[identificadorVariable];
+      const coordinates = e.lngLat;
+      const valor = e.features[0].properties[varCNPV];
+      const nfObject = new Intl.NumberFormat("es-ES");
+      const valorFormateado = nfObject.format(valor);
+
+      let HTML = "";
+      HTML = '<p class="popup__list"><span class="popup__title">' + dataSubgrupo + '</span></p>';
+      HTML += '<p class="popup__list"><span class="popup__subtitle">' + dataCategorias + '</span> ' + '</p>';
+      HTML += '<p class="popup__list"><span class="popup__subtitle">Valor: </span><span class="popup__subtitle">' + valorFormateado + ' ' + dataUnidades + '</span></p>';
+      HTML += '<p class="popup__list"><span class="popup__subtitle"><button id="ver_datos">Ver más datos</button></span> ' + '</p>';
+
+      new maplibregl.Popup()
+        .setLngLat(coordinates)
+        .setHTML(HTML)
+        .addTo(variables.map);
+
+      const verDatos = document.getElementById("ver_datos");
+
+      const propertiesVar = e.features[0].properties;
+      const totalPersonasVar = variables.variablesCNPV["43501001"];
+      const totalPersonas = propertiesVar[totalPersonasVar];
+      const personasLEAVar = variables.variablesCNPV["43501002"];
+      const personasLEA = propertiesVar[personasLEAVar];
+      const hogaresVar = variables.variablesCNPV["43501003"];
+      const hogares = propertiesVar[hogaresVar];
+      const viviendasVar = variables.variablesCNPV["43501004"];
+      const viviendas = propertiesVar[viviendasVar];
+      const personasLugaresParticularesVar = variables.variablesCNPV["43501005"];
+      const personasLugaresParticulares = propertiesVar[personasLugaresParticularesVar];
+
+
+      let objectDataTablero = {
+        total_personas: totalPersonas,
+        personas_lea: personasLEA,
+        hogares: hogares,
+        viviendas: viviendas,
+        personas_lugares_particulares: personasLugaresParticulares
+      }
+
+      setDataVariables(objectDataTablero);
+
+
+
+      verDatos.addEventListener('click', () => {
+        setOpenModalTablero(true)
+      })
+
+
+    })
+
+    let layers = variables.layers;
+    Object.keys(layers).map((layer) => {
+      let infoLayer = layers[layer];
+      if (infoLayer.tipo == 'vt' && infoLayer.clickable) {
+
+        variables.map.on('click', infoLayer.id, (e) => {
+          const feature = e.features[0];
+          const coordinates = e.lngLat;
+          const valor = e.features[0].state.valor;
+          const deptoCodigo = feature.properties.id.substring(0, 2);
+          const mpioCodigo = feature.properties.id.substring(2, 5);
+          const departamentosFilter = (departamentos).filter(result => (result.cod_dane == deptoCodigo));
+          const municipiosFilter = (municipios).filter(result => (result.cod_dane == deptoCodigo + mpioCodigo));
+          const dataSubgrupo = variables.tematica["CATEGORIAS"][variables.varVariable][0]["SUBGRUPO"];
+          const dataUnidades = variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"];
+          const dataCategorias = variables.tematica["CATEGORIAS"][variables.varVariable][0]["CATEGORIA"];
+          const tipoVariable = variables.tematica["CATEGORIAS"][variables.varVariable][0]["TIPO_VARIABLE"];
+          const nfObject = new Intl.NumberFormat("es-ES");
+          const valorFormateado = nfObject.format(valor);
+          let HTML = "";
+          HTML = '<p class="popup__list"><span class="popup__title">' + dataSubgrupo + '</span></p>';
+          HTML += '<p class="popup__list"><span class="popup__subtitle">' + dataCategorias + '</span> ' + '</p>';
+
+          // console.log("VARIABLES", variables.varVariable);
+
+          if (variables.varVariable === "39501002" || variables.varVariable === "38201002") {
+            HTML += '<p class="popup__list"><span class="popup__subtitle">Variación (porcentaje): </span><span class="popup__subtitle">' + valorFormateado + '</span></p>';
+          } else {
+            HTML += '<p class="popup__list"><span class="popup__subtitle">Valor: </span><span class="popup__subtitle">' + valorFormateado + ' ' + dataUnidades + '</span></p>';
+          }
+
+          HTML += '<hr>' + '</hr>';
+          HTML += '<p class="popup__list"><span class="popup__thirdtitle"> Departamento:</span> ' + departamentosFilter[0].name + '</p>';
+
+          if (municipiosFilter.length != 0) {
+            HTML += '<p class="popup__list"><span class="popup__thirdtitle"> Municipio:</span> ' + municipiosFilter[0].name + '</p>';
+          }
+
+          HTML += '<p class="popup__list"><span class="popup__thirdtitle"> Cod. DANE:</span> ' + feature.properties.id + '</p>';
+
+          new maplibregl.Popup()
+            .setLngLat(coordinates)
+            .setHTML(HTML)
+            .addTo(variables.map);
+        })
+
+      }
+
+
+    })
+  }
+
   return (
     <div>
+      <TableroResumen isOpen={openModalTablero} datos={dataVariables}/>
       <div id="map">
         <ul className='switch'>
           <li id="switch_visualization"><TipoVisualizacion /></li>
@@ -283,88 +400,7 @@ const loadMapEvents = () => {
   // })
 }
 
-// Nueva función carga de popups MapLibre
-function loadPopups() {
 
-  variables.map.on('click', 'markers-layer', (e) => {
-    console.log("E", e.features);
-    const dataSubgrupo = variables.tematica["CATEGORIAS"][variables.varVariable][0]["SUBGRUPO"];
-    const dataUnidades = variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"];
-    const dataCategorias = variables.tematica["CATEGORIAS"][variables.varVariable][0]["CATEGORIA"];
-    const identificadorVariable = variables.varVariable;
-    const varCNPV = variables.variablesCNPV[identificadorVariable];
-    console.log("VAR CNPV", varCNPV);
-    const coordinates = e.lngLat;
-    console.log("FEATURES", e.features[0].properties);
-    const valor = e.features[0].properties[varCNPV];
-    const nfObject = new Intl.NumberFormat("es-ES");
-    const valorFormateado = nfObject.format(valor);
-
-    let HTML = "";
-    HTML = '<p class="popup__list"><span class="popup__title">' + dataSubgrupo + '</span></p>';
-    HTML += '<p class="popup__list"><span class="popup__subtitle">' + dataCategorias + '</span> ' + '</p>';
-    HTML += '<p class="popup__list"><span class="popup__subtitle">Valor: </span><span class="popup__subtitle">' + valorFormateado + ' ' + dataUnidades + '</span></p>';
-    HTML += '<p class="popup__list"><span class="popup__subtitle"><button>Ver más datos</button></span> ' + '</p>';
-
-    new maplibregl.Popup()
-          .setLngLat(coordinates)
-          .setHTML(HTML)
-          .addTo(variables.map);
-
-
-  })
-
-  let layers = variables.layers;
-  Object.keys(layers).map((layer) => {
-    let infoLayer = layers[layer];
-    if (infoLayer.tipo == 'vt' && infoLayer.clickable) {
-
-      variables.map.on('click', infoLayer.id, (e) => {
-        const feature = e.features[0];
-        const coordinates = e.lngLat;
-        const valor = e.features[0].state.valor;
-        const deptoCodigo = feature.properties.id.substring(0, 2);
-        const mpioCodigo = feature.properties.id.substring(2, 5);
-        const departamentosFilter = (departamentos).filter(result => (result.cod_dane == deptoCodigo));
-        const municipiosFilter = (municipios).filter(result => (result.cod_dane == deptoCodigo + mpioCodigo));
-        const dataSubgrupo = variables.tematica["CATEGORIAS"][variables.varVariable][0]["SUBGRUPO"];
-        const dataUnidades = variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"];
-        const dataCategorias = variables.tematica["CATEGORIAS"][variables.varVariable][0]["CATEGORIA"];
-        const tipoVariable = variables.tematica["CATEGORIAS"][variables.varVariable][0]["TIPO_VARIABLE"];
-        const nfObject = new Intl.NumberFormat("es-ES");
-        const valorFormateado = nfObject.format(valor);
-        let HTML = "";
-        HTML = '<p class="popup__list"><span class="popup__title">' + dataSubgrupo + '</span></p>';
-        HTML += '<p class="popup__list"><span class="popup__subtitle">' + dataCategorias + '</span> ' + '</p>';
-
-        // console.log("VARIABLES", variables.varVariable);
-
-        if (variables.varVariable === "39501002" || variables.varVariable === "38201002") {
-          HTML += '<p class="popup__list"><span class="popup__subtitle">Variación (porcentaje): </span><span class="popup__subtitle">' + valorFormateado + '</span></p>';
-        } else {
-          HTML += '<p class="popup__list"><span class="popup__subtitle">Valor: </span><span class="popup__subtitle">' + valorFormateado + ' ' + dataUnidades + '</span></p>';
-        }
-
-        HTML += '<hr>' + '</hr>';
-        HTML += '<p class="popup__list"><span class="popup__thirdtitle"> Departamento:</span> ' + departamentosFilter[0].name + '</p>';
-
-        if (municipiosFilter.length != 0) {
-          HTML += '<p class="popup__list"><span class="popup__thirdtitle"> Municipio:</span> ' + municipiosFilter[0].name + '</p>';
-        }
-
-        HTML += '<p class="popup__list"><span class="popup__thirdtitle"> Cod. DANE:</span> ' + feature.properties.id + '</p>';
-
-        new maplibregl.Popup()
-          .setLngLat(coordinates)
-          .setHTML(HTML)
-          .addTo(variables.map);
-      })
-
-    }
-
-    
-  })
-}
 
 //VARIABLES PARA PINTAR MAPA
 variables.changeMap = function (nivel, dpto, table) {
@@ -1101,8 +1137,6 @@ variables.changeMap = function (nivel, dpto, table) {
 
     const capa = "manzanas2022";
 
-    console.log("INTEGRADO MNZN", variables.dataArrayDatos[variables.varVariable.substring(0, 5)])
-
     integrado_mnzn = Object.values(variables.dataArrayDatos[variables.varVariable.substring(0, 5)][nivel][dpto]).map(function (value) {
       let valor = parseFloat(value[variables.alias].replace(",", "."))
 
@@ -1505,7 +1539,6 @@ const crearJson = (res, mpio) => {
     'features': []
   };
 
-  console.log("DATA", data);
 
   let lat = 0.0, lon = 0.0, prevLon = 0.0, prevLat = 0.0;
   let feature, properties = {};
@@ -1537,7 +1570,7 @@ const crearJson = (res, mpio) => {
       // if (index == 0) {
       // prevLon = lon;
       // prevLat = lat;
-      
+
 
       features.push(feature);
       // } else {
