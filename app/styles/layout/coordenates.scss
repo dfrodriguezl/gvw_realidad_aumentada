@@ -34,10 +34,9 @@
 .switch{
     list-style: none;
     position: absolute;
-    right: calc(25% + 14px);
-    bottom: 8%;
+    right: 1em;
+    bottom: 2em;
     border-radius: 4px;
-    background: $white; 
     color: $gray4;
     max-width: 35vw;
     margin: 0;
@@ -46,7 +45,7 @@
 }
 
 #switch_visualization{
-    background: $white; 
+    // background: $white; 
     color: $gray4;
 }
 

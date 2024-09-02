@@ -195,22 +195,22 @@
     //     width: $resultBoxWidth;
     // }
 }
-@media screen and (max-width: $sizeTabletLandScape) {
-    .legend {
-        width: $resultBoxWidthTablet;
-    }
-}
-@media screen and (max-width: $sizePhone) {
-    .legend {
-        position: inherit;
-        width: 100%;
-        z-index: 1;
-        bottom: initial;
-        right: initial;
-        border-radius: 0;
-        width: $resultBoxWidthPhone;
-    }
-}
+// @media screen and (max-width: $sizeTabletLandScape) {
+//     .legend {
+//         width: $resultBoxWidthTablet;
+//     }
+// }
+// @media screen and (max-width: $sizePhone) {
+//     .legend {
+//         position: inherit;
+//         width: 100%;
+//         z-index: 1;
+//         bottom: initial;
+//         right: initial;
+//         border-radius: 0;
+//         width: $resultBoxWidthPhone;
+//     }
+// }
 //Estilos modo oscuro
 html[data-theme="dark"] {
     .legend {

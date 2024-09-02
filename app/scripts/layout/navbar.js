@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import { useMediaQuery } from 'react-responsive'
 import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import Filter from '../components/locationFilter';
 import Help from './help';
@@ -29,7 +30,10 @@ const Accordion = ({ title, icon, children, data }) => {
 const TabsComponent = ({ activeTab, setActiveTab }) => {
   const [state, setState] = useState(1);
   const dropdownRef = useRef(null);
-  const [isActive, setIsActive] = useDetectOutsideClick(dropdownRef, false);
+
+  const isMobile = useMediaQuery({ maxWidth: 767 })
+
+  const [isActive, setIsActive] = useDetectOutsideClick(dropdownRef, isMobile);
   const onClick = () => setIsActive(!isActive);
 
   const handleTabSelect = (index) => {

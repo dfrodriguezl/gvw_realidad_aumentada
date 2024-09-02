@@ -2,19 +2,22 @@
     .result {
         width: auto;
     }
+
     .result__icon {
         display: inherit;
     }
+
     .result__close,
     .result__top,
     .result__container {
         display: none;
     }
 }
+
 .result {
     width: 23%;
     position: absolute;
-    top: 0;
+    top: 3.2em;
     right: 0;
     background: $white;
     z-index: 10;
@@ -22,9 +25,22 @@
     border-bottom-right-radius: 12px;
     @include flex;
     @include transition(all ease-in-out 0.2s);
+
     * {
         box-sizing: border-box;
     }
+}
+
+.nav_bar2 {
+    display: none;
+}
+
+.nav_bar3 {
+    display: none;
+}
+
+.nav_bar4 {
+    display: none;
 }
 
 .results__main {
@@ -33,6 +49,7 @@
     position: absolute;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
+
     // @include transition(all ease-in-out 0.2s);
     .results__container {
         opacity: 0;
@@ -44,17 +61,19 @@
 .results__main.active {
     background: $whiteTransparency;
     @include transition(all ease-in-out 0.2s);
+
     .results__container {
         opacity: 1;
         left: 0;
         visibility: visible;
     }
-    .results__collapseBtn{
+
+    .results__collapseBtn {
         left: -20px;
     }
 }
 
-.results__item{
+.results__item {
     margin: 0;
     list-style: none;
     padding: 0;
@@ -64,7 +83,7 @@
 //     background: $white;
 // }
 
-.results__itemList{
+.results__itemList {
     background: $white;
 }
 
@@ -79,7 +98,7 @@
     border-radius: 2px;
     align-items: left;
     background: $gray1;
-    @include calc(width,'94%');
+    @include calc(width, '94%');
     @include flex;
     // @include justify-content(space-between);
     @include transition(all ease-in-out 0.2s);
@@ -133,31 +152,39 @@
     @include transition(all ease-in-out 0.2s);
     height: auto;
     max-height: 100%;
+
     &.collapsed {
         max-height: 0;
         @include transition(all ease-in-out 0.2s);
     }
 }
+
 .results__container {
     // padding: 5px;
     width: 100%;
     overflow-y: scroll;
-    @include calc(max-height, "85vh");
+    // @include calc(max-height, "85vh");
+    max-height:75vh;
     @include transition(all ease-in-out 0.2s);
+
     &::-webkit-scrollbar {
         width: 8px;
         height: 5px;
     }
+
     &::-webkit-scrollbar-track {
         background: $gray1;
     }
+
     &::-webkit-scrollbar-thumb {
         background: $fifthColor;
         border-radius: 4px;
     }
+
     &::-webkit-scrollbar-thumb:hover {
         background: $sixColor;
     }
+
     &.--invisible {
         display: none;
     }
@@ -171,6 +198,7 @@
     background: $white;
     padding: 5px 10px;
 }
+
 .results__top__title {
     font-size: 0.9em;
     margin: 5px 20px;
@@ -178,6 +206,7 @@
     color: $gray4;
     text-align: center;
 }
+
 .results__top__subtitle {
     font-size: 0.8em;
     font-weight: 600;
@@ -185,6 +214,7 @@
     margin: 5px 0;
     text-align: center;
 }
+
 .results__top__thirdtitle {
     font-size: 0.8em;
     font-weight: 400;
@@ -192,6 +222,7 @@
     margin: 5px 0;
     text-align: center;
 }
+
 .results__top__fourthtitle {
     font-size: 0.8em;
     font-weight: 400;
@@ -199,6 +230,7 @@
     margin: 5px 0;
     text-align: center;
 }
+
 .results__top__fifthtitle {
     font-size: 0.8em;
     font-weight: 400;
@@ -215,6 +247,7 @@
     @include flex;
     @include flex-wrap(wrap);
 }
+
 .results__btn {
     border: 1px solid $gray2;
     border-radius: 16px;
@@ -223,20 +256,25 @@
     cursor: pointer;
     margin: 0 2px;
     @include transition(all ease-in-out 0.2s);
+
     &:hover {
         background: $fifthColor;
         border: 1px solid $secondaryColor;
+
         .results__btnTabsName {
             color: $gray1;
         }
     }
+
     &.--active {
         background: $secondaryColor;
+
         .results__btnTabsName {
             color: $gray1;
         }
     }
 }
+
 .results__btnTabsName {
     margin: 0;
     padding: 5px;
@@ -247,18 +285,21 @@
 .charts {
     margin: 8px;
 }
+
 .charts__subtitle {
     font-size: 0.8em;
     font-weight: 600;
     color: $gray6;
     text-align: center;
 }
+
 .charts__thirdtitle {
     margin: 2px;
     font-size: 0.8em;
     font-weight: 500;
     text-align: center;
 }
+
 .charts__item {
     font-size: 1.2em;
     font-weight: 600;
@@ -277,13 +318,16 @@
     border-bottom-left-radius: 4px;
     border-top-left-radius: 4px;
     @include transition(all ease-in-out 0.2s);
+
     &:hover {
         background: $fifthColor;
+
         .results__collapseBtn__triangle {
             margin: 14px 8px;
         }
     }
 }
+
 .results__collapseBtn__triangle {
     width: 0;
     height: 0;
@@ -293,10 +337,12 @@
     border-color: transparent transparent transparent $white;
     @include transition(all ease-in-out 0.2s);
 }
+
 .results__source__link {
     color: $gray6;
     font-weight: 500;
     @include transition(all ease-in-out 0.2s);
+
     &:hover {
         color: $principalColor;
     }
@@ -318,24 +364,41 @@
     .result {
         max-height: 612px;
     }
+
+    .modali-size-regular {
+        min-width: 90% !important;
+        width: 90% !important;
+    }
+
+    #results {
+        display: none !important;
+    }
 }
 
 @media screen and (max-width: $sizeTabletLandScape) {
+
+    .switch {
+        left: 1em;
+    }
+
     .result {
         width: $resultWidthMobile;
         position: initial;
         // top: initial;
         right: initial;
     }
+
     .results__container {
         padding: 10px;
         overflow-y: hidden;
         @include flex;
         @include flex-wrap(wrap);
     }
+
     .results__close {
         display: none;
     }
+
     .result__top {
         width: 100%;
         padding: 0 10px 20px 10px;
@@ -343,16 +406,43 @@
         @include flex-wrap(wrap);
         @include justify-content(center);
     }
+
     .results__layers,
     .results__top__title,
     .results__top__subtitle {
         width: 100%;
     }
+
     .results__top__thirdtitle,
     .results__top__fourthtitle,
     .results__top__fifthtitle {
         margin: 5px;
     }
+
+    .nav_bar3 {
+        display: block;
+        list-style: none;
+        position: absolute;
+        border-radius: 4px;
+        background: $white;
+        color: $gray4;
+        z-index: 10;
+        right: 3em;
+        bottom: 2em;
+        width: 11em;
+    }
+
+    .nav_bar4 {
+        display: block;
+        list-style: none;
+        position: absolute;
+        border-radius: 4px;
+        color: $gray4;
+        z-index: 10;
+        right: 0.5em;
+        top: 9em;
+    }
+
 }
 
 @media screen and (max-width: $sizePhone) {
@@ -362,13 +452,22 @@
         // top: initial;
         right: initial;
     }
+
     .results__top {
         width: 100%;
         @include justify-content(flex-start);
     }
+
     .resultss__item {
         width: 100%;
     }
+
+    .nav_bar3 {
+        bottom: 5em;
+        right: 1em;
+        max-width: 70%;
+    }
+    
 }
 
 //Estilos Panel resultados . Dark Mode
@@ -377,32 +476,40 @@ html[data-theme="dark"] {
     .result {
         background: $blackboard;
     }
+
     .results__close {
         &:hover {
             .results__close__icon {
                 background: $blackboardMagenta;
                 border: 1px solid $principalColor;
             }
+
             .results__close__icon__line {
                 background: $white;
             }
+
             .results__close__name {
                 color: $gray13;
             }
         }
     }
+
     .results__close__icon {
         background: $blackboard3;
     }
+
     .results__close__name {
         color: $gray7;
     }
+
     .results__close__icon__line {
         background: $principalColor;
     }
+
     .results__top__title,
     .results__title {
         color: $gray7;
+
         &:hover {
             background: $blackboard3;
         }
@@ -411,33 +518,40 @@ html[data-theme="dark"] {
     .results__top__subtitle {
         color: $gray12;
     }
+
     .results__top__thirdtitle {
         color: $gray13;
     }
+
     .results__top__fourthtitle {
         color: $gray13;
     }
+
     .results__top__fifthtitle {
         color: $gray13;
     }
+
     .results__container {
         background: $blackboard;
+
         &::-webkit-scrollbar-track {
             background: $blackboard4;
         }
+
         &::-webkit-scrollbar-thumb {
             background: $fourthColor;
         }
+
         &::-webkit-scrollbar-thumb:hover {
             background: $sixColor;
         }
     }
+
     .charts__subtitle,
     .charts__item,
     .results__panel__source__name,
-    .results__source__link
-    {
+    .results__source__link {
         color: $gray13;
     }
-    
+
 }
