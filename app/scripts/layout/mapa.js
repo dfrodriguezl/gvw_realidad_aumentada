@@ -186,6 +186,9 @@ const Mapa = () => {
       const verDatos = document.getElementById("ver_datos");
 
       const propertiesVar = e.features[0].properties;
+
+      // Sección datos principales
+
       const totalPersonasVar = variables.variablesCNPV["43501001"];
       const totalPersonas = propertiesVar[totalPersonasVar];
       const personasLEAVar = variables.variablesCNPV["43501002"];
@@ -197,20 +200,85 @@ const Mapa = () => {
       const personasLugaresParticularesVar = variables.variablesCNPV["43501005"];
       const personasLugaresParticulares = propertiesVar[personasLugaresParticularesVar];
 
+      // Sección datos de edificaciones
+
+      const usoViviendaVar = variables.variablesCNPV["43601001"];
+      const usoVivienda = propertiesVar[usoViviendaVar];
+      const usoMixtoVar = variables.variablesCNPV["43601002"];
+      const usoMixto = propertiesVar[usoMixtoVar];
+      const usoNoResidencialVar = variables.variablesCNPV["43601003"];
+      const usoNoResidencial = propertiesVar[usoNoResidencialVar];
+      const usoLEAVar = variables.variablesCNPV["43601004"];
+      const usoLEA = propertiesVar[usoLEAVar];
+
+      const usoMixtoIndustriaVar = variables.variablesCNPV["43602001"];
+      const usoMixtoIndustria = propertiesVar[usoMixtoIndustriaVar];
+      const usoMixtoComercioVar = variables.variablesCNPV["43602002"];
+      const usoMixtoComercio = propertiesVar[usoMixtoComercioVar];
+      const usoMixtoServiciosVar = variables.variablesCNPV["43602003"];
+      const usoMixtoServicios = propertiesVar[usoMixtoServiciosVar];
+      const usoMixtoAgroVar = variables.variablesCNPV["43602004"];
+      const usoMixtoAgro = propertiesVar[usoMixtoAgroVar];
+      const usoMixtoSIVar = variables.variablesCNPV["43602005"];
+      const usoMixtoSI = propertiesVar[usoMixtoSIVar];
+
+      const usoNRIndustriaVar = variables.variablesCNPV["43603001"];
+      const usoNRIndustria = propertiesVar[usoNRIndustriaVar];
+      const usoNRComercioVar = variables.variablesCNPV["43603002"];
+      const usoNRComercio = propertiesVar[usoNRComercioVar];
+      const usoNRServiciosVar = variables.variablesCNPV["43603003"];
+      const usoNRServicios = propertiesVar[usoNRServiciosVar];
+      const usoNRAgroVar = variables.variablesCNPV["43603004"];
+      const usoNRAgro = propertiesVar[usoNRAgroVar];
+      const usoNRInstitucionalVar = variables.variablesCNPV["43603005"];
+      const usoNRInstitucional = propertiesVar[usoNRInstitucionalVar];
+      const usoNRLoteVar = variables.variablesCNPV["43603006"];
+      const usoNRLote = propertiesVar[usoNRLoteVar];
+      const usoNRParqueVar = variables.variablesCNPV["43603007"];
+      const usoNRParque = propertiesVar[usoNRParqueVar];
+      const usoNRMineroVar = variables.variablesCNPV["43603008"];
+      const usoNRMinero = propertiesVar[usoNRMineroVar];
+      const usoNRProteccionVar = variables.variablesCNPV["43603009"];
+      const usoNRProteccion = propertiesVar[usoNRProteccionVar];
+      const usoNRConstruccionVar = variables.variablesCNPV["43603010"];
+      const usoNRConstruccion = propertiesVar[usoNRConstruccionVar];
+      const usoNRSIVar = variables.variablesCNPV["43603011"];
+      const usoNRSI = propertiesVar[usoNRSIVar];
+
+
 
       let objectDataTablero = {
         total_personas: totalPersonas,
         personas_lea: personasLEA,
         hogares: hogares,
         viviendas: viviendas,
-        personas_lugares_particulares: personasLugaresParticulares
+        personas_lugares_particulares: personasLugaresParticulares,
+        uso_vivienda: usoVivienda,
+        uso_mixto: usoMixto,
+        uso_no_residencial: usoNoResidencial,
+        uso_lea: usoLEA,
+        uso_mixto_industria: usoMixtoIndustria,
+        uso_mixto_comercio: usoMixtoComercio,
+        uso_mixto_servicios: usoMixtoServicios,
+        uso_mixto_agro: usoMixtoAgro,
+        uso_mixto_si: usoMixtoSI,
+        uso_nr_industria: usoNRIndustria,
+        uso_nr_comercio: usoNRComercio,
+        uso_nr_servicios: usoNRServicios,
+        uso_nr_agro: usoNRAgro,
+        uso_nr_institucional: usoNRInstitucional,
+        uso_nr_lote: usoNRLote,
+        uso_nr_parque: usoNRParque,
+        uso_nr_minero: usoNRMinero,
+        uso_nr_proteccion: usoNRProteccion,
+        uso_nr_construccion: usoNRConstruccion,
+        uso_nr_si: usoNRSI
       }
 
       setDataVariables(objectDataTablero);
 
-
-
       verDatos.addEventListener('click', () => {
+        console.log("CLICK", openModalTablero);
         setOpenModalTablero(true)
       })
 
@@ -256,11 +324,115 @@ const Mapa = () => {
           }
 
           HTML += '<p class="popup__list"><span class="popup__thirdtitle"> Cod. DANE:</span> ' + feature.properties.id + '</p>';
+          HTML += '<p class="popup__list"><span class="popup__subtitle"><button id="ver_datos_mzn">Ver más datos</button></span></p>';
+
+
 
           new maplibregl.Popup()
             .setLngLat(coordinates)
             .setHTML(HTML)
             .addTo(variables.map);
+
+          const verDatosMnzn = document.getElementById("ver_datos_mzn");
+          console.log("VER DATA MNZN", variables.markersArray);
+
+
+
+          //   const propertiesVar = e.features[0].properties;
+
+    //   // Sección datos principales
+
+      // const totalPersonasVar = variables.variablesCNPV["43501001"];
+      // const totalPersonas = propertiesVar[totalPersonasVar];
+      // const personasLEAVar = variables.variablesCNPV["43501002"];
+      // const personasLEA = propertiesVar[personasLEAVar];
+      // const hogaresVar = variables.variablesCNPV["43501003"];
+      // const hogares = propertiesVar[hogaresVar];
+      // const viviendasVar = variables.variablesCNPV["43501004"];
+      // const viviendas = propertiesVar[viviendasVar];
+      // const personasLugaresParticularesVar = variables.variablesCNPV["43501005"];
+      // const personasLugaresParticulares = propertiesVar[personasLugaresParticularesVar];
+
+      // // Sección datos de edificaciones
+
+      // const usoViviendaVar = variables.variablesCNPV["43601001"];
+      // const usoVivienda = propertiesVar[usoViviendaVar];
+      // const usoMixtoVar = variables.variablesCNPV["43601002"];
+      // const usoMixto = propertiesVar[usoMixtoVar];
+      // const usoNoResidencialVar = variables.variablesCNPV["43601003"];
+      // const usoNoResidencial = propertiesVar[usoNoResidencialVar];
+      // const usoLEAVar = variables.variablesCNPV["43601004"];
+      // const usoLEA = propertiesVar[usoLEAVar];
+
+      // const usoMixtoIndustriaVar = variables.variablesCNPV["43602001"];
+      // const usoMixtoIndustria = propertiesVar[usoMixtoIndustriaVar];
+      // const usoMixtoComercioVar = variables.variablesCNPV["43602002"];
+      // const usoMixtoComercio = propertiesVar[usoMixtoComercioVar];
+      // const usoMixtoServiciosVar = variables.variablesCNPV["43602003"];
+      // const usoMixtoServicios = propertiesVar[usoMixtoServiciosVar];
+      // const usoMixtoAgroVar = variables.variablesCNPV["43602004"];
+      // const usoMixtoAgro = propertiesVar[usoMixtoAgroVar];
+      // const usoMixtoSIVar = variables.variablesCNPV["43602005"];
+      // const usoMixtoSI = propertiesVar[usoMixtoSIVar];
+
+      // const usoNRIndustriaVar = variables.variablesCNPV["43603001"];
+      // const usoNRIndustria = propertiesVar[usoNRIndustriaVar];
+      // const usoNRComercioVar = variables.variablesCNPV["43603002"];
+      // const usoNRComercio = propertiesVar[usoNRComercioVar];
+      // const usoNRServiciosVar = variables.variablesCNPV["43603003"];
+      // const usoNRServicios = propertiesVar[usoNRServiciosVar];
+      // const usoNRAgroVar = variables.variablesCNPV["43603004"];
+      // const usoNRAgro = propertiesVar[usoNRAgroVar];
+      // const usoNRInstitucionalVar = variables.variablesCNPV["43603005"];
+      // const usoNRInstitucional = propertiesVar[usoNRInstitucionalVar];
+      // const usoNRLoteVar = variables.variablesCNPV["43603006"];
+      // const usoNRLote = propertiesVar[usoNRLoteVar];
+      // const usoNRParqueVar = variables.variablesCNPV["43603007"];
+      // const usoNRParque = propertiesVar[usoNRParqueVar];
+      // const usoNRMineroVar = variables.variablesCNPV["43603008"];
+      // const usoNRMinero = propertiesVar[usoNRMineroVar];
+      // const usoNRProteccionVar = variables.variablesCNPV["43603009"];
+      // const usoNRProteccion = propertiesVar[usoNRProteccionVar];
+      // const usoNRConstruccionVar = variables.variablesCNPV["43603010"];
+      // const usoNRConstruccion = propertiesVar[usoNRConstruccionVar];
+      // const usoNRSIVar = variables.variablesCNPV["43603011"];
+      // const usoNRSI = propertiesVar[usoNRSIVar];
+
+
+
+      // let objectDataTablero = {
+      //   total_personas: totalPersonas,
+      //   personas_lea: personasLEA,
+      //   hogares: hogares,
+      //   viviendas: viviendas,
+      //   personas_lugares_particulares: personasLugaresParticulares,
+      //   uso_vivienda: usoVivienda,
+      //   uso_mixto: usoMixto,
+      //   uso_no_residencial: usoNoResidencial,
+      //   uso_lea: usoLEA,
+      //   uso_mixto_industria: usoMixtoIndustria,
+      //   uso_mixto_comercio: usoMixtoComercio,
+      //   uso_mixto_servicios: usoMixtoServicios,
+      //   uso_mixto_agro: usoMixtoAgro,
+      //   uso_mixto_si: usoMixtoSI,
+      //   uso_nr_industria: usoNRIndustria,
+      //   uso_nr_comercio: usoNRComercio,
+      //   uso_nr_servicios: usoNRServicios,
+      //   uso_nr_agro: usoNRAgro,
+      //   uso_nr_institucional: usoNRInstitucional,
+      //   uso_nr_lote: usoNRLote,
+      //   uso_nr_parque: usoNRParque,
+      //   uso_nr_minero: usoNRMinero,
+      //   uso_nr_proteccion: usoNRProteccion,
+      //   uso_nr_construccion: usoNRConstruccion,
+      //   uso_nr_si: usoNRSI
+      // }
+
+      // setDataVariables(objectDataTablero);
+
+          verDatosMnzn.addEventListener('click', () => {
+            setOpenModalTablero(true)
+          })
         })
 
       }
@@ -271,7 +443,8 @@ const Mapa = () => {
 
   return (
     <div>
-      <TableroResumen isOpen={openModalTablero} datos={dataVariables}/>
+      {console.log("OPEN", openModalTablero)}
+      <TableroResumen isOpen={openModalTablero} datos={dataVariables} setIsOpen={setOpenModalTablero} />
       <div id="map">
         <ul className='switch'>
           <li id="switch_visualization"><TipoVisualizacion /></li>
@@ -345,8 +518,10 @@ const loadMarkers = () => {
   getMarkers().then((response) => {
 
     const resultado = response.data.resultado;
+    variables.markersArray = resultado;
     // console.log("RESULTADO", resultado);
     const geoJson = crearJson(resultado, "05001");
+
 
     const image = variables.map.loadImage(gps_cyan,
       (error, image) => {

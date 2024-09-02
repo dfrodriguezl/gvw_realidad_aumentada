@@ -520,7 +520,8 @@ export const variables = {
         "43803002": "V71",
         "43803003": "V72",
         "43803004": "V73"
-    }
+    },
+    markersArray: null
 
 }
 export const urlDeploy = 'http://localhost:3000/'

@@ -2,6 +2,9 @@ import { Accordion, AccordionItem } from "@szhsin/react-accordion";
 import React from "react";
 import Modal from "react-modal";
 import { ResponsivePie } from '@nivo/pie';
+import { ResponsiveBar } from '@nivo/bar';
+import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
+import 'react-tabs/style/react-tabs.css';
 
 const customStyles = {
     content: {
@@ -14,7 +17,7 @@ const customStyles = {
     },
 };
 
-const TableroResumen = ({ isOpen, onClose, datos }) => {
+const TableroResumen = ({ isOpen, onClose, datos, setIsOpen }) => {
     // const [modalIsOpen, setIsOpen] = React.useState(false);
 
     // function openModal() {
@@ -26,9 +29,39 @@ const TableroResumen = ({ isOpen, onClose, datos }) => {
         { id: 'B', value: 200 },
         { id: 'C', value: 300 },
         { id: 'D', value: 400 },
-      ];
+    ];
+
+    const dataUsoEdificaciones = [
+        { id: "Vivienda", value: datos.uso_vivienda, color: "hsl(230,69%,10%)" },
+        { id: "Mixto", value: datos.uso_mixto, color: "hsl(163,80%,59%)" },
+        { id: "Unidad No Residencial", value: datos.uso_no_residencial, color: "hsl(178,53%,37%)" },
+        { id: "Lugar especial de alojamiento - LEA", value: datos.uso_lea, color: "hsl(210,61%,32%)" }
+    ];
+
+    const dataUsoMixtoEdificaciones = [
+        { id: "Industria", value: datos.uso_mixto_industria },
+        { id: "Comercio", value: datos.uso_mixto_comercio },
+        { id: "Servicios", value: datos.uso_mixto_servicios },
+        { id: "Agropecuario, agroindustrial, forestal", value: datos.uso_mixto_agro },
+        { id: "Sin información", value: datos.uso_mixto_si }
+    ];
+
+    const dataUsoNREdificaciones = [
+        { id: "Industria", value: Number(datos.uso_nr_industria) },
+        { id: "Comercio", value: Number(datos.uso_nr_comercio) },
+        { id: "Servicios", value: Number(datos.uso_nr_servicios) },
+        { id: "Agropecuario, agroindustrial, forestal", value: Number(datos.uso_nr_agro) },
+        { id: "Institucional", value: Number(datos.uso_nr_institucional) },
+        { id: "Lote", value: Number(datos.uso_nr_lote) },
+        { id: "Parque", value: Number(datos.uso_nr_parque) },
+        { id: "Minero", value: Number(datos.uso_nr_minero) },
+        { id: "Protección", value: Number(datos.uso_nr_proteccion) },
+        { id: "Construcción", value: Number(datos.uso_nr_construccion) },
+        { id: "Sin información", value: Number(datos.uso_nr_si) }
+    ];
 
     console.log("DATOS", datos);
+    console.log("DATOS EDIF", dataUsoNREdificaciones);
 
     function afterOpenModal() {
         // references are now sync'd and can be accessed.
@@ -36,7 +69,7 @@ const TableroResumen = ({ isOpen, onClose, datos }) => {
     }
 
     function closeModal() {
-        isOpen(false);
+        setIsOpen(false);
     }
 
     return (
@@ -92,8 +125,188 @@ const TableroResumen = ({ isOpen, onClose, datos }) => {
                         </div>
                     </AccordionItem>
                     <AccordionItem header="Datos de Edificaciones">
-                        <div class="functionFilter__accordion__panel --open">
-                            <ul class="results__btnTabs">
+                        {/* <div class="functionFilter__accordion__panel --open"> */}
+                        <Tabs>
+                            <TabList>
+                                <Tab>Uso</Tab>
+                                <Tab>Uso mixto</Tab>
+                                <Tab>Uso no residenciales</Tab>
+                            </TabList>
+
+                            <TabPanel>
+                                <div class="results__btnPanel UsoEdif edif --active">
+                                    <p class="results__panel__title__site">Uso de la edificación</p>
+                                    <div class="analysisResult__graph" id="analysisResult__UsoEdificaciones" style={{ maxWidth: '800px', width: '100%', height: '200px' }}>
+                                        {/* <canvas id="analysisResult__UsoEdificacion"></canvas> */}
+                                        <ResponsivePie
+                                            data={dataUsoEdificaciones}
+                                            margin={{ top: 40, right: 80, bottom: 80, left: 80 }}
+                                            innerRadius={0.5}
+                                            padAngle={0.7}
+                                            cornerRadius={3}
+                                            borderWidth={1}
+                                            borderColor={{ from: 'color', modifiers: [['darker', 0.2]] }}
+                                            radialLabelsSkipAngle={10}
+                                            radialLabelsTextXOffset={6}
+                                            radialLabelsTextColor="#333333"
+                                            radialLabelsLinkOffset={0}
+                                            radialLabelsLinkDiagonalLength={16}
+                                            radialLabelsLinkHorizontalLength={24}
+                                            radialLabelsLinkStrokeWidth={1}
+                                            radialLabelsLinkColor={{ from: 'color' }}
+                                            slicesLabelsSkipAngle={10}
+                                            slicesLabelsTextColor="#333333"
+                                            animate={true}
+                                            motionStiffness={90}
+                                            motionDamping={15}
+                                            legends={[
+                                                {
+                                                    anchor: 'top-left',
+                                                    direction: 'column',
+                                                    justify: false,
+                                                    translateX: -70,
+                                                    translateY: 80,
+                                                    itemWidth: 0,
+                                                    itemHeight: 10,
+                                                    itemsSpacing: 0,
+                                                    symbolSize: 10,
+                                                    itemDirection: 'left-to-right'
+                                                }
+                                            ]}
+                                        />
+                                    </div>
+                                    {/* <ul class="analysisResult__Legend analysisResult__edificaciones"></ul> */}
+                                </div>
+                            </TabPanel>
+                            <TabPanel>
+                                <div class="results__btnPanel UsoMixEdif edif --active">
+                                    <p class="results__panel__title__site">Uso mixto de la edificación</p>
+                                    <div class="analysisResult__graph" id="analysisResult__UsoMixtoEdificaciones" style={{ maxWidth: '800px', width: '100%', height: '200px' }}>
+                                        {/* <canvas id="analysisResult__UsoMixtoEdificacion"></canvas> */}
+                                        <ResponsiveBar
+                                            data={dataUsoMixtoEdificaciones}
+                                            keys={['value']}
+                                            indexBy="id"
+                                            padding={0.3}
+                                            colors={{ scheme: 'set3' }}
+                                            axisTop={null}
+                                            axisRight={null}
+                                            axisBottom={{
+                                                tickSize: 5,
+                                                tickPadding: 5,
+                                                tickRotation: 0,
+                                                legend: 'value',
+                                                legendPosition: 'middle',
+                                                legendOffset: 32
+                                            }}
+                                            axisLeft={{
+                                                tickSize: 5,
+                                                tickPadding: 5,
+                                                tickRotation: 0,
+                                                legendPosition: 'middle',
+                                                legendOffset: -40
+                                            }}
+                                            labelSkipWidth={12}
+                                            labelSkipHeight={12}
+                                            labelTextColor={{ from: 'color', modifiers: [['darker', 1.6]] }}
+                                            legends={[
+                                                {
+                                                    dataFrom: 'keys',
+                                                    anchor: 'top-right',
+                                                    direction: 'column',
+                                                    justify: false,
+                                                    translateX: 120,
+                                                    translateY: 0,
+                                                    itemsSpacing: 2,
+                                                    itemWidth: 100,
+                                                    itemHeight: 20,
+                                                    itemDirection: 'left-to-right',
+                                                    itemTextColor: '#000',
+                                                    symbolSize: 20,
+                                                    effects: [
+                                                        {
+                                                            on: 'hover',
+                                                            style: {
+                                                                itemTextColor: '#000'
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            ]}
+                                            animate={true}
+                                            motionStiffness={90}
+                                            motionDamping={15}
+                                        />
+                                    </div>
+                                    {/* <ul class="analysisResult__Legend analysisResult__edificacionesMixta"></ul> */}
+                                </div>
+                            </TabPanel>
+                            <TabPanel>
+                                <div class="results__btnPanel UsoNoResEdif edif --active">
+                                    <p class="results__panel__title__site">Uso no Residenciales de la edificación</p>
+                                    <div class="analysisResult__graph" id="analysisResult__UsoNoResidencialEdificaciones" style={{ maxWidth: '800px', width: '100%', height: '200px' }}>
+                                        {/* <canvas id="analysisResult__UsoNoResidencialEdificacion"></canvas> */}
+                                        <ResponsiveBar
+                                            data={dataUsoNREdificaciones}
+                                            keys={['value']}
+                                            indexBy="id"
+                                            padding={0.3}
+                                            colors={{ scheme: 'set3' }}
+                                            axisTop={null}
+                                            axisRight={null}
+                                            axisBottom={{
+                                                tickSize: 5,
+                                                tickPadding: 5,
+                                                tickRotation: 0,
+                                                legend: 'value',
+                                                legendPosition: 'middle',
+                                                legendOffset: 32
+                                            }}
+                                            axisLeft={{
+                                                tickSize: 5,
+                                                tickPadding: 5,
+                                                tickRotation: 0,
+                                                legendPosition: 'middle',
+                                                legendOffset: -40
+                                            }}
+                                            labelSkipWidth={12}
+                                            labelSkipHeight={12}
+                                            labelTextColor={{ from: 'color', modifiers: [['darker', 1.6]] }}
+                                            legends={[
+                                                {
+                                                    dataFrom: 'keys',
+                                                    anchor: 'top-right',
+                                                    direction: 'column',
+                                                    justify: false,
+                                                    translateX: 120,
+                                                    translateY: 0,
+                                                    itemsSpacing: 2,
+                                                    itemWidth: 100,
+                                                    itemHeight: 20,
+                                                    itemDirection: 'left-to-right',
+                                                    itemTextColor: '#000',
+                                                    symbolSize: 20,
+                                                    effects: [
+                                                        {
+                                                            on: 'hover',
+                                                            style: {
+                                                                itemTextColor: '#000'
+                                                            }
+                                                        }
+                                                    ]
+                                                }
+                                            ]}
+                                            animate={true}
+                                            motionStiffness={90}
+                                            motionDamping={15}
+                                        />
+                                    </div>
+                                    <ul class="analysisResult__Legend analysisResult__UsoNoResidencialEdificacion"></ul>
+                                </div>
+                            </TabPanel>
+                        </Tabs>
+
+                        {/* <ul class="results__btnTabs">
                                 <li class="results__btnTabsItem --active" data-toggle-target=".UsoEdif" data-group=".edif">
                                     <p class="results__btnTabsName">Uso</p>
                                 </li>
@@ -103,53 +316,12 @@ const TableroResumen = ({ isOpen, onClose, datos }) => {
                                 <li class="results__btnTabsItem" data-toggle-target=".UsoNoResEdif" data-group=".edif">
                                     <p class="results__btnTabsName">Uso no Residenciales</p>
                                 </li>
-                            </ul>
+                            </ul> */}
 
-                            <div class="results__btnPanel UsoEdif edif --active">
-                                <p class="results__panel__title__site">Uso de la edificación</p>
-                                <div class="analysisResult__graph" id="analysisResult__UsoEdificaciones">
-                                    {/* <canvas id="analysisResult__UsoEdificacion"></canvas> */}
-                                    <ResponsivePie
-                                        data={data}
-                                        margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
-                                        innerRadius={0.5}
-                                        padAngle={0.7}
-                                        cornerRadius={3}
-                                        colors={{ scheme: 'nivo' }}
-                                        borderWidth={1}
-                                        borderColor={{ from: 'color', modifiers: [['darker', 0.2]] }}
-                                        radialLabelsSkipAngle={10}
-                                        radialLabelsTextXOffset={6}
-                                        radialLabelsTextColor="#333333"
-                                        radialLabelsLinkOffset={0}
-                                        radialLabelsLinkDiagonalLength={16}
-                                        radialLabelsLinkHorizontalLength={24}
-                                        radialLabelsLinkStrokeWidth={1}
-                                        radialLabelsLinkColor={{ from: 'color' }}
-                                        slicesLabelsSkipAngle={10}
-                                        slicesLabelsTextColor="#333333"
-                                        animate={true}
-                                        motionStiffness={90}
-                                        motionDamping={15}
-                                    />
-                                </div>
-                                {/* <ul class="analysisResult__Legend analysisResult__edificaciones"></ul> */}
-                            </div>
-                            <div class="results__btnPanel UsoMixEdif edif">
-                                <p class="results__panel__title__site">Uso mixto de la edificación</p>
-                                <div class="analysisResult__graph" id="analysisResult__UsoMixtoEdificaciones">
-                                    <canvas id="analysisResult__UsoMixtoEdificacion"></canvas>
-                                </div>
-                                <ul class="analysisResult__Legend analysisResult__edificacionesMixta"></ul>
-                            </div>
-                            <div class="results__btnPanel UsoNoResEdif edif">
-                                <p class="results__panel__title__site">Uso no Residenciales de la edificación</p>
-                                <div class="analysisResult__graph" id="analysisResult__UsoNoResidencialEdificaciones">
-                                    <canvas id="analysisResult__UsoNoResidencialEdificacion"></canvas>
-                                </div>
-                                <ul class="analysisResult__Legend analysisResult__UsoNoResidencialEdificacion"></ul>
-                            </div>
-                        </div>
+
+
+
+                        {/* </div> */}
                     </AccordionItem>
                 </Accordion>
                 {/* <button class="functionFilter__accordion__btn --active"><span class="functionFilter__accordion__btnIcon DANE__Geovisor__icon__graphBalls"></span>Datos principales</button> */}
