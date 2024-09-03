@@ -21,11 +21,11 @@ const App = () => {
                     <div id="mapa" style={{ display: activeTab === 2 ? 'block' : 'none' }}>
                         <Mapa />
                     </div>
-                    <div id="results" style={{ display: activeTab === 2 ? 'block' : 'none' }}>
-                        <Results />
-                    </div>
-                    {activeTab === 0 && <DashboardPanel />}
                 </div>
+                <div id="results" style={{ display: activeTab === 2 ? 'block' : 'none' }}>
+                    <Results />
+                </div>
+                {activeTab === 0 && <DashboardPanel />}
                 <div id="modal-container"></div>
                 {/* <TableContent />*/}
             </section>

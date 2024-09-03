@@ -521,7 +521,14 @@ export const variables = {
         "43803003": "V72",
         "43803004": "V73"
     },
-    markersArray: null
-
+    markersArray: null,
+    actualizarTematica: null,
+    marcador: 0,
+    menuTematico: null,
+    prenderLegend: null,
+    apagarLegend: null,
+    tipoVariable: null,
+    cargaInicial: false,
+    changeLegend2: null,
 }
 export const urlDeploy = 'http://localhost:3000/'

@@ -30,6 +30,11 @@ import { mglStreetViewControl } from '../util/mglStreetViewControl.js'
 import { Button } from 'antd';
 import TableroResumen from '../components/tableroResumen.js';
 
+import Leyenda2 from '../components/legend2';
+import Modal from '../layout/modal.js';
+
+
+
 let container, content;
 let zoomActual;
 let unidadesAbsolutas;
@@ -451,6 +456,13 @@ const Mapa = () => {
         </ul>
 
         <div ref={mapRef} className="mapa"></div>
+
+        <div className='nav_bar3'>
+          <Leyenda2 />
+        </div>
+        <div className='nav_bar4'>
+          <Modal />
+        </div>
 
         <div className="coordenates">
           <div id="coordenates__panel"></div>

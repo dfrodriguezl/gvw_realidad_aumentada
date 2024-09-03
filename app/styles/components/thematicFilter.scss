@@ -450,6 +450,12 @@
     @include transition(all ease-in-out 0.2s);
 }
 
+@media screen and (max-width: $sizeTabletLandScape) {
+    .filter__thematic{
+        @include calc(max-height,'33vh');
+    }
+}
+
 @media screen and (max-width: $sizeMediumScreen) {
     .filter__thematic__list {
         // max-height: 208px;

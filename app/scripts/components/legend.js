@@ -21,6 +21,7 @@ const Leyenda = () => {
     if (variables.coloresLeyend[variables.varVariable] != undefined) {
       setLegend([...variables.coloresLeyend[variables.varVariable][nivel]])
     }
+    variables.changeLegend2(nivel);
   }
 
   // Función para cambiar transparencia de la capas, y guardar su estado
