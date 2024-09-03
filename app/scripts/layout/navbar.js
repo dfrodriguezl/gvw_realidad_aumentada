@@ -29,7 +29,7 @@ const Accordion = ({ title, icon, children, data }) => {
 const TabsComponent = ({ activeTab, setActiveTab }) => {
   const [state, setState] = useState(1);
   const dropdownRef = useRef(null);
-  const [isActive, setIsActive] = useDetectOutsideClick(dropdownRef, false);
+  const [isActive, setIsActive] = useDetectOutsideClick(dropdownRef, true);
   const onClick = () => setIsActive(!isActive);
 
   const handleTabSelect = (index) => {
