@@ -83,13 +83,13 @@ const Results = () => {
 
             <ul className='results__item'>
               <Accordion title="Leyenda" icon="DANE__Geovisor__icon__layers" data={true}> <Leyenda /> </Accordion>
-              <Accordion title="Capas" icon="DANE__Geovisor__icon__layers" data={true}>
+              {/* <Accordion title="Capas" icon="DANE__Geovisor__icon__layers" data={true}>
                 <Capas />
-              </ Accordion>
-              <Accordion title="Resultado Temático" icon="DANE__Geovisor__icon__graphBarVertical" data={true}> <TematicCharts /> </Accordion>
+              </ Accordion> */}
+              {/* <Accordion title="Resultado Temático" icon="DANE__Geovisor__icon__graphBarVertical" data={true}> <TematicCharts /> </Accordion> */}
             </ul>
             <div className="results__panel__source">
-              <p className="results__panel__source__name">Fuente: <a rel="noreferrer" href="https://www.dane.gov.co/index.php/actualidad-dane/5454-el-dane-actualizo-el-marco-geoestadistico-nacional-a-2018" target="_blank" className="results__source__link">{variables.fuente}</a></p>
+              <p className="results__panel__source__name">Fuente: <a rel="noreferrer" href={variables.fuenteURL} target="_blank" className="results__source__link">{variables.fuente}</a></p>
             </div>
           </div>
         </Fragment>

@@ -7,6 +7,7 @@ const TipoVisualizacion = () => {
   const [checked, setChecked] = useState(localStorage.getItem("visualization") === "symbols" ? false : true);
   const [textActive, setTextActive] = useState(localStorage.getItem("visualization") === "symbols" ? 0 : 1);
   const [disabledSlide, setDisabledSlide] = useState(false);
+  const [vistaActiva, setVistaActiva] = useState("3D");
 
   useEffect(() => {
     if (!checked) {
@@ -30,50 +31,61 @@ const TipoVisualizacion = () => {
 
   const change2D = () => {
     if (variables.map != null) {
-      // variables.map.setPaintProperty('manzanas', 'fill-extrusion-height', ["*", 0, ["get", "viv"]]);
-      // variables.map.setPaintProperty('manzanas2022', 'fill-extrusion-height', ["*", 0, ["get", "viviendas"]]);
-      // variables.map.setPaintProperty('secciones', 'fill-extrusion-height', ["*", 0, ["get", "secr_viv"]]);
-      // variables.map.setPaintProperty('manzanasVariacion', 'fill-extrusion-height', ["*", 0, ["get", "variacion"]]);
-      // variables.map.setPaintProperty('manzanasVariacion2022', 'fill-extrusion-height', ["*", 0, ["get", "variacion"]]);
-      // variables.map.setPaintProperty('secciones2022', 'fill-extrusion-height', ["*", 0, ["get", "secr_viv"]]);
       variables.map.setPaintProperty('deptos_vt', 'fill-extrusion-height', ["*", 0, ["feature-state", "valor"]]);
       variables.map.setPaintProperty('mpios_vt', 'fill-extrusion-height', ["*", 0, ["feature-state", "valor"]]);
       variables.map.setPaintProperty('manzanas2022', 'fill-extrusion-height', ["*", 0, ["get", "viviendas"]]);
       variables.map.setPitch(0);
+      variables.map.setLayoutProperty('markers-layer', 'visibility', 'none');
     }
   }
 
   const change3D = () => {
     if (variables.map != null) {
-      // variables.map.setPaintProperty('manzanas', 'fill-extrusion-height', ["*", 1, ["get", "viv"]]);
-      // variables.map.setPaintProperty('manzanas2022', 'fill-extrusion-height', ["*", 1, ["get", "viviendas"]]);
-      // variables.map.setPaintProperty('secciones', 'fill-extrusion-height', ["*", 1, ["get", "secr_viv"]]);
-      // variables.map.setPaintProperty('manzanasVariacion', 'fill-extrusion-height', ["*", 1, ["get", "variacion"]]);
-      // variables.map.setPaintProperty('manzanasVariacion2022', 'fill-extrusion-height', ["*", 0, ["get", "variacion"]]);
-      // variables.map.setPaintProperty('secciones2022', 'fill-extrusion-height', ["*", 1, ["get", "secr_viv"]]);
       variables.map.setPaintProperty('deptos_vt', 'fill-extrusion-height', ["*", 0.1, ["to-number", ["feature-state", "valor"]]]);
       variables.map.setPaintProperty('mpios_vt', 'fill-extrusion-height', ["*", 0.05, ["to-number", ["feature-state", "valor"]]]);
       variables.map.setPaintProperty('manzanas2022', 'fill-extrusion-height', ["*", 1, ["get", "viviendas"]]);
       variables.map.setPitch(30);
+      variables.map.setLayoutProperty('markers-layer', 'visibility', 'none');
+    }
+  }
+
+  const changeAR = () => {
+    if (variables.map != null) {
+      variables.map.setLayoutProperty('markers-layer', 'visibility', 'visible');
+    }
+  }
+
+  const handleClick = (vista) => {
+    setVistaActiva(vista)
+
+    if (vista === "3D") {
+      change3D();
+    } else if (vista === "2D") {
+      change2D();
+    } else if (vista === "AR") {
+      changeAR();
     }
   }
 
   return (
     <div className="tools__panel">
       <div className="custom__panel">
-        <div className="custom">
-          <p className={textActive === 0 ? "custom__text_big custom__activeText" : "custom__text_big"}> 3D </p>
-          <label className="custom__content">
-            <input
-              className="custom__input"
-              type="checkbox"
-              checked={checked}
-              onChange={() => toggleThemeChange()}
-              disabled={disabledSlide}
-            />
-            <span className="custom__slider" />
-          </label>
-          <p className={textActive === 1 ? "custom__text_big custom__activeText" : "custom__text_big"}> 2D </p>
+        <div className="custom custom-visualizacion-container">
+          <div className={`navBar__list__item__btn_mode ${vistaActiva === "3D" ? "--active" : "--inactive"}`} onClick={() => handleClick("3D")}>
+            <div className="filter__thematicGroup__icon">
+              <span className="texto-button">3D</span>
+            </div>
+          </div>
+          <div className={`navBar__list__item__btn_mode ${vistaActiva === "2D" ? "--active" : "--inactive"}`} onClick={() => handleClick("2D")}>
+            <div className="filter__thematicGroup__icon">
+              2D
+            </div>
+          </div>
+          <div className={`navBar__list__item__btn_mode ${vistaActiva === "AR" ? "--active" : "--inactive"}`} onClick={() => handleClick("AR")}>
+            <div className="filter__thematicGroup__icon">
+              AR
+            </div>
+          </div>
         </div>
       </div>
     </div>

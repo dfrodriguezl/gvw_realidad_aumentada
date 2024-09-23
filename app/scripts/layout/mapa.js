@@ -125,11 +125,11 @@ const Mapa = () => {
     const municipio = municipios.filter((o) => o.cod_dane === ciudadInicial)[0];
     bboxExtent(municipio.bextent);
     variables.map.addControl(new maplibregl.NavigationControl());
-    variables.map.addControl(new maplibregl.ScaleControl({
-      position: 'bottom-left',
-      unit: 'metric',
-      maxWidth: 500
-    }));
+    // variables.map.addControl(new maplibregl.ScaleControl({
+    //   position: 'bottom-left',
+    //   unit: 'metric',
+    //   maxWidth: 500
+    // }));
 
     // change mouse cursor when over marker
     variables.map.on('mousemove', function (e) {
@@ -448,7 +448,6 @@ const Mapa = () => {
 
   return (
     <div>
-      {console.log("OPEN", openModalTablero)}
       <TableroResumen isOpen={openModalTablero} datos={dataVariables} setIsOpen={setOpenModalTablero} />
       <div id="map">
         <ul className='switch'>
@@ -555,6 +554,8 @@ const loadMarkers = () => {
         'icon-image': 'custom-marker'
       }
     })
+
+    variables.map.setLayoutProperty('markers-layer', 'visibility', 'none');
 
   })
 

@@ -1,0 +1,42 @@
+.navBar__list__item__btn_mode {
+    background: transparent;
+    border: none;
+    text-align: center;
+    text-decoration: none;
+    padding: 0;
+    margin: 0;
+    @include transition(all ease-in-out 0.2s);
+    font-size: 10px;
+
+    &:focus {
+        .navBar__icon {
+            background: #B91450;
+            color: "white";
+        }
+    }
+
+    &.--active {
+        .filter__thematicGroup__icon {
+            background: #B91450;
+            color: #ffffff;
+        }
+    }
+
+    &.--inactive {
+        .filter__thematicGroup__icon {
+            background: #868686;
+            color: #ffffff;
+        }
+    }
+}
+
+.custom-visualizacion-container {
+    display: flex;
+    justify-content: space-around;
+    background-color: #EDEDED;
+    border-radius: 30%;
+}
+
+.texto-button{
+    font-weight: 900;
+}

@@ -88,46 +88,46 @@ const TabsComponent = ({ activeTab, setActiveTab }) => {
               <Tools />
             </div>
           </TabPanel>
-          <Accordion title="Visualización" icon="DANE__Geovisor__icon__layers" data={true}>
-          <TabList className="navBar__list">
-            <Tab>
-              <div className="navBar__list__item">
-                <button className={activeTab === 2 ? "navBar__list__item__btn --active" : "navBar__list__item__btn"} onClick={() => setActiveTab(2)}>
-                  <div className="navBar__icon">
-                    <span className="DANE__Geovisor__icon__world2"></span>
-                  </div>
-                  <p className="navBar__iconName">Mapa</p>
-                </button>
+          {/* <Accordion title="Visualización" icon="DANE__Geovisor__icon__layers" data={true}>
+            <TabList className="navBar__list">
+              <Tab>
+                <div className="navBar__list__item">
+                  <button className={activeTab === 2 ? "navBar__list__item__btn --active" : "navBar__list__item__btn"} onClick={() => setActiveTab(2)}>
+                    <div className="navBar__icon">
+                      <span className="DANE__Geovisor__icon__world2"></span>
+                    </div>
+                    <p className="navBar__iconName">Mapa</p>
+                  </button>
+                </div>
+              </Tab>
+              <Tab>
+                <div className="navBar__list__item">
+                  <button className={activeTab === 0 ? "navBar__list__item__btn --active" : "navBar__list__item__btn"} onClick={() => setActiveTab(0)}>
+                    <div className="navBar__icon">
+                      <span className="DANE__Geovisor__icon__indicatorEconomy"></span>
+                    </div>
+                    <p className="navBar__iconName">Tablero</p>
+                  </button>
+                </div>
+              </Tab>
+            </TabList>
+            <TabPanel>
+              <div className="navbar__panel">
+                {activeTab === 2 && <div id="mapa"></div>}
               </div>
-            </Tab>
-            <Tab>
-              <div className="navBar__list__item">
-                <button className={activeTab === 0 ? "navBar__list__item__btn --active" : "navBar__list__item__btn"} onClick={() => setActiveTab(0)}>
-                  <div className="navBar__icon">
-                    <span className="DANE__Geovisor__icon__indicatorEconomy"></span>
-                  </div>
-                  <p className="navBar__iconName">Tablero</p>
-                </button>
+            </TabPanel>
+            <TabPanel>
+              <div className="navbar__panel">
+                {activeTab === 0 && <DashboardPanel />}
               </div>
-            </Tab>
-          </TabList>
-          <TabPanel>
-            <div className="navbar__panel">
-              {activeTab === 2 && <div id="mapa"></div>}
-            </div>
-          </TabPanel>
-          <TabPanel>
-            <div className="navbar__panel">
-              {activeTab === 0 && <DashboardPanel />}
-            </div>
-          </TabPanel>
-          </Accordion>
+            </TabPanel>
+          </Accordion> */}
         </Tabs>
         <div className="navBar__collapseBtn" onClick={onClick}>
           <div className="navBar__collapseBtn__triangle"></div>
-        </div>  
+        </div>
       </div>
-      
+
     </div>
   );
 }

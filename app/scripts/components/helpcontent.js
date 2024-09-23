@@ -50,7 +50,10 @@ const HelpContent = () => {
                 <TabPanel>
                     <div className="help__content" id="help__aboutUrl">
                         <p className="help__content__text" itemProp="description">
-                            Geovisor para la consulta y visualización en 3D de la información correspondiente a las variables temáticas del Marco Geoestadístico Nacional - MGN.
+                        El geovisor de realidad aumentada CNPV2018, tiene como propósito la consulta de las variables sociales y
+        demográficas del Censo Nacional de Población y Vivienda 2018 (CNPV2018) para manzanas censales, dándole el valor agregado de la tecnología de realidad aumentada, sobre la ubicación
+        georreferenciada del usuario.   Adicionalmente visualiza la información en mapas 2D y 3D filtrando por cada una de las variables y
+        complementando la visualización con la capa de equipamientos del Marco Geoestadístico Nacional (MGN).
                             <br />
                         </p>
 

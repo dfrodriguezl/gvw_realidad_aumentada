@@ -32,32 +32,32 @@ const TableroResumen = ({ isOpen, onClose, datos, setIsOpen }) => {
     ];
 
     const dataUsoEdificaciones = [
-        { id: "Vivienda", value: datos.uso_vivienda, color: "hsl(230,69%,10%)" },
-        { id: "Mixto", value: datos.uso_mixto, color: "hsl(163,80%,59%)" },
-        { id: "Unidad No Residencial", value: datos.uso_no_residencial, color: "hsl(178,53%,37%)" },
-        { id: "Lugar especial de alojamiento - LEA", value: datos.uso_lea, color: "hsl(210,61%,32%)" }
+        { id: "Vivienda", value: Number(datos.uso_vivienda), color: "hsl(230,69%,10%)" },
+        { id: "Mixto", value: Number(datos.uso_mixto), color: "hsl(163,80%,59%)" },
+        { id: "Unidad No Residencial", value: Number(datos.uso_no_residencial), color: "hsl(178,53%,37%)" },
+        { id: "Lugar especial de alojamiento - LEA", value: Number(datos.uso_lea), color: "hsl(210,61%,32%)" }
     ];
 
     const dataUsoMixtoEdificaciones = [
-        { id: "Industria", value: datos.uso_mixto_industria },
-        { id: "Comercio", value: datos.uso_mixto_comercio },
-        { id: "Servicios", value: datos.uso_mixto_servicios },
-        { id: "Agropecuario, agroindustrial, forestal", value: datos.uso_mixto_agro },
-        { id: "Sin información", value: datos.uso_mixto_si }
+        { id: "Industria", value: Number(datos.uso_mixto_industria == "" ? "0" : datos.uso_mixto_industria) },
+        { id: "Comercio", value: Number(datos.uso_mixto_comercio == "" ? "0" : datos.uso_mixto_comercio) },
+        { id: "Servicios", value: Number(datos.uso_mixto_servicios == "" ? "0" : datos.uso_mixto_servicios) },
+        { id: "Agropecuario, agroindustrial, forestal", value: Number(datos.uso_mixto_agro == "" ? "0" : datos.uso_mixto_agro) },
+        { id: "Sin información", value: Number(datos.uso_mixto_si == "" ? "0" : datos.uso_mixto_si) }
     ];
 
     const dataUsoNREdificaciones = [
-        { id: "Industria", value: Number(datos.uso_nr_industria) },
-        { id: "Comercio", value: Number(datos.uso_nr_comercio) },
-        { id: "Servicios", value: Number(datos.uso_nr_servicios) },
-        { id: "Agropecuario, agroindustrial, forestal", value: Number(datos.uso_nr_agro) },
-        { id: "Institucional", value: Number(datos.uso_nr_institucional) },
-        { id: "Lote", value: Number(datos.uso_nr_lote) },
-        { id: "Parque", value: Number(datos.uso_nr_parque) },
-        { id: "Minero", value: Number(datos.uso_nr_minero) },
-        { id: "Protección", value: Number(datos.uso_nr_proteccion) },
-        { id: "Construcción", value: Number(datos.uso_nr_construccion) },
-        { id: "Sin información", value: Number(datos.uso_nr_si) }
+        { id: "Industria", value: Number(datos.uso_nr_industria == "" ? "0" : datos.uso_nr_industria) },
+        { id: "Comercio", value: Number(datos.uso_nr_comercio == "" ? "0" : datos.uso_nr_comercio) },
+        { id: "Servicios", value: Number(datos.uso_nr_servicios == "" ? "0" : datos.uso_nr_servicios) },
+        { id: "Agropecuario, agroindustrial, forestal", value: Number(datos.uso_nr_agro == "" ? "0" : datos.uso_nr_agro) },
+        { id: "Institucional", value: Number(datos.uso_nr_institucional == "" ? "0" : datos.uso_nr_institucional) },
+        { id: "Lote", value: Number(datos.uso_nr_lote == "" ? "0" : datos.uso_nr_lote) },
+        { id: "Parque", value: Number(datos.uso_nr_parque == "" ? "0" : datos.uso_nr_parque) },
+        { id: "Minero", value: Number(datos.uso_nr_minero == "" ? "0" : datos.uso_nr_minero) },
+        { id: "Protección", value: Number(datos.uso_nr_proteccion == "" ? "0" : datos.uso_nr_proteccion) },
+        { id: "Construcción", value: Number(datos.uso_nr_construccion == "" ? "0" : datos.uso_nr_construccion) },
+        { id: "Sin información", value: Number(datos.uso_nr_si == "" ? "0" : datos.uso_nr_si) }
     ];
 
     console.log("DATOS", datos);
@@ -181,6 +181,7 @@ const TableroResumen = ({ isOpen, onClose, datos, setIsOpen }) => {
                             <TabPanel>
                                 <div class="results__btnPanel UsoMixEdif edif --active">
                                     <p class="results__panel__title__site">Uso mixto de la edificación</p>
+                                    {console.log("DATA MIXTO", dataUsoMixtoEdificaciones )}
                                     <div class="analysisResult__graph" id="analysisResult__UsoMixtoEdificaciones" style={{ maxWidth: '800px', width: '100%', height: '200px' }}>
                                         {/* <canvas id="analysisResult__UsoMixtoEdificacion"></canvas> */}
                                         <ResponsiveBar
