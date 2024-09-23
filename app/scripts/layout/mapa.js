@@ -24,7 +24,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import gps_cyan from '../../img/gps-cyan.png'
 
 //Libreria MapLibre
-import maplibregl from 'maplibre-gl';
+import maplibregl, { GeolocateControl } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { mglStreetViewControl } from '../util/mglStreetViewControl.js'
 import { Button } from 'antd';
@@ -116,6 +116,16 @@ const Mapa = () => {
         pano: 1
       }
     }), 'top-right');
+
+    // Add geolocate control to the map.
+    variables.map.addControl(
+      new GeolocateControl({
+          positionOptions: {
+              enableHighAccuracy: true
+          },
+          trackUserLocation: true
+      })
+  );
 
     loadLayers();
     loadPopups();
