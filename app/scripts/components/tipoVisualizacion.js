@@ -36,6 +36,7 @@ const TipoVisualizacion = () => {
       variables.map.setPaintProperty('manzanas2022', 'fill-extrusion-height', ["*", 0, ["get", "viviendas"]]);
       variables.map.setPitch(0);
       variables.map.setLayoutProperty('markers-layer', 'visibility', 'none');
+      variables.map.setLayoutProperty('manzanas2022', 'visibility', 'visible');
     }
   }
 
@@ -46,12 +47,14 @@ const TipoVisualizacion = () => {
       variables.map.setPaintProperty('manzanas2022', 'fill-extrusion-height', ["*", 1, ["get", "viviendas"]]);
       variables.map.setPitch(30);
       variables.map.setLayoutProperty('markers-layer', 'visibility', 'none');
+      variables.map.setLayoutProperty('manzanas2022', 'visibility', 'visible');
     }
   }
 
   const changeAR = () => {
     if (variables.map != null) {
       variables.map.setLayoutProperty('markers-layer', 'visibility', 'visible');
+      variables.map.setLayoutProperty('manzanas2022', 'visibility', 'none');
     }
   }
 
