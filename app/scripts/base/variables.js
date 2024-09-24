@@ -531,5 +531,7 @@ export const variables = {
     tipoVariable: null,
     cargaInicial: false,
     changeLegend2: null,
+    hideLegendContainer: null,
+    hideLegendButton: null
 }
 export const urlDeploy = 'http://localhost:3000/'

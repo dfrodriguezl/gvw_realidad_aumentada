@@ -22,6 +22,10 @@ const Modal = () => {
         variables.apagarLegend();
     }
 
+    variables.hideLegendButton = function () {
+        setVisible(false);
+    }
+
     return (
         <>
             <div>

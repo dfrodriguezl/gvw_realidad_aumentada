@@ -29,13 +29,17 @@ const Leyenda2 = () => {
     }
   }
 
-  variables.apagarLegend = function(){
+  variables.apagarLegend = function () {
     setVisible(true);
-}
+  }
 
   const changeClickLess = () => {
     setVisible(false);
     variables.prenderLegend();
+  }
+
+  variables.hideLegendContainer = () => {
+    setVisible(false);
   }
 
   return (
@@ -54,9 +58,9 @@ const Leyenda2 = () => {
             <p className="legend__slider__num" >100%</p>
           </div>
         </div> */}
-        
+
         <h2 className="legend__slider__text" id="title">{categoria}</h2>
-      <h3 className="legend__value">({unidad})</h3>
+        <h3 className="legend__value">({unidad})</h3>
         <ul className="legend__panel__list">
           {legend.map((item, index) => {
             return (
