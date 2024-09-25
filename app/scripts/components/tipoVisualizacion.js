@@ -73,6 +73,7 @@ const TipoVisualizacion = () => {
       changeAR();
       variables.prenderLegend();
       variables.hideLegendContainer();
+      variables.hideLegendButton();
     }
   }
 
@@ -87,12 +88,12 @@ const TipoVisualizacion = () => {
           </div>
           <div className={`navBar__list__item__btn_mode ${vistaActiva === "2D" ? "--active" : "--inactive"}`} onClick={() => handleClick("2D")}>
             <div className="filter__thematicGroup__icon">
-              2D
+              <span className="texto-button">2D</span>
             </div>
           </div>
           <div className={`navBar__list__item__btn_mode ${vistaActiva === "AR" ? "--active" : "--inactive"}`} onClick={() => handleClick("AR")}>
             <div className="filter__thematicGroup__icon">
-              AR
+              <span className="texto-button">AR</span>
             </div>
           </div>
         </div>

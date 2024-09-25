@@ -50,14 +50,15 @@ const Modal = () => {
                 </Modali.Modal>
             </div>
 
-            {visible && <div>
-                <div className="navBar__list__item__btn" onClick={changeClickPlus}>
-                    <div className="filter__thematicGroup__icon --backgroundPrincipal --colorWhite">
-                        <span className="DANE__Geovisor__icon__List"></span>
+            {visible &&
+                <div>
+                    <div className="navBar__list__item__btn" onClick={changeClickPlus}>
+                        <div className="filter__thematicGroup__icon --backgroundPrincipal --colorWhite">
+                            <span className="DANE__Geovisor__icon__List"></span>
+                        </div>
+                        {/* <p className="navBar__iconName">Ayuda 2</p> */}
                     </div>
-                    {/* <p className="navBar__iconName">Ayuda 2</p> */}
-                </div>
-            </div>}
+                </div>}
         </>
     );
 };
