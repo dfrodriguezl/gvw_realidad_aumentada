@@ -49,6 +49,16 @@ const Modal = () => {
                     <Capas />
                 </Modali.Modal>
             </div>
+            <div>
+                <div className="navBar__list__item__btn" onClick={toggleHelpModal3}>
+                    <div className="filter__thematicGroup__icon --backgroundPrincipal --colorWhite">
+                        <span className="DANE__Geovisor__icon__baseMap"></span>
+                    </div>
+                </div>
+                <Modali.Modal {...helpModal3}>
+                    <BaseMap />
+                </Modali.Modal>
+            </div>
 
             {visible &&
                 <div>
