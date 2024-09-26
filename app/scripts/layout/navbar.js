@@ -7,6 +7,7 @@ import Temas from './searchMain';
 import Tools from './tools';
 import { useDetectOutsideClick } from "./useDetectOutsideClick";
 import DashboardPanel from "./dasboardPanel";
+import menu_bar from '../../img/menu-bar.png'
 
 const Accordion = ({ title, icon, children, data }) => {
   const [isOpen, setOpen] = React.useState(data);
@@ -124,7 +125,10 @@ const TabsComponent = ({ activeTab, setActiveTab }) => {
           </Accordion> */}
         </Tabs>
         <div className="navBar__collapseBtn" onClick={onClick}>
-          <div className="navBar__collapseBtn__triangle"></div>
+          {isActive ?
+            <img src={menu_bar} width="50" height="50" className="navBar__collapseBtn__menu" /> :
+            <div className="navBar__collapseBtn__triangle"></div>}
+          {/* <div className="navBar__collapseBtn__triangle"></div> */}
         </div>
       </div>
 
