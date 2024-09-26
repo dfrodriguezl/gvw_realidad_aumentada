@@ -119,20 +119,40 @@ const Mapa = () => {
     }), 'top-right');
 
     // Add geolocate control to the map.
-    variables.map.addControl(
-      new GeolocateControl({
-        positionOptions: {
-          enableHighAccuracy: true
-        },
-        trackUserLocation: true
-      })
-    );
+
+    const geolocate = new GeolocateControl({
+      positionOptions: {
+        enableHighAccuracy: true
+      },
+      trackUserLocation: true
+    });
+
+    variables.map.addControl(geolocate);
+
+    geolocate.on('geolocate', (event) => {
+      const latitude = event.coords.latitude;
+      const longitude = event.coords.longitude;
+      // console.log("Latitude", event.coords.latitude);
+      // console.log("Longitude", event.coords.longitude);
+      loadMarkers(latitude, longitude);
+    })
+
+
+
+    // variables.map.addControl(
+    //   new GeolocateControl({
+    //     positionOptions: {
+    //       enableHighAccuracy: true
+    //     },
+    //     trackUserLocation: true
+    //   })
+    // );
 
     loadLayers();
     loadPopups();
     loadMapEvents();
     // addCentroidesManzanas();
-    loadMarkers();
+    // loadMarkers();
     const municipio = municipios.filter((o) => o.cod_dane === ciudadInicial)[0];
     bboxExtent(municipio.bextent);
     variables.map.addControl(new maplibregl.NavigationControl());
@@ -535,9 +555,9 @@ function loadLayers() {
   })
 }
 
-const loadMarkers = () => {
+const loadMarkers = (latitude, longitude) => {
 
-  getMarkers().then((response) => {
+  getMarkers(latitude, longitude).then((response) => {
 
     const resultado = response.data.resultado;
     variables.markersArray = resultado;
@@ -552,21 +572,32 @@ const loadMarkers = () => {
       }
     );
 
-    variables.map.addSource('markers', {
-      'type': 'geojson',
-      'data': geoJson
-    })
+    const sourceMarkers = variables.map.getSource("markers");
 
-    variables.map.addLayer({
-      'id': 'markers-layer',
-      'type': 'symbol',
-      'source': 'markers',
-      'layout': {
-        'icon-image': 'custom-marker'
+    if (!sourceMarkers) {
+      variables.map.addSource('markers', {
+        'type': 'geojson',
+        'data': geoJson
+      })
+
+      variables.map.addLayer({
+        'id': 'markers-layer',
+        'type': 'symbol',
+        'source': 'markers',
+        'layout': {
+          'icon-image': 'custom-marker'
+        }
+      })
+
+      if (variables.vistaActiva === "AR") {
+        variables.map.setLayoutProperty('markers-layer', 'visibility', 'visible');
+      } else {
+        variables.map.setLayoutProperty('markers-layer', 'visibility', 'none');
       }
-    })
+    }
 
-    variables.map.setLayoutProperty('markers-layer', 'visibility', 'none');
+    
+
 
   })
 
@@ -1711,8 +1742,9 @@ const getDataCentroids = (depto) => {
   return servidorQuery(variables.urlCentroids + depto)
 }
 
-const getMarkers = () => {
-  return servidorQuery(variables.urlMarkers)
+const getMarkers = (latitude, longitude) => {
+  const url = variables.urlMarkers + "?coordx=" + longitude + "&coordy=" + latitude + "&longitud=" + variables.tamanoArea;
+  return servidorQuery(url);
 }
 
 const getDataCentroidsGeneral = (capa) => {

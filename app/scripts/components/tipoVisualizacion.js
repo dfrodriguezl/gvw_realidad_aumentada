@@ -65,15 +65,18 @@ const TipoVisualizacion = () => {
       change3D();
       variables.apagarLegend();
       variables.hideLegendButton();
+      variables.vistaActiva = "3D";
     } else if (vista === "2D") {
       change2D();
       variables.apagarLegend();
       variables.hideLegendButton();
+      variables.vistaActiva = "2D";
     } else if (vista === "AR") {
       changeAR();
       variables.prenderLegend();
       variables.hideLegendContainer();
       variables.hideLegendButton();
+      variables.vistaActiva = "AR";
     }
   }
 

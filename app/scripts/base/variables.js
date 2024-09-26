@@ -23,7 +23,8 @@ export const variables = {
     urlDivipolaV2: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/equipamientos/table-list-extent.php",
     urlCentroidsGeneral: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/licencias-construccion/centroides.php?",
     urlPlacesGoogle: "https://maps.googleapis.com/maps/api/place/findplacefromtext/json",
-    urlMarkers: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/poblacion/centroides_manzanas.php?coordx=-75.5818&coordy=6.2248&longitud=4000",
+    urlMarkers: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/poblacion/centroides_manzanas.php",
+    tamanoArea : 1000,
     key: "pk.eyJ1IjoiYXBwbW92aWxkYW5lIiwiYSI6ImNrbzY4b2tiajFxN2cyb3F3YnR1NDF6eWkifQ.mVlSJXQZVl4CNmQpZ1pXNA",
     key: "",
     baseMaps: {
@@ -532,6 +533,7 @@ export const variables = {
     cargaInicial: false,
     changeLegend2: null,
     hideLegendContainer: null,
-    hideLegendButton: null
+    hideLegendButton: null,
+    vistaActiva: "3D"
 }
 export const urlDeploy = 'http://localhost:3000/'
