@@ -2,12 +2,14 @@
 
 import React, { useState, useEffect } from 'react';
 import { variables } from '../base/variables';
+import useScreenSize from '../hooks/useScreenSize';
 
 const TipoVisualizacion = () => {
   const [checked, setChecked] = useState(localStorage.getItem("visualization") === "symbols" ? false : true);
   const [textActive, setTextActive] = useState(localStorage.getItem("visualization") === "symbols" ? 0 : 1);
   const [disabledSlide, setDisabledSlide] = useState(false);
   const [vistaActiva, setVistaActiva] = useState("3D");
+  const screenSize = useScreenSize();
 
   useEffect(() => {
     if (!checked) {
@@ -94,11 +96,12 @@ const TipoVisualizacion = () => {
               <span className="texto-button">2D</span>
             </div>
           </div>
-          <div className={`navBar__list__item__btn_mode ${vistaActiva === "AR" ? "--active" : "--inactive"}`} onClick={() => handleClick("AR")}>
-            <div className="filter__thematicGroup__icon">
-              <span className="texto-button">AR</span>
-            </div>
-          </div>
+          {screenSize.width <= 1024 ?
+            <div className={`navBar__list__item__btn_mode ${vistaActiva === "AR" ? "--active" : "--inactive"}`} onClick={() => handleClick("AR")}>
+              <div className="filter__thematicGroup__icon">
+                <span className="texto-button">AR</span>
+              </div>
+            </div> : null}
         </div>
       </div>
     </div>
