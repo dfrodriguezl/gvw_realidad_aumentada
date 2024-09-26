@@ -132,9 +132,8 @@ const Mapa = () => {
     geolocate.on('geolocate', (event) => {
       const latitude = event.coords.latitude;
       const longitude = event.coords.longitude;
-      // console.log("Latitude", event.coords.latitude);
-      // console.log("Longitude", event.coords.longitude);
       loadMarkers(latitude, longitude);
+      geolocate.off();
     })
 
 
@@ -596,7 +595,7 @@ const loadMarkers = (latitude, longitude) => {
       }
     }
 
-    
+
 
 
   })
