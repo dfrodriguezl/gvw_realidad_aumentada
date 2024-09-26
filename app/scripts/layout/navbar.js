@@ -8,6 +8,7 @@ import Tools from './tools';
 import { useDetectOutsideClick } from "./useDetectOutsideClick";
 import DashboardPanel from "./dasboardPanel";
 import menu_bar from '../../img/menu-bar.png'
+import useScreenSize from "../hooks/useScreenSize";
 
 const Accordion = ({ title, icon, children, data }) => {
   const [isOpen, setOpen] = React.useState(data);
@@ -29,6 +30,7 @@ const Accordion = ({ title, icon, children, data }) => {
 };
 
 const TabsComponent = ({ activeTab, setActiveTab }) => {
+  const screenSize = useScreenSize();
   const [state, setState] = useState(1);
   const dropdownRef = useRef(null);
   const [isActive, setIsActive] = useDetectOutsideClick(dropdownRef, true);
@@ -65,16 +67,19 @@ const TabsComponent = ({ activeTab, setActiveTab }) => {
                 </button>
               </div>
             </Tab>
-            <Tab>
-              <div className="navBar__list__item">
-                <button className={state === 2 ? "navBar__list__item__btn --active" : "navBar__list__item__btn"}>
-                  <div className="navBar__icon">
-                    <span className="DANE__Geovisor__icon__settings"></span>
-                  </div>
-                  <p className="navBar__iconName">Herramientas</p>
-                </button>
-              </div>
-            </Tab>
+            {screenSize.width > 1024 ?
+              <Tab>
+                <div className="navBar__list__item">
+                  <button className={state === 2 ? "navBar__list__item__btn --active" : "navBar__list__item__btn"}>
+                    <div className="navBar__icon">
+                      <span className="DANE__Geovisor__icon__settings"></span>
+                    </div>
+                    <p className="navBar__iconName">Herramientas</p>
+                  </button>
+                </div>
+              </Tab> : null
+            }
+
           </TabList>
           <TabPanel>
             <div className="navbar__panel"></div>

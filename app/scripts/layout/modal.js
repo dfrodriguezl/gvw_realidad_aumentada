@@ -5,11 +5,13 @@ import Capas from '../components/capas';
 import Temas from './searchMain';
 
 import { variables } from '../base/variables';
+import RouterGoogle from "../components/routerGoogle";
 
 const Modal = () => {
     const [helpModal, toggleHelpModal] = useModali();
     const [helpModal2, toggleHelpModal2] = useModali();
     const [helpModal3, toggleHelpModal3] = useModali();
+    const [helpModal4, toggleHelpModal4] = useModali();
     const [visible, setVisible] = useState(false);
 
 
@@ -31,7 +33,7 @@ const Modal = () => {
             <div>
                 <div className="navBar__list__item__btn" onClick={toggleHelpModal}>
                     <div className="filter__thematicGroup__icon --backgroundPrincipal --colorWhite">
-                        <span className="DANE__Geovisor__icon__searchGeo"></span>
+                        <span className="DANE__Geovisor__icon__searchTheme"></span>
                     </div>
                     {/* <p className="navBar__iconName">Ayuda</p> */}
                 </div>
@@ -57,6 +59,16 @@ const Modal = () => {
                 </div>
                 <Modali.Modal {...helpModal3}>
                     <BaseMap />
+                </Modali.Modal>
+            </div>
+            <div>
+                <div className="navBar__list__item__btn" onClick={toggleHelpModal4}>
+                    <div className="filter__thematicGroup__icon --backgroundPrincipal --colorWhite">
+                        <span className="DANE__Geovisor__icon__route"></span>
+                    </div>
+                </div>
+                <Modali.Modal {...helpModal4}>
+                    <RouterGoogle />
                 </Modali.Modal>
             </div>
 
