@@ -24,6 +24,8 @@ export const variables = {
     urlCentroidsGeneral: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/licencias-construccion/centroides.php?",
     urlPlacesGoogle: "https://maps.googleapis.com/maps/api/place/findplacefromtext/json",
     urlMarkers: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/poblacion/centroides_manzanas.php",
+    urlEquipamientos: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/poblacion/equipamientos.php",
+    urlSitios: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/poblacion/sitios_interes.php",
     tamanoArea : 1000,
     key: "pk.eyJ1IjoiYXBwbW92aWxkYW5lIiwiYSI6ImNrbzY4b2tiajFxN2cyb3F3YnR1NDF6eWkifQ.mVlSJXQZVl4CNmQpZ1pXNA",
     key: "",

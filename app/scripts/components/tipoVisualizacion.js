@@ -57,6 +57,8 @@ const TipoVisualizacion = () => {
     if (variables.map != null) {
       variables.map.setLayoutProperty('markers-layer', 'visibility', 'visible');
       variables.map.setLayoutProperty('manzanas2022', 'visibility', 'none');
+      variables.map.setLayoutProperty('equipamientos-layer', 'visibility', 'visible');
+      variables.map.setLayoutProperty('sitios-layer', 'visibility', 'visible');
     }
   }
 
