@@ -23,6 +23,8 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import gps_cyan from '../../img/gps-cyan.png'
 import marcador_dane from '../../img/ic_marcador_dane.png'
+import marcador_equipamientos from '../../img/marcador_equipamientos.png'
+import marcador_sitio_interes from '../../img/marcador_sitio_interes.png'
 
 //Libreria MapLibre
 import maplibregl, { GeolocateControl } from 'maplibre-gl';
@@ -134,6 +136,8 @@ const Mapa = () => {
       const latitude = event.coords.latitude;
       const longitude = event.coords.longitude;
       loadMarkers(latitude, longitude);
+      loadEquipamientos(latitude, longitude);
+      loadSitiosInteres(latitude, longitude);
       geolocate.off();
     })
 
@@ -582,6 +586,8 @@ const loadMarkers = (latitude, longitude) => {
     // console.log("RESULTADO", resultado);
     const geoJson = crearJson(resultado, "05001");
 
+    console.log("GEOJSON MARKERS", geoJson);
+
 
     const image = variables.map.loadImage(marcador_dane,
       (error, image) => {
@@ -607,16 +613,173 @@ const loadMarkers = (latitude, longitude) => {
         }
       })
 
+      variables.layers["markers-layer"] = {
+
+        tipo: "cluster",  // Tipos vt: Vector Tile, wms, wfs
+        id: "markers-layer",
+        url: "",
+        title: "Marcadores CNPV2018",
+        visible: true,
+        minZoom: 9,
+        maxZoom: 13,
+        style: {
+          stroke: {
+            color: '#931127',
+            width: 1
+          }
+        },
+        ol: null
+      }
+
+      let jsonObj = {}
+      jsonObj["markers-layer"] = variables.map.getLayer("markers-layer");
+
+      variables.layersInMap.push(jsonObj)
+
       if (variables.vistaActiva === "AR") {
         variables.map.setLayoutProperty('markers-layer', 'visibility', 'visible');
       } else {
         variables.map.setLayoutProperty('markers-layer', 'visibility', 'none');
       }
     }
+  })
+
+}
+
+const loadEquipamientos = (latitude, longitude) => {
+
+  getEquipamientos(latitude, longitude).then((response) => {
+
+    const resultado = response.data.resultado;
+    variables.markersArray = resultado;
+    // console.log("RESULTADO", resultado);
+    const geoJson = crearJson(resultado, "05001");
+
+    console.log("GEOJSON EQ", geoJson);
 
 
+    const image = variables.map.loadImage(marcador_equipamientos,
+      (error, image) => {
+        if (error) throw error;
+        variables.map.addImage('custom-marker-eq', image);
+      }
+    );
+
+    const sourceMarkers = variables.map.getSource("equipamientos");
+
+    if (!sourceMarkers) {
+      variables.map.addSource('equipamientos', {
+        'type': 'geojson',
+        'data': geoJson
+      })
+
+      variables.map.addLayer({
+        'id': 'equipamientos-layer',
+        'type': 'symbol',
+        'source': 'equipamientos',
+        'layout': {
+          'icon-image': 'custom-marker-eq'
+        }
+      })
+
+      variables.layers["equipamientos-layer"] = {
+
+        tipo: "cluster",  // Tipos vt: Vector Tile, wms, wfs
+        id: "equipamientos-layer",
+        url: "",
+        title: "Equipamientos MGN",
+        visible: true,
+        minZoom: 9,
+        maxZoom: 13,
+        style: {
+          stroke: {
+            color: '#931127',
+            width: 1
+          }
+        },
+        ol: null
+      }
+
+      let jsonObj = {}
+      jsonObj["equipamientos-layer"] = variables.map.getLayer("equipamientos-layer");
+
+      variables.layersInMap.push(jsonObj)
+
+      if (variables.vistaActiva === "AR") {
+        variables.map.setLayoutProperty('equipamientos-layer', 'visibility', 'visible');
+      } else {
+        variables.map.setLayoutProperty('equipamientos-layer', 'visibility', 'none');
+      }
+    }
+  })
+
+}
+
+const loadSitiosInteres = (latitude, longitude) => {
+
+  getSitiosInteres(latitude, longitude).then((response) => {
+
+    const resultado = response.data.resultado;
+    variables.markersArray = resultado;
+    // console.log("RESULTADO", resultado);
+    const geoJson = crearJson(resultado, "05001");
+
+    console.log("GEOJSON SITIOS", geoJson);
 
 
+    const image = variables.map.loadImage(marcador_sitio_interes,
+      (error, image) => {
+        if (error) throw error;
+        variables.map.addImage('custom-marker-sitio', image);
+      }
+    );
+
+    const sourceMarkers = variables.map.getSource("sitios");
+
+    if (!sourceMarkers) {
+      variables.map.addSource('sitios', {
+        'type': 'geojson',
+        'data': geoJson
+      })
+
+      variables.map.addLayer({
+        'id': 'sitios-layer',
+        'type': 'symbol',
+        'source': 'sitios',
+        'layout': {
+          'icon-image': 'custom-marker-sitio'
+        }
+      })
+
+      variables.layers["sitios-layer"] = {
+
+        tipo: "cluster",  // Tipos vt: Vector Tile, wms, wfs
+        id: "sitios-layer",
+        url: "",
+        title: "Sitios de interés",
+        visible: true,
+        minZoom: 9,
+        maxZoom: 13,
+        style: {
+          stroke: {
+            color: '#931127',
+            width: 1
+          }
+        },
+        ol: null
+      }
+
+      let jsonObj = {}
+      jsonObj["sitios-layer"] = variables.map.getLayer("sitios-layer");
+
+      variables.layersInMap.push(jsonObj)
+
+      if (variables.vistaActiva === "AR") {
+        variables.map.setLayoutProperty('sitios-layer', 'visibility', 'visible');
+      } else {
+        variables.map.setLayoutProperty('sitios-layer', 'visibility', 'none');
+      }
+    }
   })
 
 }
@@ -1765,6 +1928,16 @@ const getMarkers = (latitude, longitude) => {
   return servidorQuery(url);
 }
 
+const getEquipamientos = (latitude, longitude) => {
+  const url = variables.urlEquipamientos + "?coordx=" + longitude + "&coordy=" + latitude + "&longitud=" + variables.tamanoArea;
+  return servidorQuery(url);
+}
+
+const getSitiosInteres = (latitude, longitude) => {
+  const url = variables.urlSitios + "?coordx=" + longitude + "&coordy=" + latitude + "&longitud=" + variables.tamanoArea;
+  return servidorQuery(url);
+}
+
 const getDataCentroidsGeneral = (capa) => {
   const idCapa = {
     "mgn2021_dpto": "dpto_ccdgo",
@@ -1816,10 +1989,11 @@ const crearJson = (res, mpio) => {
       lat = parseFloat(row.LATITUD);
       lon = parseFloat(row.LONGITUD);
 
+      feature["geometry"]["coordinates"] = [lon, lat];
+
       // if (index == 0) {
       // prevLon = lon;
       // prevLat = lat;
-
 
       features.push(feature);
       // } else {
