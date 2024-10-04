@@ -200,6 +200,18 @@
         display: initial;
     }
 }
+
+.ReactModal__Overlay {
+    z-index: 10;
+}
+
+.react-tabs__tab-panel {
+    max-height: 500px;
+}
+
+.szh-accordion__item-btn {
+    width: 95%;
+}
 //Estilos modo oscuro
 .--blackboard{
     .results__btnTabsItem{
