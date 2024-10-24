@@ -59,6 +59,7 @@ const TipoVisualizacion = () => {
       variables.map.setLayoutProperty('manzanas2022', 'visibility', 'none');
       variables.map.setLayoutProperty('equipamientos-layer', 'visibility', 'visible');
       variables.map.setLayoutProperty('sitios-layer', 'visibility', 'visible');
+
     }
   }
 
@@ -101,7 +102,13 @@ const TipoVisualizacion = () => {
           {screenSize.width <= 1024 ?
             <div className={`navBar__list__item__btn_mode ${vistaActiva === "AR" ? "--active" : "--inactive"}`} onClick={() => handleClick("AR")}>
               <div className="filter__thematicGroup__icon">
-                <span className="texto-button">AR</span>
+                <span className="texto-button"><a
+                  className="sinDecoracion texto-button"
+                  href="http://pruebasgeoportal.dane.gov.co/geovisores/sociedad/app_ar_web/"
+                  target="_blank"
+                  rel='noreferrer'>
+                  AR
+                </a></span>
               </div>
             </div> : null}
         </div>
