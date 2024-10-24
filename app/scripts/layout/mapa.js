@@ -36,7 +36,7 @@ import TableroResumen from '../components/tableroResumen.js';
 import Leyenda2 from '../components/legend2';
 import Modal from '../layout/modal.js';
 
-
+import axios from "axios";
 
 let container, content;
 let zoomActual;
@@ -58,6 +58,7 @@ const Mapa = () => {
 
   const [openModalTablero, setOpenModalTablero] = useState(false);
   const [dataVariables, setDataVariables] = useState({});
+  const [propClick, setPropClick] = useState({});
 
 
 
@@ -201,6 +202,9 @@ const Mapa = () => {
   function loadPopups() {
 
     variables.map.on('click', 'markers-layer', (e) => {
+
+      console.log(e.features);
+
       const dataSubgrupo = variables.tematica["CATEGORIAS"][variables.varVariable][0]["SUBGRUPO"];
       const dataUnidades = variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"];
       const dataCategorias = variables.tematica["CATEGORIAS"][variables.varVariable][0]["CATEGORIA"];
@@ -210,6 +214,8 @@ const Mapa = () => {
       const valor = e.features[0].properties[varCNPV];
       const nfObject = new Intl.NumberFormat("es-ES");
       const valorFormateado = nfObject.format(valor);
+
+      setPropClick(e.features[0].properties);
 
       let HTML = "";
       HTML = '<p class="popup__list"><span class="popup__title">' + dataSubgrupo + '</span></p>';
@@ -366,6 +372,19 @@ const Mapa = () => {
           HTML += '<p class="popup__list"><span class="popup__subtitle"><button id="ver_datos_mzn">Ver más datos</button></span></p>';
 
 
+          const urlData = variables.urlManzana + "?cod_dane=" + feature.properties.id;
+          axios({ method: "GET", url: urlData })
+              .then(function (response) {
+                if(response.data.resultado != undefined){
+                  if((response.data.resultado).length > 0){
+                    setPropClick(response.data.resultado[0]);
+                  }
+                }
+              })
+              .catch(function (error) {
+                console.log(error.toJSON());
+              });
+
 
           new maplibregl.Popup()
             .setLngLat(coordinates)
@@ -482,7 +501,7 @@ const Mapa = () => {
 
   return (
     <div>
-      <TableroResumen isOpen={openModalTablero} datos={dataVariables} setIsOpen={setOpenModalTablero} />
+      <TableroResumen isOpen={openModalTablero} datos={dataVariables} setIsOpen={setOpenModalTablero} props={propClick}/>
       <div id="map">
         <ul className='switch'>
           <li id="switch_visualization"><TipoVisualizacion /></li>

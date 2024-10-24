@@ -24,6 +24,7 @@ export const variables = {
     urlCentroidsGeneral: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/licencias-construccion/centroides.php?",
     urlPlacesGoogle: "https://maps.googleapis.com/maps/api/place/findplacefromtext/json",
     urlMarkers: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/poblacion/centroides_manzanas.php",
+    urlManzana: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/poblacion/centroides_manzanas_filtro.php",
     urlEquipamientos: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/poblacion/equipamientos.php",
     urlSitios: "https://geoportal.dane.gov.co/laboratorio/serviciosjson/poblacion/sitios_interes.php",
     tamanoArea : 1000,
@@ -223,7 +224,7 @@ export const variables = {
         //     typeLayer: "fill-extrusion",
         //     clickable: true
         // },
-        
+
         municipios: {
             tipo: "vt",  // Tipos vt: Vector Tile, wms, wfs
             id: "mpios_vt",
@@ -302,7 +303,7 @@ export const variables = {
         //     typeLayer: "line",
         //     clickable: false
         // },
-        
+
     },
     layersInMap: [],
     consulta: "as",
@@ -536,6 +537,19 @@ export const variables = {
     changeLegend2: null,
     hideLegendContainer: null,
     hideLegendButton: null,
-    vistaActiva: "3D"
+    vistaActiva: "3D",
+    labels: {
+        titulos: {
+            "Uso de edificaciones": "Datos de edificaciones",
+            "Uso de la edificación": "Uso",
+            "Uso de la edificación": "Uso",
+            "Tipo de vivienda": "Tipo",
+            "Ocupación de la vivienda": "Ocupación",
+            "Estrato según recibo de energía": "Estrato",
+            "Servicios públicos": "Servicios",
+            "Grupo decenal de edad": "Edades",
+            "Nivel educativo": "Educación",
+        }
+    }
 }
 export const urlDeploy = 'http://localhost:3000/'
