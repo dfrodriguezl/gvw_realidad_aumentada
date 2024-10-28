@@ -104,7 +104,7 @@ const TipoVisualizacion = () => {
               <div className="filter__thematicGroup__icon">
                 <span className="texto-button"><a
                   className="sinDecoracion texto-button"
-                  href="http://pruebasgeoportal.dane.gov.co/geovisores/sociedad/app_ar_web/"
+                  href="https://geoportal.dane.gov.co/geovisores/sociedad/app_ar_web/"
                   target="_blank"
                   rel='noreferrer'>
                   AR
