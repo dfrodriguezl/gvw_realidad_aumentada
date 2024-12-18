@@ -374,16 +374,16 @@ const Mapa = () => {
 
           const urlData = variables.urlManzana + "?cod_dane=" + feature.properties.id;
           axios({ method: "GET", url: urlData })
-              .then(function (response) {
-                if(response.data.resultado != undefined){
-                  if((response.data.resultado).length > 0){
-                    setPropClick(response.data.resultado[0]);
-                  }
+            .then(function (response) {
+              if (response.data.resultado != undefined) {
+                if ((response.data.resultado).length > 0) {
+                  setPropClick(response.data.resultado[0]);
                 }
-              })
-              .catch(function (error) {
-                console.log(error.toJSON());
-              });
+              }
+            })
+            .catch(function (error) {
+              console.log(error.toJSON());
+            });
 
 
           new maplibregl.Popup()
@@ -501,7 +501,7 @@ const Mapa = () => {
 
   return (
     <div>
-      <TableroResumen isOpen={openModalTablero} datos={dataVariables} setIsOpen={setOpenModalTablero} props={propClick}/>
+      <TableroResumen isOpen={openModalTablero} datos={dataVariables} setIsOpen={setOpenModalTablero} props={propClick} />
       <div id="map">
         <ul className='switch'>
           <li id="switch_visualization"><TipoVisualizacion /></li>

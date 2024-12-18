@@ -57,6 +57,16 @@ const TabsComponent = ({ activeTab, setActiveTab }) => {
                 </button>
               </div>
             </Tab>
+            {/* <Tab>
+              <div className="navBar__list__item">
+                <button className={state === 1 ? "navBar__list__item__btn --active" : "navBar__list__item__btn"}>
+                  <div className="navBar__icon">
+                    <span className="DANE__Geovisor__icon__searchGeo"></span>
+                  </div>
+                  <p className="navBar__iconName">Ubicación</p>
+                </button>
+              </div>
+            </Tab> */}
             <Tab>
               <div className="navBar__list__item">
                 <button className={state === 1 ? "navBar__list__item__btn --active" : "navBar__list__item__btn"}>
@@ -84,6 +94,9 @@ const TabsComponent = ({ activeTab, setActiveTab }) => {
           <TabPanel>
             <div className="navbar__panel"></div>
           </TabPanel>
+          {/* <TabPanel>
+            <Filter />
+          </TabPanel> */}
           <TabPanel>
             <div className="navbar__panel">
               <Temas />

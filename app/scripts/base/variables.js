@@ -1,8 +1,8 @@
 // Geovisor - OpenLayers | Variables Globales
 export const variables = {
 
-    title: 'Geoportal DANE -Geovisor Realidad Aumentada CNPV 2018 ', //Cambielo por el título de su geovisor
-    description: 'Geoportal DANE - Geovisor Realidad Aumentada CNPV 2018',
+    title: 'Geovisor Realidad Aumentada CNPV 2018 ', //Cambielo por el título de su geovisor
+    description: 'Geovisor Realidad Aumentada CNPV 2018',
     country: 'Colombia',
     place: ' Todos los departamentos ',
     fuente: "Censo Nacional de Población y Vivienda 2018",
