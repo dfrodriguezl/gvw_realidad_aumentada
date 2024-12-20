@@ -6,12 +6,14 @@ import Temas from './searchMain';
 
 import { variables } from '../base/variables';
 import RouterGoogle from "../components/routerGoogle";
+import Filter from "../components/locationFilter";
 
 const Modal = () => {
     const [helpModal, toggleHelpModal] = useModali();
     const [helpModal2, toggleHelpModal2] = useModali();
     const [helpModal3, toggleHelpModal3] = useModali();
     const [helpModal4, toggleHelpModal4] = useModali();
+    const [helpModal5, toggleHelpModal5] = useModali();
     const [visible, setVisible] = useState(false);
 
 
@@ -30,6 +32,16 @@ const Modal = () => {
 
     return (
         <>
+            <div>
+                <div className="navBar__list__item__btn" onClick={toggleHelpModal5}>
+                    <div className="filter__thematicGroup__icon --backgroundPrincipal --colorWhite">
+                        <span className="DANE__Geovisor__icon__searchGeo"></span>
+                    </div>
+                </div>
+                <Modali.Modal {...helpModal5}>
+                    <Filter />
+                </Modali.Modal>
+            </div>
             <div>
                 <div className="navBar__list__item__btn" onClick={toggleHelpModal}>
                     <div className="filter__thematicGroup__icon --backgroundPrincipal --colorWhite">
