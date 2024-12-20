@@ -31,7 +31,7 @@ const Accordion = ({ title, icon, children, data }) => {
 
 const TabsComponent = ({ activeTab, setActiveTab }) => {
   const screenSize = useScreenSize();
-  const [state, setState] = useState(1);
+  const [state, setState] = useState(2);
   const dropdownRef = useRef(null);
   const [isActive, setIsActive] = useDetectOutsideClick(dropdownRef, true);
 
@@ -57,7 +57,7 @@ const TabsComponent = ({ activeTab, setActiveTab }) => {
                 </button>
               </div>
             </Tab>
-            {/* <Tab>
+            <Tab>
               <div className="navBar__list__item">
                 <button className={state === 1 ? "navBar__list__item__btn --active" : "navBar__list__item__btn"}>
                   <div className="navBar__icon">
@@ -66,10 +66,10 @@ const TabsComponent = ({ activeTab, setActiveTab }) => {
                   <p className="navBar__iconName">Ubicación</p>
                 </button>
               </div>
-            </Tab> */}
+            </Tab>
             <Tab>
               <div className="navBar__list__item">
-                <button className={state === 1 ? "navBar__list__item__btn --active" : "navBar__list__item__btn"}>
+                <button className={state === 2 ? "navBar__list__item__btn --active" : "navBar__list__item__btn"}>
                   <div className="navBar__icon">
                     <span className="DANE__Geovisor__icon__searchTheme"></span>
                   </div>
@@ -80,7 +80,7 @@ const TabsComponent = ({ activeTab, setActiveTab }) => {
             {screenSize.width > 1024 ?
               <Tab>
                 <div className="navBar__list__item">
-                  <button className={state === 2 ? "navBar__list__item__btn --active" : "navBar__list__item__btn"}>
+                  <button className={state === 3 ? "navBar__list__item__btn --active" : "navBar__list__item__btn"}>
                     <div className="navBar__icon">
                       <span className="DANE__Geovisor__icon__settings"></span>
                     </div>
@@ -94,9 +94,9 @@ const TabsComponent = ({ activeTab, setActiveTab }) => {
           <TabPanel>
             <div className="navbar__panel"></div>
           </TabPanel>
-          {/* <TabPanel>
+          <TabPanel>
             <Filter />
-          </TabPanel> */}
+          </TabPanel>
           <TabPanel>
             <div className="navbar__panel">
               <Temas />

@@ -119,7 +119,7 @@ const Filter = (props) => {
                 variables.changeDepto(evt.cod_dane + " - " + evt.name)
             }
             let layer = "deptos_vt2";
-            hightlightFeature(layer, evt.cod_dane, 'id', 'dptos')
+            // hightlightFeature(layer, evt.cod_dane, 'id', 'dptos')
         }
 
 
@@ -145,7 +145,7 @@ const Filter = (props) => {
         bboxExtent(filter[0].bextent, "mpio")
 
         let layer = 'mpios_vt2';
-        hightlightFeature(layer, evt.cod_dane, 'id', 'mpios')
+        // hightlightFeature(layer, evt.cod_dane, 'id', 'mpios')
 
         let nivel = 'MNZN';
         variables.changeTheme(nivel, evt.cod_dane, "NM", "N");
@@ -299,26 +299,30 @@ const Filter = (props) => {
 
     const hightlightFeature = (layer, id, capa, tipo) => {
 
-        const getLineColorDefault = variables.map.getPaintProperty(layer, 'line-color');
-        const getLineWidthDefault = variables.map.getPaintProperty(layer, 'line-width');
+        if (variables.map !== undefined) {
+            const getLineColorDefault = variables.map.getPaintProperty(layer, 'line-color');
+            const getLineWidthDefault = variables.map.getPaintProperty(layer, 'line-width');
 
-        variables.map.setPaintProperty(
-            layer,
-            'line-color',
-            ['match', ['get', capa], id, tipo === "mpios" ? "#00ffff" : "#cc66ff", getLineColorDefault]
-        );
+            variables.map.setPaintProperty(
+                layer,
+                'line-color',
+                ['match', ['get', capa], id, tipo === "mpios" ? "#00ffff" : "#cc66ff", getLineColorDefault]
+            );
 
-        variables.map.setPaintProperty(
-            layer,
-            'line-width',
-            ['match', ['get', capa], id, 5, getLineWidthDefault]
-        );
+            variables.map.setPaintProperty(
+                layer,
+                'line-width',
+                ['match', ['get', capa], id, 5, getLineWidthDefault]
+            );
 
-        variables.map.setPaintProperty(
-            layer,
-            'line-opacity',
-            ['match', ['get', capa], id, 1, 0]
-        );
+            variables.map.setPaintProperty(
+                layer,
+                'line-opacity',
+                ['match', ['get', capa], id, 1, 0]
+            );
+        }
+
+
 
     }
 
