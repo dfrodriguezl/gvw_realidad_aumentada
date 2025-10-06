@@ -203,8 +203,6 @@ const Mapa = () => {
 
     variables.map.on('click', 'markers-layer', (e) => {
 
-      console.log(e.features);
-
       const dataSubgrupo = variables.tematica["CATEGORIAS"][variables.varVariable][0]["SUBGRUPO"];
       const dataUnidades = variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"];
       const dataCategorias = variables.tematica["CATEGORIAS"][variables.varVariable][0]["CATEGORIA"];
@@ -323,180 +321,43 @@ const Mapa = () => {
       setDataVariables(objectDataTablero);
 
       verDatos.addEventListener('click', () => {
-        console.log("CLICK", openModalTablero);
         setOpenModalTablero(true)
       })
 
 
     })
 
-    let layers = variables.layers;
-    Object.keys(layers).map((layer) => {
-      let infoLayer = layers[layer];
-      if (infoLayer.tipo == 'vt' && infoLayer.clickable) {
+    variables.map.on('click', 'equipamientos-layer', (e) => {
 
-        variables.map.on('click', infoLayer.id, (e) => {
-          const feature = e.features[0];
-          const coordinates = e.lngLat;
-          const valor = e.features[0].state.valor;
-          const deptoCodigo = feature.properties.id.substring(0, 2);
-          const mpioCodigo = feature.properties.id.substring(2, 5);
-          const departamentosFilter = (departamentos).filter(result => (result.cod_dane == deptoCodigo));
-          const municipiosFilter = (municipios).filter(result => (result.cod_dane == deptoCodigo + mpioCodigo));
-          const dataSubgrupo = variables.tematica["CATEGORIAS"][variables.varVariable][0]["SUBGRUPO"];
-          const dataUnidades = variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"];
-          const dataCategorias = variables.tematica["CATEGORIAS"][variables.varVariable][0]["CATEGORIA"];
-          const tipoVariable = variables.tematica["CATEGORIAS"][variables.varVariable][0]["TIPO_VARIABLE"];
-          const nfObject = new Intl.NumberFormat("es-ES");
-          const valorFormateado = nfObject.format(valor);
-          let HTML = "";
-          HTML = '<p class="popup__list"><span class="popup__title">' + dataSubgrupo + '</span></p>';
-          HTML += '<p class="popup__list"><span class="popup__subtitle">' + dataCategorias + '</span> ' + '</p>';
+      let HTML = "";
+      HTML = '<p class="popup__list"><span class="popup__title">Equipamientos</span></p>';
+      HTML += '<p class="popup__list"><span class="popup__subtitle">' + e.features[0].properties.NOMBRE_SUB + '</span> ' + '</p>';
+      HTML += '<p class="popup__list"><span class="popup__subtitle">' + e.features[0].properties.ITEM + '</span> ' + '</p>';
+      HTML += '<p class="popup__list"><span class="popup__subtitle">' + e.features[0].properties.NOMBRE_P + '</span> ' + '</p>';
 
-          // console.log("VARIABLES", variables.varVariable);
-
-          if (variables.varVariable === "39501002" || variables.varVariable === "38201002") {
-            HTML += '<p class="popup__list"><span class="popup__subtitle">Variación (porcentaje): </span><span class="popup__subtitle">' + valorFormateado + '</span></p>';
-          } else {
-            HTML += '<p class="popup__list"><span class="popup__subtitle">Valor: </span><span class="popup__subtitle">' + valorFormateado + ' ' + dataUnidades + '</span></p>';
-          }
-
-          HTML += '<hr>' + '</hr>';
-          HTML += '<p class="popup__list"><span class="popup__thirdtitle"> Departamento:</span> ' + departamentosFilter[0].name + '</p>';
-
-          if (municipiosFilter.length != 0) {
-            HTML += '<p class="popup__list"><span class="popup__thirdtitle"> Municipio:</span> ' + municipiosFilter[0].name + '</p>';
-          }
-
-          HTML += '<p class="popup__list"><span class="popup__thirdtitle"> Cod. DANE:</span> ' + feature.properties.id + '</p>';
-          HTML += '<p class="popup__list"><span class="popup__subtitle"><button id="ver_datos_mzn">Ver más datos</button></span></p>';
-
-
-          const urlData = variables.urlManzana + "?cod_dane=" + feature.properties.id;
-          axios({ method: "GET", url: urlData })
-            .then(function (response) {
-              if (response.data.resultado != undefined) {
-                if ((response.data.resultado).length > 0) {
-                  setPropClick(response.data.resultado[0]);
-                }
-              }
-            })
-            .catch(function (error) {
-              console.log(error.toJSON());
-            });
-
-
-          new maplibregl.Popup()
-            .setLngLat(coordinates)
-            .setHTML(HTML)
-            .addTo(variables.map);
-
-          const verDatosMnzn = document.getElementById("ver_datos_mzn");
-          console.log("VER DATA MNZN", variables.markersArray);
-
-
-
-          //   const propertiesVar = e.features[0].properties;
-
-          //   // Sección datos principales
-
-          // const totalPersonasVar = variables.variablesCNPV["43501001"];
-          // const totalPersonas = propertiesVar[totalPersonasVar];
-          // const personasLEAVar = variables.variablesCNPV["43501002"];
-          // const personasLEA = propertiesVar[personasLEAVar];
-          // const hogaresVar = variables.variablesCNPV["43501003"];
-          // const hogares = propertiesVar[hogaresVar];
-          // const viviendasVar = variables.variablesCNPV["43501004"];
-          // const viviendas = propertiesVar[viviendasVar];
-          // const personasLugaresParticularesVar = variables.variablesCNPV["43501005"];
-          // const personasLugaresParticulares = propertiesVar[personasLugaresParticularesVar];
-
-          // // Sección datos de edificaciones
-
-          // const usoViviendaVar = variables.variablesCNPV["43601001"];
-          // const usoVivienda = propertiesVar[usoViviendaVar];
-          // const usoMixtoVar = variables.variablesCNPV["43601002"];
-          // const usoMixto = propertiesVar[usoMixtoVar];
-          // const usoNoResidencialVar = variables.variablesCNPV["43601003"];
-          // const usoNoResidencial = propertiesVar[usoNoResidencialVar];
-          // const usoLEAVar = variables.variablesCNPV["43601004"];
-          // const usoLEA = propertiesVar[usoLEAVar];
-
-          // const usoMixtoIndustriaVar = variables.variablesCNPV["43602001"];
-          // const usoMixtoIndustria = propertiesVar[usoMixtoIndustriaVar];
-          // const usoMixtoComercioVar = variables.variablesCNPV["43602002"];
-          // const usoMixtoComercio = propertiesVar[usoMixtoComercioVar];
-          // const usoMixtoServiciosVar = variables.variablesCNPV["43602003"];
-          // const usoMixtoServicios = propertiesVar[usoMixtoServiciosVar];
-          // const usoMixtoAgroVar = variables.variablesCNPV["43602004"];
-          // const usoMixtoAgro = propertiesVar[usoMixtoAgroVar];
-          // const usoMixtoSIVar = variables.variablesCNPV["43602005"];
-          // const usoMixtoSI = propertiesVar[usoMixtoSIVar];
-
-          // const usoNRIndustriaVar = variables.variablesCNPV["43603001"];
-          // const usoNRIndustria = propertiesVar[usoNRIndustriaVar];
-          // const usoNRComercioVar = variables.variablesCNPV["43603002"];
-          // const usoNRComercio = propertiesVar[usoNRComercioVar];
-          // const usoNRServiciosVar = variables.variablesCNPV["43603003"];
-          // const usoNRServicios = propertiesVar[usoNRServiciosVar];
-          // const usoNRAgroVar = variables.variablesCNPV["43603004"];
-          // const usoNRAgro = propertiesVar[usoNRAgroVar];
-          // const usoNRInstitucionalVar = variables.variablesCNPV["43603005"];
-          // const usoNRInstitucional = propertiesVar[usoNRInstitucionalVar];
-          // const usoNRLoteVar = variables.variablesCNPV["43603006"];
-          // const usoNRLote = propertiesVar[usoNRLoteVar];
-          // const usoNRParqueVar = variables.variablesCNPV["43603007"];
-          // const usoNRParque = propertiesVar[usoNRParqueVar];
-          // const usoNRMineroVar = variables.variablesCNPV["43603008"];
-          // const usoNRMinero = propertiesVar[usoNRMineroVar];
-          // const usoNRProteccionVar = variables.variablesCNPV["43603009"];
-          // const usoNRProteccion = propertiesVar[usoNRProteccionVar];
-          // const usoNRConstruccionVar = variables.variablesCNPV["43603010"];
-          // const usoNRConstruccion = propertiesVar[usoNRConstruccionVar];
-          // const usoNRSIVar = variables.variablesCNPV["43603011"];
-          // const usoNRSI = propertiesVar[usoNRSIVar];
-
-
-
-          // let objectDataTablero = {
-          //   total_personas: totalPersonas,
-          //   personas_lea: personasLEA,
-          //   hogares: hogares,
-          //   viviendas: viviendas,
-          //   personas_lugares_particulares: personasLugaresParticulares,
-          //   uso_vivienda: usoVivienda,
-          //   uso_mixto: usoMixto,
-          //   uso_no_residencial: usoNoResidencial,
-          //   uso_lea: usoLEA,
-          //   uso_mixto_industria: usoMixtoIndustria,
-          //   uso_mixto_comercio: usoMixtoComercio,
-          //   uso_mixto_servicios: usoMixtoServicios,
-          //   uso_mixto_agro: usoMixtoAgro,
-          //   uso_mixto_si: usoMixtoSI,
-          //   uso_nr_industria: usoNRIndustria,
-          //   uso_nr_comercio: usoNRComercio,
-          //   uso_nr_servicios: usoNRServicios,
-          //   uso_nr_agro: usoNRAgro,
-          //   uso_nr_institucional: usoNRInstitucional,
-          //   uso_nr_lote: usoNRLote,
-          //   uso_nr_parque: usoNRParque,
-          //   uso_nr_minero: usoNRMinero,
-          //   uso_nr_proteccion: usoNRProteccion,
-          //   uso_nr_construccion: usoNRConstruccion,
-          //   uso_nr_si: usoNRSI
-          // }
-
-          // setDataVariables(objectDataTablero);
-
-          verDatosMnzn.addEventListener('click', () => {
-            setOpenModalTablero(true)
-          })
-        })
-
-      }
-
+      new maplibregl.Popup()
+        .setLngLat(e.lngLat)
+        .setHTML(HTML)
+        .addTo(variables.map);
 
     })
+
+    variables.map.on('click', 'sitios-layer', (e) => {
+
+      let HTML = "";
+      HTML = '<p class="popup__list"><span class="popup__title">Sitios de interés</span></p>';
+      HTML += '<p class="popup__list"><span class="popup__subtitle">' + e.features[0].properties.TIPOATRACT + '</span> ' + '</p>';
+      HTML += '<p class="popup__list"><span class="popup__subtitle">' + e.features[0].properties.NOMBRESITI + '</span> ' + '</p>';
+
+      new maplibregl.Popup()
+        .setLngLat(e.lngLat)
+        .setHTML(HTML)
+        .addTo(variables.map);
+
+    })
+
+
+  
   }
 
   return (
@@ -583,13 +444,9 @@ const loadMarkers = (latitude, longitude) => {
 
     const resultado = response.data.resultado;
     variables.markersArray = resultado;
-    // console.log("RESULTADO", resultado);
     const geoJson = crearJson(resultado, "05001");
 
-    console.log("GEOJSON MARKERS", geoJson);
-
-
-    const image = variables.map.loadImage(marcador_dane,
+    variables.map.loadImage(marcador_dane,
       (error, image) => {
         if (error) throw error;
         variables.map.addImage('custom-marker', image);
@@ -652,13 +509,10 @@ const loadEquipamientos = (latitude, longitude) => {
 
     const resultado = response.data.resultado;
     variables.markersArray = resultado;
-    // console.log("RESULTADO", resultado);
+
     const geoJson = crearJson(resultado, "05001");
 
-    console.log("GEOJSON EQ", geoJson);
-
-
-    const image = variables.map.loadImage(marcador_equipamientos,
+    variables.map.loadImage(marcador_equipamientos,
       (error, image) => {
         if (error) throw error;
         variables.map.addImage('custom-marker-eq', image);
@@ -721,13 +575,10 @@ const loadSitiosInteres = (latitude, longitude) => {
 
     const resultado = response.data.resultado;
     variables.markersArray = resultado;
-    // console.log("RESULTADO", resultado);
     const geoJson = crearJson(resultado, "05001");
 
-    console.log("GEOJSON SITIOS", geoJson);
 
-
-    const image = variables.map.loadImage(marcador_sitio_interes,
+    variables.map.loadImage(marcador_sitio_interes,
       (error, image) => {
         if (error) throw error;
         variables.map.addImage('custom-marker-sitio', image);
@@ -1015,7 +866,6 @@ variables.changeMap = function (nivel, dpto, table) {
 
       let depto = (departamentos).filter(result => (result.cod_dane == a["ND"]))
       labelsData.push(depto[0].name.length > 18 ? [depto[0].name.substring(0, 17), depto[0].name.substring(18, depto[0].name.length)] : depto[0].name)
-      // console.log(valor)
       data.push(valor);
 
       dataTable.push({ depto: depto[0].name, codigo: depto[0].cod_dane, valor: valor, valor2: valor2, valorGraf: (parseFloat(valor) * 100) / max });
@@ -1496,7 +1346,6 @@ variables.changeMap = function (nivel, dpto, table) {
 
       if (depto.length > 0) {
         labelsData.push(depto[0].name.length > 18 ? [depto[0].name.substring(0, 17), depto[0].name.substring(18, depto[0].name.length)] : depto[0].name)
-        // console.log(valor)
         data.push(valor);
 
         dataTable.push({ depto: depto[0].name, codigo: mpio[0].cod_dane, mpio: mpio[0].name, nsc: a[lvl], valor: valor, valor2: valor2 });

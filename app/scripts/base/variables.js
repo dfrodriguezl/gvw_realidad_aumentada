@@ -550,6 +550,12 @@ export const variables = {
             "Grupo decenal de edad": "Edades",
             "Nivel educativo": "Educación",
         }
+    },
+    categoriesIcons: {
+        "435": "DANE__Geovisor__icon__graphBalls",
+        "436": "DANE__Geovisor__icon__building",
+        "437": "DANE__Geovisor__icon__houseHome",
+        "438": "DANE__Geovisor__icon__family"
     }
 }
 export const urlDeploy = 'http://localhost:3000/'

@@ -1,5 +1,5 @@
 import { Accordion, AccordionItem } from "@szhsin/react-accordion";
-import React from "react";
+import React, { useState } from "react";
 import Modal from "react-modal";
 import { ResponsivePie } from '@nivo/pie';
 import { ResponsiveBar } from '@nivo/bar';
@@ -19,6 +19,8 @@ const customStyles = {
 };
 
 const TableroResumen = ({ isOpen, onClose, datos, setIsOpen, props }) => {
+    // Estado para controlar qué acordeones están expandidos
+    const [expandedItems, setExpandedItems] = useState(new Set());
 
     const data = [
         { id: 'A', value: 100 },
@@ -55,12 +57,7 @@ const TableroResumen = ({ isOpen, onClose, datos, setIsOpen, props }) => {
         { id: "Construcción", value: Number(datos.uso_nr_construccion == "" ? "0" : datos.uso_nr_construccion) },
         { id: "Sin información", value: Number(datos.uso_nr_si == "" ? "0" : datos.uso_nr_si) }
     ];
-    console.log("DATOS", datos);
-    console.log("DATOS EDIF", dataUsoNREdificaciones);
 
-    console.log(props);
-    console.log(datos);
-    console.log(variables.tematica);
 
     let groupTemp = variables.tematica.GRUPOS;
     let temasTemp = variables.tematica.TEMAS;
@@ -74,18 +71,63 @@ const TableroResumen = ({ isOpen, onClose, datos, setIsOpen, props }) => {
         setIsOpen(false);
     }
 
+    // Función para manejar el toggle del acordeón
+    const handleToggleAccordion = (codigoGrupo) => {
+        setExpandedItems(prev => {
+            const newSet = new Set(prev);
+            if (newSet.has(codigoGrupo)) {
+                newSet.delete(codigoGrupo);
+            } else {
+                newSet.add(codigoGrupo);
+            }
+            return newSet;
+        });
+    };
+
     const ListAcordeon = () => {
-        const mecha = (Object.keys(groupTemp)).map(item2 =>
-            <AccordionItem
-                header={variables.labels.titulos[groupTemp[item2][0]["GRUPO"]] != undefined ? variables.labels.titulos[groupTemp[item2][0]["GRUPO"]] : groupTemp[item2][0]["GRUPO"]}>
-                <TabListAcordeon grupo={groupTemp[item2][0]["COD_GRUPO"]}></TabListAcordeon>
+        const mecha = (Object.keys(groupTemp)).map(item2 => {
+            const codigoGrupo = groupTemp[item2][0]["COD_GRUPO"];
+            const isExpanded = expandedItems.has(codigoGrupo);
+            
+            return <AccordionItem
+                header={
+                    <div 
+                        style={{ 
+                            display: "flex", 
+                            justifyContent: "space-between", 
+                            alignItems: "center", 
+                            gap: "10px",
+                            cursor: "pointer"
+                        }}
+                        onClick={() => handleToggleAccordion(codigoGrupo)}
+                    >
+                        <div style={{ display: "flex", gap: "10px" }}>
+                            <span className={variables.categoriesIcons[codigoGrupo]} />
+                            <span>
+                                {variables.labels.titulos[groupTemp[item2][0]["GRUPO"]] != undefined ? variables.labels.titulos[groupTemp[item2][0]["GRUPO"]] : groupTemp[item2][0]["GRUPO"]}
+                            </span>
+                        </div>
+                        <span style={{ 
+                            fontSize: "18px", 
+                            fontWeight: "bold", 
+                            color: "#333",
+                            transition: "transform 0.2s ease"
+                        }}>
+                            {isExpanded ? "−" : "+"}
+                        </span>
+                    </div>
+                }
+                key={codigoGrupo}
+                initialEntered={isExpanded}>
+
+                <TabListAcordeon grupo={codigoGrupo}></TabListAcordeon>
             </AccordionItem>
-        )
+        })
+
         return mecha
     }
 
     const TabListAcordeon = (data) => {
-        console.log(data.grupo);
         const key = "COD_SUBGRUPO";
         let dataTemp = [2, 3, 4];
         let dataTemp2 = temasTemp
@@ -101,11 +143,8 @@ const TableroResumen = ({ isOpen, onClose, datos, setIsOpen, props }) => {
                 objectsByKeyValue[value] = (objectsByKeyValue[value] || []).concat(obj);
                 return objectsByKeyValue;
             }, {});
-        console.log(dataTemp2);
 
         dataTemp = Object.keys(dataTemp2);
-        // console.log(dataTemp3);    
-        // console.log(dataTemp);
 
 
         let item = <Tabs>
@@ -126,7 +165,6 @@ const TableroResumen = ({ isOpen, onClose, datos, setIsOpen, props }) => {
     }
 
     const ContenidoTab = (data) => {
-        console.log(data.datos[0]);
         const dataResult = (data.datos).map((result, index) => {
             let filteredResultTemp = {
                 // id: result["CATEGORIA"] + "(" + Number(result["VALUE_PROP"] == "" || result["VALUE_PROP"] == undefined || result["VALUE_PROP"] == null ? "0" : result["VALUE_PROP"]) + ")",
@@ -136,7 +174,6 @@ const TableroResumen = ({ isOpen, onClose, datos, setIsOpen, props }) => {
             }
             return (filteredResultTemp)
         });
-        console.log(dataResult);
 
         return (
             <div class="results__btnPanel UsoMixEdif edif --active">
@@ -245,30 +282,30 @@ const TableroResumen = ({ isOpen, onClose, datos, setIsOpen, props }) => {
                                 ]
                             ]
                         }}
-                        // legends={[
-                        //     {
-                        //         dataFrom: 'keys',
-                        //         anchor: 'bottom-right',
-                        //         direction: 'column',
-                        //         justify: false,
-                        //         translateX: 120,
-                        //         translateY: 0,
-                        //         itemsSpacing: 2,
-                        //         itemWidth: 100,
-                        //         itemHeight: 20,
-                        //         itemDirection: 'left-to-right',
-                        //         itemOpacity: 0.85,
-                        //         symbolSize: 20,
-                        //         effects: [
-                        //             {
-                        //                 on: 'hover',
-                        //                 style: {
-                        //                     itemOpacity: 1
-                        //                 }
-                        //             }
-                        //         ]
-                        //     }
-                        // ]}
+                    // legends={[
+                    //     {
+                    //         dataFrom: 'keys',
+                    //         anchor: 'bottom-right',
+                    //         direction: 'column',
+                    //         justify: false,
+                    //         translateX: 120,
+                    //         translateY: 0,
+                    //         itemsSpacing: 2,
+                    //         itemWidth: 100,
+                    //         itemHeight: 20,
+                    //         itemDirection: 'left-to-right',
+                    //         itemOpacity: 0.85,
+                    //         symbolSize: 20,
+                    //         effects: [
+                    //             {
+                    //                 on: 'hover',
+                    //                 style: {
+                    //                     itemOpacity: 1
+                    //                 }
+                    //             }
+                    //         ]
+                    //     }
+                    // ]}
                     />
                 </div>
             </>
