@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Modali, { useModali } from 'modali';
 import HelpContent from '../components/helpcontent';
 
 
 const Help = () => {
-  const [helpModal, toggleHelpModal] = useModali();
+  const [helpModal, toggleHelpModal] = useModali({ large: true });
+
+  useEffect(() => {
+    toggleHelpModal();
+  }, []);
 
   return (
     <div>

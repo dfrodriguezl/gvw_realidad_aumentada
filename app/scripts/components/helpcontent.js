@@ -17,6 +17,14 @@ const HelpContent = () => {
                     <Tab>
                         <div className="help__listTabItem">
                             <div className="help__icon">
+                                <span className="DANE__Geovisor__icon__tutorial"></span>
+                            </div>
+                            <p className="help__text">Video</p>
+                        </div>
+                    </Tab>
+                    <Tab>
+                        <div className="help__listTabItem">
+                            <div className="help__icon">
                                 <span className="DANE__Geovisor__icon__bookOpen"></span>
                             </div>
                             <p className="help__text">Guía Rápida</p>
@@ -41,6 +49,16 @@ const HelpContent = () => {
                 </TabList>
 
                 {/* LOS PANELS - TRAEN EL CONTENIDO DE CADA TAB SEGUN SU ORDEN */}
+                <TabPanel>
+                    <div className="help__content">
+                        <img
+                            loading="lazy"
+                            className="help__content__item"
+                            src="https://geoportal.dane.gov.co/descargas/videos/GIF_GEOVISOR_REALIDAD_AUMENTADA.gif"
+                            alt="Video tutorial del Geovisor Realidad Aumentada CNPV 2018"
+                        />
+                    </div>
+                </TabPanel>
                 <TabPanel>
                     <div className="help__content">
                         <img width="100" height="100" loading="lazy" className="help__content__item" rel="noreferrer" src="https://geoportal.dane.gov.co/descargas/ayudas/ayuda-geovisor-consultaMGN.webp" alt="Instrucciones de uso para geovisores del Geoportal DANE" target="_blank" />
