@@ -30,6 +30,7 @@ import marcador_sitio_interes from '../../img/marcador_sitio_interes.png'
 import maplibregl, { GeolocateControl } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 import { mglStreetViewControl } from '../util/mglStreetViewControl.js'
+import { googleProtocol } from '../util/googleTilesProtocol.js'
 import { Button } from 'antd';
 import TableroResumen from '../components/tableroResumen.js';
 
@@ -81,6 +82,11 @@ const Mapa = () => {
 
 
   useEffect(() => {
+    if (!maplibregl._googleProtocolAdded) {
+      maplibregl.addProtocol('google', googleProtocol);
+      maplibregl._googleProtocolAdded = true;
+    }
+
     variables.map = new maplibregl.Map({
       container: mapRef.current,
       center: [-74.1083125, 4.663437], // starting position [lng, lat]
@@ -89,12 +95,19 @@ const Mapa = () => {
     });
 
     Object.keys(variables.baseMaps).map((basemap) => {
+      const tileUrl = variables.baseMaps[basemap];
+      const paint = variables.baseMapsStyle?.[basemap];
+      const attribution = typeof tileUrl === 'string' && tileUrl.startsWith('google://')
+        ? '&copy; Google Maps'
+        : 'Tiles &copy; Esri';
+
       variables.map.addSource(basemap, {
         type: "raster",
         tiles: [
-          variables.baseMaps[basemap]
+          tileUrl
         ],
-        tileSize: 256
+        tileSize: 256,
+        attribution
       })
 
       variables.map.addLayer({
@@ -103,6 +116,7 @@ const Mapa = () => {
         source: basemap,
         minZoom: 0,
         maxZoom: 22,
+        ...(paint && { paint }),
         layout: {
           visibility: 'none'
         }
