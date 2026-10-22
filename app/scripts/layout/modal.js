@@ -39,7 +39,11 @@ const Modal = () => {
                     </div>
                 </div>
                 <Modali.Modal {...helpModal5}>
-                    <Filter />
+                    <Filter onDone={() => {
+                        if (helpModal5.isShown) {
+                            toggleHelpModal5();
+                        }
+                    }} />
                 </Modali.Modal>
             </div>
             <div>

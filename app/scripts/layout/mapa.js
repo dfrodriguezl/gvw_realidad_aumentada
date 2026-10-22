@@ -214,6 +214,23 @@ const Mapa = () => {
 
   // Nueva función carga de popups MapLibre
   function loadPopups() {
+    let activePopup = null;
+
+    const closeActivePopup = () => {
+      if (activePopup) {
+        activePopup.remove();
+        activePopup = null;
+      }
+    };
+
+    const showPopup = (coordinates, HTML) => {
+      closeActivePopup();
+      activePopup = new maplibregl.Popup()
+        .setLngLat(coordinates)
+        .setHTML(HTML)
+        .addTo(variables.map);
+      return activePopup;
+    };
 
     variables.map.on('click', 'markers-layer', (e) => {
 
@@ -233,14 +250,10 @@ const Mapa = () => {
       HTML = '<p class="popup__list"><span class="popup__title">' + dataSubgrupo + '</span></p>';
       HTML += '<p class="popup__list"><span class="popup__subtitle">' + dataCategorias + '</span> ' + '</p>';
       HTML += '<p class="popup__list"><span class="popup__subtitle">Valor: </span><span class="popup__subtitle">' + valorFormateado + ' ' + dataUnidades + '</span></p>';
-      HTML += '<p class="popup__list"><span class="popup__subtitle"><button id="ver_datos">Ver más datos</button></span> ' + '</p>';
+      HTML += '<p class="popup__list"><span class="popup__subtitle"><button type="button" class="popup__ver-datos">Ver más datos</button></span> ' + '</p>';
 
-      new maplibregl.Popup()
-        .setLngLat(coordinates)
-        .setHTML(HTML)
-        .addTo(variables.map);
-
-      const verDatos = document.getElementById("ver_datos");
+      const popup = showPopup(coordinates, HTML);
+      const verDatos = popup.getElement().querySelector('.popup__ver-datos');
 
       const propertiesVar = e.features[0].properties;
 
@@ -334,9 +347,11 @@ const Mapa = () => {
 
       setDataVariables(objectDataTablero);
 
-      verDatos.addEventListener('click', () => {
-        setOpenModalTablero(true)
-      })
+      if (verDatos) {
+        verDatos.addEventListener('click', () => {
+          setOpenModalTablero(true)
+        })
+      }
 
 
     })
@@ -349,10 +364,7 @@ const Mapa = () => {
       HTML += '<p class="popup__list"><span class="popup__subtitle">' + e.features[0].properties.ITEM + '</span> ' + '</p>';
       HTML += '<p class="popup__list"><span class="popup__subtitle">' + e.features[0].properties.NOMBRE_P + '</span> ' + '</p>';
 
-      new maplibregl.Popup()
-        .setLngLat(e.lngLat)
-        .setHTML(HTML)
-        .addTo(variables.map);
+      showPopup(e.lngLat, HTML);
 
     })
 
@@ -363,15 +375,106 @@ const Mapa = () => {
       HTML += '<p class="popup__list"><span class="popup__subtitle">' + e.features[0].properties.TIPOATRACT + '</span> ' + '</p>';
       HTML += '<p class="popup__list"><span class="popup__subtitle">' + e.features[0].properties.NOMBRESITI + '</span> ' + '</p>';
 
-      new maplibregl.Popup()
-        .setLngLat(e.lngLat)
-        .setHTML(HTML)
-        .addTo(variables.map);
+      showPopup(e.lngLat, HTML);
 
     })
 
+    // Popups en capas VT clickable (manzanas, municipios, departamentos) — restaurado D1/D2
+    const layers = variables.layers;
+    Object.keys(layers).forEach((layer) => {
+      const infoLayer = layers[layer];
+      if (infoLayer.tipo !== 'vt' || !infoLayer.clickable) {
+        return;
+      }
 
-  
+      variables.map.on('mouseenter', infoLayer.id, () => {
+        variables.map.getCanvas().style.cursor = 'pointer';
+      });
+      variables.map.on('mouseleave', infoLayer.id, () => {
+        variables.map.getCanvas().style.cursor = '';
+      });
+
+      variables.map.on('click', infoLayer.id, (e) => {
+        if (!e.features || e.features.length === 0) {
+          return;
+        }
+
+        const feature = e.features[0];
+        const coordinates = e.lngLat;
+        const featureId = String(
+          feature.properties.id
+          || feature.properties.cod_dane
+          || feature.properties.mpio_ccnct
+          || feature.properties.dpto_ccdgo
+          || feature.id
+          || ''
+        );
+        const valorRaw = (feature.state && feature.state.valor !== undefined && feature.state.valor !== null)
+          ? feature.state.valor
+          : (feature.properties.valor !== undefined ? feature.properties.valor : feature.properties.viviendas);
+        const deptoCodigo = featureId.substring(0, 2);
+        const mpioCodigo = featureId.substring(2, 5);
+        const departamentosFilter = departamentos.filter((result) => result.cod_dane == deptoCodigo);
+        const municipiosFilter = municipios.filter((result) => result.cod_dane == deptoCodigo + mpioCodigo);
+        const dataSubgrupo = variables.tematica["CATEGORIAS"][variables.varVariable][0]["SUBGRUPO"];
+        const dataUnidades = variables.tematica["CATEGORIAS"][variables.varVariable][0]["UNIDAD"];
+        const dataCategorias = variables.tematica["CATEGORIAS"][variables.varVariable][0]["CATEGORIA"];
+        const nfObject = new Intl.NumberFormat("es-ES");
+        const valorFormateado = valorRaw === undefined || valorRaw === null || valorRaw === ''
+          ? '—'
+          : nfObject.format(valorRaw);
+
+        let HTML = "";
+        HTML = '<p class="popup__list"><span class="popup__title">' + dataSubgrupo + '</span></p>';
+        HTML += '<p class="popup__list"><span class="popup__subtitle">' + dataCategorias + '</span> ' + '</p>';
+
+        if (variables.varVariable === "39501002" || variables.varVariable === "38201002") {
+          HTML += '<p class="popup__list"><span class="popup__subtitle">Variación (porcentaje): </span><span class="popup__subtitle">' + valorFormateado + '</span></p>';
+        } else {
+          HTML += '<p class="popup__list"><span class="popup__subtitle">Valor: </span><span class="popup__subtitle">' + valorFormateado + ' ' + dataUnidades + '</span></p>';
+        }
+
+        HTML += '<hr>';
+        if (departamentosFilter.length > 0) {
+          HTML += '<p class="popup__list"><span class="popup__thirdtitle"> Departamento:</span> ' + departamentosFilter[0].name + '</p>';
+        }
+
+        if (municipiosFilter.length !== 0) {
+          HTML += '<p class="popup__list"><span class="popup__thirdtitle"> Municipio:</span> ' + municipiosFilter[0].name + '</p>';
+        }
+
+        HTML += '<p class="popup__list"><span class="popup__thirdtitle"> Cod. DANE:</span> ' + featureId + '</p>';
+
+        const isManzana = infoLayer.id === 'manzanas2022';
+        if (isManzana) {
+          HTML += '<p class="popup__list"><span class="popup__subtitle"><button type="button" class="popup__ver-datos">Ver más datos</button></span></p>';
+
+          const urlData = variables.urlManzana + "?cod_dane=" + featureId;
+          axios({ method: "GET", url: urlData })
+            .then(function (response) {
+              if (response.data.resultado != undefined) {
+                if ((response.data.resultado).length > 0) {
+                  setPropClick(response.data.resultado[0]);
+                }
+              }
+            })
+            .catch(function (error) {
+              console.log(error.toJSON ? error.toJSON() : error);
+            });
+        }
+
+        const popup = showPopup(coordinates, HTML);
+
+        if (isManzana) {
+          const verDatosMnzn = popup.getElement().querySelector('.popup__ver-datos');
+          if (verDatosMnzn) {
+            verDatosMnzn.addEventListener('click', () => {
+              setOpenModalTablero(true);
+            });
+          }
+        }
+      });
+    });
   }
 
   return (
